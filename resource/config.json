@@ -1,0 +1,102 @@
+{
+    "applicationTitle": "Kaleidoscope",
+    "localDbPrefix": "flounder.studio",
+    "repositoryUrl": "https://github.com/wraith13/kaleidoscope/",
+    "modeDefault": "phi-colors",
+    "colors": {
+        "monochrome": [
+            "black",
+            "white"
+        ],
+        "primaryColors": [
+            "red",
+            "green",
+            "blue"
+        ]
+    },
+    "patternDefault": "multi",
+    "canvasSizeEnum": [
+        1,
+        2,
+        3,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        50,
+        75,
+        100
+    ],
+    "canvasSizeDefault": 100,
+    "layersEnum": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17,
+        19,
+        23,
+        29,
+        31,
+        37,
+        41,
+        43,
+        47,
+        53,
+        59,
+        61,
+        67,
+        71,
+        73,
+        79,
+        83,
+        89,
+        97
+    ],
+    "layersDefault": 17,
+    "fuseFpsEnum": [
+        1,
+        1.5,
+        3,
+        5,
+        7.5,
+        10,
+        12.5,
+        15,
+        20,
+        25
+    ],
+    "fuseFpsDefault": 10,
+    "autoAdjustLayersCoolTime": 1500,
+    "spanEnum": [
+        1000,
+        3000,
+        5000,
+        7500,
+        10000,
+        12500,
+        18000,
+        30000,
+        45000,
+        60000,
+        90000,
+        180000,
+        300000,
+        900000,
+        1800000,
+        3600000
+    ],
+    "spanDefault": 7500,
+    "intervalSizeMinRate": 0.03,
+    "intervalSizeMaxRate": 0.6,
+    "informations": [
+        "informationFuseFps",
+        "informationLayers",
+        "informationPattern"
+    ]
+}

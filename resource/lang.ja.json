@@ -1,0 +1,11 @@
+{
+    "description": "万華鏡 Web スクリーンセーバー",
+    "warningText": "Web ブラウザや OS がクラッシュする事があります。",
+    "informationFuseFps": "Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
+    "informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
+    "informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
+    "timeUnitMs": "ミリ秒",
+    "timeUnitS": "秒",
+    "timeUnitM": "分",
+    "timeUnitH": "時間"
+}

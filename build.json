@@ -1,0 +1,112 @@
+{
+    "$schema": "https://raw.githubusercontent.com/wraith13/build.js/master/generated/json-schema.json#",
+    "modes": {
+        "default": {
+            "parameters": {
+                "__APPLICATION_TITLE__": {
+                    "json": "./resource/config.json",
+                    "value": "applicationTitle"
+                },
+                "__BUILD_MESSAGE__": "This file is genereted by build.js. このファイルは build.js によって生成されました。",
+                "__BUILD_OPTIONS__": {
+                    "call": "command_options"
+                },
+                "__BUILD_TIMESTAMP__": {
+                    "call": "timestamp"
+                },
+                "__BUILD_TIMESTAMP_TICK__": {
+                    "call": "timestamp_tick"
+                },
+                "__REPOSITORY_URL_": {
+                    "json": "./resource/config.json",
+                    "value": "repositoryUrl"
+                },
+                "__LICENSE__": {
+                    "path": "./LICENSE_1_0.txt"
+                }
+            }
+        },
+        "html": {
+            "template": {
+                "path": "./index.template.html"
+            },
+            "output": {
+                "path": "./index.html"
+            },
+            "parameters": {
+                "__EN_DESCRIPTION__": {
+                    "json": "./resource/lang.en.json",
+                    "value": "description"
+                },
+                "__JA_DESCRIPTION__": {
+                    "json": "./resource/lang.ja.json",
+                    "value": "description"
+                },
+                "__STYLE__": {
+                    "path": "./style/index.css"
+                },
+                "__EVIL_COMMONJS__": {
+                    "path": "./evil-commonjs/index.js",
+                    "replace": {
+                        "match": "sourceMappingURL=index.js.map",
+                        "text": "sourceMappingURL=evil-commonjs/index.js.map"
+                    }
+                },
+                "__EVIL_TIMER__": {
+                    "path": "./evil-timer.js/index.js",
+                    "replace": {
+                        "match": "sourceMappingURL=index.js.map",
+                        "text": "sourceMappingURL=evil-timer.js/index.js.map"
+                    }
+                },
+                "__FLOUNDER_STYLE_JS__": {
+                    "path": "./flounder.style.js/index.js",
+                    "replace": {
+                        "match": "sourceMappingURL=index.js.map",
+                        "text": "sourceMappingURL=flounder.style.js/index.js.map"
+                    }
+                },
+                "__PHI_COLORS__": {
+                    "path": "./phi-colors/library/source/index.js",
+                    "replace": {
+                        "match": "sourceMappingURL=index.js.map",
+                        "text": "sourceMappingURL=phi-colors/library/source/index.js.map"
+                    }
+                },
+                "__SCRIPT__": {
+                    "path": "./script/index.js",
+                    "replace": {
+                        "match": "sourceMappingURL=index.js.map",
+                        "text": "sourceMappingURL=script/index.js.map"
+                    }
+                },
+                "__IMAGES__": {
+                    "resource": "./resource/images.json"
+                }
+            }
+        },
+        "style": {
+            "processes": [
+                "npm run-script \"build style\""
+            ]
+        },
+        "script": {
+            "processes": [
+                "npm run-script \"build script\""
+            ]
+        },
+        "all": {
+            "steps": [
+                {
+                    "references": "style"
+                },
+                {
+                    "references": "script"
+                },
+                {
+                    "references": "html"
+                }
+            ]
+        }
+    }
+}

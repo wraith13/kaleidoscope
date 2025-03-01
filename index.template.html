@@ -1,0 +1,139 @@
+<!--
+    __BUILD_MESSAGE__
+    build options: __BUILD_OPTIONS__
+    build at: __BUILD_TIMESTAMP__
+    repository: __REPOSITORY_URL_
+-->
+<!-- license:
+__LICENSE__-->
+<html>
+<head>
+<meta charset="utf-8">
+<title>__APPLICATION_TITLE__</title>
+<meta name="theme-color" content="rgb(1,4,9)">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=contain">
+<meta name="description" lang="en" content="__EN_DESCRIPTION__">
+<meta name="description" lang="ja" content="__JA_DESCRIPTION__">
+<meta name="apple-mobile-web-app-title" content="__APPLICATION_TITLE__">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="Cache-Control" content="public,stale-while-revalidate=2592000,stale-if-error=2592000"><!-- 2592000s == 30d -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@wraith13">
+<!-- meta name="twitter:creator" content="@wraith13" -->
+<meta name="twitter:title" content="__APPLICATION_TITLE__">
+<meta name="twitter:description" lang="en" content="__EN_DESCRIPTION__">
+<meta name="twitter:description" lang="ja" content="__JA_DESCRIPTION__">
+<style>
+__STYLE__
+</style>
+<script type="text/javascript">
+__EVIL_COMMONJS__
+</script>
+<script type="text/javascript">
+module.readyToCapture("https://wraith13.github.io/evil-timer.js/index.js");
+__EVIL_TIMER__
+module.capture("https://wraith13.github.io/evil-timer.js/index.js", ["evil-timer.js"]);
+</script>
+<script type="text/javascript">
+module.readyToCapture("https://wraith13.github.io/flounder.style.js/index.js");
+__FLOUNDER_STYLE_JS__
+module.capture("https://wraith13.github.io/flounder.style.js/index.js", ["flounder.style.js"]);
+</script>
+<script type="text/javascript">
+module.readyToCapture("https://wraith13.github.io/phi-colors/library/source/index.js");
+__PHI_COLORS__
+module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", ["phi-colors"]);
+</script>
+</head>
+<body>
+<h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope"><span>Kaleidoscope</a></div></h1>
+<div id="screen-body">
+    <div class="option-panel">
+        <div class="item">
+            <label for="pattern"><span id="patternLabel">Pattern:</span></label>
+            <select id="pattern">
+                <option value="lines">lines</option>
+                <option value="spots">spots</option>
+                <option value="multi">multi</option>
+            </select>
+    </div>
+        <div class="item">
+            <label for="mode">Mode:</label>
+            <select id="mode">
+                <option value="monochrome">monochrome</option>
+                <option value="primary-colors">primary-colors</option>
+                <option value="phi-colors">phi-colors</option>
+            </select>
+    </div>
+        <div class="item">
+        <label for="canvas-size">Canvas Size:</label>
+        <select id="canvas-size"></select>
+    </div>
+    <div class="item"><label for="layers">Layers:</label><select id="layers"></select></div>
+    <div class="item"><label for="span">Cycle Span:</label><select id="span"></select></div>
+    <div class="item"><label for="fuse-fps">Fuse FPS:</label><select id="fuse-fps"></select></div>
+    <div class="item"><label for="easing">Easing:</label><input id="easing" type="checkbox"></div>
+    <div class="item"><label for="with-fullscreen">FullScreen:</label><input id="with-fullscreen" type="checkbox"></div>
+    <div class="item"><label for="show-fps">Show FPS:</label><input id="show-fps" type="checkbox"></div>
+    </div>
+    <div id="fps"></div>
+    <button id="play-button">
+        __IMAGES__
+    </button>
+    <div id="warning">
+        <span class="icon">⚠️</span>
+        <span class="text"></span>
+    </div>
+    <div id="canvas">
+        <div class="layer"></div>
+        <div id="top-coat"></div>
+    </div>
+</div>
+<div id="screen-footer">
+    <div id="supplementary-line">
+        <div id="keyboard-shortcut">
+            <ul>
+                <li><span><kbd>Shift</kbd></span>Hide UI</li>
+                <li><span><kbd>Space</kbd></span>Play / Pause</li>
+                <li><span><kbd>P</kbd></span>Switch Pattern ( Forward )</li>
+                <li><span><kbd>Shift</kbd><kbd>P</kbd></span>Switch Pattern ( Backward )</li>
+                <li><span><kbd>M</kbd></span>Switch Mode ( Forward )</li>
+                <li><span><kbd>Shift</kbd><kbd>M</kbd></span>Switch Mode ( Backward )</li>
+                <li><span><kbd>Shift</kbd><kbd>↑</kbd></span>Increase Canvas Size</li>
+                <li><span><kbd>Shift</kbd><kbd>↓</kbd></span>Decrease Canvas Size</li>
+                <li><span><kbd>↑</kbd></span>Increase Layer</li>
+                <li><span><kbd>↓</kbd></span>Decrease Layer</li>
+                <li><span><kbd>←</kbd></span>Speed Down</li>
+                <li><span><kbd>→</kbd></span>Speed Up</li>
+                <li><span><kbd>Shift</kbd><kbd>←</kbd></span>Decrease Fuse FPS</li>
+                <li><span><kbd>Shift</kbd><kbd>→</kbd></span>Increase Fuse FPS</li>
+                <li><span><kbd>F</kbd></span>FullScreen</li>
+                <li><span><kbd>S</kbd></span>Show FPS</li>
+            </ul>
+        </div>
+        <div id="powered-by">
+            <span class="title">powered by</span>
+            <ul>
+                <li><a href="https://github.com/wraith13/build.js">build.js</a></li>
+                <li><a href="https://github.com/wraith13/evil-commonjs">evil-commonjs</a></li>
+                <li><a href="https://github.com/wraith13/evil-timer.js">evil-timer.js</a></li>
+                <li><a href="https://github.com/wraith13/flounder.style.js">flounder.style.js</a></li>
+                <li><a href="https://github.com/wraith13/phi-colors">phi-colors</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="information-line">
+        <div id="information">
+            <ul id="information-list">
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+module.readyToCapture("https://wraith13.github.io/kaleidoscope/source/index.js");
+__SCRIPT__
+module.capture("https://wraith13.github.io/kaleidoscope/source/index.js", ["kaleidoscope"]);
+</script>
+</html>

@@ -1,0 +1,25 @@
+{
+    "name": "@wraith13/kaleidoscope",
+    "version": "0.0.0",
+    "description": "Kaleidoscope Web Screen Saver",
+    "scripts": {
+        "build all": "node ./build.js ../build.json all",
+        "build html": "node ./build.js ../build.json html",
+        "build style": "sass --no-charset style/index.scss style/index.css",
+        "build script": "tsc -p ./script/tsconfig.json"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wraith13/kaleidoscope.git"
+    },
+    "author": "wraith13",
+    "license": "BSL-1.0",
+    "bugs": {
+        "url": "https://github.com/wraith13/kaleidoscope/issues"
+    },
+    "homepage": "https://github.com/wraith13/kaleidoscope/#readme",
+    "devDependencies": {
+        "sass": "^1.69.5",
+        "typescript": "^5.3.3"
+    }
+}
