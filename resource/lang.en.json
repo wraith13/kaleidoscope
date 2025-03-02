@@ -1,6 +1,6 @@
 {
     "description": "Kaleidoscope Web Screen Saver",
-    "warningText": "Web browser or OS may crash.",
+    "warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
     "informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
     "informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",

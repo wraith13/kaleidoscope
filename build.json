@@ -28,7 +28,7 @@
         },
         "html": {
             "template": {
-                "path": "./index.template.html"
+                "path": "./index.html.template"
             },
             "output": {
                 "path": "./index.html"

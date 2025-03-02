@@ -28,17 +28,25 @@ __LICENSE__-->
 __STYLE__
 </style>
 <script type="text/javascript">
+const evilCommonjsConfig =
+{
+    log:
+    {
+        config: false,
+        load: false,
+        define: false,
+        readyToCapture: false,
+        results: false,
+    },
+    loadingTimeout: 500,
+};
 __EVIL_COMMONJS__
 </script>
 <script type="text/javascript">
-module.readyToCapture("https://wraith13.github.io/evil-timer.js/index.js");
 __EVIL_TIMER__
-module.capture("https://wraith13.github.io/evil-timer.js/index.js", ["evil-timer.js"]);
 </script>
 <script type="text/javascript">
-module.readyToCapture("https://wraith13.github.io/flounder.style.js/index.js");
 __FLOUNDER_STYLE_JS__
-module.capture("https://wraith13.github.io/flounder.style.js/index.js", ["flounder.style.js"]);
 </script>
 <script type="text/javascript">
 module.readyToCapture("https://wraith13.github.io/phi-colors/library/source/index.js");
@@ -132,8 +140,6 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 </div>
 </body>
 <script type="text/javascript">
-module.readyToCapture("https://wraith13.github.io/kaleidoscope/source/index.js");
 __SCRIPT__
-module.capture("https://wraith13.github.io/kaleidoscope/source/index.js", ["kaleidoscope"]);
 </script>
 </html>

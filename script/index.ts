@@ -76,12 +76,13 @@ const makeRandomSpotArguments = (type: FlounderStyle.Type.SpotArguments["type"],
 ({
     type,
     layoutAngle: randomSelect([ "regular", "alternative", ]),
-    foregroundColor: "black", // dummy
-    backgroundColor: "black", // dummy
+    foregroundColor: "forestgreen",
+    backgroundColor: "blanchedalmond",
     intervalSize,
     depth: 0.0,
     maxPatternSize: randomSelect([ undefined, intervalSize /4, ]),
     reverseRate: randomSelect([ undefined, 0.0, ]),
+    maximumFractionDigits: config.maximumFractionDigits,
 });
 const makeRandomTrispotArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
     makeRandomSpotArguments("trispot", intervalSize);
@@ -91,13 +92,14 @@ const makeRandomLineArguments = (type: FlounderStyle.Type.LineArguments["type"],
 ({
     type,
     layoutAngle: Math.random(),
-    foregroundColor: "black", // dummy
-    backgroundColor: "black", // dummy
+    foregroundColor: "forestgreen",
+    backgroundColor: "blanchedalmond",
     intervalSize,
     depth: 0.0,
     maxPatternSize: randomSelect([ undefined, intervalSize /(2 +makeRandomInteger(9)), ]),
     reverseRate: randomSelect([ undefined, 0.0, ]),
     anglePerDepth: randomSelect([ undefined, "auto", "-auto", 1,0, -1.0, ]),
+    maximumFractionDigits: config.maximumFractionDigits,
 });
 const makeRandomStripeArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
     makeRandomLineArguments("stripe", intervalSize);
@@ -151,6 +153,7 @@ if ( ! fullscreenEnabled && withFullscreen.parentElement)
     withFullscreen.parentElement.style.setProperty("display", "none");
 }
 let startAt = 0;
+let waitAt = 0;
 let offsetAt = 0;
 let span = config.spanDefault;
 let h = Math.random();
@@ -163,7 +166,7 @@ let hsl =
     l:rate(phiColors.HslLMin, phiColors.HslLMax)(defaultLightness),
 };
 const makeColor = (step: number, lightness?: number) =>
-    phiColors.rgbForStyle
+    <FlounderStyle.Type.HexColor>phiColors.rgbForStyle
     (
         phiColors.clipRgb
         (
@@ -238,12 +241,31 @@ const getFpsText = (now: number) =>
 const easingCheckbox = <HTMLInputElement>document.getElementById("easing");
 easingCheckbox.checked = true;
 let easing: (t: number) => number;
+let getForegroundColor: (i: Layer, ix: number) => FlounderStyle.Type.Color;
+const getBackgroundColor = (i: Layer, ix: number): FlounderStyle.Type.Color =>
+{
+    if (i.arguments)
+    {
+        return i.arguments.foregroundColor;
+    }
+    else
+    if (0 === ix)
+    {
+        return makeColor(0.0);
+    }
+    else
+    {
+        return "black";
+    }
+};
 interface Layer
 {
     layer: HTMLDivElement;
     mile: number;
     offset: number;
     arguments: FlounderStyle.Type.Arguments | undefined;
+    foregroundColor: FlounderStyle.Type.Color;
+    backgroundColor: FlounderStyle.Type.Color;
 }
 let layers: Layer[] = [];
 (<HTMLDivElement>document.getElementsByClassName("layer")[0]).style.setProperty("background-color", makeColor(0.0));
@@ -268,48 +290,39 @@ const animation = (now: number) =>
         {
             fpsElement.innerText = fps;
         }
-        const universalStep = (now -startAt) /span;
-        layers.forEach
-        (
-            (i, ix) =>
-            {
-                let step = getStep(universalStep, i);
-                if (0 <= step)
+        if (waitAt <= now)
+        {
+            const universalStep = (now -startAt) /span;
+            layers.forEach
+            (
+                (i, ix) =>
                 {
-                    if (1.0 <= step || undefined === i.arguments)
+                    let step = getStep(universalStep, i);
+                    if (0 <= step)
                     {
-                        const oldForegroundColor: FlounderStyle.Type.Color =
-                            i.arguments?.foregroundColor ??
-                            (0 === ix ? <FlounderStyle.Type.Color>makeColor(0.0): "black");
-                        i.arguments = Object.assign
-                        (
-                            {},
-                            layers[ix -1]?.arguments ?? makeRandomArguments()
-                        );
-                        while(1.0 <= step)
+                        if (1.0 <= step || undefined === i.arguments)
                         {
-                            ++i.mile;
-                            step = getStep(universalStep, i);
+                            while(1.0 <= step)
+                            {
+                                ++i.mile;
+                                step = getStep(universalStep, i);
+                            }
+                            i.arguments = Object.assign
+                            (
+                                { },
+                                layers[ix -1]?.arguments ?? makeRandomArguments(),
+                                {
+                                    foregroundColor: getForegroundColor(i, ix),
+                                    backgroundColor: getBackgroundColor(i, ix),
+                                }
+                            );
                         }
-                        switch(modeSelect.value ?? "phi-colors")
-                        {
-                        case "monochrome":
-                            i.arguments.foregroundColor = indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
-                            break;
-                        case "primary-colors":
-                            i.arguments.foregroundColor = indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
-                            break;
-                        case "phi-colors":
-                            i.arguments.foregroundColor = <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
-                            break;
-                        }
-                        i.arguments.backgroundColor = oldForegroundColor;
+                        i.arguments.depth = easing(step);
+                        FlounderStyle.setStyle(i.layer, i.arguments);
                     }
-                    i.arguments.depth = easing(step);
-                    FlounderStyle.setStyle(i.layer, i.arguments);
                 }
-            }
-        );
+            );
+        }
         window.requestAnimationFrame(animation);
     }
     else
@@ -324,7 +337,7 @@ const animation = (now: number) =>
 const pause = () =>
 {
     document.body.classList.toggle("immersive", false);
-    if (document.fullscreenElement || "webkitFullscreenElement" in document)
+    if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement))
     {
         if (document.exitFullscreen)
         {
@@ -441,6 +454,8 @@ const updateLayers = (newLayers: number) =>
                 mile: layers[ix]?.mile ?? 0,
                 offset: ix /layerList.length,
                 arguments: layers[ix]?.arguments,
+                // foregroundColor: "forestgreen",
+                // backgroundColor: "blanchedalmond",
             }
         )
     );
@@ -485,11 +500,25 @@ playButton.addEventListener
                     2 *Math.pow(t, 2):
                     1 -(2 *Math.pow(1 -t, 2)):
                 (t: number) => t;
+            switch(modeSelect.value ?? "phi-colors")
+            {
+            case "monochrome":
+                getForegroundColor = (i: Layer, _ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
+                break;
+            case "primary-colors":
+                getForegroundColor = (i: Layer, ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
+                break;
+            case "phi-colors":
+            default:
+                getForegroundColor = (i: Layer, _ix: number) => <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
+                break;
+            }
             window.requestAnimationFrame
             (
                 now =>
                 {
-                    startAt = now -offsetAt;
+                    startAt = (now -offsetAt) +config.startWait;
+                    waitAt = now +config.startWait;
                     resetFps();
                     animation(now);
                 }

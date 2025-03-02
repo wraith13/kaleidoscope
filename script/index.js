@@ -1204,7 +1204,7 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
 });
 define("resource/lang.en", [], {
     "description": "Kaleidoscope Web Screen Saver",
-    "warningText": "Web browser or OS may crash.",
+    "warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
     "informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
     "informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",
@@ -1215,7 +1215,7 @@ define("resource/lang.en", [], {
 });
 define("resource/lang.ja", [], {
     "description": "万華鏡 Web スクリーンセーバー",
-    "warningText": "Web ブラウザや OS がクラッシュする事があります。",
+    "warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
     "informationFuseFps": "Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
     "informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
     "informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
@@ -1240,7 +1240,7 @@ define("resource/config", [], {
             "blue"
         ]
     },
-    "patternDefault": "multi",
+    "patternDefault": "lines",
     "canvasSizeEnum": [
         1,
         2,
@@ -1297,11 +1297,15 @@ define("resource/config", [], {
         20,
         25
     ],
-    "fuseFpsDefault": 10,
+    "fuseFpsDefault": 7.5,
     "autoAdjustLayersCoolTime": 1500,
     "spanEnum": [
         1000,
+        1500,
+        2000,
+        2500,
         3000,
+        4000,
         5000,
         7500,
         10000,
@@ -1317,14 +1321,16 @@ define("resource/config", [], {
         1800000,
         3600000
     ],
-    "spanDefault": 7500,
+    "spanDefault": 2500,
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [
         "informationFuseFps",
         "informationLayers",
         "informationPattern"
-    ]
+    ],
+    "maximumFractionDigits": 2,
+    "startWait": 750
 });
 define("script/index", ["require", "exports", "flounder.style.js/index", "phi-colors", "resource/lang.en", "resource/lang.ja", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, lang_en_json_1, lang_ja_json_1, config_json_2) {
     "use strict";
@@ -1382,12 +1388,13 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         return ({
             type: type,
             layoutAngle: randomSelect(["regular", "alternative",]),
-            foregroundColor: "black", // dummy
-            backgroundColor: "black", // dummy
+            foregroundColor: "forestgreen",
+            backgroundColor: "blanchedalmond",
             intervalSize: intervalSize,
             depth: 0.0,
             maxPatternSize: randomSelect([undefined, intervalSize / 4,]),
             reverseRate: randomSelect([undefined, 0.0,]),
+            maximumFractionDigits: config_json_2.default.maximumFractionDigits,
         });
     };
     var makeRandomTrispotArguments = function (intervalSize) {
@@ -1400,13 +1407,14 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         return ({
             type: type,
             layoutAngle: Math.random(),
-            foregroundColor: "black", // dummy
-            backgroundColor: "black", // dummy
+            foregroundColor: "forestgreen",
+            backgroundColor: "blanchedalmond",
             intervalSize: intervalSize,
             depth: 0.0,
             maxPatternSize: randomSelect([undefined, intervalSize / (2 + makeRandomInteger(9)),]),
             reverseRate: randomSelect([undefined, 0.0,]),
             anglePerDepth: randomSelect([undefined, "auto", "-auto", 1, 0, -1.0,]),
+            maximumFractionDigits: config_json_2.default.maximumFractionDigits,
         });
     };
     var makeRandomStripeArguments = function (intervalSize) {
@@ -1452,6 +1460,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         withFullscreen.parentElement.style.setProperty("display", "none");
     }
     var startAt = 0;
+    var waitAt = 0;
     var offsetAt = 0;
     var span = config_json_2.default.spanDefault;
     var h = Math.random();
@@ -1516,6 +1525,18 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     var easingCheckbox = document.getElementById("easing");
     easingCheckbox.checked = true;
     var easing;
+    var getForegroundColor;
+    var getBackgroundColor = function (i, ix) {
+        if (i.arguments) {
+            return i.arguments.foregroundColor;
+        }
+        else if (0 === ix) {
+            return makeColor(0.0);
+        }
+        else {
+            return "black";
+        }
+    };
     var layers = [];
     document.getElementsByClassName("layer")[0].style.setProperty("background-color", makeColor(0.0));
     ((_b = (_a = document.getElementById("warning")) === null || _a === void 0 ? void 0 : _a.getElementsByClassName("text")) === null || _b === void 0 ? void 0 : _b[0]).innerText = (0, exports.localeMap)("warningText");
@@ -1532,35 +1553,27 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
             if (showFPS.checked) {
                 fpsElement.innerText = fps;
             }
-            var universalStep_1 = (now - startAt) / span;
-            layers.forEach(function (i, ix) {
-                var _a, _b, _c, _d, _e;
-                var step = getStep(universalStep_1, i);
-                if (0 <= step) {
-                    if (1.0 <= step || undefined === i.arguments) {
-                        var oldForegroundColor = (_b = (_a = i.arguments) === null || _a === void 0 ? void 0 : _a.foregroundColor) !== null && _b !== void 0 ? _b : (0 === ix ? makeColor(0.0) : "black");
-                        i.arguments = Object.assign({}, (_d = (_c = layers[ix - 1]) === null || _c === void 0 ? void 0 : _c.arguments) !== null && _d !== void 0 ? _d : makeRandomArguments());
-                        while (1.0 <= step) {
-                            ++i.mile;
-                            step = getStep(universalStep_1, i);
+            if (waitAt <= now) {
+                var universalStep_1 = (now - startAt) / span;
+                layers.forEach(function (i, ix) {
+                    var _a, _b;
+                    var step = getStep(universalStep_1, i);
+                    if (0 <= step) {
+                        if (1.0 <= step || undefined === i.arguments) {
+                            while (1.0 <= step) {
+                                ++i.mile;
+                                step = getStep(universalStep_1, i);
+                            }
+                            i.arguments = Object.assign({}, (_b = (_a = layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : makeRandomArguments(), {
+                                foregroundColor: getForegroundColor(i, ix),
+                                backgroundColor: getBackgroundColor(i, ix),
+                            });
                         }
-                        switch ((_e = modeSelect.value) !== null && _e !== void 0 ? _e : "phi-colors") {
-                            case "monochrome":
-                                i.arguments.foregroundColor = indexSelect(config_json_2.default.colors.monochrome, i.mile + 1.0);
-                                break;
-                            case "primary-colors":
-                                i.arguments.foregroundColor = indexSelect(config_json_2.default.colors.primaryColors, ix + i.mile + 1.0);
-                                break;
-                            case "phi-colors":
-                                i.arguments.foregroundColor = makeColor(i.mile + i.offset + 1.0, 0.6);
-                                break;
-                        }
-                        i.arguments.backgroundColor = oldForegroundColor;
+                        i.arguments.depth = easing(step);
+                        flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
                     }
-                    i.arguments.depth = easing(step);
-                    flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
-                }
-            });
+                });
+            }
             window.requestAnimationFrame(animation);
         }
         else {
@@ -1572,7 +1585,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     };
     var pause = function () {
         document.body.classList.toggle("immersive", false);
-        if (document.fullscreenElement || "webkitFullscreenElement" in document) {
+        if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement)) {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
             }
@@ -1646,10 +1659,13 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
                 mile: (_b = (_a = layers[ix]) === null || _a === void 0 ? void 0 : _a.mile) !== null && _b !== void 0 ? _b : 0,
                 offset: ix / layerList.length,
                 arguments: (_c = layers[ix]) === null || _c === void 0 ? void 0 : _c.arguments,
+                // foregroundColor: "forestgreen",
+                // backgroundColor: "blanchedalmond",
             });
         });
     };
     playButton.addEventListener("click", function (event) {
+        var _a;
         if (!document.body.classList.contains("immersive")) {
             event.stopPropagation();
             document.body.classList.toggle("immersive", true);
@@ -1676,8 +1692,21 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
                     2 * Math.pow(t, 2) :
                     1 - (2 * Math.pow(1 - t, 2)); } :
                 function (t) { return t; };
+            switch ((_a = modeSelect.value) !== null && _a !== void 0 ? _a : "phi-colors") {
+                case "monochrome":
+                    getForegroundColor = function (i, _ix) { return indexSelect(config_json_2.default.colors.monochrome, i.mile + 1.0); };
+                    break;
+                case "primary-colors":
+                    getForegroundColor = function (i, ix) { return indexSelect(config_json_2.default.colors.primaryColors, ix + i.mile + 1.0); };
+                    break;
+                case "phi-colors":
+                default:
+                    getForegroundColor = function (i, _ix) { return makeColor(i.mile + i.offset + 1.0, 0.6); };
+                    break;
+            }
             window.requestAnimationFrame(function (now) {
-                startAt = now - offsetAt;
+                startAt = (now - offsetAt) + config_json_2.default.startWait;
+                waitAt = now + config_json_2.default.startWait;
                 resetFps();
                 animation(now);
             });

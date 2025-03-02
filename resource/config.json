@@ -14,7 +14,7 @@
             "blue"
         ]
     },
-    "patternDefault": "multi",
+    "patternDefault": "lines",
     "canvasSizeEnum": [
         1,
         2,
@@ -71,11 +71,15 @@
         20,
         25
     ],
-    "fuseFpsDefault": 10,
+    "fuseFpsDefault": 7.5,
     "autoAdjustLayersCoolTime": 1500,
     "spanEnum": [
         1000,
+        1500,
+        2000,
+        2500,
         3000,
+        4000,
         5000,
         7500,
         10000,
@@ -91,12 +95,14 @@
         1800000,
         3600000
     ],
-    "spanDefault": 7500,
+    "spanDefault": 2500,
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [
         "informationFuseFps",
         "informationLayers",
         "informationPattern"
-    ]
+    ],
+    "maximumFractionDigits": 2,
+    "startWait": 750
 }
