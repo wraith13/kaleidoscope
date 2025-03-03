@@ -76,6 +76,7 @@ button {
 }
 #screen-body {
   position: absolute;
+  margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -102,6 +103,7 @@ button {
 
 #top-coat {
   position: fixed;
+  margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -111,6 +113,7 @@ button {
 
 #canvas {
   position: fixed;
+  margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -120,6 +123,7 @@ button {
 
 #canvas .layer {
   position: fixed;
+  margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
