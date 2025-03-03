@@ -58,21 +58,7 @@
         89,
         97
     ],
-    "layersDefault": 17,
-    "fuseFpsEnum": [
-        1,
-        1.5,
-        3,
-        5,
-        7.5,
-        10,
-        12.5,
-        15,
-        20,
-        25
-    ],
-    "fuseFpsDefault": 7.5,
-    "autoAdjustLayersCoolTime": 1500,
+    "layersDefault": 13,
     "spanEnum": [
         1000,
         1500,
@@ -96,6 +82,20 @@
         3600000
     ],
     "spanDefault": 2500,
+    "fuseFpsEnum": [
+        1,
+        1.5,
+        3,
+        5,
+        7.5,
+        10,
+        12.5,
+        15,
+        20,
+        25
+    ],
+    "fuseFpsDefault": 5,
+    "easingDefault": true,
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [

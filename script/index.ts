@@ -1,5 +1,6 @@
 import { FlounderStyle } from "flounder.style.js";
 import { phiColors } from "phi-colors"
+import { Fps } from "./fps";
 import localeEn from "@resource/lang.en.json";
 import localeJa from "@resource/lang.ja.json";
 import config from "@resource/config.json";
@@ -57,6 +58,7 @@ config.fuseFpsEnum.forEach
 (
     i => fuseFpsSelect.appendChild(makeSelectOption(i.toString(), `${i}`))
 );
+const easingCheckbox = <HTMLInputElement>document.getElementById("easing");
 const withFullscreen = <HTMLInputElement>document.getElementById("with-fullscreen");
 const showFPS = <HTMLInputElement>document.getElementById("show-fps");
 const fpsElement = <HTMLDivElement>document.getElementById("fps");
@@ -66,6 +68,7 @@ canvasSizeSelect.value = config.canvasSizeDefault.toString();
 layersSelect.value = config.layersDefault.toString();
 spanSelect.value = config.spanDefault.toString();
 fuseFpsSelect.value = config.fuseFpsDefault.toString();
+easingCheckbox.checked = config.easingDefault;
 const getDiagonalSize = () => Math.sqrt(Math.pow(canvas?.clientWidth ?? 0, 2) +Math.pow(canvas?.clientHeight ?? 0, 2));
 const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
 const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
@@ -178,68 +181,6 @@ const makeColor = (step: number, lightness?: number) =>
             })
         )
     );
-interface FpsHistoryEntry
-{
-    fps: number;
-    now: number;
-    text: string;
-}
-const fpsCalcUnit = 5;
-let frameTimings: number[] = [];
-let fpsHistory: FpsHistoryEntry[] = [];
-const resetFps = () =>
-{
-    frameTimings = [];
-    fpsHistory = [];
-};
-const makeFpsText = (fps: number) =>
-    `${fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, })} FPS`;
-const getFpsText = (now: number) =>
-{
-    let result = "";
-    if (fpsCalcUnit <= frameTimings.length)
-    {
-        const first = frameTimings.shift() ?? 0;
-        const fps = (fpsCalcUnit *1000.0) /(now -first);
-        const current =
-        {
-            fps,
-            now,
-            text: makeFpsText(fps),
-        };
-        const expiredAt = now -1000;
-        while(0 < fpsHistory.length && fpsHistory[0].now < expiredAt)
-        {
-            fpsHistory.shift();
-        }
-        fpsHistory.push(current);
-        let currentMaxFps = current;
-        let currentMinFps = current;
-        fpsHistory.forEach
-        (
-            i =>
-            {
-                if (currentMaxFps.fps < i.fps)
-                {
-                    currentMaxFps = i;
-                }
-                if (i.fps < currentMinFps.fps)
-                {
-                    currentMinFps = i;
-                }
-            }
-        );
-        result += currentMaxFps.text +"(Max)\n" + current.text + "(Now)\n" +currentMinFps.text +"(Min)";
-        if (currentMaxFps.fps < parseFloat(fuseFpsSelect.value))
-        {
-            pause();
-        }
-    }
-    frameTimings.push(now);
-    return result;
-};
-const easingCheckbox = <HTMLInputElement>document.getElementById("easing");
-easingCheckbox.checked = true;
 let easing: (t: number) => number;
 let getForegroundColor: (i: Layer, ix: number) => FlounderStyle.Type.Color;
 const getBackgroundColor = (i: Layer, ix: number): FlounderStyle.Type.Color =>
@@ -281,49 +222,61 @@ config.informations.forEach
     }
 );
 const getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
+const animationStep = (now: number) =>
+{
+    const universalStep = (now -startAt) /span;
+    layers.forEach
+    (
+        (i, ix) =>
+        {
+            let step = getStep(universalStep, i);
+            if (0 <= step)
+            {
+                if (1.0 <= step || undefined === i.arguments)
+                {
+                    while(1.0 <= step)
+                    {
+                        ++i.mile;
+                        step = getStep(universalStep, i);
+                    }
+                    i.arguments = Object.assign
+                    (
+                        { },
+                        layers[ix -1]?.arguments ?? makeRandomArguments(),
+                        {
+                            foregroundColor: getForegroundColor(i, ix),
+                            backgroundColor: getBackgroundColor(i, ix),
+                        }
+                    );
+                }
+                i.arguments.depth = easing(step);
+                FlounderStyle.setStyle(i.layer, i.arguments);
+            }
+        }
+    );
+}
+const isInAnimation = () => document.body.classList.contains("immersive");
 const animation = (now: number) =>
 {
-    if (document.body.classList.contains("immersive"))
+    if (isInAnimation())
     {
-        const fps = getFpsText(now);
-        if (showFPS.checked)
+        Fps.step(now);
+        if (Fps.isUnderFuseFps())
         {
-            fpsElement.innerText = fps;
+            pause();
         }
-        if (waitAt <= now)
+        else
         {
-            const universalStep = (now -startAt) /span;
-            layers.forEach
-            (
-                (i, ix) =>
-                {
-                    let step = getStep(universalStep, i);
-                    if (0 <= step)
-                    {
-                        if (1.0 <= step || undefined === i.arguments)
-                        {
-                            while(1.0 <= step)
-                            {
-                                ++i.mile;
-                                step = getStep(universalStep, i);
-                            }
-                            i.arguments = Object.assign
-                            (
-                                { },
-                                layers[ix -1]?.arguments ?? makeRandomArguments(),
-                                {
-                                    foregroundColor: getForegroundColor(i, ix),
-                                    backgroundColor: getBackgroundColor(i, ix),
-                                }
-                            );
-                        }
-                        i.arguments.depth = easing(step);
-                        FlounderStyle.setStyle(i.layer, i.arguments);
-                    }
-                }
-            );
+            if (showFPS.checked)
+            {
+                fpsElement.innerText = Fps.getText();
+            }
+            if (waitAt <= now)
+            {
+                animationStep(now);
+            }
+            window.requestAnimationFrame(animation);
         }
-        window.requestAnimationFrame(animation);
     }
     else
     {
@@ -495,6 +448,7 @@ playButton.addEventListener
                 offsetAt = offsetAt *(newSpan /span);
                 span = newSpan;
             }
+            Fps.fuseFps = parseFloat(fuseFpsSelect.value);
             easing = easingCheckbox.checked ?
                 (t: number) => t <= 0.5 ?
                     2 *Math.pow(t, 2):
@@ -519,7 +473,7 @@ playButton.addEventListener
                 {
                     startAt = (now -offsetAt) +config.startWait;
                     waitAt = now +config.startWait;
-                    resetFps();
+                    Fps.reset();
                     animation(now);
                 }
             );

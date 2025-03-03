@@ -272,6 +272,16 @@ declare module "flounder.style.js/index" {
         const selectClosestAngleDirection: (directions: OffsetCoefficientDirection[], angle: Type.DirectionAngle) => OffsetCoefficientDirection;
     }
 }
+declare module "script/fps" {
+    export namespace Fps {
+        let fuseFps: number;
+        const reset: () => void;
+        const step: (now: number) => void;
+        const isValid: () => boolean;
+        const getText: () => string;
+        const isUnderFuseFps: () => boolean;
+    }
+}
 declare module "script/index" {
     import localeEn from "resource/lang.en";
     import localeJa from "resource/lang.ja";

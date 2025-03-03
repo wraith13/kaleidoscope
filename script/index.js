@@ -1202,6 +1202,61 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
         };
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
+define("script/fps", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Fps = void 0;
+    var Fps;
+    (function (Fps) {
+        var fpsCalcUnit = 5;
+        var frameTimings = [];
+        var fpsHistory = [];
+        var currentMaxFps;
+        var currentNowFps;
+        var currentMinFps;
+        Fps.reset = function () {
+            frameTimings = [];
+            fpsHistory = [];
+        };
+        Fps.step = function (now) {
+            var _a;
+            frameTimings.push(now);
+            if (Fps.isValid()) {
+                var first = (_a = frameTimings.shift()) !== null && _a !== void 0 ? _a : 0;
+                var fps = (fpsCalcUnit * 1000.0) / (now - first);
+                currentNowFps =
+                    {
+                        fps: fps,
+                        now: now,
+                        text: makeFpsText(fps),
+                    };
+                var expiredAt = now - 1000;
+                while (0 < fpsHistory.length && fpsHistory[0].now < expiredAt) {
+                    fpsHistory.shift();
+                }
+                fpsHistory.push(currentNowFps);
+                currentMaxFps = currentNowFps;
+                currentMinFps = currentNowFps;
+                fpsHistory.forEach(function (i) {
+                    if (currentMaxFps.fps < i.fps) {
+                        currentMaxFps = i;
+                    }
+                    if (i.fps < currentMinFps.fps) {
+                        currentMinFps = i;
+                    }
+                });
+            }
+        };
+        Fps.isValid = function () { return fpsCalcUnit <= frameTimings.length; };
+        var makeFpsText = function (fps) {
+            return "".concat(fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, }), " FPS");
+        };
+        Fps.getText = function () {
+            return Fps.isValid() ? currentMaxFps.text + "(Max)\n" + currentNowFps.text + "(Now)\n" + currentMinFps.text + "(Min)" : "";
+        };
+        Fps.isUnderFuseFps = function () { return Fps.isValid() && currentMaxFps.fps < Fps.fuseFps; };
+    })(Fps || (exports.Fps = Fps = {}));
+});
 define("resource/lang.en", [], {
     "description": "Kaleidoscope Web Screen Saver",
     "warningText": "Web browsers and operating systems may crash due to excessive load.",
@@ -1284,21 +1339,7 @@ define("resource/config", [], {
         89,
         97
     ],
-    "layersDefault": 17,
-    "fuseFpsEnum": [
-        1,
-        1.5,
-        3,
-        5,
-        7.5,
-        10,
-        12.5,
-        15,
-        20,
-        25
-    ],
-    "fuseFpsDefault": 7.5,
-    "autoAdjustLayersCoolTime": 1500,
+    "layersDefault": 13,
     "spanEnum": [
         1000,
         1500,
@@ -1322,6 +1363,20 @@ define("resource/config", [], {
         3600000
     ],
     "spanDefault": 2500,
+    "fuseFpsEnum": [
+        1,
+        1.5,
+        3,
+        5,
+        7.5,
+        10,
+        12.5,
+        15,
+        20,
+        25
+    ],
+    "fuseFpsDefault": 5,
+    "easingDefault": true,
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [
@@ -1332,7 +1387,7 @@ define("resource/config", [], {
     "maximumFractionDigits": 2,
     "startWait": 750
 });
-define("script/index", ["require", "exports", "flounder.style.js/index", "phi-colors", "resource/lang.en", "resource/lang.ja", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, lang_en_json_1, lang_ja_json_1, config_json_2) {
+define("script/index", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/fps", "resource/lang.en", "resource/lang.ja", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, fps_1, lang_en_json_1, lang_ja_json_1, config_json_2) {
     "use strict";
     var _a, _b;
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -1370,6 +1425,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
                 "".concat(i / 3600000, " ").concat((0, exports.localeMap)("timeUnitH")))); });
     var fuseFpsSelect = document.getElementById("fuse-fps");
     config_json_2.default.fuseFpsEnum.forEach(function (i) { return fuseFpsSelect.appendChild(makeSelectOption(i.toString(), "".concat(i))); });
+    var easingCheckbox = document.getElementById("easing");
     var withFullscreen = document.getElementById("with-fullscreen");
     var showFPS = document.getElementById("show-fps");
     var fpsElement = document.getElementById("fps");
@@ -1379,6 +1435,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     layersSelect.value = config_json_2.default.layersDefault.toString();
     spanSelect.value = config_json_2.default.spanDefault.toString();
     fuseFpsSelect.value = config_json_2.default.fuseFpsDefault.toString();
+    easingCheckbox.checked = config_json_2.default.easingDefault;
     var getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = canvas === null || canvas === void 0 ? void 0 : canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = canvas === null || canvas === void 0 ? void 0 : canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
     var rate = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
     var makeRandomInteger = function (size) { return Math.floor(Math.random() * size); };
@@ -1478,52 +1535,6 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
             l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(lightness !== null && lightness !== void 0 ? lightness : defaultLightness),
         })));
     };
-    var fpsCalcUnit = 5;
-    var frameTimings = [];
-    var fpsHistory = [];
-    var resetFps = function () {
-        frameTimings = [];
-        fpsHistory = [];
-    };
-    var makeFpsText = function (fps) {
-        return "".concat(fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, }), " FPS");
-    };
-    var getFpsText = function (now) {
-        var _a;
-        var result = "";
-        if (fpsCalcUnit <= frameTimings.length) {
-            var first = (_a = frameTimings.shift()) !== null && _a !== void 0 ? _a : 0;
-            var fps = (fpsCalcUnit * 1000.0) / (now - first);
-            var current = {
-                fps: fps,
-                now: now,
-                text: makeFpsText(fps),
-            };
-            var expiredAt = now - 1000;
-            while (0 < fpsHistory.length && fpsHistory[0].now < expiredAt) {
-                fpsHistory.shift();
-            }
-            fpsHistory.push(current);
-            var currentMaxFps_1 = current;
-            var currentMinFps_1 = current;
-            fpsHistory.forEach(function (i) {
-                if (currentMaxFps_1.fps < i.fps) {
-                    currentMaxFps_1 = i;
-                }
-                if (i.fps < currentMinFps_1.fps) {
-                    currentMinFps_1 = i;
-                }
-            });
-            result += currentMaxFps_1.text + "(Max)\n" + current.text + "(Now)\n" + currentMinFps_1.text + "(Min)";
-            if (currentMaxFps_1.fps < parseFloat(fuseFpsSelect.value)) {
-                pause();
-            }
-        }
-        frameTimings.push(now);
-        return result;
-    };
-    var easingCheckbox = document.getElementById("easing");
-    easingCheckbox.checked = true;
     var easing;
     var getForegroundColor;
     var getBackgroundColor = function (i, ix) {
@@ -1547,34 +1558,43 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         informationList.appendChild(li);
     });
     var getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
-    var animation = function (now) {
-        if (document.body.classList.contains("immersive")) {
-            var fps = getFpsText(now);
-            if (showFPS.checked) {
-                fpsElement.innerText = fps;
-            }
-            if (waitAt <= now) {
-                var universalStep_1 = (now - startAt) / span;
-                layers.forEach(function (i, ix) {
-                    var _a, _b;
-                    var step = getStep(universalStep_1, i);
-                    if (0 <= step) {
-                        if (1.0 <= step || undefined === i.arguments) {
-                            while (1.0 <= step) {
-                                ++i.mile;
-                                step = getStep(universalStep_1, i);
-                            }
-                            i.arguments = Object.assign({}, (_b = (_a = layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : makeRandomArguments(), {
-                                foregroundColor: getForegroundColor(i, ix),
-                                backgroundColor: getBackgroundColor(i, ix),
-                            });
-                        }
-                        i.arguments.depth = easing(step);
-                        flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
+    var animationStep = function (now) {
+        var universalStep = (now - startAt) / span;
+        layers.forEach(function (i, ix) {
+            var _a, _b;
+            var step = getStep(universalStep, i);
+            if (0 <= step) {
+                if (1.0 <= step || undefined === i.arguments) {
+                    while (1.0 <= step) {
+                        ++i.mile;
+                        step = getStep(universalStep, i);
                     }
-                });
+                    i.arguments = Object.assign({}, (_b = (_a = layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : makeRandomArguments(), {
+                        foregroundColor: getForegroundColor(i, ix),
+                        backgroundColor: getBackgroundColor(i, ix),
+                    });
+                }
+                i.arguments.depth = easing(step);
+                flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
             }
-            window.requestAnimationFrame(animation);
+        });
+    };
+    var isInAnimation = function () { return document.body.classList.contains("immersive"); };
+    var animation = function (now) {
+        if (isInAnimation()) {
+            fps_1.Fps.step(now);
+            if (fps_1.Fps.isUnderFuseFps()) {
+                pause();
+            }
+            else {
+                if (showFPS.checked) {
+                    fpsElement.innerText = fps_1.Fps.getText();
+                }
+                if (waitAt <= now) {
+                    animationStep(now);
+                }
+                window.requestAnimationFrame(animation);
+            }
         }
         else {
             if (undefined !== layers[0].arguments) {
@@ -1687,6 +1707,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
                 offsetAt = offsetAt * (newSpan / span);
                 span = newSpan;
             }
+            fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.value);
             easing = easingCheckbox.checked ?
                 function (t) { return t <= 0.5 ?
                     2 * Math.pow(t, 2) :
@@ -1707,7 +1728,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
             window.requestAnimationFrame(function (now) {
                 startAt = (now - offsetAt) + config_json_2.default.startWait;
                 waitAt = now + config_json_2.default.startWait;
-                resetFps();
+                fps_1.Fps.reset();
                 animation(now);
             });
         }

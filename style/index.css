@@ -17,10 +17,10 @@ button {
 
 #screen-header {
   backdrop-filter: blur(1rem);
-  margin: 0px;
-  padding: 0px;
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
+  margin: 0px;
+  padding: 0px;
   position: fixed;
   width: 100%;
   z-index: 900;
@@ -151,6 +151,7 @@ button {
 
 #screen-body button {
   backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   border-radius: 1.5rem;
   padding: 1.5rem;
@@ -179,17 +180,18 @@ button {
   }
 }
 #screen-body .option-panel {
-  backdrop-filter: blur(1rem);
   position: absolute;
   top: 3.25rem;
   left: 1rem;
-  color: rgb(230, 237, 243);
   transition: opacity 1000ms;
   font-family: Courier;
   font-size: 0.75rem;
 }
 
 #screen-body .option-panel .item {
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -235,18 +237,17 @@ button {
 
 #screen-body #fps {
   backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.6);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   transition: opacity 1000ms;
   font-family: Courier;
   font-size: 0.75rem;
@@ -269,14 +270,12 @@ button {
 
 #keyboard-shortcut {
   backdrop-filter: blur(1rem);
-  margin: 1rem;
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
+  margin: 1rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: block;
-  cursor: pointer;
-  transition: opacity 1000ms;
   font-family: Courier;
   font-size: 0.75rem;
   text-align: left;
@@ -329,13 +328,12 @@ button {
 
 #screen-footer #supplementary-line #powered-by {
   backdrop-filter: blur(1rem);
-  margin: 1rem;
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
+  margin: 1rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: block;
-  cursor: pointer;
   transition: opacity 1000ms;
   font-family: Courier;
   font-size: 0.75rem;
@@ -363,6 +361,7 @@ button {
 
 #screen-footer #powered-by ul li a {
   color: rgba(230, 237, 243, 0.7);
+  cursor: pointer;
 }
 
 @media (hover: hover) {
@@ -372,6 +371,7 @@ button {
 }
 #screen-footer #information-line {
   backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
   transition: transform 500ms;
 }
