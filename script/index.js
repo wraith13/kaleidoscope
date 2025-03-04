@@ -1221,7 +1221,7 @@ define("script/fps", ["require", "exports"], function (require, exports) {
         Fps.step = function (now) {
             var _a;
             frameTimings.push(now);
-            if (Fps.isValid()) {
+            if (fpsCalcUnit <= frameTimings.length) {
                 var first = (_a = frameTimings.shift()) !== null && _a !== void 0 ? _a : 0;
                 var fps = (fpsCalcUnit * 1000.0) / (now - first);
                 currentNowFps =
@@ -1245,16 +1245,19 @@ define("script/fps", ["require", "exports"], function (require, exports) {
                         currentMinFps = i;
                     }
                 });
+                Fps.isValid = true;
+            }
+            else {
+                Fps.isValid = false;
             }
         };
-        Fps.isValid = function () { return fpsCalcUnit <= frameTimings.length; };
         var makeFpsText = function (fps) {
             return "".concat(fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, }), " FPS");
         };
         Fps.getText = function () {
-            return Fps.isValid() ? currentMaxFps.text + "(Max)\n" + currentNowFps.text + "(Now)\n" + currentMinFps.text + "(Min)" : "";
+            return Fps.isValid ? currentMaxFps.text + "(Max)\n" + currentNowFps.text + "(Now)\n" + currentMinFps.text + "(Min)" : "";
         };
-        Fps.isUnderFuseFps = function () { return Fps.isValid() && currentMaxFps.fps < Fps.fuseFps; };
+        Fps.isUnderFuseFps = function () { return Fps.isValid && currentMaxFps.fps < Fps.fuseFps; };
     })(Fps || (exports.Fps = Fps = {}));
 });
 define("resource/lang.en", [], {

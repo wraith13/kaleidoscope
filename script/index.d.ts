@@ -277,7 +277,7 @@ declare module "script/fps" {
         let fuseFps: number;
         const reset: () => void;
         const step: (now: number) => void;
-        const isValid: () => boolean;
+        let isValid: boolean;
         const getText: () => string;
         const isUnderFuseFps: () => boolean;
     }

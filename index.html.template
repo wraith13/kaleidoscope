@@ -29,17 +29,9 @@ __STYLE__
 </style>
 <script type="text/javascript">
 const evilCommonjsConfig =
-{
-    log:
-    {
-        config: false,
-        load: false,
-        define: false,
-        readyToCapture: false,
-        results: false,
-    },
-    loadingTimeout: 500,
-};
+__EVIL_COMMONJS_CONFIG__; // "./resource/evil-commonjs.config.json"
+const evilTimerConfig =
+__EVIL_TIMER_CONFIG__; // "./resource/evil-timer.js.config.json"
 __EVIL_COMMONJS__
 </script>
 <script type="text/javascript">

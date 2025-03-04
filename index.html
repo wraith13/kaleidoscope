@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Mar 03 2025 22:26:01 GMT+0900 (日本標準時)
+    build at: Tue Mar 04 2025 20:36:10 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -70,9 +70,11 @@ button {
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
   margin: 0px;
+  top: 0px;
+  right: 0px;
+  left: 0px;
   padding: 0px;
   position: fixed;
-  width: 100%;
   z-index: 900;
   display: flex;
   flex-direction: row;
@@ -86,6 +88,8 @@ button {
 }
 
 #screen-header .segment {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 400;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -96,8 +100,6 @@ button {
   transform: skewX(150deg);
   text-decoration: none !important;
   min-width: 2.25rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-weight: 400;
   font-size: 0.75rem;
   line-height: 100%;
   white-space: nowrap;
@@ -125,12 +127,12 @@ button {
   }
 }
 #screen-body {
-  position: absolute;
   margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
+  position: absolute;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
@@ -139,12 +141,12 @@ button {
 }
 
 #screen-footer {
-  position: fixed;
+  margin: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
+  position: fixed;
   z-index: 100;
-  margin: 0px;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -152,42 +154,43 @@ button {
 }
 
 #top-coat {
-  position: fixed;
   margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
+  position: fixed;
   z-index: -1;
 }
 
 #canvas {
-  position: fixed;
   margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
+  position: fixed;
   z-index: -100;
 }
 
 #canvas .layer {
-  position: fixed;
   margin: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
+  position: fixed;
   mix-blend-mode: difference;
   will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
 }
 
 #warning {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 400;
   font-size: 1.25rem;
   border-radius: 0.5rem;
   padding: 1rem 2rem;
   color: rgb(32, 28, 38);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   transition: opacity 1000ms;
   display: flex;
   flex-direction: row;
@@ -234,11 +237,12 @@ button {
   }
 }
 #screen-body .option-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 400;
   position: absolute;
   top: 3.25rem;
   left: 1rem;
   transition: opacity 1000ms;
-  font-family: Courier;
   font-size: 0.75rem;
 }
 
@@ -274,12 +278,13 @@ button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 400;
   color: rgb(230, 237, 243);
   background-color: transparent;
   border: none;
   border-radius: 0.5rem;
   padding: 0.25rem;
-  font-family: Courier;
   font-size: 0.75rem;
   text-align: right;
 }
@@ -293,6 +298,8 @@ button {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
+  font-family: monospace;
+  font-weight: 400;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -303,7 +310,6 @@ button {
   justify-content: center;
   align-items: center;
   transition: opacity 1000ms;
-  font-family: Courier;
   font-size: 0.75rem;
   text-align: right;
   white-space: pre;
@@ -326,11 +332,12 @@ button {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 400;
   margin: 1rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: block;
-  font-family: Courier;
   font-size: 0.75rem;
   text-align: left;
   transition: opacity 1000ms;
@@ -351,6 +358,8 @@ button {
   }
 }
 #keyboard-shortcut kbd {
+  font-family: monospace;
+  font-weight: 400;
   border-style: solid;
   border-width: 1px;
   border-color: rgba(255, 255, 255, 0.6);
@@ -384,12 +393,13 @@ button {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 400;
   margin: 1rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: block;
   transition: opacity 1000ms;
-  font-family: Courier;
   font-size: 0.75rem;
   text-align: left;
 }
@@ -431,8 +441,9 @@ button {
 }
 
 #screen-footer #information-line #information {
-  color: rgb(230, 237, 243);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 400;
+  color: rgb(230, 237, 243);
   font-size: 0.75rem;
   display: flex;
   flex-direction: row;
@@ -507,16 +518,21 @@ body.immersive #screen-footer #information-line {
 <script type="text/javascript">
 const evilCommonjsConfig =
 {
-    log:
-    {
-        config: false,
-        load: false,
-        define: false,
-        readyToCapture: false,
-        results: false,
+    "log": {
+        "config": false,
+        "load": false,
+        "define": false,
+        "readyToCapture": false,
+        "results": false
     },
-    loadingTimeout: 500,
-};
+    "loadingTimeout": 500
+}
+; // "./resource/evil-commonjs.config.json"
+const evilTimerConfig =
+{
+    "debug": true
+}
+; // "./resource/evil-timer.js.config.json"
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -4801,7 +4817,7 @@ define("script/fps", ["require", "exports"], function (require, exports) {
         Fps.step = function (now) {
             var _a;
             frameTimings.push(now);
-            if (Fps.isValid()) {
+            if (fpsCalcUnit <= frameTimings.length) {
                 var first = (_a = frameTimings.shift()) !== null && _a !== void 0 ? _a : 0;
                 var fps = (fpsCalcUnit * 1000.0) / (now - first);
                 currentNowFps =
@@ -4825,16 +4841,19 @@ define("script/fps", ["require", "exports"], function (require, exports) {
                         currentMinFps = i;
                     }
                 });
+                Fps.isValid = true;
+            }
+            else {
+                Fps.isValid = false;
             }
         };
-        Fps.isValid = function () { return fpsCalcUnit <= frameTimings.length; };
         var makeFpsText = function (fps) {
             return "".concat(fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, }), " FPS");
         };
         Fps.getText = function () {
-            return Fps.isValid() ? currentMaxFps.text + "(Max)\n" + currentNowFps.text + "(Now)\n" + currentMinFps.text + "(Min)" : "";
+            return Fps.isValid ? currentMaxFps.text + "(Max)\n" + currentNowFps.text + "(Now)\n" + currentMinFps.text + "(Min)" : "";
         };
-        Fps.isUnderFuseFps = function () { return Fps.isValid() && currentMaxFps.fps < Fps.fuseFps; };
+        Fps.isUnderFuseFps = function () { return Fps.isValid && currentMaxFps.fps < Fps.fuseFps; };
     })(Fps || (exports.Fps = Fps = {}));
 });
 define("resource/lang.en", [], {

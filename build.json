@@ -80,6 +80,12 @@
                         "text": "sourceMappingURL=script/index.js.map"
                     }
                 },
+                "__EVIL_COMMONJS_CONFIG__": {
+                    "path": "./resource/evil-commonjs.config.json"
+                },
+                "__EVIL_TIMER_CONFIG__": {
+                    "path": "./resource/evil-timer.js.config.json"
+                },
                 "__IMAGES__": {
                     "resource": "./resource/images.json"
                 }
