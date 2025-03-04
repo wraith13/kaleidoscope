@@ -16,6 +16,34 @@ button
     border-width: 0px;
     cursor: pointer;
 }
+@mixin default-mode-element($transition)
+{
+    @if "slide-up" == $transition
+    {
+        transition: transform 500ms;
+        @at-root body.immersive &
+        {
+            transform: translate(0px, -100%);
+        }
+    }
+    @else if $transition == "slide-down"
+    {
+        transition: transform 500ms;
+        @at-root body.immersive &
+        {
+            transform: translate(0px, 100%);
+        }
+    }
+    @else if $transition == "fade"
+    {
+        transition: opacity 750ms;
+        @at-root body.immersive &
+        {
+            opacity: 0;
+            cursor: none;
+        }
+    }
+}
 @mixin full-stretch-box()
 {
     margin: 0px;
@@ -71,6 +99,7 @@ button
 }
 #screen-header
 {
+    @include default-mode-element("slide-up");
     @include black-line-panel-style();
     @include top-stretch-box();
     padding: 0px;
@@ -80,7 +109,26 @@ button
     flex-direction: row;
     justify-content: start;
     align-items: center;
-    transition: transform 500ms;
+}
+#screen-body
+{
+    @include full-stretch-box();
+    position: absolute;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+#screen-footer
+{
+    @include bottom-stretch-box();
+    position: fixed;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
 }
 #screen-header a
 {
@@ -126,26 +174,6 @@ button
         background-color: rgb(70,80,90);
     }
 }
-#screen-body
-{
-    @include full-stretch-box();
-    position: absolute;
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-}
-#screen-footer
-{
-    @include bottom-stretch-box();
-    position: fixed;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: stretch;
-}
 #top-coat
 {
     @include full-stretch-box();
@@ -167,12 +195,11 @@ button
 }
 #warning
 {
+    @include default-mode-element("fade");
     @include font();
     font-size: 1.25rem;
-    border-radius: 0.5rem;
     padding: 1.0rem 2.0rem;
     color: rgba(32, 28, 38, 1.0);
-    transition: opacity 1000ms;
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -191,7 +218,7 @@ button
     @include black-pop-panel-style();
     border-radius: 1.5rem;
     padding: 1.5rem;
-    transition: opacity 1000ms;
+    transition: opacity 750ms;
     width: 11rem;
     height: 11rem;
     max-width: 30vw;
@@ -217,16 +244,16 @@ button
         fill: rgba(230, 237, 243, 0.9);
     }
 }
-#screen-body .option-panel
+.option-panel
 {
+    @include default-mode-element("fade");
     @include font();
     position: absolute;
     top: 3.25rem;
     left: 1.0rem;
-    transition: opacity 1000ms;
     font-size: 0.75rem;
 }
-#screen-body .option-panel .item
+.option-panel label
 {
     @include black-pop-panel-style();
     cursor: pointer;
@@ -244,17 +271,17 @@ button
 }
 @media (hover: hover)
 {
-    #screen-body .option-panel .item:hover
+    .option-panel label:hover
     {
         background-color: rgb(70,80,90);
     }
 }
-#screen-body .option-panel .item *
+.option-panel label *
 {
     user-select: none;
     cursor: pointer;
 }
-#screen-body .option-panel select
+.option-panel select
 {
     @include reset-appearance();
     @include font();
@@ -266,12 +293,12 @@ button
     font-size: 0.75rem;
     text-align: right;
 }
-#screen-body .option-panel select option
+.option-panel select option
 {
     background-color: rgba(32, 28, 38, 1.0);
     text-align: right;
 }
-#screen-body #fps
+#fps
 {
     @include black-pop-panel-style();
     @include monospace-font();
@@ -284,17 +311,17 @@ button
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    transition: opacity 1000ms;
+    transition: opacity 750ms;
     font-size: 0.75rem;
     text-align: right;
     white-space: pre;
     will-change: contents;
 }
-#screen-body #fps:empty
+#fps:empty
 {
     display: none;
 }
-#screen-footer #supplementary-line
+#supplementary-line
 {
     display: block;
     display: flex;
@@ -304,6 +331,7 @@ button
 }
 #keyboard-shortcut
 {
+    @include default-mode-element("fade");
     @include black-pop-panel-style();
     @include font();
     margin: 1rem;
@@ -312,7 +340,6 @@ button
     display: block;
     font-size: 0.75rem;
     text-align: left;
-    transition: opacity 1000ms;
 }
 @media(max-width: 500px)
 {
@@ -363,55 +390,55 @@ button
     text-align: right;
     margin-right: 0.5rem;
 }
-#screen-footer #supplementary-line #powered-by
+#powered-by
 {
+    @include default-mode-element("fade");
     @include black-pop-panel-style();
     @include font();
     margin: 1rem;
     border-radius: 0.5rem;
     padding: 0.5rem 1.0rem;
     display: block;
-    transition: opacity 1000ms;
     font-size: 0.75rem;
     text-align: left;
 }
-#screen-footer #powered-by .title
+#powered-by .title
 {
     display: block;
     margin: 0px;
     padding: 0px;
 }
-#screen-footer #powered-by ul
+#powered-by ul
 {
     display: block;
     margin: 0px;
     padding: 0px;
     padding-left: 1.0rem;
 }
-#screen-footer #powered-by ul li
+#powered-by ul li
 {
     display: block;
     margin: 0px;
     padding: 0px;
 }
-#screen-footer #powered-by ul li a
+#powered-by ul li a
 {
     color: rgba(230, 237, 243, 0.7);
     cursor: pointer;
 }
 @media (hover: hover)
 {
-    #screen-footer #powered-by ul li a:hover
+    #powered-by ul li a:hover
     {
         color: $white-oolor;
     }
 }
-#screen-footer #information-line
+#information-line
 {
     @include black-line-panel-style();
-    transition: transform 500ms;
+    @include default-mode-element("slide-down");
 }
-#screen-footer #information-line #information
+#information
 {
     @include font();
     color: $white-oolor;
@@ -421,13 +448,13 @@ button
     justify-content: center;
     align-items: center;
 }
-#screen-footer #information-line #information ul
+#information ul
 {
     display: inline-block;
     margin: 0px;
     padding: 0.5rem;
 }
-#screen-footer #information-line #information ul li
+#information ul li
 {
     margin: 0px;
     padding: 0.25rem;
@@ -437,10 +464,6 @@ button
     margin: 0.5rem;
     padding: 0px;
 }
-body.immersive #screen-header
-{
-    transform: translate(0px, -100%);
-}
 body.immersive:not(.mousemove) #screen-body
 {
     cursor: none;
@@ -448,11 +471,6 @@ body.immersive:not(.mousemove) #screen-body
 body.immersive.mousemove #screen-body
 {
     cursor: pointer;
-}
-body.immersive #screen-body #warning
-{
-    opacity: 0;
-    cursor: none;
 }
 body.immersive:not(.mousemove) #screen-body button
 {
@@ -467,18 +485,7 @@ body:not(.immersive) #screen-body button #pause-icon
 {
     display: none;
 }
-body.immersive #screen-body .option-panel,
-body.immersive #screen-footer #keyboard-shortcut,
-body.immersive #screen-footer #powered-by
-{
-    opacity: 0;
-    pointer-events: none;
-}
 body:not(.immersive) #screen-body #fps
 {
     display: none;
-}
-body.immersive #screen-footer #information-line
-{
-    transform: translate(0px, 100%);
 }

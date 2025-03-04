@@ -10,6 +10,8 @@ __LICENSE__-->
 <head>
 <meta charset="utf-8">
 <title>__APPLICATION_TITLE__</title>
+<link id="favicon" rel="shortcut icon" href="./image/favicon.png">
+<link rel="apple-touch-icon" href="./image/favicon.png">
 <meta name="theme-color" content="black">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,viewport-fit=contain">
 <meta name="description" lang="en" content="__EN_DESCRIPTION__">
@@ -50,32 +52,29 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope"><span>Kaleidoscope</a></div></h1>
 <div id="screen-body">
     <div class="option-panel">
-        <div class="item">
-            <label for="pattern"><span id="patternLabel">Pattern:</span></label>
+        <label for="pattern"><span id="patternLabel">Pattern:</span>
             <select id="pattern">
                 <option value="lines">lines</option>
                 <option value="spots">spots</option>
                 <option value="multi">multi</option>
             </select>
-    </div>
-        <div class="item">
-            <label for="mode">Mode:</label>
+        </label>
+        <label for="mode">Mode:
             <select id="mode">
                 <option value="monochrome">monochrome</option>
                 <option value="primary-colors">primary-colors</option>
                 <option value="phi-colors">phi-colors</option>
             </select>
-    </div>
-        <div class="item">
-        <label for="canvas-size">Canvas Size:</label>
-        <select id="canvas-size"></select>
-    </div>
-    <div class="item"><label for="layers">Layers:</label><select id="layers"></select></div>
-    <div class="item"><label for="span">Cycle Span:</label><select id="span"></select></div>
-    <div class="item"><label for="fuse-fps">Fuse FPS:</label><select id="fuse-fps"></select></div>
-    <div class="item"><label for="easing">Easing:</label><input id="easing" type="checkbox"></div>
-    <div class="item"><label for="with-fullscreen">FullScreen:</label><input id="with-fullscreen" type="checkbox"></div>
-    <div class="item"><label for="show-fps">Show FPS:</label><input id="show-fps" type="checkbox"></div>
+        </label>
+        <label for="canvas-size">Canvas Size:
+            <select id="canvas-size"></select>
+        </label>
+        <label for="layers">Layers:<select id="layers"></select></label>
+        <label for="span">Cycle Span:<select id="span"></select></label>
+        <label for="fuse-fps">Fuse FPS:<select id="fuse-fps"></select></label>
+        <label for="easing">Easing:<input id="easing" type="checkbox"></label>
+        <label for="with-fullscreen">FullScreen:<input id="with-fullscreen" type="checkbox"></label>
+        <label for="show-fps">Show FPS:<input id="show-fps" type="checkbox"></label>
     </div>
     <div id="fps"></div>
     <button id="play-button">
