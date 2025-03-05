@@ -68,8 +68,23 @@ body.immersive #screen-header {
 }
 
 #screen-header .segment {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 0.75rem;
   font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #screen-header .segment {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  #screen-header .segment {
+    font-size: 1.25rem;
+  }
+}
+#screen-header .segment {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#screen-header .segment {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -80,7 +95,6 @@ body.immersive #screen-header {
   transform: skewX(150deg);
   text-decoration: none !important;
   min-width: 2.25rem;
-  font-size: 0.75rem;
   line-height: 100%;
   white-space: nowrap;
 }
@@ -139,8 +153,28 @@ body.immersive #screen-header {
 
 #warning {
   transition: opacity 750ms;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 0.75rem;
   font-weight: 400;
+}
+body.immersive #warning {
+  opacity: 0;
+  cursor: none;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #warning {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  #warning {
+    font-size: 1.25rem;
+  }
+}
+#warning {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#warning {
   font-size: 1.25rem;
   padding: 1rem 2rem;
   color: rgb(32, 28, 38);
@@ -151,10 +185,6 @@ body.immersive #screen-header {
   user-select: none;
   pointer-events: none;
   z-index: -10;
-}
-body.immersive #warning {
-  opacity: 0;
-  cursor: none;
 }
 
 #warning .icon {
@@ -194,16 +224,31 @@ body.immersive #warning {
 }
 .option-panel {
   transition: opacity 750ms;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-weight: 400;
-  position: absolute;
-  top: 3.25rem;
-  left: 1rem;
   font-size: 0.75rem;
+  font-weight: 400;
 }
 body.immersive .option-panel {
   opacity: 0;
   cursor: none;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .option-panel {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  .option-panel {
+    font-size: 1.25rem;
+  }
+}
+.option-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.option-panel {
+  position: absolute;
+  top: 3.25rem;
+  left: 1rem;
 }
 
 .option-panel label {
@@ -215,7 +260,6 @@ body.immersive .option-panel {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.75rem;
   padding: 0.125rem 0.5rem;
   margin-bottom: 1px;
   background-color: rgba(32, 28, 38, 0.6);
@@ -238,14 +282,28 @@ body.immersive .option-panel {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 0.75rem;
   font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .option-panel select {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  .option-panel select {
+    font-size: 1.25rem;
+  }
+}
+.option-panel select {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.option-panel select {
   color: rgb(230, 237, 243);
   background-color: transparent;
   border: none;
   border-radius: 0.5rem;
   padding: 0.25rem;
-  font-size: 0.75rem;
   text-align: right;
 }
 
@@ -258,8 +316,23 @@ body.immersive .option-panel {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
-  font-family: monospace;
+  font-size: 0.75rem;
   font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #fps {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  #fps {
+    font-size: 1.25rem;
+  }
+}
+#fps {
+  font-family: monospace;
+}
+#fps {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -270,7 +343,6 @@ body.immersive .option-panel {
   justify-content: center;
   align-items: center;
   transition: opacity 750ms;
-  font-size: 0.75rem;
   text-align: right;
   white-space: pre;
   will-change: contents;
@@ -293,18 +365,33 @@ body.immersive .option-panel {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-weight: 400;
-  margin: 1rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  display: block;
   font-size: 0.75rem;
-  text-align: left;
+  font-weight: 400;
 }
 body.immersive #keyboard-shortcut {
   opacity: 0;
   cursor: none;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #keyboard-shortcut {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  #keyboard-shortcut {
+    font-size: 1.25rem;
+  }
+}
+#keyboard-shortcut {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#keyboard-shortcut {
+  margin: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: block;
+  text-align: left;
 }
 
 @media (max-width: 500px) {
@@ -322,8 +409,23 @@ body.immersive #keyboard-shortcut {
   }
 }
 #keyboard-shortcut kbd {
-  font-family: monospace;
+  font-size: 0.75rem;
   font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #keyboard-shortcut kbd {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  #keyboard-shortcut kbd {
+    font-size: 1.25rem;
+  }
+}
+#keyboard-shortcut kbd {
+  font-family: monospace;
+}
+#keyboard-shortcut kbd {
   border-style: solid;
   border-width: 1px;
   border-color: rgba(255, 255, 255, 0.6);
@@ -358,18 +460,33 @@ body.immersive #keyboard-shortcut {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-weight: 400;
-  margin: 1rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  display: block;
   font-size: 0.75rem;
-  text-align: left;
+  font-weight: 400;
 }
 body.immersive #powered-by {
   opacity: 0;
   cursor: none;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #powered-by {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  #powered-by {
+    font-size: 1.25rem;
+  }
+}
+#powered-by {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#powered-by {
+  margin: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: block;
+  text-align: left;
 }
 
 #powered-by .title {
@@ -412,10 +529,24 @@ body.immersive #information-line {
 }
 
 #information {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-weight: 400;
-  color: rgb(230, 237, 243);
   font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #information {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 1600px) {
+  #information {
+    font-size: 1.25rem;
+  }
+}
+#information {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#information {
+  color: rgb(230, 237, 243);
   display: flex;
   flex-direction: row;
   justify-content: center;
