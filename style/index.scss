@@ -93,11 +93,11 @@ button
     font-weight: 400;
     @media (min-width: 1024px) and (max-width: 1599px)
     {
-        font-size: 1.0rem;
+        font-size: 0.9rem;
     }
     @media (min-width: 1600px)
     {
-        font-size: 1.25rem;
+        font-size: 1.0rem;
     }
 }
 @mixin font()
@@ -128,6 +128,52 @@ button
     flex-direction: row;
     justify-content: start;
     align-items: center;
+    a
+    {
+        color: $white-oolor;
+    }
+    .segment
+    {
+        @include font();
+        &
+        {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+            padding: 0.75rem 1.00rem;
+            overflow-x: hidden;
+            transform: skewX(150deg);
+            text-decoration: none !important;
+            min-width: 2.25rem;
+            line-height: 100%;
+            white-space: nowrap;
+            &:first-child
+            {
+                padding-left: 1.75rem;
+                margin-left: -0.75rem;
+            }
+            & + .segment
+            {
+                margin-left: 0rem;
+                border-left-style: solid;
+                border-left-width: 1px;
+                border-left-color: $white-oolor !important;
+            }
+            & > *
+            {
+                transform: skewX(-150deg);
+            }
+            @media (hover: hover)
+            {
+                &[href]:hover
+                {
+                    background-color: rgb(70,80,90);
+                }
+            }
+        }
+    }
 }
 #screen-body
 {
@@ -149,57 +195,11 @@ button
     justify-content: start;
     align-items: stretch;
 }
-#screen-header a
-{
-    color: $white-oolor;
-}
-#screen-header .segment
-{
-    @include font();
-    &
-    {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        padding: 0.75rem 1.00rem;
-        overflow-x: hidden;
-        transform: skewX(150deg);
-        text-decoration: none !important;
-        min-width: 2.25rem;
-        line-height: 100%;
-        white-space: nowrap;
-    }
-}
-#screen-header .segment:first-child
-{
-    padding-left: 1.75rem;
-    margin-left: -0.75rem;
-}
-#screen-header .segment + .segment
-{
-    margin-left: 0rem;
-    border-left-style: solid;
-    border-left-width: 1px;
-    border-left-color: $white-oolor !important;
-}
-#screen-header .segment > *
-{
-    transform: skewX(-150deg);
-}
-@media (hover: hover)
-{
-    #screen-header a.segment:hover
-    {
-        background-color: rgb(70,80,90);
-    }
-}
 #top-coat
 {
     @include full-stretch-box();
     position: fixed;
-    z-index: -1;
+    z-index: 10;
 }
 #canvas
 {
@@ -367,62 +367,39 @@ button
     {
         margin: 1rem;
         border-radius: 0.5rem;
-        padding: 0.5rem 1.0rem;
-        display: block;
-        text-align: left;
+        padding: 0.5rem;
+        display: grid;
+        grid-template-columns: minmax(0, max-content) minmax(0, max-content);
+        gap: 0.5rem;
+        span
+        {
+            white-space: nowrap;
+            &:nth-child(2n + 1)
+            {
+                justify-self: end;
+            }
+            kbd
+            {
+                @include monospace-font();
+                &
+                {
+                    border-style: solid;
+                    border-width: 1px;
+                    border-color: rgba(255, 255, 255, 0.6);
+                    border-radius: 4px;
+                    padding: 1px 4px;
+                    margin: 2px;
+                    background-color: rgba(255, 255, 255, 0.15);
+                }
+            }
+        }
+        @media(max-height: 830px)
+        {
+            visibility: hidden;
+            width: 0px;
+            height: 0px;
+        }
     }
-}
-@media(max-width: 500px)
-{
-    #keyboard-shortcut
-    {
-        visibility: hidden;
-        width: 0px;
-        height: 0px;
-    }
-}
-@media(max-height: 830px)
-{
-    #keyboard-shortcut
-    {
-        visibility: hidden;
-        width: 0px;
-        height: 0px;
-    }
-}
-#keyboard-shortcut kbd
-{
-    @include monospace-font();
-    &
-    {
-        border-style: solid;
-        border-width: 1px;
-        border-color: rgba(255, 255, 255, 0.6);
-        border-radius: 4px;
-        padding: 1px 4px;
-        margin: 2px;
-        background-color: rgba(255, 255, 255, 0.15);
-    }
-}
-#keyboard-shortcut ul
-{
-    display: block;
-    margin: 0px;
-    padding: 0px;
-}
-#keyboard-shortcut ul li
-{
-    display: block;
-    margin: 0px;
-    padding: 0.25rem;
-    white-space: nowrap;
-}
-#keyboard-shortcut ul li span
-{
-    display: inline-block;
-    width: 4.75rem;
-    text-align: right;
-    margin-right: 0.5rem;
 }
 #powered-by
 {
@@ -436,66 +413,66 @@ button
         padding: 0.5rem 1.0rem;
         display: block;
         text-align: left;
-    }
-}
-#powered-by .title
-{
-    display: block;
-    margin: 0px;
-    padding: 0px;
-}
-#powered-by ul
-{
-    display: block;
-    margin: 0px;
-    padding: 0px;
-    padding-left: 1.0rem;
-}
-#powered-by ul li
-{
-    display: block;
-    margin: 0px;
-    padding: 0px;
-}
-#powered-by ul li a
-{
-    color: rgba(230, 237, 243, 0.7);
-    cursor: pointer;
-}
-@media (hover: hover)
-{
-    #powered-by ul li a:hover
-    {
-        color: $white-oolor;
+        .title
+        {
+            display: block;
+            margin: 0px;
+            padding: 0px;
+        }
+        ul
+        {
+            display: block;
+            margin: 0px;
+            padding: 0px;
+            padding-left: 1.0rem;
+            li
+            {
+                display: block;
+                margin: 0px;
+                padding: 0px;
+                a
+                {
+                    color: rgba(230, 237, 243, 0.7);
+                    cursor: pointer;
+                    @media (hover: hover)
+                    {
+                        &:hover
+                        {
+                            color: $white-oolor;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 #information-line
 {
     @include black-line-panel-style();
     @include default-mode-element("slide-down");
-}
-#information
-{
-    @include font();
-    &
+    #information
     {
-        color: $white-oolor;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        @include font();
+        &
+        {
+            color: $white-oolor;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            ul
+            {
+                display: inline-block;
+                margin: 0px;
+                padding: 0.5rem;
+                li
+                {
+                    margin: 0px;
+                    padding: 0.25rem;
+                }
+            }
+        }
     }
-}
-#information ul
-{
-    display: inline-block;
-    margin: 0px;
-    padding: 0.5rem;
-}
-#information ul li
-{
-    margin: 0px;
-    padding: 0.25rem;
 }
 #screen-body .option-panel input
 {

@@ -1342,7 +1342,7 @@ define("resource/config", [], {
         89,
         97
     ],
-    "layersDefault": 13,
+    "layersDefault": 23,
     "spanEnum": [
         1000,
         1500,
@@ -1361,11 +1361,14 @@ define("resource/config", [], {
         90000,
         180000,
         300000,
+        450000,
+        600000,
+        750000,
         900000,
         1800000,
         3600000
     ],
-    "spanDefault": 2500,
+    "spanDefault": 60000,
     "fuseFpsEnum": [
         1,
         1.5,
@@ -1383,6 +1386,10 @@ define("resource/config", [], {
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [
+        "informationFuseFps",
+        "informationLayers"
+    ],
+    "informations.full": [
         "informationFuseFps",
         "informationLayers",
         "informationPattern"

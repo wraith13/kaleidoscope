@@ -92,24 +92,22 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <div id="screen-footer">
     <div id="supplementary-line">
         <div id="keyboard-shortcut">
-            <ul>
-                <li><span><kbd>Shift</kbd></span>Hide UI</li>
-                <li><span><kbd>Space</kbd></span>Play / Pause</li>
-                <li><span><kbd>P</kbd></span>Switch Pattern ( Forward )</li>
-                <li><span><kbd>Shift</kbd><kbd>P</kbd></span>Switch Pattern ( Backward )</li>
-                <li><span><kbd>M</kbd></span>Switch Mode ( Forward )</li>
-                <li><span><kbd>Shift</kbd><kbd>M</kbd></span>Switch Mode ( Backward )</li>
-                <li><span><kbd>Shift</kbd><kbd>↑</kbd></span>Increase Canvas Size</li>
-                <li><span><kbd>Shift</kbd><kbd>↓</kbd></span>Decrease Canvas Size</li>
-                <li><span><kbd>↑</kbd></span>Increase Layer</li>
-                <li><span><kbd>↓</kbd></span>Decrease Layer</li>
-                <li><span><kbd>←</kbd></span>Speed Down</li>
-                <li><span><kbd>→</kbd></span>Speed Up</li>
-                <li><span><kbd>Shift</kbd><kbd>←</kbd></span>Decrease Fuse FPS</li>
-                <li><span><kbd>Shift</kbd><kbd>→</kbd></span>Increase Fuse FPS</li>
-                <li><span><kbd>F</kbd></span>FullScreen</li>
-                <li><span><kbd>S</kbd></span>Show FPS</li>
-            </ul>
+            <span><kbd>Shift</kbd></span><span>Hide UI</span>
+            <span><kbd>Space</kbd></span><span>Play / Pause</span>
+            <span><kbd>P</kbd></span><span>Switch Pattern ( Forward )</span>
+            <span><kbd>Shift</kbd><kbd>P</kbd></span><span>Switch Pattern ( Backward )</span>
+            <span><kbd>M</kbd></span><span>Switch Mode ( Forward )</span>
+            <span><kbd>Shift</kbd><kbd>M</kbd></span><span>Switch Mode ( Backward )</span>
+            <span><kbd>Shift</kbd><kbd>↑</kbd></span><span>Increase Canvas Size</span>
+            <span><kbd>Shift</kbd><kbd>↓</kbd></span><span>Decrease Canvas Size</span>
+            <span><kbd>↑</kbd></span><span>Increase Layer</span>
+            <span><kbd>↓</kbd></span><span>Decrease Layer</span>
+            <span><kbd>←</kbd></span><span>Speed Down</span>
+            <span><kbd>→</kbd></span><span>Speed Up</span>
+            <span><kbd>Shift</kbd><kbd>←</kbd></span><span>Decrease Fuse FPS</span>
+            <span><kbd>Shift</kbd><kbd>→</kbd></span><span>Increase Fuse FPS</span>
+            <span><kbd>F</kbd></span><span>FullScreen</span>
+            <span><kbd>S</kbd></span><span>Show FPS</span>
         </div>
         <div id="powered-by">
             <span class="title">powered by</span>

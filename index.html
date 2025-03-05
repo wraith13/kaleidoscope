@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Wed Mar 05 2025 09:58:11 GMT+0900 (日本標準時)
+    build at: Thu Mar 06 2025 08:44:44 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -88,6 +88,59 @@ body.immersive #screen-header {
   transform: translate(0px, -100%);
 }
 
+#screen-header a {
+  color: rgb(230, 237, 243);
+}
+#screen-header .segment {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #screen-header .segment {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #screen-header .segment {
+    font-size: 1rem;
+  }
+}
+#screen-header .segment {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#screen-header .segment {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  overflow-x: hidden;
+  transform: skewX(150deg);
+  text-decoration: none !important;
+  min-width: 2.25rem;
+  line-height: 100%;
+  white-space: nowrap;
+}
+#screen-header .segment:first-child {
+  padding-left: 1.75rem;
+  margin-left: -0.75rem;
+}
+#screen-header .segment + .segment {
+  margin-left: 0rem;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: rgb(230, 237, 243) !important;
+}
+#screen-header .segment > * {
+  transform: skewX(-150deg);
+}
+@media (hover: hover) {
+  #screen-header .segment[href]:hover {
+    background-color: rgb(70, 80, 90);
+  }
+}
+
 #screen-body {
   margin: 0px;
   top: 0px;
@@ -115,63 +168,6 @@ body.immersive #screen-header {
   align-items: stretch;
 }
 
-#screen-header a {
-  color: rgb(230, 237, 243);
-}
-
-#screen-header .segment {
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #screen-header .segment {
-    font-size: 1rem;
-  }
-}
-@media (min-width: 1600px) {
-  #screen-header .segment {
-    font-size: 1.25rem;
-  }
-}
-#screen-header .segment {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-#screen-header .segment {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  overflow-x: hidden;
-  transform: skewX(150deg);
-  text-decoration: none !important;
-  min-width: 2.25rem;
-  line-height: 100%;
-  white-space: nowrap;
-}
-
-#screen-header .segment:first-child {
-  padding-left: 1.75rem;
-  margin-left: -0.75rem;
-}
-
-#screen-header .segment + .segment {
-  margin-left: 0rem;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: rgb(230, 237, 243) !important;
-}
-
-#screen-header .segment > * {
-  transform: skewX(-150deg);
-}
-
-@media (hover: hover) {
-  #screen-header a.segment:hover {
-    background-color: rgb(70, 80, 90);
-  }
-}
 #top-coat {
   margin: 0px;
   top: 0px;
@@ -179,7 +175,7 @@ body.immersive #screen-header {
   bottom: 0px;
   left: 0px;
   position: fixed;
-  z-index: -1;
+  z-index: 10;
 }
 
 #canvas {
@@ -215,12 +211,12 @@ body.immersive #warning {
 
 @media (min-width: 1024px) and (max-width: 1599px) {
   #warning {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #warning {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 #warning {
@@ -286,12 +282,12 @@ body.immersive .option-panel {
 
 @media (min-width: 1024px) and (max-width: 1599px) {
   .option-panel {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   .option-panel {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 .option-panel {
@@ -339,12 +335,12 @@ body.immersive .option-panel {
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   .option-panel select {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   .option-panel select {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 .option-panel select {
@@ -373,12 +369,12 @@ body.immersive .option-panel {
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #fps {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #fps {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 #fps {
@@ -427,12 +423,12 @@ body.immersive #keyboard-shortcut {
 
 @media (min-width: 1024px) and (max-width: 1599px) {
   #keyboard-shortcut {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #keyboard-shortcut {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 #keyboard-shortcut {
@@ -441,43 +437,35 @@ body.immersive #keyboard-shortcut {
 #keyboard-shortcut {
   margin: 1rem;
   border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  display: block;
-  text-align: left;
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, max-content);
+  gap: 0.5rem;
 }
-
-@media (max-width: 500px) {
-  #keyboard-shortcut {
-    visibility: hidden;
-    width: 0px;
-    height: 0px;
-  }
+#keyboard-shortcut span {
+  white-space: nowrap;
 }
-@media (max-height: 830px) {
-  #keyboard-shortcut {
-    visibility: hidden;
-    width: 0px;
-    height: 0px;
-  }
+#keyboard-shortcut span:nth-child(2n+1) {
+  justify-self: end;
 }
-#keyboard-shortcut kbd {
+#keyboard-shortcut span kbd {
   font-size: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #keyboard-shortcut kbd {
-    font-size: 1rem;
+  #keyboard-shortcut span kbd {
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #keyboard-shortcut kbd {
-    font-size: 1.25rem;
+  #keyboard-shortcut span kbd {
+    font-size: 1rem;
   }
 }
-#keyboard-shortcut kbd {
+#keyboard-shortcut span kbd {
   font-family: monospace;
 }
-#keyboard-shortcut kbd {
+#keyboard-shortcut span kbd {
   border-style: solid;
   border-width: 1px;
   border-color: rgba(255, 255, 255, 0.6);
@@ -486,25 +474,12 @@ body.immersive #keyboard-shortcut {
   margin: 2px;
   background-color: rgba(255, 255, 255, 0.15);
 }
-
-#keyboard-shortcut ul {
-  display: block;
-  margin: 0px;
-  padding: 0px;
-}
-
-#keyboard-shortcut ul li {
-  display: block;
-  margin: 0px;
-  padding: 0.25rem;
-  white-space: nowrap;
-}
-
-#keyboard-shortcut ul li span {
-  display: inline-block;
-  width: 4.75rem;
-  text-align: right;
-  margin-right: 0.5rem;
+@media (max-height: 830px) {
+  #keyboard-shortcut {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
 }
 
 #powered-by {
@@ -522,12 +497,12 @@ body.immersive #powered-by {
 
 @media (min-width: 1024px) and (max-width: 1599px) {
   #powered-by {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #powered-by {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 #powered-by {
@@ -540,36 +515,32 @@ body.immersive #powered-by {
   display: block;
   text-align: left;
 }
-
 #powered-by .title {
   display: block;
   margin: 0px;
   padding: 0px;
 }
-
 #powered-by ul {
   display: block;
   margin: 0px;
   padding: 0px;
   padding-left: 1rem;
 }
-
 #powered-by ul li {
   display: block;
   margin: 0px;
   padding: 0px;
 }
-
 #powered-by ul li a {
   color: rgba(230, 237, 243, 0.7);
   cursor: pointer;
 }
-
 @media (hover: hover) {
   #powered-by ul li a:hover {
     color: rgb(230, 237, 243);
   }
 }
+
 #information-line {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
@@ -580,38 +551,36 @@ body.immersive #information-line {
   transform: translate(0px, 100%);
 }
 
-#information {
+#information-line #information {
   font-size: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #information {
-    font-size: 1rem;
+  #information-line #information {
+    font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #information {
-    font-size: 1.25rem;
+  #information-line #information {
+    font-size: 1rem;
   }
 }
-#information {
+#information-line #information {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#information {
+#information-line #information {
   color: rgb(230, 237, 243);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-
-#information ul {
+#information-line #information ul {
   display: inline-block;
   margin: 0px;
   padding: 0.5rem;
 }
-
-#information ul li {
+#information-line #information ul li {
   margin: 0px;
   padding: 0.25rem;
 }
@@ -3686,24 +3655,22 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <div id="screen-footer">
     <div id="supplementary-line">
         <div id="keyboard-shortcut">
-            <ul>
-                <li><span><kbd>Shift</kbd></span>Hide UI</li>
-                <li><span><kbd>Space</kbd></span>Play / Pause</li>
-                <li><span><kbd>P</kbd></span>Switch Pattern ( Forward )</li>
-                <li><span><kbd>Shift</kbd><kbd>P</kbd></span>Switch Pattern ( Backward )</li>
-                <li><span><kbd>M</kbd></span>Switch Mode ( Forward )</li>
-                <li><span><kbd>Shift</kbd><kbd>M</kbd></span>Switch Mode ( Backward )</li>
-                <li><span><kbd>Shift</kbd><kbd>↑</kbd></span>Increase Canvas Size</li>
-                <li><span><kbd>Shift</kbd><kbd>↓</kbd></span>Decrease Canvas Size</li>
-                <li><span><kbd>↑</kbd></span>Increase Layer</li>
-                <li><span><kbd>↓</kbd></span>Decrease Layer</li>
-                <li><span><kbd>←</kbd></span>Speed Down</li>
-                <li><span><kbd>→</kbd></span>Speed Up</li>
-                <li><span><kbd>Shift</kbd><kbd>←</kbd></span>Decrease Fuse FPS</li>
-                <li><span><kbd>Shift</kbd><kbd>→</kbd></span>Increase Fuse FPS</li>
-                <li><span><kbd>F</kbd></span>FullScreen</li>
-                <li><span><kbd>S</kbd></span>Show FPS</li>
-            </ul>
+            <span><kbd>Shift</kbd></span><span>Hide UI</span>
+            <span><kbd>Space</kbd></span><span>Play / Pause</span>
+            <span><kbd>P</kbd></span><span>Switch Pattern ( Forward )</span>
+            <span><kbd>Shift</kbd><kbd>P</kbd></span><span>Switch Pattern ( Backward )</span>
+            <span><kbd>M</kbd></span><span>Switch Mode ( Forward )</span>
+            <span><kbd>Shift</kbd><kbd>M</kbd></span><span>Switch Mode ( Backward )</span>
+            <span><kbd>Shift</kbd><kbd>↑</kbd></span><span>Increase Canvas Size</span>
+            <span><kbd>Shift</kbd><kbd>↓</kbd></span><span>Decrease Canvas Size</span>
+            <span><kbd>↑</kbd></span><span>Increase Layer</span>
+            <span><kbd>↓</kbd></span><span>Decrease Layer</span>
+            <span><kbd>←</kbd></span><span>Speed Down</span>
+            <span><kbd>→</kbd></span><span>Speed Up</span>
+            <span><kbd>Shift</kbd><kbd>←</kbd></span><span>Decrease Fuse FPS</span>
+            <span><kbd>Shift</kbd><kbd>→</kbd></span><span>Increase Fuse FPS</span>
+            <span><kbd>F</kbd></span><span>FullScreen</span>
+            <span><kbd>S</kbd></span><span>Show FPS</span>
         </div>
         <div id="powered-by">
             <span class="title">powered by</span>
@@ -5069,7 +5036,7 @@ define("resource/config", [], {
         89,
         97
     ],
-    "layersDefault": 13,
+    "layersDefault": 23,
     "spanEnum": [
         1000,
         1500,
@@ -5088,11 +5055,14 @@ define("resource/config", [], {
         90000,
         180000,
         300000,
+        450000,
+        600000,
+        750000,
         900000,
         1800000,
         3600000
     ],
-    "spanDefault": 2500,
+    "spanDefault": 60000,
     "fuseFpsEnum": [
         1,
         1.5,
@@ -5110,6 +5080,10 @@ define("resource/config", [], {
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [
+        "informationFuseFps",
+        "informationLayers"
+    ],
+    "informations.full": [
         "informationFuseFps",
         "informationLayers",
         "informationPattern"
