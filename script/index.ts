@@ -260,36 +260,30 @@ const animation = (now: number) =>
 {
     if (isInAnimation())
     {
-        Fps.step(now);
-        if (Fps.isUnderFuseFps())
+        if (waitAt <= now)
         {
-            pause();
-        }
-        else
-        {
+            Fps.step(now);
+            if (Fps.isUnderFuseFps())
+            {
+                pause();
+            }
             if (showFPS.checked)
             {
                 fpsElement.innerText = Fps.getText();
             }
-            if (waitAt <= now)
-            {
-                animationStep(now);
-            }
-            window.requestAnimationFrame(animation);
+            animationStep(now);
         }
+        window.requestAnimationFrame(animation);
     }
     else
     {
-        if (undefined !== layers[0].arguments)
-        {
-            offsetAt = now -startAt;
-            fpsElement.innerText = "";
-        }
+        offsetAt = now -startAt;
     }
 };
 const pause = () =>
 {
     document.body.classList.toggle("immersive", false);
+    fpsElement.innerText = "";
     if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement))
     {
         if (document.exitFullscreen)

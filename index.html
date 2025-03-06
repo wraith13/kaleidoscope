@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Thu Mar 06 2025 08:44:44 GMT+0900 (日本標準時)
+    build at: Thu Mar 06 2025 09:13:41 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -154,152 +154,35 @@ body.immersive #screen-header {
   align-items: center;
   background-color: black;
 }
-
-#screen-footer {
-  margin: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: stretch;
-}
-
-#top-coat {
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
-  z-index: 10;
-}
-
-#canvas {
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
-  z-index: -100;
-}
-
-#canvas .layer {
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
-  mix-blend-mode: difference;
-  will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
-}
-
-#warning {
+#screen-body .option-panel {
   transition: opacity 750ms;
   font-size: 0.75rem;
   font-weight: 400;
 }
-body.immersive #warning {
+body.immersive #screen-body .option-panel {
   opacity: 0;
   cursor: none;
 }
 
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #warning {
+  #screen-body .option-panel {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #warning {
+  #screen-body .option-panel {
     font-size: 1rem;
   }
 }
-#warning {
+#screen-body .option-panel {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#warning {
-  font-size: 1.25rem;
-  padding: 1rem 2rem;
-  color: rgb(32, 28, 38);
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  user-select: none;
-  pointer-events: none;
-  z-index: -10;
-}
-
-#warning .icon {
-  font-size: 3rem;
-  margin-right: 0.75rem;
-}
-
-#screen-body button {
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.6);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  transition: opacity 750ms;
-  width: 11rem;
-  height: 11rem;
-  max-width: 30vw;
-  max-height: 30vw;
-  z-index: -10;
-}
-
-#screen-body button svg {
-  width: 100%;
-  height: 100%;
-  color: rgba(230, 237, 243, 0.7);
-  fill: rgba(230, 237, 243, 0.7);
-}
-
-@media (hover: hover) {
-  #screen-body button:hover {
-    background-color: rgba(32, 28, 38, 0.8);
-  }
-  #screen-body button:hover svg {
-    color: rgba(230, 237, 243, 0.9);
-    fill: rgba(230, 237, 243, 0.9);
-  }
-}
-.option-panel {
-  transition: opacity 750ms;
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-body.immersive .option-panel {
-  opacity: 0;
-  cursor: none;
-}
-
-@media (min-width: 1024px) and (max-width: 1599px) {
-  .option-panel {
-    font-size: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  .option-panel {
-    font-size: 1rem;
-  }
-}
-.option-panel {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-.option-panel {
+#screen-body .option-panel {
   position: absolute;
   top: 3.25rem;
   left: 1rem;
 }
-
-.option-panel label {
+#screen-body .option-panel label {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
@@ -315,18 +198,16 @@ body.immersive .option-panel {
   height: 1.5rem;
   flex-grow: 1;
 }
-
 @media (hover: hover) {
-  .option-panel label:hover {
+  #screen-body .option-panel label:hover {
     background-color: rgb(70, 80, 90);
   }
 }
-.option-panel label * {
+#screen-body .option-panel label * {
   user-select: none;
   cursor: pointer;
 }
-
-.option-panel select {
+#screen-body .option-panel label select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -334,19 +215,19 @@ body.immersive .option-panel {
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  .option-panel select {
+  #screen-body .option-panel label select {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  .option-panel select {
+  #screen-body .option-panel label select {
     font-size: 1rem;
   }
 }
-.option-panel select {
+#screen-body .option-panel label select {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-.option-panel select {
+#screen-body .option-panel label select {
   color: rgb(230, 237, 243);
   background-color: transparent;
   border: none;
@@ -354,13 +235,11 @@ body.immersive .option-panel {
   padding: 0.25rem;
   text-align: right;
 }
-
-.option-panel select option {
+#screen-body .option-panel label select option {
   background-color: rgb(32, 28, 38);
   text-align: right;
 }
-
-#fps {
+#screen-body #fps {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
@@ -368,19 +247,19 @@ body.immersive .option-panel {
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #fps {
+  #screen-body #fps {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #fps {
+  #screen-body #fps {
     font-size: 1rem;
   }
 }
-#fps {
+#screen-body #fps {
   font-family: monospace;
 }
-#fps {
+#screen-body #fps {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -395,9 +274,116 @@ body.immersive .option-panel {
   white-space: pre;
   will-change: contents;
 }
-
-#fps:empty {
+#screen-body #fps:empty {
   display: none;
+}
+#screen-body #warning {
+  transition: opacity 750ms;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+body.immersive #screen-body #warning {
+  opacity: 0;
+  cursor: none;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #screen-body #warning {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #screen-body #warning {
+    font-size: 1rem;
+  }
+}
+#screen-body #warning {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#screen-body #warning {
+  font-size: 1.25rem;
+  padding: 1rem 2rem;
+  color: rgb(32, 28, 38);
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  user-select: none;
+  pointer-events: none;
+  z-index: -10;
+}
+#screen-body #warning .icon {
+  font-size: 3rem;
+  margin-right: 0.75rem;
+}
+#screen-body button {
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  transition: opacity 750ms;
+  width: 11rem;
+  height: 11rem;
+  max-width: 30vw;
+  max-height: 30vw;
+  z-index: -10;
+}
+#screen-body button svg {
+  width: 100%;
+  height: 100%;
+  color: rgba(230, 237, 243, 0.7);
+  fill: rgba(230, 237, 243, 0.7);
+}
+@media (hover: hover) {
+  #screen-body button:hover {
+    background-color: rgba(32, 28, 38, 0.8);
+  }
+  #screen-body button:hover svg {
+    color: rgba(230, 237, 243, 0.9);
+    fill: rgba(230, 237, 243, 0.9);
+  }
+}
+#screen-body #canvas {
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: -100;
+}
+#screen-body #canvas #top-coat {
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: 10;
+}
+#screen-body #canvas .layer {
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  mix-blend-mode: difference;
+  will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
+}
+
+#screen-footer {
+  margin: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
 }
 
 #supplementary-line {
@@ -3648,8 +3634,8 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <span class="text"></span>
     </div>
     <div id="canvas">
-        <div class="layer"></div>
         <div id="top-coat"></div>
+        <div class="layer"></div>
     </div>
 </div>
 <div id="screen-footer">
@@ -5075,7 +5061,7 @@ define("resource/config", [], {
         20,
         25
     ],
-    "fuseFpsDefault": 5,
+    "fuseFpsDefault": 7.5,
     "easingDefault": true,
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
@@ -5286,29 +5272,25 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
     var animation = function (now) {
         if (isInAnimation()) {
-            fps_1.Fps.step(now);
-            if (fps_1.Fps.isUnderFuseFps()) {
-                pause();
-            }
-            else {
+            if (waitAt <= now) {
+                fps_1.Fps.step(now);
+                if (fps_1.Fps.isUnderFuseFps()) {
+                    pause();
+                }
                 if (showFPS.checked) {
                     fpsElement.innerText = fps_1.Fps.getText();
                 }
-                if (waitAt <= now) {
-                    animationStep(now);
-                }
-                window.requestAnimationFrame(animation);
+                animationStep(now);
             }
+            window.requestAnimationFrame(animation);
         }
         else {
-            if (undefined !== layers[0].arguments) {
-                offsetAt = now - startAt;
-                fpsElement.innerText = "";
-            }
+            offsetAt = now - startAt;
         }
     };
     var pause = function () {
         document.body.classList.toggle("immersive", false);
+        fpsElement.innerText = "";
         if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement)) {
             if (document.exitFullscreen) {
                 document.exitFullscreen();

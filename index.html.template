@@ -85,8 +85,8 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <span class="text"></span>
     </div>
     <div id="canvas">
-        <div class="layer"></div>
         <div id="top-coat"></div>
+        <div class="layer"></div>
     </div>
 </div>
 <div id="screen-footer">

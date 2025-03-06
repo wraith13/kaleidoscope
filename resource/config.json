@@ -97,7 +97,7 @@
         20,
         25
     ],
-    "fuseFpsDefault": 5,
+    "fuseFpsDefault": 7.5,
     "easingDefault": true,
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,

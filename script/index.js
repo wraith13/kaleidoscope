@@ -1381,7 +1381,7 @@ define("resource/config", [], {
         20,
         25
     ],
-    "fuseFpsDefault": 5,
+    "fuseFpsDefault": 7.5,
     "easingDefault": true,
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
@@ -1592,29 +1592,25 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
     var animation = function (now) {
         if (isInAnimation()) {
-            fps_1.Fps.step(now);
-            if (fps_1.Fps.isUnderFuseFps()) {
-                pause();
-            }
-            else {
+            if (waitAt <= now) {
+                fps_1.Fps.step(now);
+                if (fps_1.Fps.isUnderFuseFps()) {
+                    pause();
+                }
                 if (showFPS.checked) {
                     fpsElement.innerText = fps_1.Fps.getText();
                 }
-                if (waitAt <= now) {
-                    animationStep(now);
-                }
-                window.requestAnimationFrame(animation);
+                animationStep(now);
             }
+            window.requestAnimationFrame(animation);
         }
         else {
-            if (undefined !== layers[0].arguments) {
-                offsetAt = now - startAt;
-                fpsElement.innerText = "";
-            }
+            offsetAt = now - startAt;
         }
     };
     var pause = function () {
         document.body.classList.toggle("immersive", false);
+        fpsElement.innerText = "";
         if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement)) {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
