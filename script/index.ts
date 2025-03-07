@@ -22,11 +22,32 @@ const makeSelectOption = (value: string, text: string) =>
     option.innerText = text;
     return option;
 };
+const toggleChecked = (dom: HTMLInputElement, checked?: boolean) =>
+    dom.checked = checked ?? ! dom.checked;
+const switchSelect = (dom: HTMLSelectElement, valueOrDirection: string | number | boolean) =>
+{
+    if ("boolean" === typeof valueOrDirection)
+    {
+        const options = Array.from(dom.getElementsByTagName("option"));
+        const optionValues = options.map(i => i.value);
+        const index = optionValues.indexOf(dom.value);
+        const nextIndex = index +(valueOrDirection ? -1: 1);
+        const nextValue = optionValues[nextIndex];
+        if (undefined !== nextValue)
+        {
+            dom.value = nextValue;
+        }
+    }
+    else
+    {
+        dom.value = `${valueOrDirection}`;
+    }
+};
 const screenBody = <HTMLDivElement>document.getElementById("screen-body");
 const canvas = <HTMLDivElement>document.getElementById("canvas");
 const topCoat = <HTMLDivElement>document.getElementById("top-coat");
 const patternSelect = <HTMLSelectElement>document.getElementById("pattern");
-const modeSelect = <HTMLSelectElement>document.getElementById("mode");
+const coloringSelect = <HTMLSelectElement>document.getElementById("coloring");
 const canvasSizeSelect = <HTMLSelectElement>document.getElementById("canvas-size");
 const playButton = <HTMLButtonElement>document.getElementById("play-button");
 config.canvasSizeEnum.forEach
@@ -62,13 +83,16 @@ const easingCheckbox = <HTMLInputElement>document.getElementById("easing");
 const withFullscreen = <HTMLInputElement>document.getElementById("with-fullscreen");
 const showFPS = <HTMLInputElement>document.getElementById("show-fps");
 const fpsElement = <HTMLDivElement>document.getElementById("fps");
-patternSelect.value = config.patternDefault;
-modeSelect.value = config.modeDefault;
-canvasSizeSelect.value = config.canvasSizeDefault.toString();
-layersSelect.value = config.layersDefault.toString();
-spanSelect.value = config.spanDefault.toString();
-fuseFpsSelect.value = config.fuseFpsDefault.toString();
-easingCheckbox.checked = config.easingDefault;
+switchSelect(patternSelect, config.patternDefault);
+switchSelect(coloringSelect, config.coloringDefault);
+switchSelect(canvasSizeSelect, config.canvasSizeDefault);
+switchSelect(layersSelect, config.layersDefault);
+switchSelect(spanSelect, config.spanDefault);
+switchSelect(fuseFpsSelect, config.fuseFpsDefault);
+toggleChecked(easingCheckbox, config.easingDefault);
+layersSelect.addEventListener("change", () => updateLayers());
+canvasSizeSelect.addEventListener("change", () => updateCanvasSize());
+spanSelect.addEventListener("change", () => updateSpan());
 const getDiagonalSize = () => Math.sqrt(Math.pow(canvas?.clientWidth ?? 0, 2) +Math.pow(canvas?.clientHeight ?? 0, 2));
 const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
 const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
@@ -136,9 +160,9 @@ const getPatterns = (): ((intervalSize: IntervalSize) => FlounderStyle.Type.Argu
             ];
     }
 };
+const argumentHistory: FlounderStyle.Type.Arguments[] = [];
 const makeRandomArguments = (): FlounderStyle.Type.Arguments =>
 {
-    const diagonalSize = getDiagonalSize();
     const result = randomSelect(getPatterns())
     (
         rate
@@ -148,6 +172,11 @@ const makeRandomArguments = (): FlounderStyle.Type.Arguments =>
         )
         (Math.random())
     );
+    argumentHistory.push(result);
+    if (3 <= argumentHistory.length)
+    {
+        argumentHistory.shift();
+    }
     return result;
 };
 const fullscreenEnabled = document.fullscreenEnabled || (<any>document).webkitFullscreenEnabled;
@@ -203,10 +232,7 @@ interface Layer
     layer: HTMLDivElement;
     mile: number;
     offset: number;
-    arguments: FlounderStyle.Type.Arguments | undefined;
-    foregroundColor: FlounderStyle.Type.Color;
-    backgroundColor: FlounderStyle.Type.Color;
-}
+    arguments: FlounderStyle.Type.Arguments | undefined;}
 let layers: Layer[] = [];
 (<HTMLDivElement>document.getElementsByClassName("layer")[0]).style.setProperty("background-color", makeColor(0.0));
 const informationList = <HTMLUListElement>document.getElementById("information-list");
@@ -267,6 +293,12 @@ const animation = (now: number) =>
         {
             fpsElement.innerText = Fps.getText();
         }
+        if (span !== newSpan)
+        {
+            const universalStep = (now -startAt) /span;
+            startAt = now -(universalStep *newSpan);
+            span = newSpan;
+        }
         animationStep(now);
         window.requestAnimationFrame(animation);
     }
@@ -275,55 +307,47 @@ const animation = (now: number) =>
         offsetAt = now -startAt;
     }
 };
+const updateFullscreenState = (fullscreen?: boolean) =>
+{
+    if (fullscreenEnabled)
+    {
+        if (fullscreen ?? withFullscreen.checked)
+        {
+            if (document.body.requestFullscreen)
+            {
+                document.body.requestFullscreen();
+            }
+            else
+            if ("webkitRequestFullscreen" in document.body)
+            {
+                (<any>document.body).webkitRequestFullscreen();
+            }
+        }
+        else
+        {
+            if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement))
+            {
+                if (document.exitFullscreen)
+                {
+                    document.exitFullscreen();
+                }
+                else
+                if ("webkitCancelFullScreen" in document)
+                {
+                    (<any>document).webkitCancelFullScreen();
+                }
+            }
+        }
+    }
+};
 const play = () =>
 {
     document.body.classList.toggle("immersive", true);
     document.body.classList.toggle("mousemove", false);
-    if (fullscreenEnabled && withFullscreen.checked)
-    {
-        if (document.body.requestFullscreen)
-        {
-            document.body.requestFullscreen();
-        }
-        else
-        if ("webkitRequestFullscreen" in document.body)
-        {
-            (<any>document.body).webkitRequestFullscreen();
-        }
-    }
-    const canvasMergin = (1 -Math.sqrt(parseFloat(canvasSizeSelect.value) /100.0)) *100 /2;
-    [ "top", "right", "bottom", "left", ].forEach
-    (
-        i => canvas.style.setProperty(i, `${canvasMergin}%`)
-    );
-    const newLayers = parseInt(layersSelect.value);
-    updateLayers(newLayers);
-    const newSpan = parseInt(spanSelect.value);
-    if (span !== newSpan)
-    {
-        offsetAt = offsetAt *(newSpan /span);
-        span = newSpan;
-    }
-    Fps.fuseFps = parseFloat(fuseFpsSelect.value);
-    easing = easingCheckbox.checked ?
-        (t: number) => t <= 0.5 ?
-            2 *Math.pow(t, 2):
-            1 -(2 *Math.pow(1 -t, 2)):
-        (t: number) => t;
+    updateFullscreenState();
+    updateCanvasSize();
+    updateLayers();
     fpsElement.innerText = "";
-    switch(modeSelect.value ?? "phi-colors")
-    {
-    case "monochrome":
-        getForegroundColor = (i: Layer, _ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
-        break;
-    case "primary-colors":
-        getForegroundColor = (i: Layer, ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
-        break;
-    case "phi-colors":
-    default:
-        getForegroundColor = (i: Layer, _ix: number) => <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
-        break;
-    }
     setTimeout
     (
         () => window.requestAnimationFrame
@@ -342,18 +366,7 @@ const pause = () =>
 {
     document.body.classList.toggle("immersive", false);
     //fpsElement.innerText = "";
-    if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement))
-    {
-        if (document.exitFullscreen)
-        {
-            document.exitFullscreen();
-        }
-        else
-        if ("webkitCancelFullScreen" in document)
-        {
-            (<any>document).webkitCancelFullScreen();
-        }
-    }
+    updateFullscreenState(false);
 };
 const playOrPause = () =>
 {
@@ -440,8 +453,26 @@ document.querySelectorAll("label[for]").forEach
         }
     }
 );
-const updateLayers = (newLayers: number) =>
+const updateColoring = () =>
 {
+    switch(coloringSelect.value ?? "phi-colors")
+    {
+    case "monochrome":
+        getForegroundColor = (i: Layer, _ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
+        break;
+    case "primary-colors":
+        getForegroundColor = (i: Layer, ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
+        break;
+    case "phi-colors":
+    default:
+        getForegroundColor = (i: Layer, _ix: number) => <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
+        break;
+    }
+};
+updateColoring();
+const updateLayers = () =>
+{
+    const newLayers = parseInt(layersSelect.value);
     const oldLayerList = Array.from(document.getElementsByClassName("layer"));
     if (oldLayerList.length < newLayers)
     {
@@ -460,6 +491,36 @@ const updateLayers = (newLayers: number) =>
         }
     }
     const layerList = Array.from(document.getElementsByClassName("layer"));
+    const newArguments = layers[0]?.arguments;
+    const oldArguments = argumentHistory[argumentHistory.length -2];
+    const newMile = layers[0]?.mile ?? 0;
+    const oldMile = Math.max(newMile -1, 0);
+    const restoreArgument = (i: FlounderStyle.Type.Arguments, ix: number) =>
+    {
+        if (undefined !== i)
+        {
+            const layer = <Layer>
+            {
+                mile: oldMile,
+                offset: ix /layerList.length,
+            };
+            i.foregroundColor = getForegroundColor(layer, ix);
+            if (0 < oldMile)
+            {
+                const oldLayer = <Layer>
+                {
+                    mile: oldMile -1,
+                    offset: ix /layerList.length,
+                };
+                layer.arguments = <FlounderStyle.Type.Arguments>
+                {
+                    foregroundColor: getForegroundColor(oldLayer, ix),
+                };
+            }
+            i.backgroundColor = getBackgroundColor(layer, ix);
+        }
+        return i;
+    };
     layers = layerList.map
     (
         (layer, ix) =>
@@ -467,15 +528,98 @@ const updateLayers = (newLayers: number) =>
             <Layer>
             {
                 layer,
-                mile: layers[ix]?.mile ?? 0,
+                mile: 0 === ix ? newMile: oldMile,
                 offset: ix /layerList.length,
-                arguments: layers[ix]?.arguments,
-                // foregroundColor: "forestgreen",
-                // backgroundColor: "blanchedalmond",
+                arguments: 0 === ix ? newArguments: restoreArgument(oldArguments, ix),
             }
         )
     );
+    if ( ! isInAnimation())
+    {
+        animationStep(startAt +offsetAt);
+    }
 };
+const updateCanvasSize = () =>
+{
+    const newCanvasSize = parseFloat(canvasSizeSelect.value);
+    const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
+    const canvasMergin = (1 -newCanvasSizeRate) *100 /2;
+    [ "top", "right", "bottom", "left", ].forEach
+    (
+        i => canvas.style.setProperty(i, `${canvasMergin}%`)
+    );
+    updateDiagonalSize();
+};
+let diagonalSize = getDiagonalSize();
+const updateDiagonalSize = () =>
+{
+    const newDiagonalSize = getDiagonalSize();
+    const fixRate = newDiagonalSize /diagonalSize;
+    layers.forEach
+    (
+        i =>
+        {
+            if (undefined !== i.arguments?.intervalSize)
+            {
+                i.arguments.intervalSize *= fixRate;
+                if (undefined !== i.arguments.maxPatternSize)
+                {
+                    i.arguments.maxPatternSize *= fixRate;
+                }
+            }
+        }
+    );
+    argumentHistory.forEach
+    (
+        i =>
+        {
+            if (undefined !== i.intervalSize)
+            {
+                i.intervalSize *= fixRate;
+                if (undefined !== i.maxPatternSize)
+                {
+                    i.maxPatternSize *= fixRate;
+                }
+            }
+        }
+    );
+    if ( ! isInAnimation())
+    {
+        animationStep(startAt +offsetAt);
+    }
+    diagonalSize = newDiagonalSize;
+};
+let newSpan = parseInt(spanSelect.value);
+const updateSpan = () =>
+{
+    newSpan = parseInt(spanSelect.value);
+    if (span !== newSpan)
+    {
+        if ( ! isInAnimation())
+        {
+            offsetAt = offsetAt *(newSpan /span);
+            span = newSpan;
+        }
+    }
+};
+const updateFuseFps = () =>
+{
+    Fps.fuseFps = parseFloat(fuseFpsSelect.value);
+};
+updateFuseFps();
+const updateEasing = () =>
+{
+    easing = easingCheckbox.checked ?
+        (t: number) => t <= 0.5 ?
+            2 *Math.pow(t, 2):
+            1 -(2 *Math.pow(1 -t, 2)):
+        (t: number) => t;
+    if ( ! isInAnimation())
+    {
+        animationStep(startAt +offsetAt);
+    }
+};
+updateEasing();
 playButton.addEventListener
 (
     "click",
@@ -486,7 +630,6 @@ playButton.addEventListener
         playOrPause();
     }
 );
-//const isPressedShift = () => document.body.classList.contains("press-shift");
 window.addEventListener
 (
     "keydown",
@@ -499,11 +642,76 @@ window.addEventListener
         const focusedElementTagName = document.activeElement?.tagName?.toLowerCase() ?? "";
         if (["input", "textarea", "button"].indexOf(focusedElementTagName) < 0)
         {
-            switch(event.key.toUpperCase())
+            if (" " === event.key || "Space" === event.code)
             {
-                case " ":
-                    playOrPause();
-                    break;
+                playOrPause();
+            }
+            else
+            if ("F" === event.key.toUpperCase())
+            {
+                toggleChecked(withFullscreen);
+                if (isInAnimation())
+                {
+                    updateFullscreenState();
+                }
+            }
+            else
+            if ("ArrowUp" === event.key)
+            {
+                if (event.shiftKey)
+                {
+                    switchSelect(canvasSizeSelect, true);
+                    updateCanvasSize();
+                }
+                else
+                {
+                    switchSelect(layersSelect, true);
+                    updateLayers();
+                }
+            }
+            else
+            if ("ArrowDown" === event.key)
+            {
+                if (event.shiftKey)
+                {
+                    switchSelect(canvasSizeSelect, false);
+                    updateCanvasSize();
+                }
+                else
+                {
+                    switchSelect(layersSelect, false);
+                    updateLayers();
+                }
+            }
+            else
+            if ("ArrowLeft" === event.key)
+            {
+                if (event.shiftKey)
+                {
+                    switchSelect(fuseFpsSelect, false);
+                }
+                else
+                {
+                    switchSelect(spanSelect, true);
+                    updateSpan();
+                }
+            }
+            else
+            if ("ArrowRight" === event.key)
+            {
+                if (event.shiftKey)
+                {
+                    switchSelect(fuseFpsSelect, true);
+                }
+                else
+                {
+                    switchSelect(spanSelect, false);
+                    updateSpan();
+                }
+            }
+            else
+            {
+                console.log({ unknownKeyDown: { key: event.key, code:event.code } });
             }
         }
     }

@@ -58,8 +58,8 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
                 <option value="multi">multi</option>
             </select>
         </label>
-        <label for="mode">Mode:
-            <select id="mode">
+        <label for="coloring">Coloring:
+            <select id="coloring">
                 <option value="monochrome">monochrome</option>
                 <option value="primary-colors">primary-colors</option>
                 <option value="phi-colors">phi-colors</option>
@@ -91,8 +91,8 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
             <span><kbd>Space</kbd></span><span>Play / Pause</span>
             <span><kbd>P</kbd></span><span>Switch Pattern ( Forward )</span>
             <span><kbd>Shift</kbd><kbd>P</kbd></span><span>Switch Pattern ( Backward )</span>
-            <span><kbd>M</kbd></span><span>Switch Mode ( Forward )</span>
-            <span><kbd>Shift</kbd><kbd>M</kbd></span><span>Switch Mode ( Backward )</span>
+            <span><kbd>C</kbd></span><span>Switch Coloring ( Forward )</span>
+            <span><kbd>Shift</kbd><kbd>C</kbd></span><span>Switch Coloring ( Backward )</span>
             <span><kbd>Shift</kbd><kbd>↑</kbd></span><span>Increase Canvas Size</span>
             <span><kbd>Shift</kbd><kbd>↓</kbd></span><span>Decrease Canvas Size</span>
             <span><kbd>↑</kbd></span><span>Increase Layer</span>
