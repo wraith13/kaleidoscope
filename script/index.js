@@ -1262,10 +1262,10 @@ define("script/fps", ["require", "exports"], function (require, exports) {
 });
 define("resource/lang.en", [], {
     "description": "Kaleidoscope Web Screen Saver",
-    "warningText": "Web browsers and operating systems may crash due to excessive load.",
+    "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
-    "informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
-    "informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",
+    "DELETEME.informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
+    "DELETEME.informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",
     "timeUnitMs": "ms",
     "timeUnitS": "s",
     "timeUnitM": "m",
@@ -1273,10 +1273,10 @@ define("resource/lang.en", [], {
 });
 define("resource/lang.ja", [], {
     "description": "万華鏡 Web スクリーンセーバー",
-    "warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
+    "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
     "informationFuseFps": "Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
-    "informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
-    "informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
+    "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
+    "DELETEME.informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
     "timeUnitMs": "ミリ秒",
     "timeUnitS": "秒",
     "timeUnitM": "分",
@@ -1370,8 +1370,6 @@ define("resource/config", [], {
     ],
     "spanDefault": 60000,
     "fuseFpsEnum": [
-        1,
-        1.5,
         3,
         5,
         7.5,
@@ -1386,8 +1384,7 @@ define("resource/config", [], {
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [
-        "informationFuseFps",
-        "informationLayers"
+        "informationFuseFps"
     ],
     "informations.full": [
         "informationFuseFps",
@@ -1399,7 +1396,6 @@ define("resource/config", [], {
 });
 define("script/index", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/fps", "resource/lang.en", "resource/lang.ja", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, fps_1, lang_en_json_1, lang_ja_json_1, config_json_2) {
     "use strict";
-    var _a, _b;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.localeMap = exports.localeMaster = void 0;
     lang_en_json_1 = __importDefault(lang_en_json_1);
@@ -1527,7 +1523,6 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         withFullscreen.parentElement.style.setProperty("display", "none");
     }
     var startAt = 0;
-    var waitAt = 0;
     var offsetAt = 0;
     var span = config_json_2.default.spanDefault;
     var h = Math.random();
@@ -1560,7 +1555,6 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     };
     var layers = [];
     document.getElementsByClassName("layer")[0].style.setProperty("background-color", makeColor(0.0));
-    ((_b = (_a = document.getElementById("warning")) === null || _a === void 0 ? void 0 : _a.getElementsByClassName("text")) === null || _b === void 0 ? void 0 : _b[0]).innerText = (0, exports.localeMap)("warningText");
     var informationList = document.getElementById("information-list");
     config_json_2.default.informations.forEach(function (i) {
         var li = document.createElement("li");
@@ -1592,16 +1586,14 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
     var animation = function (now) {
         if (isInAnimation()) {
-            if (waitAt <= now) {
-                fps_1.Fps.step(now);
-                if (fps_1.Fps.isUnderFuseFps()) {
-                    pause();
-                }
-                if (showFPS.checked) {
-                    fpsElement.innerText = fps_1.Fps.getText();
-                }
-                animationStep(now);
+            fps_1.Fps.step(now);
+            if (fps_1.Fps.isUnderFuseFps()) {
+                pause();
             }
+            if (showFPS.checked) {
+                fpsElement.innerText = fps_1.Fps.getText();
+            }
+            animationStep(now);
             window.requestAnimationFrame(animation);
         }
         else {
@@ -1610,7 +1602,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     };
     var pause = function () {
         document.body.classList.toggle("immersive", false);
-        fpsElement.innerText = "";
+        //fpsElement.innerText = "";
         if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement)) {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
@@ -1719,6 +1711,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
                     2 * Math.pow(t, 2) :
                     1 - (2 * Math.pow(1 - t, 2)); } :
                 function (t) { return t; };
+            fpsElement.innerText = "";
             switch ((_a = modeSelect.value) !== null && _a !== void 0 ? _a : "phi-colors") {
                 case "monochrome":
                     getForegroundColor = function (i, _ix) { return indexSelect(config_json_2.default.colors.monochrome, i.mile + 1.0); };
@@ -1731,12 +1724,11 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
                     getForegroundColor = function (i, _ix) { return makeColor(i.mile + i.offset + 1.0, 0.6); };
                     break;
             }
-            window.requestAnimationFrame(function (now) {
-                startAt = (now - offsetAt) + config_json_2.default.startWait;
-                waitAt = now + config_json_2.default.startWait;
+            setTimeout(function () { return window.requestAnimationFrame(function (now) {
+                startAt = (now - offsetAt);
                 fps_1.Fps.reset();
                 animation(now);
-            });
+            }); }, config_json_2.default.startWait);
         }
         else {
             pause();

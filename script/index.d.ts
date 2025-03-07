@@ -288,10 +288,10 @@ declare module "script/index" {
     export const localeMaster: {
         en: {
             description: string;
-            warningText: string;
+            "DELETEME.warningText": string;
             informationFuseFps: string;
-            informationLayers: string;
-            informationPattern: string;
+            "DELETEME.informationLayers": string;
+            "DELETEME.informationPattern": string;
             timeUnitMs: string;
             timeUnitS: string;
             timeUnitM: string;
@@ -299,10 +299,10 @@ declare module "script/index" {
         };
         ja: {
             description: string;
-            warningText: string;
+            "DELETEME.warningText": string;
             informationFuseFps: string;
-            informationLayers: string;
-            informationPattern: string;
+            "DELETEME.informationLayers": string;
+            "DELETEME.informationPattern": string;
             timeUnitMs: string;
             timeUnitS: string;
             timeUnitM: string;

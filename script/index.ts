@@ -156,7 +156,6 @@ if ( ! fullscreenEnabled && withFullscreen.parentElement)
     withFullscreen.parentElement.style.setProperty("display", "none");
 }
 let startAt = 0;
-let waitAt = 0;
 let offsetAt = 0;
 let span = config.spanDefault;
 let h = Math.random();
@@ -210,7 +209,6 @@ interface Layer
 }
 let layers: Layer[] = [];
 (<HTMLDivElement>document.getElementsByClassName("layer")[0]).style.setProperty("background-color", makeColor(0.0));
-(<HTMLSpanElement>document.getElementById("warning")?.getElementsByClassName("text")?.[0]).innerText = localeMap("warningText");
 const informationList = <HTMLUListElement>document.getElementById("information-list");
 config.informations.forEach
 (
@@ -260,19 +258,16 @@ const animation = (now: number) =>
 {
     if (isInAnimation())
     {
-        if (waitAt <= now)
+        Fps.step(now);
+        if (Fps.isUnderFuseFps())
         {
-            Fps.step(now);
-            if (Fps.isUnderFuseFps())
-            {
-                pause();
-            }
-            if (showFPS.checked)
-            {
-                fpsElement.innerText = Fps.getText();
-            }
-            animationStep(now);
+            pause();
         }
+        if (showFPS.checked)
+        {
+            fpsElement.innerText = Fps.getText();
+        }
+        animationStep(now);
         window.requestAnimationFrame(animation);
     }
     else
@@ -283,7 +278,7 @@ const animation = (now: number) =>
 const pause = () =>
 {
     document.body.classList.toggle("immersive", false);
-    fpsElement.innerText = "";
+    //fpsElement.innerText = "";
     if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement))
     {
         if (document.exitFullscreen)
@@ -448,6 +443,7 @@ playButton.addEventListener
                     2 *Math.pow(t, 2):
                     1 -(2 *Math.pow(1 -t, 2)):
                 (t: number) => t;
+            fpsElement.innerText = "";
             switch(modeSelect.value ?? "phi-colors")
             {
             case "monochrome":
@@ -461,15 +457,18 @@ playButton.addEventListener
                 getForegroundColor = (i: Layer, _ix: number) => <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
                 break;
             }
-            window.requestAnimationFrame
+            setTimeout
             (
-                now =>
-                {
-                    startAt = (now -offsetAt) +config.startWait;
-                    waitAt = now +config.startWait;
-                    Fps.reset();
-                    animation(now);
-                }
+                () => window.requestAnimationFrame
+                (
+                    now =>
+                    {
+                        startAt = (now -offsetAt);
+                        Fps.reset();
+                        animation(now);
+                    }
+                ),
+                config.startWait
             );
         }
         else

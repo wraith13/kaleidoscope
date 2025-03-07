@@ -19,7 +19,6 @@ __LICENSE__-->
 <meta name="apple-mobile-web-app-title" content="__APPLICATION_TITLE__">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta http-equiv="Cache-Control" content="public,stale-while-revalidate=2592000,stale-if-error=2592000"><!-- 2592000s == 30d -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@wraith13">
 <!-- meta name="twitter:creator" content="@wraith13" -->
@@ -80,10 +79,6 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
     <button id="play-button">
         __IMAGES__
     </button>
-    <div id="warning">
-        <span class="icon">⚠️</span>
-        <span class="text"></span>
-    </div>
     <div id="canvas">
         <div id="top-coat"></div>
         <div class="layer"></div>

@@ -3,7 +3,7 @@ body
 {
     margin: 0px;
     padding: 0px;
-    background-color: $white-oolor;
+    background-color: black;
 }
 div
 {
@@ -11,7 +11,6 @@ div
 }
 button
 {
-    background-color: transparent;
     border-style: none;
     border-width: 0px;
     cursor: pointer;
@@ -36,13 +35,29 @@ button
     }
     @else if $transition == "fade"
     {
-        transition: opacity 750ms;
+        transition: opacity 750ms, filter 750ms;
         @at-root body.immersive &
         {
             opacity: 0;
+            filter: blur(1.0em);
             cursor: none;
+            pointer-events: none;
         }
     }
+}
+@mixin flex-row-start-center()
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+@mixin flex-column-center-center()
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 @mixin full-stretch-box()
 {
@@ -119,15 +134,12 @@ button
 #screen-header
 {
     @include default-mode-element("slide-up");
+    @include flex-row-start-center();
     @include black-line-panel-style();
     @include top-stretch-box();
     padding: 0px;
     position: fixed;
     z-index: 900;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
     a
     {
         color: $white-oolor;
@@ -137,11 +149,8 @@ button
         @include font();
         &
         {
+            @include flex-row-start-center();
             position: relative;
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-items: center;
             padding: 0.75rem 1.00rem;
             overflow-x: hidden;
             transform: skewX(150deg);
@@ -178,12 +187,17 @@ button
 #screen-body
 {
     @include full-stretch-box();
+    @include flex-column-center-center();
     position: absolute;
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-color: black;
+    @at-root body.immersive:not(.mousemove) &
+    {
+        cursor: none;
+    }
+    @at-root body.immersive.mousemove &
+    {
+        cursor: pointer;
+    }
     .option-panel
     {
         @include default-mode-element("fade");
@@ -218,6 +232,11 @@ button
                 {
                     user-select: none;
                     cursor: pointer;
+                }
+                input
+                {
+                    margin: 0.5rem;
+                    padding: 0px;
                 }
                 select
                 {
@@ -256,36 +275,23 @@ button
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            transition: opacity 750ms;
+            transition: opacity 750ms, filter 750ms;
             text-align: right;
             white-space: pre;
-            will-change: contents;
+            will-change: contents opacity filter;
             &:empty
             {
-                display: none;
+                opacity: 0;
+                cursor: none;
+                pointer-events: none;
+                filter: blur(1.0em);
             }
-        }
-    }
-    #warning
-    {
-        @include default-mode-element("fade");
-        @include font();
-        &
-        {
-            font-size: 1.25rem;
-            padding: 1.0rem 2.0rem;
-            color: rgba(32, 28, 38, 1.0);
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-items: center;
-            user-select: none;
-            pointer-events: none;
-            z-index: -10;
-            .icon
+            @at-root body:not(.immersive) &
             {
-                font-size: 3.0rem;
-                margin-right: 0.75rem;
+                opacity: 0;
+                cursor: none;
+                pointer-events: none;
+                filter: blur(1.0em);
             }
         }
     }
@@ -294,7 +300,7 @@ button
         @include black-pop-panel-style();
         border-radius: 1.5rem;
         padding: 1.5rem;
-        transition: opacity 750ms;
+        transition: opacity 750ms, filter 750ms;
         width: 11rem;
         height: 11rem;
         max-width: 30vw;
@@ -318,6 +324,21 @@ button
                 color: rgba(230, 237, 243, 0.9);
                 fill: rgba(230, 237, 243, 0.9);
             }
+        }
+        @at-root body.immersive:not(.mousemove) &
+        {
+            opacity: 0;
+            cursor: none;
+            pointer-events: none;
+            filter: blur(1.0em);
+        }
+        @at-root body.immersive & #play-icon
+        {
+            display: none;
+        }
+        @at-root body:not(.immersive) & #pause-icon
+        {
+            display: none;
         }
     }
     #canvas
@@ -349,158 +370,132 @@ button
     flex-direction: column;
     justify-content: start;
     align-items: stretch;
-}
-#supplementary-line
-{
-    display: block;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: end;
-}
-#keyboard-shortcut
-{
-    @include default-mode-element("fade");
-    @include black-pop-panel-style();
-    @include font();
-    &
+    pointer-events: none;
+    #supplementary-line
     {
-        margin: 1rem;
-        border-radius: 0.5rem;
-        padding: 0.5rem;
-        display: grid;
-        grid-template-columns: minmax(0, max-content) minmax(0, max-content);
-        gap: 0.5rem;
-        span
+        display: block;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: end;
+        #keyboard-shortcut
         {
-            white-space: nowrap;
-            &:nth-child(2n + 1)
+            @include default-mode-element("fade");
+            @include black-pop-panel-style();
+            @include font();
+            &
             {
-                justify-self: end;
-            }
-            kbd
-            {
-                @include monospace-font();
-                &
+                margin: 1rem;
+                border-radius: 0.5rem;
+                padding: 0.5rem;
+                display: grid;
+                grid-template-columns: minmax(0, max-content) minmax(0, max-content);
+                gap: 0.5rem;
+                pointer-events: initial;
+                span
                 {
-                    border-style: solid;
-                    border-width: 1px;
-                    border-color: rgba(255, 255, 255, 0.6);
-                    border-radius: 4px;
-                    padding: 1px 4px;
-                    margin: 2px;
-                    background-color: rgba(255, 255, 255, 0.15);
+                    white-space: nowrap;
+                    &:nth-child(2n + 1)
+                    {
+                        justify-self: end;
+                    }
+                    kbd
+                    {
+                        @include monospace-font();
+                        &
+                        {
+                            border-style: solid;
+                            border-width: 1px;
+                            border-color: rgba(255, 255, 255, 0.6);
+                            border-radius: 4px;
+                            padding: 1px 4px;
+                            margin: 2px;
+                            background-color: rgba(255, 255, 255, 0.15);
+                        }
+                    }
+                }
+                @media(max-height: 830px)
+                {
+                    visibility: hidden;
+                    width: 0px;
+                    height: 0px;
                 }
             }
         }
-        @media(max-height: 830px)
+        #powered-by
         {
-            visibility: hidden;
-            width: 0px;
-            height: 0px;
-        }
-    }
-}
-#powered-by
-{
-    @include default-mode-element("fade");
-    @include black-pop-panel-style();
-    @include font();
-    &
-    {
-        margin: 1rem;
-        border-radius: 0.5rem;
-        padding: 0.5rem 1.0rem;
-        display: block;
-        text-align: left;
-        .title
-        {
-            display: block;
-            margin: 0px;
-            padding: 0px;
-        }
-        ul
-        {
-            display: block;
-            margin: 0px;
-            padding: 0px;
-            padding-left: 1.0rem;
-            li
+            @include default-mode-element("fade");
+            @include black-pop-panel-style();
+            @include font();
+            &
             {
+                margin: 1rem;
+                border-radius: 0.5rem;
+                padding: 0.5rem 1.0rem;
                 display: block;
-                margin: 0px;
-                padding: 0px;
-                a
+                text-align: left;
+                pointer-events: initial;
+                .title
                 {
-                    color: rgba(230, 237, 243, 0.7);
-                    cursor: pointer;
-                    @media (hover: hover)
+                    display: block;
+                    margin: 0px;
+                    padding: 0px;
+                }
+                ul
+                {
+                    display: block;
+                    margin: 0px;
+                    padding: 0px;
+                    padding-left: 1.0rem;
+                    li
                     {
-                        &:hover
+                        display: block;
+                        margin: 0px;
+                        padding: 0px;
+                        a
                         {
-                            color: $white-oolor;
+                            color: rgba(230, 237, 243, 0.7);
+                            cursor: pointer;
+                            @media (hover: hover)
+                            {
+                                &:hover
+                                {
+                                    color: $white-oolor;
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
-#information-line
-{
-    @include black-line-panel-style();
-    @include default-mode-element("slide-down");
-    #information
+    #information-line
     {
-        @include font();
-        &
+        @include black-line-panel-style();
+        @include default-mode-element("slide-down");
+        pointer-events: initial;
+        #information
         {
-            color: $white-oolor;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            ul
+            @include font();
+            &
             {
-                display: inline-block;
-                margin: 0px;
-                padding: 0.5rem;
-                li
+                color: $white-oolor;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                ul
                 {
+                    display: inline-block;
                     margin: 0px;
-                    padding: 0.25rem;
+                    padding: 0.5rem;
+                    li
+                    {
+                        margin: 0px;
+                        padding: 0.25rem;
+                    }
                 }
             }
         }
     }
-}
-#screen-body .option-panel input
-{
-    margin: 0.5rem;
-    padding: 0px;
-}
-body.immersive:not(.mousemove) #screen-body
-{
-    cursor: none;
-}
-body.immersive.mousemove #screen-body
-{
-    cursor: pointer;
-}
-body.immersive:not(.mousemove) #screen-body button
-{
-    opacity: 0;
-    cursor: none;
-}
-body.immersive #screen-body button #play-icon
-{
-    display: none;
-}
-body:not(.immersive) #screen-body button #pause-icon
-{
-    display: none;
-}
-body:not(.immersive) #screen-body #fps
-{
-    display: none;
 }

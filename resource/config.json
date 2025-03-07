@@ -86,8 +86,6 @@
     ],
     "spanDefault": 60000,
     "fuseFpsEnum": [
-        1,
-        1.5,
         3,
         5,
         7.5,
@@ -102,8 +100,7 @@
     "intervalSizeMinRate": 0.03,
     "intervalSizeMaxRate": 0.6,
     "informations": [
-        "informationFuseFps",
-        "informationLayers"
+        "informationFuseFps"
     ],
     "informations.full": [
         "informationFuseFps",
