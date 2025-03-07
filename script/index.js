@@ -1600,6 +1600,52 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
             offsetAt = now - startAt;
         }
     };
+    var play = function () {
+        var _a;
+        document.body.classList.toggle("immersive", true);
+        document.body.classList.toggle("mousemove", false);
+        if (fullscreenEnabled && withFullscreen.checked) {
+            if (document.body.requestFullscreen) {
+                document.body.requestFullscreen();
+            }
+            else if ("webkitRequestFullscreen" in document.body) {
+                document.body.webkitRequestFullscreen();
+            }
+        }
+        var canvasMergin = (1 - Math.sqrt(parseFloat(canvasSizeSelect.value) / 100.0)) * 100 / 2;
+        ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMergin, "%")); });
+        var newLayers = parseInt(layersSelect.value);
+        updateLayers(newLayers);
+        var newSpan = parseInt(spanSelect.value);
+        if (span !== newSpan) {
+            offsetAt = offsetAt * (newSpan / span);
+            span = newSpan;
+        }
+        fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.value);
+        easing = easingCheckbox.checked ?
+            function (t) { return t <= 0.5 ?
+                2 * Math.pow(t, 2) :
+                1 - (2 * Math.pow(1 - t, 2)); } :
+            function (t) { return t; };
+        fpsElement.innerText = "";
+        switch ((_a = modeSelect.value) !== null && _a !== void 0 ? _a : "phi-colors") {
+            case "monochrome":
+                getForegroundColor = function (i, _ix) { return indexSelect(config_json_2.default.colors.monochrome, i.mile + 1.0); };
+                break;
+            case "primary-colors":
+                getForegroundColor = function (i, ix) { return indexSelect(config_json_2.default.colors.primaryColors, ix + i.mile + 1.0); };
+                break;
+            case "phi-colors":
+            default:
+                getForegroundColor = function (i, _ix) { return makeColor(i.mile + i.offset + 1.0, 0.6); };
+                break;
+        }
+        setTimeout(function () { return window.requestAnimationFrame(function (now) {
+            startAt = (now - offsetAt);
+            fps_1.Fps.reset();
+            animation(now);
+        }); }, config_json_2.default.startWait);
+    };
     var pause = function () {
         document.body.classList.toggle("immersive", false);
         //fpsElement.innerText = "";
@@ -1610,6 +1656,14 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
             else if ("webkitCancelFullScreen" in document) {
                 document.webkitCancelFullScreen();
             }
+        }
+    };
+    var playOrPause = function () {
+        if (!document.body.classList.contains("immersive")) {
+            play();
+        }
+        else {
+            pause();
         }
     };
     var ToggleClassForWhileTimer = /** @class */ (function () {
@@ -1683,55 +1737,30 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         });
     };
     playButton.addEventListener("click", function (event) {
-        var _a;
-        if (!document.body.classList.contains("immersive")) {
-            event.stopPropagation();
-            document.body.classList.toggle("immersive", true);
-            document.body.classList.toggle("mousemove", false);
-            if (fullscreenEnabled && withFullscreen.checked) {
-                if (document.body.requestFullscreen) {
-                    document.body.requestFullscreen();
-                }
-                else if ("webkitRequestFullscreen" in document.body) {
-                    document.body.webkitRequestFullscreen();
-                }
-            }
-            var canvasMergin_1 = (1 - Math.sqrt(parseFloat(canvasSizeSelect.value) / 100.0)) * 100 / 2;
-            ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMergin_1, "%")); });
-            var newLayers = parseInt(layersSelect.value);
-            updateLayers(newLayers);
-            var newSpan = parseInt(spanSelect.value);
-            if (span !== newSpan) {
-                offsetAt = offsetAt * (newSpan / span);
-                span = newSpan;
-            }
-            fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.value);
-            easing = easingCheckbox.checked ?
-                function (t) { return t <= 0.5 ?
-                    2 * Math.pow(t, 2) :
-                    1 - (2 * Math.pow(1 - t, 2)); } :
-                function (t) { return t; };
-            fpsElement.innerText = "";
-            switch ((_a = modeSelect.value) !== null && _a !== void 0 ? _a : "phi-colors") {
-                case "monochrome":
-                    getForegroundColor = function (i, _ix) { return indexSelect(config_json_2.default.colors.monochrome, i.mile + 1.0); };
-                    break;
-                case "primary-colors":
-                    getForegroundColor = function (i, ix) { return indexSelect(config_json_2.default.colors.primaryColors, ix + i.mile + 1.0); };
-                    break;
-                case "phi-colors":
-                default:
-                    getForegroundColor = function (i, _ix) { return makeColor(i.mile + i.offset + 1.0, 0.6); };
-                    break;
-            }
-            setTimeout(function () { return window.requestAnimationFrame(function (now) {
-                startAt = (now - offsetAt);
-                fps_1.Fps.reset();
-                animation(now);
-            }); }, config_json_2.default.startWait);
+        event.stopPropagation();
+        playButton.blur();
+        playOrPause();
+    });
+    //let isPressedShift: boolean;
+    window.addEventListener("keydown", function (event) {
+        var _a, _b, _c;
+        if ("Shift" === event.key) {
+            document.body.classList.toggle("press-shift", true);
+            // isPressedShift = true;
         }
-        else {
-            pause();
+        var focusedElementTagName = (_c = (_b = (_a = document.activeElement) === null || _a === void 0 ? void 0 : _a.tagName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) !== null && _c !== void 0 ? _c : "";
+        if (["input", "textarea", "button"].indexOf(focusedElementTagName) < 0) {
+            switch (event.key.toUpperCase()) {
+                case " ":
+                    playOrPause();
+                    break;
+            }
+        }
+    });
+    window.addEventListener("keyup", function (event) {
+        if ("Shift" === event.key) {
+            document.body.classList.toggle("press-shift", false);
+            //isPressedShift = false;
         }
     });
 });

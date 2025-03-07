@@ -24,6 +24,10 @@ button
         {
             transform: translate(0px, -100%);
         }
+        @at-root body.press-shift &
+        {
+            transform: translate(0px, -100%);
+        }
     }
     @else if $transition == "slide-down"
     {
@@ -32,11 +36,22 @@ button
         {
             transform: translate(0px, 100%);
         }
+        @at-root body.press-shift &
+        {
+            transform: translate(0px, 100%);
+        }
     }
     @else if $transition == "fade"
     {
         transition: opacity 750ms, filter 750ms;
         @at-root body.immersive &
+        {
+            opacity: 0;
+            filter: blur(1.0em);
+            cursor: none;
+            pointer-events: none;
+        }
+        @at-root body.press-shift &
         {
             opacity: 0;
             filter: blur(1.0em);
@@ -293,6 +308,13 @@ button
                 pointer-events: none;
                 filter: blur(1.0em);
             }
+            @at-root body:press-shift &
+            {
+                opacity: 0;
+                cursor: none;
+                pointer-events: none;
+                filter: blur(1.0em);
+            }
         }
     }
     button
@@ -326,6 +348,13 @@ button
             }
         }
         @at-root body.immersive:not(.mousemove) &
+        {
+            opacity: 0;
+            cursor: none;
+            pointer-events: none;
+            filter: blur(1.0em);
+        }
+        @at-root body.press-shift &
         {
             opacity: 0;
             cursor: none;

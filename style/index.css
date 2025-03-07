@@ -35,6 +35,10 @@ body.immersive #screen-header {
   transform: translate(0px, -100%);
 }
 
+body.press-shift #screen-header {
+  transform: translate(0px, -100%);
+}
+
 #screen-header a {
   color: rgb(230, 237, 243);
 }
@@ -115,6 +119,13 @@ body.immersive.mousemove #screen-body {
   font-weight: 400;
 }
 body.immersive #screen-body .option-panel {
+  opacity: 0;
+  filter: blur(1em);
+  cursor: none;
+  pointer-events: none;
+}
+
+body.press-shift #screen-body .option-panel {
   opacity: 0;
   filter: blur(1em);
   cursor: none;
@@ -248,6 +259,13 @@ body:not(.immersive) #screen-body #fps {
   filter: blur(1em);
 }
 
+body:press-shift #screen-body #fps {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+
 #screen-body button {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
@@ -277,6 +295,13 @@ body:not(.immersive) #screen-body #fps {
   }
 }
 body.immersive:not(.mousemove) #screen-body button {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+
+body.press-shift #screen-body button {
   opacity: 0;
   cursor: none;
   pointer-events: none;
@@ -349,6 +374,13 @@ body:not(.immersive) #screen-body button #pause-icon {
   font-weight: 400;
 }
 body.immersive #screen-footer #supplementary-line #keyboard-shortcut {
+  opacity: 0;
+  filter: blur(1em);
+  cursor: none;
+  pointer-events: none;
+}
+
+body.press-shift #screen-footer #supplementary-line #keyboard-shortcut {
   opacity: 0;
   filter: blur(1em);
   cursor: none;
@@ -431,6 +463,13 @@ body.immersive #screen-footer #supplementary-line #powered-by {
   pointer-events: none;
 }
 
+body.press-shift #screen-footer #supplementary-line #powered-by {
+  opacity: 0;
+  filter: blur(1em);
+  cursor: none;
+  pointer-events: none;
+}
+
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #powered-by {
     font-size: 0.9rem;
@@ -485,6 +524,10 @@ body.immersive #screen-footer #supplementary-line #powered-by {
   pointer-events: initial;
 }
 body.immersive #screen-footer #information-line {
+  transform: translate(0px, 100%);
+}
+
+body.press-shift #screen-footer #information-line {
   transform: translate(0px, 100%);
 }
 

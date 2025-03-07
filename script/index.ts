@@ -275,6 +275,69 @@ const animation = (now: number) =>
         offsetAt = now -startAt;
     }
 };
+const play = () =>
+{
+    document.body.classList.toggle("immersive", true);
+    document.body.classList.toggle("mousemove", false);
+    if (fullscreenEnabled && withFullscreen.checked)
+    {
+        if (document.body.requestFullscreen)
+        {
+            document.body.requestFullscreen();
+        }
+        else
+        if ("webkitRequestFullscreen" in document.body)
+        {
+            (<any>document.body).webkitRequestFullscreen();
+        }
+    }
+    const canvasMergin = (1 -Math.sqrt(parseFloat(canvasSizeSelect.value) /100.0)) *100 /2;
+    [ "top", "right", "bottom", "left", ].forEach
+    (
+        i => canvas.style.setProperty(i, `${canvasMergin}%`)
+    );
+    const newLayers = parseInt(layersSelect.value);
+    updateLayers(newLayers);
+    const newSpan = parseInt(spanSelect.value);
+    if (span !== newSpan)
+    {
+        offsetAt = offsetAt *(newSpan /span);
+        span = newSpan;
+    }
+    Fps.fuseFps = parseFloat(fuseFpsSelect.value);
+    easing = easingCheckbox.checked ?
+        (t: number) => t <= 0.5 ?
+            2 *Math.pow(t, 2):
+            1 -(2 *Math.pow(1 -t, 2)):
+        (t: number) => t;
+    fpsElement.innerText = "";
+    switch(modeSelect.value ?? "phi-colors")
+    {
+    case "monochrome":
+        getForegroundColor = (i: Layer, _ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
+        break;
+    case "primary-colors":
+        getForegroundColor = (i: Layer, ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
+        break;
+    case "phi-colors":
+    default:
+        getForegroundColor = (i: Layer, _ix: number) => <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
+        break;
+    }
+    setTimeout
+    (
+        () => window.requestAnimationFrame
+        (
+            now =>
+            {
+                startAt = (now -offsetAt);
+                Fps.reset();
+                animation(now);
+            }
+        ),
+        config.startWait
+    );
+};
 const pause = () =>
 {
     document.body.classList.toggle("immersive", false);
@@ -290,6 +353,17 @@ const pause = () =>
         {
             (<any>document).webkitCancelFullScreen();
         }
+    }
+};
+const playOrPause = () =>
+{
+    if ( ! document.body.classList.contains("immersive"))
+    {
+        play();
+    }
+    else
+    {
+        pause();
     }
 };
 class ToggleClassForWhileTimer
@@ -407,73 +481,41 @@ playButton.addEventListener
     "click",
     event =>
     {
-        if ( ! document.body.classList.contains("immersive"))
+        event.stopPropagation();
+        playButton.blur();
+        playOrPause();
+    }
+);
+//const isPressedShift = () => document.body.classList.contains("press-shift");
+window.addEventListener
+(
+    "keydown",
+    (event: KeyboardEvent) =>
+    {
+        if ("Shift" === event.key)
         {
-            event.stopPropagation();
-            document.body.classList.toggle("immersive", true);
-            document.body.classList.toggle("mousemove", false);
-            if (fullscreenEnabled && withFullscreen.checked)
-            {
-                if (document.body.requestFullscreen)
-                {
-                    document.body.requestFullscreen();
-                }
-                else
-                if ("webkitRequestFullscreen" in document.body)
-                {
-                    (<any>document.body).webkitRequestFullscreen();
-                }
-            }
-            const canvasMergin = (1 -Math.sqrt(parseFloat(canvasSizeSelect.value) /100.0)) *100 /2;
-            [ "top", "right", "bottom", "left", ].forEach
-            (
-                i => canvas.style.setProperty(i, `${canvasMergin}%`)
-            );
-            const newLayers = parseInt(layersSelect.value);
-            updateLayers(newLayers);
-            const newSpan = parseInt(spanSelect.value);
-            if (span !== newSpan)
-            {
-                offsetAt = offsetAt *(newSpan /span);
-                span = newSpan;
-            }
-            Fps.fuseFps = parseFloat(fuseFpsSelect.value);
-            easing = easingCheckbox.checked ?
-                (t: number) => t <= 0.5 ?
-                    2 *Math.pow(t, 2):
-                    1 -(2 *Math.pow(1 -t, 2)):
-                (t: number) => t;
-            fpsElement.innerText = "";
-            switch(modeSelect.value ?? "phi-colors")
-            {
-            case "monochrome":
-                getForegroundColor = (i: Layer, _ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
-                break;
-            case "primary-colors":
-                getForegroundColor = (i: Layer, ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
-                break;
-            case "phi-colors":
-            default:
-                getForegroundColor = (i: Layer, _ix: number) => <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
-                break;
-            }
-            setTimeout
-            (
-                () => window.requestAnimationFrame
-                (
-                    now =>
-                    {
-                        startAt = (now -offsetAt);
-                        Fps.reset();
-                        animation(now);
-                    }
-                ),
-                config.startWait
-            );
+            document.body.classList.toggle("press-shift", true);
         }
-        else
+        const focusedElementTagName = document.activeElement?.tagName?.toLowerCase() ?? "";
+        if (["input", "textarea", "button"].indexOf(focusedElementTagName) < 0)
         {
-            pause();
+            switch(event.key.toUpperCase())
+            {
+                case " ":
+                    playOrPause();
+                    break;
+            }
+        }
+    }
+);
+window.addEventListener
+(
+    "keyup",
+    (event: KeyboardEvent) =>
+    {
+        if ("Shift" === event.key)
+        {
+            document.body.classList.toggle("press-shift", false);
         }
     }
 );
