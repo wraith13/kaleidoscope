@@ -16,26 +16,75 @@ export namespace Control
         id: string;
     }
     export type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
+    export const getDom = <T extends HTMLElement>(data: ArgumentsBase<T>): T =>
+    {
+        const result ="dom" in data ?
+            data.dom:
+            <T>document.getElementById(data.id);
+        if (null == result || undefined === result)
+        {
+            console.error("🦋 FIXME: Contorl.getDom.NotExistsDom", data);
+        }
+        else
+        if ( ! (result instanceof HTMLElement))
+        {
+            console.error("🦋 FIXME: Contorl.getDom.InvalidDom", data, result);
+        }
+    return result;
+    }
+    export interface ButtonArgumentsBase<T extends HTMLElement>
+    {
+        click: (event: Event, select: Button<T>) => unknown;
+    }
+    export type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
+    export class Button<T extends HTMLElement>
+    {
+        public dom: T;
+        constructor(public data: ButtonArguments<T>)
+        {
+            this.dom = getDom(data);
+            this.dom.addEventListener
+            (
+                "click",
+                event =>
+                {
+                    console.log("👆 Button.Click:", event, this);
+                    this.data.click(event, this);
+                }
+            );
+        }
+    }
     export interface SelectArgumentsBase<T>
     {
         enum: T[];
         default: T;
+    }
+    export interface SelectOptions<T>
+    {
         makeLabel?: (value: T) => string;
         change?: (event: Event, select: Select<T>) => unknown;
     }
     export type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
-    export const getDom = <T extends HTMLElement>(data: ArgumentsBase<T>): T =>
-        "dom" in data ?
-            data.dom:
-            <T>document.getElementById(data.id);
     export class Select<T>
     {
         public dom: HTMLSelectElement;
-        constructor(public data: SelectArguments<T>)
+        constructor(public data: SelectArguments<T>, public options?: SelectOptions<T>)
         {
             this.dom = getDom(data);
-            this.data.enum.forEach(i => this.dom.appendChild(makeSelectOption(`${i}`, this.data.makeLabel?.(i) ?? `${i}`)));
+            if ( ! (this.dom instanceof HTMLSelectElement))
+            {
+                console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
+            }
+            this.data.enum.forEach(i => this.dom.appendChild(makeSelectOption(`${i}`, this.options?.makeLabel?.(i) ?? `${i}`)));
             this.switch(this.data.default);
+            this.dom.addEventListener
+            (
+                "change", event =>
+                {
+                    console.log("👆 Select.Change:", event, this);
+                    this.options?.change?.(event, this);
+                }
+            );
         }
         switch = (valueOrDirection: T | boolean) =>
         {
@@ -61,19 +110,35 @@ export namespace Control
     export interface CheckboxArgumentsBase
     {
         default?: boolean;
+    }
+    export interface CheckboxOptions
+    {
         change?: (event: Event, checked: Checkbox) => unknown;
     }
     export type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
     export class Checkbox
     {
         public dom: HTMLInputElement;
-        constructor(public data: CheckboxArguments)
+        constructor(public data: CheckboxArguments, public options?: CheckboxOptions)
         {
             this.dom = getDom(data);
+            if ( ! (this.dom instanceof HTMLInputElement) || "checkbox" !== this.dom.type.toLowerCase())
+            {
+                console.error("🦋 FIXME: Contorl.Checkbox.InvalidDom", data, this.dom);
+            }
             if (undefined !== this.data.default)
             {
                 this.toggle(this.data.default);
             }
+            this.dom.addEventListener
+            (
+                "change",
+                event =>
+                {
+                    console.log("👆 Checkbox.Change:", event, this);
+                    this.options?.change?.(event, this);
+                }
+            );
         }
         toggle = (checked?: boolean) =>
         {

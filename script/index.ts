@@ -1,86 +1,83 @@
 import { FlounderStyle } from "flounder.style.js";
 import { phiColors } from "phi-colors"
 import { Control } from "./control";
+import { UI } from "./ui";
 import { Fps } from "./fps";
-import localeEn from "@resource/lang.en.json";
-import localeJa from "@resource/lang.ja.json";
+import { Locale } from "./locale"
+import control from "@resource/control.json";
 import config from "@resource/config.json";
-const lang = "ja" === navigator.language.substring(0, 2) ? "ja": "en";
-export const localeMaster =
-{
-    en: localeEn,
-    ja: localeJa,
-};
-export type LocaleKeyType =
-    keyof typeof localeEn &
-    keyof typeof localeJa;
-export type LocaleType = keyof typeof localeMaster;
-export const localeMap = (key: LocaleKeyType) => localeMaster[lang][key];
-const screenBody = <HTMLDivElement>document.getElementById("screen-body");
-const canvas = <HTMLDivElement>document.getElementById("canvas");
-const topCoat = <HTMLDivElement>document.getElementById("top-coat");
-const playButton = <HTMLButtonElement>document.getElementById("play-button");
-const patternSelect = new Control.Select
+import poweredBy from "@resource/powered-by.json";
+const numberToString = (value: number, maximumFractionDigits?: number) =>
+    value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits, });
+const timespanToString = (value: number, maximumFractionDigits?: number) =>
+    value < 1000 ? `${numberToString(value, maximumFractionDigits)} ${Locale.map("timeUnitMs")}`:
+    value < 60 *1000 ? `${numberToString(value /1000, maximumFractionDigits)} ${Locale.map("timeUnitS")}`:
+    value < 60 *60 *1000 ?`${numberToString(value /(60 *1000), maximumFractionDigits)} ${Locale.map("timeUnitM")}`:
+    value < 24 *60 *60 *1000 ?`${numberToString(value /(60 *60 *1000), maximumFractionDigits)} ${Locale.map("timeUnitH")}`:
+        `${numberToString(value /(24 *60 *60 *1000), maximumFractionDigits)} ${Locale.map("timeUnitD")}`;
+const screenBody = UI.getElementById(HTMLDivElement, "screen-body");
+const canvas = UI.getElementById(HTMLDivElement, "canvas");
+const topCoat = UI.getElementById(HTMLDivElement, "top-coat");
+//const playButton =
+new Control.Button
 ({
-    id: "pattern",
-    enum: config.pattern.enum,
-    default: config.pattern.default,
+    id:"play-button",
+    click: (event, button) =>
+    {
+        event.stopPropagation();
+        button.dom.blur();
+        playOrPause();
+    }
 });
-const coloringSelect = new Control.Select
-({
-    id: "coloring",
-    enum: config.coloring.enum,
-    default: config.coloring.default,
-});
+const patternSelect = new Control.Select(control.pattern);
+const coloringSelect = new Control.Select(control.coloring);
 const canvasSizeSelect = new Control.Select
-({
-    id: "canvas-size",
-    enum: config.canvasSize.enum,
-    default: config.canvasSize.default,
-    makeLabel: i => `${i} %`,
-    change: () => updateCanvasSize()
-});
+(
+    control.canvasSize,
+    {
+        makeLabel: i => `${i} %`,
+        change: () => updateCanvasSize()
+    }
+);
 const layersSelect = new Control.Select
-({
-    id: "layers",
-    default: config.layers.default,
-    enum: config.layers.enum,
-    change: () => updateLayers()
-});
+(
+    control.layers,
+    {
+        change: () => updateLayers()
+    }
+);
 const spanSelect = new Control.Select
-({
-    id: "span",
-    enum: config.span.enum,
-    default: config.span.default,
-    makeLabel: i =>
-        i < 1000 ? `${i} ${localeMap("timeUnitMs")}`:
-        i < 60000 ? `${i /1000} ${localeMap("timeUnitS")}`:
-        i < 3600000 ?`${i /60000} ${localeMap("timeUnitM")}`:
-            `${i /3600000} ${localeMap("timeUnitH")}`,
-    change: () => updateSpan(),
-});
+(
+    control.span,
+    {
+        makeLabel: timespanToString,
+        change: () => updateSpan(),
+    }
+);
 const fuseFpsSelect = new Control.Select
-({
-    id: "fuse-fps",
-    enum: config.fuseFps.enum,
-    default: config.fuseFps.default,
-});
-const easingCheckbox = new Control.Checkbox
-({
-    id: "easing",
-    default: config.easing.default,
-});
-const withFullscreen = new Control.Checkbox
-({
-    id: "with-fullscreen",
-    default: config.withFullscreen.default,
-});
-const showFPS = new Control.Checkbox
-({
-    id: "show-fps",
-    default: config.showFPS.default,
-});
-const fpsElement = <HTMLDivElement>document.getElementById("fps");
+(
+    control.fuseFps,
+    {
+        change: () => updateFuseFps(),
+    }
+);
+const easingCheckbox = new Control.Checkbox(control.easing);
+const withFullscreen = new Control.Checkbox(control.withFullscreen);
+const showFPS = new Control.Checkbox(control.showFPS);
+const fpsElement = UI.getElementById(HTMLDivElement, "fps");
+const poweredByElement = UI.querySelector(HTMLUListElement, "#powered-by ul");
+Object.entries(poweredBy).forEach
+(
+    i =>
+    {
+        const li = UI.createElement(HTMLLIElement, "li");
+        const a = UI.createElement(HTMLAnchorElement, "a");
+        a.innerText = i[0];
+        a.href = i[1];
+        li.appendChild(a);
+        poweredByElement.appendChild(li);
+    }
+);
 const getDiagonalSize = () => Math.sqrt(Math.pow(canvas?.clientWidth ?? 0, 2) +Math.pow(canvas?.clientHeight ?? 0, 2));
 const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
 const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
@@ -174,7 +171,7 @@ if ( ! fullscreenEnabled && withFullscreen.dom.parentElement)
 }
 let startAt = 0;
 let offsetAt = 0;
-let span = config.span.default;
+let span = control.span.default;
 let h = Math.random();
 let hueUnit = 1 / phiColors.phi;
 let defaultLightness = 0.5;
@@ -222,14 +219,14 @@ interface Layer
     offset: number;
     arguments: FlounderStyle.Type.Arguments | undefined;}
 let layers: Layer[] = [];
-(<HTMLDivElement>document.getElementsByClassName("layer")[0]).style.setProperty("background-color", makeColor(0.0));
-const informationList = <HTMLUListElement>document.getElementById("information-list");
+UI.getElementsByClassName(HTMLDivElement, "layer")[0].style.setProperty("background-color", makeColor(0.0));
+const informationList = UI.getElementById(HTMLUListElement, "information-list");
 config.informations.forEach
 (
     i =>
     {
-        const li = document.createElement("li");
-        li.innerText = localeMap(<LocaleKeyType>i);
+        const li = UI.createElement(HTMLLIElement, "li");
+        li.innerText = Locale.map(<Locale.KeyType>i);
         informationList.appendChild(li);
     }
 );
@@ -267,6 +264,13 @@ const animationStep = (now: number) =>
         }
     );
 }
+const updateAnimation = () =>
+{
+    if ( ! isInAnimation())
+    {
+        animationStep(startAt +offsetAt);
+    }
+}
 const isInAnimation = () => document.body.classList.contains("immersive");
 const animation = (now: number) =>
 {
@@ -275,20 +279,33 @@ const animation = (now: number) =>
         Fps.step(now);
         if (Fps.isUnderFuseFps())
         {
+            console.error
+            (
+                "❌ UnderFuseFps:",
+                {
+                    fuseFps: Fps.fuseFps,
+                    maxFps: Fps.currentMaxFps.fps,
+                    nowFps: Fps.currentMaxFps.fps,
+                    minFps: Fps.currentMinFps.fps,
+                }
+            );
             pause();
         }
-        if (showFPS.get())
+        else
         {
-            fpsElement.innerText = Fps.getText();
+            if (showFPS.get())
+            {
+                fpsElement.innerText = Fps.getText();
+            }
+            if (span !== newSpan)
+            {
+                const universalStep = (now -startAt) /span;
+                startAt = now -(universalStep *newSpan);
+                span = newSpan;
+            }
+            animationStep(now);
+            window.requestAnimationFrame(animation);
         }
-        if (span !== newSpan)
-        {
-            const universalStep = (now -startAt) /span;
-            startAt = now -(universalStep *newSpan);
-            span = newSpan;
-        }
-        animationStep(now);
-        window.requestAnimationFrame(animation);
     }
     else
     {
@@ -342,7 +359,7 @@ const play = () =>
         (
             now =>
             {
-                startAt = (now -offsetAt);
+                startAt = now -offsetAt;
                 Fps.reset();
                 animation(now);
             }
@@ -357,41 +374,7 @@ const pause = () =>
     updateFullscreenState(false);
 };
 const playOrPause = () =>
-{
-    if ( ! document.body.classList.contains("immersive"))
-    {
-        play();
-    }
-    else
-    {
-        pause();
-    }
-};
-class ToggleClassForWhileTimer
-{
-    timer: number | undefined;
-    constructor()
-    {
-        this.timer = undefined;
-    }
-    start(element: HTMLElement, token: string, span: number)
-    {
-        if (undefined !== this.timer)
-        {
-            clearTimeout(this.timer);
-        }
-        element.classList.toggle(token, true);
-        this.timer = setTimeout
-        (
-            () =>
-            {
-                this.timer = undefined;
-                element.classList.toggle(token, false);
-            },
-            span
-        );
-    }
-}
+    isInAnimation() ? pause(): play();
 topCoat.addEventListener
 (
     "click",
@@ -400,60 +383,42 @@ topCoat.addEventListener
         event.stopPropagation();
         if (event.target === event.currentTarget)
         {
+            console.log("👆 topCoat.Click:", event, topCoat);
             pause();
         }
     }
 );
-const mousemoveTimer = new ToggleClassForWhileTimer();
+const mousemoveTimer = new UI.ToggleClassForWhileTimer();
 screenBody.addEventListener
 (
     "mousemove",
-    () => mousemoveTimer.start(document.body, "mousemove", 1000)
-)
-document.querySelectorAll("label[for]").forEach
-(
-    label =>
+    _event =>
     {
-        const selectId = label.getAttribute("for");
-        if (selectId)
+        if (config.log.mousemove && ! mousemoveTimer.isOn())
         {
-            const select = <HTMLSelectElement>document.getElementById(selectId);
-            if (select && "select" === select.tagName.toLowerCase())
-            {
-                label.addEventListener
-                (
-                    'click',
-                    e =>
-                    {
-                        e.preventDefault();
-                        select.focus();
-                        if ("showPicker" in select)
-                        {
-                            select.showPicker();
-                        }
-                        else
-                        {
-                            (<any>select).click();
-                        }
-                    }
-                );
-            }
+            console.log("🖱️ MouseMove:", event, screenBody);
         }
+        mousemoveTimer.start(document.body, "mousemove", 1000)
     }
-);
+)
+UI.querySelectorAllWithFallback(HTMLLabelElement, [ "label[for]:has(select)", "label[for]", ])
+    .forEach(label => UI.showPickerOnLabel(label));
 const updateColoring = () =>
 {
     switch(coloringSelect.get() ?? "phi-colors")
     {
     case "monochrome":
-        getForegroundColor = (i: Layer, _ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
+        getForegroundColor = (i: Layer, _ix: number) =>
+            indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
         break;
     case "primary-colors":
-        getForegroundColor = (i: Layer, ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
+        getForegroundColor = (i: Layer, ix: number) =>
+            indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
         break;
     case "phi-colors":
     default:
-        getForegroundColor = (i: Layer, _ix: number) => <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
+        getForegroundColor = (i: Layer, _ix: number) =>
+            <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
         break;
     }
 };
@@ -461,12 +426,12 @@ updateColoring();
 const updateLayers = () =>
 {
     const newLayers = parseInt(layersSelect.get());
-    const oldLayerList = Array.from(document.getElementsByClassName("layer"));
+    const oldLayerList = UI.getElementsByClassName(HTMLDivElement, "layer");
     if (oldLayerList.length < newLayers)
     {
         for (let i = oldLayerList.length; i < newLayers; ++i)
         {
-            const newLayer = document.createElement("div");
+            const newLayer = UI.createElement(HTMLDivElement, "div");
             newLayer.classList.add("layer");
             canvas.appendChild(newLayer);
         }
@@ -478,7 +443,7 @@ const updateLayers = () =>
             canvas.removeChild(oldLayerList[i]);
         }
     }
-    const layerList = Array.from(document.getElementsByClassName("layer"));
+    const layerList = UI.getElementsByClassName(HTMLDivElement, "layer");
     const newArguments = layers[0]?.arguments;
     const oldArguments = argumentHistory[argumentHistory.length -2];
     const newMile = layers[0]?.mile ?? 0;
@@ -522,10 +487,7 @@ const updateLayers = () =>
             }
         )
     );
-    if ( ! isInAnimation())
-    {
-        animationStep(startAt +offsetAt);
-    }
+    updateAnimation();
 };
 const updateCanvasSize = () =>
 {
@@ -571,11 +533,8 @@ const updateDiagonalSize = () =>
             }
         }
     );
-    if ( ! isInAnimation())
-    {
-        animationStep(startAt +offsetAt);
-    }
     diagonalSize = newDiagonalSize;
+    updateAnimation();
 };
 let newSpan = parseInt(spanSelect.get());
 const updateSpan = () =>
@@ -602,22 +561,9 @@ const updateEasing = () =>
             2 *Math.pow(t, 2):
             1 -(2 *Math.pow(1 -t, 2)):
         (t: number) => t;
-    if ( ! isInAnimation())
-    {
-        animationStep(startAt +offsetAt);
-    }
+    updateAnimation();
 };
 updateEasing();
-playButton.addEventListener
-(
-    "click",
-    event =>
-    {
-        event.stopPropagation();
-        playButton.blur();
-        playOrPause();
-    }
-);
 window.addEventListener
 (
     "keydown",
@@ -704,8 +650,9 @@ window.addEventListener
                 }
             }
             else
+            if ("Shift" !== event.key)
             {
-                console.log({ unknownKeyDown: { key: event.key, code:event.code } });
+                console.log("💡 UnknownKeyDown:", { key: event.key, code:event.code });
             }
         }
     }
@@ -721,3 +668,10 @@ window.addEventListener
         }
     }
 );
+interface BuildInformation
+{
+    at: string;
+    tick: number;
+}
+declare var build: BuildInformation;
+console.log(`📦 BUILD AT: ${build.at} ( ${timespanToString(new Date().getTime() -build.tick, 1)} ${Locale.map("ago")} )`);

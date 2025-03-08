@@ -1,24 +1,9 @@
 {
     "applicationTitle": "Kaleidoscope",
-    "localDbPrefix": "flounder.studio",
     "repositoryUrl": "https://github.com/wraith13/kaleidoscope/",
-    "pattern":
-    {
-        "enum": [
-            "lines",
-            "spots",
-            "multi"
-        ],
-        "default": "lines"
-    },
-    "coloring":
-    {
-        "enum": [
-            "monochrome",
-            "primary-colors",
-            "phi-colors"
-        ],
-        "default": "phi-colors"
+    "log": {
+        "mousemove": false,
+        "ToggleClassForWhileTimer.Timeout": false
     },
     "colors": {
         "monochrome": [
@@ -31,109 +16,7 @@
             "blue"
         ]
     },
-    "canvasSize": {
-        "enum": [
-            100,
-            75,
-            50,
-            30,
-            25,
-            20,
-            15,
-            10,
-            5,
-            3,
-            2,
-            1
-        ],
-        "default": 100
-    },
-    "layers": {
-        "enum": [
-            97,
-            89,
-            83,
-            79,
-            73,
-            71,
-            67,
-            61,
-            59,
-            53,
-            47,
-            43,
-            41,
-            37,
-            31,
-            29,
-            23,
-            19,
-            17,
-            13,
-            11,
-            7,
-            5,
-            3,
-            2,
-            1
-        ],
-        "default": 23
-    },
-    "span": {
-        "enum": [
-            3600000,
-            1800000,
-            900000,
-            750000,
-            600000,
-            450000,
-            300000,
-            180000,
-            90000,
-            60000,
-            45000,
-            30000,
-            18000,
-            12500,
-            10000,
-            7500,
-            5000,
-            4000,
-            3000,
-            2500,
-            2000,
-            1500,
-            1000
-        ],
-        "default": 60000
-    },
-    "fuseFps": {
-        "enum": [
-            25,
-            20,
-            15,
-            12.5,
-            10,
-            7.5,
-            5,
-            3
-        ],
-        "default": 7.5
-    },
-    "easing":
-    {
-        "default": true
-    },
-    "withFullscreen":
-    {
-        "default": false
-    },
-    "showFPS":
-    {
-        "default": false
-    },
-    "intervalSize":
-    {
+    "intervalSize": {
         "minRate": 0.03,
         "maxRate": 0.6
     },

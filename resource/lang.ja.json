@@ -7,5 +7,7 @@
     "timeUnitMs": "ミリ秒",
     "timeUnitS": "秒",
     "timeUnitM": "分",
-    "timeUnitH": "時間"
+    "timeUnitH": "時間",
+    "timeUnitD": "日",
+    "ago": "前"
 }

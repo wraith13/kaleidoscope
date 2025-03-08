@@ -7,5 +7,7 @@
     "timeUnitMs": "ms",
     "timeUnitS": "s",
     "timeUnitM": "m",
-    "timeUnitH": "h"
+    "timeUnitH": "h",
+    "timeUnitD": "d",
+    "ago": "ago"
 }

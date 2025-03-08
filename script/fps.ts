@@ -9,9 +9,9 @@ export namespace Fps
     const fpsCalcUnit = 5;
     let frameTimings: number[] = [];
     let fpsHistory: FpsHistoryEntry[] = [];
-    let currentMaxFps: FpsHistoryEntry;
-    let currentNowFps: FpsHistoryEntry;
-    let currentMinFps: FpsHistoryEntry;
+    export let currentMaxFps: FpsHistoryEntry;
+    export let currentNowFps: FpsHistoryEntry;
+    export let currentMinFps: FpsHistoryEntry;
     export let fuseFps: number;
     export const reset = () =>
     {

@@ -281,73 +281,130 @@ declare module "script/control" {
             id: string;
         }
         type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
+        const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
+        interface ButtonArgumentsBase<T extends HTMLElement> {
+            click: (event: Event, select: Button<T>) => unknown;
+        }
+        type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
+        class Button<T extends HTMLElement> {
+            data: ButtonArguments<T>;
+            dom: T;
+            constructor(data: ButtonArguments<T>);
+        }
         interface SelectArgumentsBase<T> {
             enum: T[];
             default: T;
+        }
+        interface SelectOptions<T> {
             makeLabel?: (value: T) => string;
             change?: (event: Event, select: Select<T>) => unknown;
         }
         type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
-        const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
         class Select<T> {
             data: SelectArguments<T>;
+            options?: SelectOptions<T> | undefined;
             dom: HTMLSelectElement;
-            constructor(data: SelectArguments<T>);
+            constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
             switch: (valueOrDirection: T | boolean) => void;
             get: () => string;
         }
         interface CheckboxArgumentsBase {
             default?: boolean;
+        }
+        interface CheckboxOptions {
             change?: (event: Event, checked: Checkbox) => unknown;
         }
         type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
         class Checkbox {
             data: CheckboxArguments;
+            options?: CheckboxOptions | undefined;
             dom: HTMLInputElement;
-            constructor(data: CheckboxArguments);
+            constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
             toggle: (checked?: boolean) => void;
             get: () => boolean;
         }
     }
 }
-declare module "script/fps" {
-    export namespace Fps {
-        let fuseFps: number;
-        const reset: () => void;
-        const step: (now: number) => void;
-        let isValid: boolean;
-        const getText: () => string;
-        const isUnderFuseFps: () => boolean;
+declare module "script/ui" {
+    export namespace UI {
+        const showPickerOnLabel: (label: HTMLLabelElement) => void;
+        class ToggleClassForWhileTimer {
+            timer: number | undefined;
+            constructor();
+            start(element: HTMLElement, token: string, span: number): void;
+            isOn: () => boolean;
+        }
+        const getElementsByClassName: <T extends Element>(type: {
+            new (): T;
+        }, className: string) => T[];
+        const querySelectorAllWithFallback: <T extends Element>(type: {
+            new (): T;
+        }, selectorss: string[]) => T[];
+        const getElementById: <T extends Element>(type: {
+            new (): T;
+        }, id: string) => T;
+        const querySelector: <T extends Element>(type: {
+            new (): T;
+        }, selectors: string) => T;
+        const createElement: <T extends Element>(type: {
+            new (): T;
+        }, tag: string) => T;
     }
 }
-declare module "script/index" {
+declare module "script/fps" {
+    export namespace Fps {
+        interface FpsHistoryEntry {
+            fps: number;
+            now: number;
+            text: string;
+        }
+        export let currentMaxFps: FpsHistoryEntry;
+        export let currentNowFps: FpsHistoryEntry;
+        export let currentMinFps: FpsHistoryEntry;
+        export let fuseFps: number;
+        export const reset: () => void;
+        export const step: (now: number) => void;
+        export let isValid: boolean;
+        export const getText: () => string;
+        export const isUnderFuseFps: () => boolean;
+        export {};
+    }
+}
+declare module "script/locale" {
     import localeEn from "resource/lang.en";
     import localeJa from "resource/lang.ja";
-    export const localeMaster: {
-        en: {
-            description: string;
-            "DELETEME.warningText": string;
-            informationFuseFps: string;
-            "DELETEME.informationLayers": string;
-            "DELETEME.informationPattern": string;
-            timeUnitMs: string;
-            timeUnitS: string;
-            timeUnitM: string;
-            timeUnitH: string;
+    export namespace Locale {
+        const master: {
+            en: {
+                description: string;
+                "DELETEME.warningText": string;
+                informationFuseFps: string;
+                "DELETEME.informationLayers": string;
+                "DELETEME.informationPattern": string;
+                timeUnitMs: string;
+                timeUnitS: string;
+                timeUnitM: string;
+                timeUnitH: string;
+                timeUnitD: string;
+                ago: string;
+            };
+            ja: {
+                description: string;
+                "DELETEME.warningText": string;
+                informationFuseFps: string;
+                "DELETEME.informationLayers": string;
+                "DELETEME.informationPattern": string;
+                timeUnitMs: string;
+                timeUnitS: string;
+                timeUnitM: string;
+                timeUnitH: string;
+                timeUnitD: string;
+                ago: string;
+            };
         };
-        ja: {
-            description: string;
-            "DELETEME.warningText": string;
-            informationFuseFps: string;
-            "DELETEME.informationLayers": string;
-            "DELETEME.informationPattern": string;
-            timeUnitMs: string;
-            timeUnitS: string;
-            timeUnitM: string;
-            timeUnitH: string;
-        };
-    };
-    export type LocaleKeyType = keyof typeof localeEn & keyof typeof localeJa;
-    export type LocaleType = keyof typeof localeMaster;
-    export const localeMap: (key: LocaleKeyType) => string;
+        type KeyType = keyof typeof localeEn & keyof typeof localeJa;
+        type Type = keyof typeof master;
+        const map: (key: KeyType) => string;
+    }
 }
+declare module "script/index" { }
