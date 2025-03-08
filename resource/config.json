@@ -2,7 +2,24 @@
     "applicationTitle": "Kaleidoscope",
     "localDbPrefix": "flounder.studio",
     "repositoryUrl": "https://github.com/wraith13/kaleidoscope/",
-    "coloringDefault": "phi-colors",
+    "pattern":
+    {
+        "enum": [
+            "lines",
+            "spots",
+            "multi"
+        ],
+        "default": "lines"
+    },
+    "coloring":
+    {
+        "enum": [
+            "monochrome",
+            "primary-colors",
+            "phi-colors"
+        ],
+        "default": "phi-colors"
+    },
     "colors": {
         "monochrome": [
             "black",
@@ -14,91 +31,112 @@
             "blue"
         ]
     },
-    "patternDefault": "lines",
-    "canvasSizeEnum": [
-        100,
-        75,
-        50,
-        30,
-        25,
-        20,
-        15,
-        10,
-        5,
-        3,
-        2,
-        1
-    ],
-    "canvasSizeDefault": 100,
-    "layersEnum": [
-        97,
-        89,
-        83,
-        79,
-        73,
-        71,
-        67,
-        61,
-        59,
-        53,
-        47,
-        43,
-        41,
-        37,
-        31,
-        29,
-        23,
-        19,
-        17,
-        13,
-        11,
-        7,
-        5,
-        3,
-        2,
-        1
-    ],
-    "layersDefault": 23,
-    "spanEnum": [
-        3600000,
-        1800000,
-        900000,
-        750000,
-        600000,
-        450000,
-        300000,
-        180000,
-        90000,
-        60000,
-        45000,
-        30000,
-        18000,
-        12500,
-        10000,
-        7500,
-        5000,
-        4000,
-        3000,
-        2500,
-        2000,
-        1500,
-        1000
-    ],
-    "spanDefault": 60000,
-    "fuseFpsEnum": [
-        25,
-        20,
-        15,
-        12.5,
-        10,
-        7.5,
-        5,
-        3
-    ],
-    "fuseFpsDefault": 7.5,
-    "easingDefault": true,
-    "intervalSizeMinRate": 0.03,
-    "intervalSizeMaxRate": 0.6,
+    "canvasSize": {
+        "enum": [
+            100,
+            75,
+            50,
+            30,
+            25,
+            20,
+            15,
+            10,
+            5,
+            3,
+            2,
+            1
+        ],
+        "default": 100
+    },
+    "layers": {
+        "enum": [
+            97,
+            89,
+            83,
+            79,
+            73,
+            71,
+            67,
+            61,
+            59,
+            53,
+            47,
+            43,
+            41,
+            37,
+            31,
+            29,
+            23,
+            19,
+            17,
+            13,
+            11,
+            7,
+            5,
+            3,
+            2,
+            1
+        ],
+        "default": 23
+    },
+    "span": {
+        "enum": [
+            3600000,
+            1800000,
+            900000,
+            750000,
+            600000,
+            450000,
+            300000,
+            180000,
+            90000,
+            60000,
+            45000,
+            30000,
+            18000,
+            12500,
+            10000,
+            7500,
+            5000,
+            4000,
+            3000,
+            2500,
+            2000,
+            1500,
+            1000
+        ],
+        "default": 60000
+    },
+    "fuseFps": {
+        "enum": [
+            25,
+            20,
+            15,
+            12.5,
+            10,
+            7.5,
+            5,
+            3
+        ],
+        "default": 7.5
+    },
+    "easing":
+    {
+        "default": true
+    },
+    "withFullscreen":
+    {
+        "default": false
+    },
+    "showFPS":
+    {
+        "default": false
+    },
+    "intervalSize":
+    {
+        "minRate": 0.03,
+        "maxRate": 0.6
+    },
     "informations": [
         "informationFuseFps"
     ],

@@ -1,5 +1,6 @@
 import { FlounderStyle } from "flounder.style.js";
 import { phiColors } from "phi-colors"
+import { Control } from "./control";
 import { Fps } from "./fps";
 import localeEn from "@resource/lang.en.json";
 import localeJa from "@resource/lang.ja.json";
@@ -15,84 +16,71 @@ export type LocaleKeyType =
     keyof typeof localeJa;
 export type LocaleType = keyof typeof localeMaster;
 export const localeMap = (key: LocaleKeyType) => localeMaster[lang][key];
-const makeSelectOption = (value: string, text: string) =>
-{
-    const option = document.createElement("option");
-    option.value = value;
-    option.innerText = text;
-    return option;
-};
-const toggleChecked = (dom: HTMLInputElement, checked?: boolean) =>
-    dom.checked = checked ?? ! dom.checked;
-const switchSelect = (dom: HTMLSelectElement, valueOrDirection: string | number | boolean) =>
-{
-    if ("boolean" === typeof valueOrDirection)
-    {
-        const options = Array.from(dom.getElementsByTagName("option"));
-        const optionValues = options.map(i => i.value);
-        const index = optionValues.indexOf(dom.value);
-        const nextIndex = index +(valueOrDirection ? -1: 1);
-        const nextValue = optionValues[nextIndex];
-        if (undefined !== nextValue)
-        {
-            dom.value = nextValue;
-        }
-    }
-    else
-    {
-        dom.value = `${valueOrDirection}`;
-    }
-};
 const screenBody = <HTMLDivElement>document.getElementById("screen-body");
 const canvas = <HTMLDivElement>document.getElementById("canvas");
 const topCoat = <HTMLDivElement>document.getElementById("top-coat");
-const patternSelect = <HTMLSelectElement>document.getElementById("pattern");
-const coloringSelect = <HTMLSelectElement>document.getElementById("coloring");
-const canvasSizeSelect = <HTMLSelectElement>document.getElementById("canvas-size");
 const playButton = <HTMLButtonElement>document.getElementById("play-button");
-config.canvasSizeEnum.forEach
-(
-    i => canvasSizeSelect.appendChild(makeSelectOption(i.toString(), `${i} %`))
-);
-const layersSelect = <HTMLSelectElement>document.getElementById("layers");
-config.layersEnum.forEach
-(
-    i => layersSelect.appendChild(makeSelectOption(i.toString(), `${i}`))
-);
-const spanSelect = <HTMLSelectElement>document.getElementById("span");
-config.spanEnum.forEach
-(
-    i => spanSelect.appendChild
-    (
-        makeSelectOption
-        (
-            i.toString(),
-            i < 1000 ? `${i} ${localeMap("timeUnitMs")}`:
-            i < 60000 ? `${i /1000} ${localeMap("timeUnitS")}`:
-            i < 3600000 ?`${i /60000} ${localeMap("timeUnitM")}`:
-            `${i /3600000} ${localeMap("timeUnitH")}`
-        )
-    )
-);
-const fuseFpsSelect = <HTMLSelectElement>document.getElementById("fuse-fps");
-config.fuseFpsEnum.forEach
-(
-    i => fuseFpsSelect.appendChild(makeSelectOption(i.toString(), `${i}`))
-);
-const easingCheckbox = <HTMLInputElement>document.getElementById("easing");
-const withFullscreen = <HTMLInputElement>document.getElementById("with-fullscreen");
-const showFPS = <HTMLInputElement>document.getElementById("show-fps");
+const patternSelect = new Control.Select
+({
+    id: "pattern",
+    enum: config.pattern.enum,
+    default: config.pattern.default,
+});
+const coloringSelect = new Control.Select
+({
+    id: "coloring",
+    enum: config.coloring.enum,
+    default: config.coloring.default,
+});
+const canvasSizeSelect = new Control.Select
+({
+    id: "canvas-size",
+    enum: config.canvasSize.enum,
+    default: config.canvasSize.default,
+    makeLabel: i => `${i} %`,
+    change: () => updateCanvasSize()
+});
+const layersSelect = new Control.Select
+({
+    id: "layers",
+    default: config.layers.default,
+    enum: config.layers.enum,
+    change: () => updateLayers()
+});
+const spanSelect = new Control.Select
+({
+    id: "span",
+    enum: config.span.enum,
+    default: config.span.default,
+    makeLabel: i =>
+        i < 1000 ? `${i} ${localeMap("timeUnitMs")}`:
+        i < 60000 ? `${i /1000} ${localeMap("timeUnitS")}`:
+        i < 3600000 ?`${i /60000} ${localeMap("timeUnitM")}`:
+            `${i /3600000} ${localeMap("timeUnitH")}`,
+    change: () => updateSpan(),
+});
+const fuseFpsSelect = new Control.Select
+({
+    id: "fuse-fps",
+    enum: config.fuseFps.enum,
+    default: config.fuseFps.default,
+});
+const easingCheckbox = new Control.Checkbox
+({
+    id: "easing",
+    default: config.easing.default,
+});
+const withFullscreen = new Control.Checkbox
+({
+    id: "with-fullscreen",
+    default: config.withFullscreen.default,
+});
+const showFPS = new Control.Checkbox
+({
+    id: "show-fps",
+    default: config.showFPS.default,
+});
 const fpsElement = <HTMLDivElement>document.getElementById("fps");
-switchSelect(patternSelect, config.patternDefault);
-switchSelect(coloringSelect, config.coloringDefault);
-switchSelect(canvasSizeSelect, config.canvasSizeDefault);
-switchSelect(layersSelect, config.layersDefault);
-switchSelect(spanSelect, config.spanDefault);
-switchSelect(fuseFpsSelect, config.fuseFpsDefault);
-toggleChecked(easingCheckbox, config.easingDefault);
-layersSelect.addEventListener("change", () => updateLayers());
-canvasSizeSelect.addEventListener("change", () => updateCanvasSize());
-spanSelect.addEventListener("change", () => updateSpan());
 const getDiagonalSize = () => Math.sqrt(Math.pow(canvas?.clientWidth ?? 0, 2) +Math.pow(canvas?.clientHeight ?? 0, 2));
 const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
 const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
@@ -136,7 +124,7 @@ const makeRandomTrilineArguments = (intervalSize: IntervalSize): FlounderStyle.T
     makeRandomLineArguments("triline", intervalSize);
 const getPatterns = (): ((intervalSize: IntervalSize) => FlounderStyle.Type.Arguments)[] =>
 {
-    switch(patternSelect.value)
+    switch(patternSelect.get())
     {
         case "lines":
             return [
@@ -167,8 +155,8 @@ const makeRandomArguments = (): FlounderStyle.Type.Arguments =>
     (
         rate
         (
-            diagonalSize *config.intervalSizeMinRate,
-            diagonalSize *config.intervalSizeMaxRate
+            diagonalSize *config.intervalSize.minRate,
+            diagonalSize *config.intervalSize.maxRate
         )
         (Math.random())
     );
@@ -180,13 +168,13 @@ const makeRandomArguments = (): FlounderStyle.Type.Arguments =>
     return result;
 };
 const fullscreenEnabled = document.fullscreenEnabled || (<any>document).webkitFullscreenEnabled;
-if ( ! fullscreenEnabled && withFullscreen.parentElement)
+if ( ! fullscreenEnabled && withFullscreen.dom.parentElement)
 {
-    withFullscreen.parentElement.style.setProperty("display", "none");
+    withFullscreen.dom.parentElement.style.setProperty("display", "none");
 }
 let startAt = 0;
 let offsetAt = 0;
-let span = config.spanDefault;
+let span = config.span.default;
 let h = Math.random();
 let hueUnit = 1 / phiColors.phi;
 let defaultLightness = 0.5;
@@ -289,7 +277,7 @@ const animation = (now: number) =>
         {
             pause();
         }
-        if (showFPS.checked)
+        if (showFPS.get())
         {
             fpsElement.innerText = Fps.getText();
         }
@@ -311,7 +299,7 @@ const updateFullscreenState = (fullscreen?: boolean) =>
 {
     if (fullscreenEnabled)
     {
-        if (fullscreen ?? withFullscreen.checked)
+        if (fullscreen ?? withFullscreen.get())
         {
             if (document.body.requestFullscreen)
             {
@@ -455,7 +443,7 @@ document.querySelectorAll("label[for]").forEach
 );
 const updateColoring = () =>
 {
-    switch(coloringSelect.value ?? "phi-colors")
+    switch(coloringSelect.get() ?? "phi-colors")
     {
     case "monochrome":
         getForegroundColor = (i: Layer, _ix: number) => indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
@@ -472,7 +460,7 @@ const updateColoring = () =>
 updateColoring();
 const updateLayers = () =>
 {
-    const newLayers = parseInt(layersSelect.value);
+    const newLayers = parseInt(layersSelect.get());
     const oldLayerList = Array.from(document.getElementsByClassName("layer"));
     if (oldLayerList.length < newLayers)
     {
@@ -541,7 +529,7 @@ const updateLayers = () =>
 };
 const updateCanvasSize = () =>
 {
-    const newCanvasSize = parseFloat(canvasSizeSelect.value);
+    const newCanvasSize = parseFloat(canvasSizeSelect.get());
     const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
     const canvasMergin = (1 -newCanvasSizeRate) *100 /2;
     [ "top", "right", "bottom", "left", ].forEach
@@ -589,10 +577,10 @@ const updateDiagonalSize = () =>
     }
     diagonalSize = newDiagonalSize;
 };
-let newSpan = parseInt(spanSelect.value);
+let newSpan = parseInt(spanSelect.get());
 const updateSpan = () =>
 {
-    newSpan = parseInt(spanSelect.value);
+    newSpan = parseInt(spanSelect.get());
     if (span !== newSpan)
     {
         if ( ! isInAnimation())
@@ -604,12 +592,12 @@ const updateSpan = () =>
 };
 const updateFuseFps = () =>
 {
-    Fps.fuseFps = parseFloat(fuseFpsSelect.value);
+    Fps.fuseFps = parseFloat(fuseFpsSelect.get());
 };
 updateFuseFps();
 const updateEasing = () =>
 {
-    easing = easingCheckbox.checked ?
+    easing = easingCheckbox.get() ?
         (t: number) => t <= 0.5 ?
             2 *Math.pow(t, 2):
             1 -(2 *Math.pow(1 -t, 2)):
@@ -649,23 +637,29 @@ window.addEventListener
             else
             if ("F" === event.key.toUpperCase())
             {
-                toggleChecked(withFullscreen);
+                withFullscreen.toggle();
                 if (isInAnimation())
                 {
                     updateFullscreenState();
                 }
             }
             else
+            if ("S" === event.key.toUpperCase())
+            {
+                showFPS.toggle();
+                fpsElement.innerText = "";
+            }
+            else
             if ("ArrowUp" === event.key)
             {
                 if (event.shiftKey)
                 {
-                    switchSelect(canvasSizeSelect, true);
+                    canvasSizeSelect.switch(true);
                     updateCanvasSize();
                 }
                 else
                 {
-                    switchSelect(layersSelect, true);
+                    layersSelect.switch(true);
                     updateLayers();
                 }
             }
@@ -674,12 +668,12 @@ window.addEventListener
             {
                 if (event.shiftKey)
                 {
-                    switchSelect(canvasSizeSelect, false);
+                    canvasSizeSelect.switch(false);
                     updateCanvasSize();
                 }
                 else
                 {
-                    switchSelect(layersSelect, false);
+                    layersSelect.switch(false);
                     updateLayers();
                 }
             }
@@ -688,11 +682,11 @@ window.addEventListener
             {
                 if (event.shiftKey)
                 {
-                    switchSelect(fuseFpsSelect, false);
+                    //fuseFpsSelect.switch(false);
                 }
                 else
                 {
-                    switchSelect(spanSelect, true);
+                    spanSelect.switch(true);
                     updateSpan();
                 }
             }
@@ -701,11 +695,11 @@ window.addEventListener
             {
                 if (event.shiftKey)
                 {
-                    switchSelect(fuseFpsSelect, true);
+                    //fuseFpsSelect.switch(true);
                 }
                 else
                 {
-                    switchSelect(spanSelect, false);
+                    spanSelect.switch(false);
                     updateSpan();
                 }
             }

@@ -272,6 +272,44 @@ declare module "flounder.style.js/index" {
         const selectClosestAngleDirection: (directions: OffsetCoefficientDirection[], angle: Type.DirectionAngle) => OffsetCoefficientDirection;
     }
 }
+declare module "script/control" {
+    export namespace Control {
+        interface ArgumentsBaseDom<T extends HTMLElement> {
+            dom: T;
+        }
+        interface ArgumentsBaseId {
+            id: string;
+        }
+        type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
+        interface SelectArgumentsBase<T> {
+            enum: T[];
+            default: T;
+            makeLabel?: (value: T) => string;
+            change?: (event: Event, select: Select<T>) => unknown;
+        }
+        type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
+        const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
+        class Select<T> {
+            data: SelectArguments<T>;
+            dom: HTMLSelectElement;
+            constructor(data: SelectArguments<T>);
+            switch: (valueOrDirection: T | boolean) => void;
+            get: () => string;
+        }
+        interface CheckboxArgumentsBase {
+            default?: boolean;
+            change?: (event: Event, checked: Checkbox) => unknown;
+        }
+        type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
+        class Checkbox {
+            data: CheckboxArguments;
+            dom: HTMLInputElement;
+            constructor(data: CheckboxArguments);
+            toggle: (checked?: boolean) => void;
+            get: () => boolean;
+        }
+    }
+}
 declare module "script/fps" {
     export namespace Fps {
         let fuseFps: number;

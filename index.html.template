@@ -51,29 +51,42 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope"><span>Kaleidoscope</a></div></h1>
 <div id="screen-body">
     <div class="option-panel">
-        <label for="pattern"><span id="patternLabel">Pattern:</span>
-            <select id="pattern">
-                <option value="lines">lines</option>
-                <option value="spots">spots</option>
-                <option value="multi">multi</option>
-            </select>
+        <label for="pattern">
+            <span id="patternLabel">Pattern:</span>
+            <select id="pattern"></select>
         </label>
-        <label for="coloring">Coloring:
-            <select id="coloring">
-                <option value="monochrome">monochrome</option>
-                <option value="primary-colors">primary-colors</option>
-                <option value="phi-colors">phi-colors</option>
-            </select>
+        <label for="coloring">
+            Coloring:
+            <select id="coloring"></select>
         </label>
-        <label for="canvas-size">Canvas Size:
+        <label for="canvas-size">
+            Canvas Size:
             <select id="canvas-size"></select>
         </label>
-        <label for="layers">Layers:<select id="layers"></select></label>
-        <label for="span">Cycle Span:<select id="span"></select></label>
-        <label for="fuse-fps">Fuse FPS:<select id="fuse-fps"></select></label>
-        <label for="easing">Easing:<input id="easing" type="checkbox"></label>
-        <label for="with-fullscreen">FullScreen:<input id="with-fullscreen" type="checkbox"></label>
-        <label for="show-fps">Show FPS:<input id="show-fps" type="checkbox"></label>
+        <label for="layers">
+            Layers:
+            <select id="layers"></select>
+        </label>
+        <label for="span">
+            Cycle Span:
+            <select id="span"></select>
+        </label>
+        <label for="fuse-fps">
+            Fuse FPS:
+            <select id="fuse-fps"></select>
+        </label>
+        <label for="easing">
+            Easing:
+            <input id="easing" type="checkbox">
+        </label>
+        <label for="with-fullscreen">
+            FullScreen:
+            <input id="with-fullscreen" type="checkbox">
+        </label>
+        <label for="show-fps">
+            Show FPS:
+            <input id="show-fps" type="checkbox">
+        </label>
     </div>
     <div id="fps"></div>
     <button id="play-button">
@@ -99,8 +112,6 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
             <span><kbd>↓</kbd></span><span>Decrease Layer</span>
             <span><kbd>←</kbd></span><span>Speed Down</span>
             <span><kbd>→</kbd></span><span>Speed Up</span>
-            <span><kbd>Shift</kbd><kbd>←</kbd></span><span>Decrease Fuse FPS</span>
-            <span><kbd>Shift</kbd><kbd>→</kbd></span><span>Increase Fuse FPS</span>
             <span><kbd>F</kbd></span><span>FullScreen</span>
             <span><kbd>S</kbd></span><span>Show FPS</span>
         </div>

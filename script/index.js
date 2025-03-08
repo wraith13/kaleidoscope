@@ -1202,6 +1202,68 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
         };
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
+define("script/control", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Control = void 0;
+    var Control;
+    (function (Control) {
+        var makeSelectOption = function (value, text) {
+            var option = document.createElement("option");
+            option.value = value;
+            option.innerText = text;
+            return option;
+        };
+        Control.getDom = function (data) {
+            return "dom" in data ?
+                data.dom :
+                document.getElementById(data.id);
+        };
+        var Select = /** @class */ (function () {
+            function Select(data) {
+                var _this = this;
+                this.data = data;
+                this.switch = function (valueOrDirection) {
+                    if ("boolean" === typeof valueOrDirection) {
+                        var options = Array.from(_this.dom.getElementsByTagName("option"));
+                        var optionValues = options.map(function (i) { return i.value; });
+                        var index = optionValues.indexOf(_this.dom.value);
+                        var nextIndex = index + (valueOrDirection ? -1 : 1);
+                        var nextValue = optionValues[nextIndex];
+                        if (undefined !== nextValue) {
+                            _this.dom.value = nextValue;
+                        }
+                    }
+                    else {
+                        _this.dom.value = "".concat(valueOrDirection);
+                    }
+                };
+                this.get = function () { return _this.dom.value; };
+                this.dom = Control.getDom(data);
+                this.data.enum.forEach(function (i) { var _a, _b, _c; return _this.dom.appendChild(makeSelectOption("".concat(i), (_c = (_b = (_a = _this.data).makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i))); });
+                this.switch(this.data.default);
+            }
+            return Select;
+        }());
+        Control.Select = Select;
+        var Checkbox = /** @class */ (function () {
+            function Checkbox(data) {
+                var _this = this;
+                this.data = data;
+                this.toggle = function (checked) {
+                    _this.dom.checked = checked !== null && checked !== void 0 ? checked : !_this.get();
+                };
+                this.get = function () { return _this.dom.checked; };
+                this.dom = Control.getDom(data);
+                if (undefined !== this.data.default) {
+                    this.toggle(this.data.default);
+                }
+            }
+            return Checkbox;
+        }());
+        Control.Checkbox = Checkbox;
+    })(Control || (exports.Control = Control = {}));
+});
 define("script/fps", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -1286,7 +1348,22 @@ define("resource/config", [], {
     "applicationTitle": "Kaleidoscope",
     "localDbPrefix": "flounder.studio",
     "repositoryUrl": "https://github.com/wraith13/kaleidoscope/",
-    "coloringDefault": "phi-colors",
+    "pattern": {
+        "enum": [
+            "lines",
+            "spots",
+            "multi"
+        ],
+        "default": "lines"
+    },
+    "coloring": {
+        "enum": [
+            "monochrome",
+            "primary-colors",
+            "phi-colors"
+        ],
+        "default": "phi-colors"
+    },
     "colors": {
         "monochrome": [
             "black",
@@ -1298,91 +1375,108 @@ define("resource/config", [], {
             "blue"
         ]
     },
-    "patternDefault": "lines",
-    "canvasSizeEnum": [
-        100,
-        75,
-        50,
-        30,
-        25,
-        20,
-        15,
-        10,
-        5,
-        3,
-        2,
-        1
-    ],
-    "canvasSizeDefault": 100,
-    "layersEnum": [
-        97,
-        89,
-        83,
-        79,
-        73,
-        71,
-        67,
-        61,
-        59,
-        53,
-        47,
-        43,
-        41,
-        37,
-        31,
-        29,
-        23,
-        19,
-        17,
-        13,
-        11,
-        7,
-        5,
-        3,
-        2,
-        1
-    ],
-    "layersDefault": 23,
-    "spanEnum": [
-        3600000,
-        1800000,
-        900000,
-        750000,
-        600000,
-        450000,
-        300000,
-        180000,
-        90000,
-        60000,
-        45000,
-        30000,
-        18000,
-        12500,
-        10000,
-        7500,
-        5000,
-        4000,
-        3000,
-        2500,
-        2000,
-        1500,
-        1000
-    ],
-    "spanDefault": 60000,
-    "fuseFpsEnum": [
-        25,
-        20,
-        15,
-        12.5,
-        10,
-        7.5,
-        5,
-        3
-    ],
-    "fuseFpsDefault": 7.5,
-    "easingDefault": true,
-    "intervalSizeMinRate": 0.03,
-    "intervalSizeMaxRate": 0.6,
+    "canvasSize": {
+        "enum": [
+            100,
+            75,
+            50,
+            30,
+            25,
+            20,
+            15,
+            10,
+            5,
+            3,
+            2,
+            1
+        ],
+        "default": 100
+    },
+    "layers": {
+        "enum": [
+            97,
+            89,
+            83,
+            79,
+            73,
+            71,
+            67,
+            61,
+            59,
+            53,
+            47,
+            43,
+            41,
+            37,
+            31,
+            29,
+            23,
+            19,
+            17,
+            13,
+            11,
+            7,
+            5,
+            3,
+            2,
+            1
+        ],
+        "default": 23
+    },
+    "span": {
+        "enum": [
+            3600000,
+            1800000,
+            900000,
+            750000,
+            600000,
+            450000,
+            300000,
+            180000,
+            90000,
+            60000,
+            45000,
+            30000,
+            18000,
+            12500,
+            10000,
+            7500,
+            5000,
+            4000,
+            3000,
+            2500,
+            2000,
+            1500,
+            1000
+        ],
+        "default": 60000
+    },
+    "fuseFps": {
+        "enum": [
+            25,
+            20,
+            15,
+            12.5,
+            10,
+            7.5,
+            5,
+            3
+        ],
+        "default": 7.5
+    },
+    "easing": {
+        "default": true
+    },
+    "withFullscreen": {
+        "default": false
+    },
+    "showFPS": {
+        "default": false
+    },
+    "intervalSize": {
+        "minRate": 0.03,
+        "maxRate": 0.6
+    },
     "informations": [
         "informationFuseFps"
     ],
@@ -1394,7 +1488,7 @@ define("resource/config", [], {
     "maximumFractionDigits": 2,
     "startWait": 750
 });
-define("script/index", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/fps", "resource/lang.en", "resource/lang.ja", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, fps_1, lang_en_json_1, lang_ja_json_1, config_json_2) {
+define("script/index", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/control", "script/fps", "resource/lang.en", "resource/lang.ja", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, control_1, fps_1, lang_en_json_1, lang_ja_json_1, config_json_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.localeMap = exports.localeMaster = void 0;
@@ -1408,61 +1502,63 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     };
     var localeMap = function (key) { return exports.localeMaster[lang][key]; };
     exports.localeMap = localeMap;
-    var makeSelectOption = function (value, text) {
-        var option = document.createElement("option");
-        option.value = value;
-        option.innerText = text;
-        return option;
-    };
-    var toggleChecked = function (dom, checked) {
-        return dom.checked = checked !== null && checked !== void 0 ? checked : !dom.checked;
-    };
-    var switchSelect = function (dom, valueOrDirection) {
-        if ("boolean" === typeof valueOrDirection) {
-            var options = Array.from(dom.getElementsByTagName("option"));
-            var optionValues = options.map(function (i) { return i.value; });
-            var index = optionValues.indexOf(dom.value);
-            var nextIndex = index + (valueOrDirection ? -1 : 1);
-            var nextValue = optionValues[nextIndex];
-            if (undefined !== nextValue) {
-                dom.value = nextValue;
-            }
-        }
-        else {
-            dom.value = "".concat(valueOrDirection);
-        }
-    };
     var screenBody = document.getElementById("screen-body");
     var canvas = document.getElementById("canvas");
     var topCoat = document.getElementById("top-coat");
-    var patternSelect = document.getElementById("pattern");
-    var coloringSelect = document.getElementById("coloring");
-    var canvasSizeSelect = document.getElementById("canvas-size");
     var playButton = document.getElementById("play-button");
-    config_json_2.default.canvasSizeEnum.forEach(function (i) { return canvasSizeSelect.appendChild(makeSelectOption(i.toString(), "".concat(i, " %"))); });
-    var layersSelect = document.getElementById("layers");
-    config_json_2.default.layersEnum.forEach(function (i) { return layersSelect.appendChild(makeSelectOption(i.toString(), "".concat(i))); });
-    var spanSelect = document.getElementById("span");
-    config_json_2.default.spanEnum.forEach(function (i) { return spanSelect.appendChild(makeSelectOption(i.toString(), i < 1000 ? "".concat(i, " ").concat((0, exports.localeMap)("timeUnitMs")) :
-        i < 60000 ? "".concat(i / 1000, " ").concat((0, exports.localeMap)("timeUnitS")) :
-            i < 3600000 ? "".concat(i / 60000, " ").concat((0, exports.localeMap)("timeUnitM")) :
-                "".concat(i / 3600000, " ").concat((0, exports.localeMap)("timeUnitH")))); });
-    var fuseFpsSelect = document.getElementById("fuse-fps");
-    config_json_2.default.fuseFpsEnum.forEach(function (i) { return fuseFpsSelect.appendChild(makeSelectOption(i.toString(), "".concat(i))); });
-    var easingCheckbox = document.getElementById("easing");
-    var withFullscreen = document.getElementById("with-fullscreen");
-    var showFPS = document.getElementById("show-fps");
+    var patternSelect = new control_1.Control.Select({
+        id: "pattern",
+        enum: config_json_2.default.pattern.enum,
+        default: config_json_2.default.pattern.default,
+    });
+    var coloringSelect = new control_1.Control.Select({
+        id: "coloring",
+        enum: config_json_2.default.coloring.enum,
+        default: config_json_2.default.coloring.default,
+    });
+    var canvasSizeSelect = new control_1.Control.Select({
+        id: "canvas-size",
+        enum: config_json_2.default.canvasSize.enum,
+        default: config_json_2.default.canvasSize.default,
+        makeLabel: function (i) { return "".concat(i, " %"); },
+        change: function () { return updateCanvasSize(); }
+    });
+    var layersSelect = new control_1.Control.Select({
+        id: "layers",
+        default: config_json_2.default.layers.default,
+        enum: config_json_2.default.layers.enum,
+        change: function () { return updateLayers(); }
+    });
+    var spanSelect = new control_1.Control.Select({
+        id: "span",
+        enum: config_json_2.default.span.enum,
+        default: config_json_2.default.span.default,
+        makeLabel: function (i) {
+            return i < 1000 ? "".concat(i, " ").concat((0, exports.localeMap)("timeUnitMs")) :
+                i < 60000 ? "".concat(i / 1000, " ").concat((0, exports.localeMap)("timeUnitS")) :
+                    i < 3600000 ? "".concat(i / 60000, " ").concat((0, exports.localeMap)("timeUnitM")) :
+                        "".concat(i / 3600000, " ").concat((0, exports.localeMap)("timeUnitH"));
+        },
+        change: function () { return updateSpan(); },
+    });
+    var fuseFpsSelect = new control_1.Control.Select({
+        id: "fuse-fps",
+        enum: config_json_2.default.fuseFps.enum,
+        default: config_json_2.default.fuseFps.default,
+    });
+    var easingCheckbox = new control_1.Control.Checkbox({
+        id: "easing",
+        default: config_json_2.default.easing.default,
+    });
+    var withFullscreen = new control_1.Control.Checkbox({
+        id: "with-fullscreen",
+        default: config_json_2.default.withFullscreen.default,
+    });
+    var showFPS = new control_1.Control.Checkbox({
+        id: "show-fps",
+        default: config_json_2.default.showFPS.default,
+    });
     var fpsElement = document.getElementById("fps");
-    switchSelect(patternSelect, config_json_2.default.patternDefault);
-    switchSelect(coloringSelect, config_json_2.default.coloringDefault);
-    switchSelect(canvasSizeSelect, config_json_2.default.canvasSizeDefault);
-    switchSelect(layersSelect, config_json_2.default.layersDefault);
-    switchSelect(spanSelect, config_json_2.default.spanDefault);
-    switchSelect(fuseFpsSelect, config_json_2.default.fuseFpsDefault);
-    toggleChecked(easingCheckbox, config_json_2.default.easingDefault);
-    layersSelect.addEventListener("change", function () { return updateLayers(); });
-    canvasSizeSelect.addEventListener("change", function () { return updateCanvasSize(); });
-    spanSelect.addEventListener("change", function () { return updateSpan(); });
     var getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = canvas === null || canvas === void 0 ? void 0 : canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = canvas === null || canvas === void 0 ? void 0 : canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
     var rate = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
     var makeRandomInteger = function (size) { return Math.floor(Math.random() * size); };
@@ -1511,7 +1607,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         return makeRandomLineArguments("triline", intervalSize);
     };
     var getPatterns = function () {
-        switch (patternSelect.value) {
+        switch (patternSelect.get()) {
             case "lines":
                 return [
                     makeRandomStripeArguments,
@@ -1536,7 +1632,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     };
     var argumentHistory = [];
     var makeRandomArguments = function () {
-        var result = randomSelect(getPatterns())(rate(diagonalSize * config_json_2.default.intervalSizeMinRate, diagonalSize * config_json_2.default.intervalSizeMaxRate)(Math.random()));
+        var result = randomSelect(getPatterns())(rate(diagonalSize * config_json_2.default.intervalSize.minRate, diagonalSize * config_json_2.default.intervalSize.maxRate)(Math.random()));
         argumentHistory.push(result);
         if (3 <= argumentHistory.length) {
             argumentHistory.shift();
@@ -1544,12 +1640,12 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         return result;
     };
     var fullscreenEnabled = document.fullscreenEnabled || document.webkitFullscreenEnabled;
-    if (!fullscreenEnabled && withFullscreen.parentElement) {
-        withFullscreen.parentElement.style.setProperty("display", "none");
+    if (!fullscreenEnabled && withFullscreen.dom.parentElement) {
+        withFullscreen.dom.parentElement.style.setProperty("display", "none");
     }
     var startAt = 0;
     var offsetAt = 0;
-    var span = config_json_2.default.spanDefault;
+    var span = config_json_2.default.span.default;
     var h = Math.random();
     var hueUnit = 1 / phi_colors_1.phiColors.phi;
     var defaultLightness = 0.5;
@@ -1615,7 +1711,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
             if (fps_1.Fps.isUnderFuseFps()) {
                 pause();
             }
-            if (showFPS.checked) {
+            if (showFPS.get()) {
                 fpsElement.innerText = fps_1.Fps.getText();
             }
             if (span !== newSpan) {
@@ -1632,7 +1728,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     };
     var updateFullscreenState = function (fullscreen) {
         if (fullscreenEnabled) {
-            if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.checked) {
+            if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.get()) {
                 if (document.body.requestFullscreen) {
                     document.body.requestFullscreen();
                 }
@@ -1723,7 +1819,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     });
     var updateColoring = function () {
         var _a;
-        switch ((_a = coloringSelect.value) !== null && _a !== void 0 ? _a : "phi-colors") {
+        switch ((_a = coloringSelect.get()) !== null && _a !== void 0 ? _a : "phi-colors") {
             case "monochrome":
                 getForegroundColor = function (i, _ix) { return indexSelect(config_json_2.default.colors.monochrome, i.mile + 1.0); };
                 break;
@@ -1739,7 +1835,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
     updateColoring();
     var updateLayers = function () {
         var _a, _b, _c;
-        var newLayers = parseInt(layersSelect.value);
+        var newLayers = parseInt(layersSelect.get());
         var oldLayerList = Array.from(document.getElementsByClassName("layer"));
         if (oldLayerList.length < newLayers) {
             for (var i = oldLayerList.length; i < newLayers; ++i) {
@@ -1791,7 +1887,7 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         }
     };
     var updateCanvasSize = function () {
-        var newCanvasSize = parseFloat(canvasSizeSelect.value);
+        var newCanvasSize = parseFloat(canvasSizeSelect.get());
         var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
         var canvasMergin = (1 - newCanvasSizeRate) * 100 / 2;
         ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMergin, "%")); });
@@ -1823,9 +1919,9 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         }
         diagonalSize = newDiagonalSize;
     };
-    var newSpan = parseInt(spanSelect.value);
+    var newSpan = parseInt(spanSelect.get());
     var updateSpan = function () {
-        newSpan = parseInt(spanSelect.value);
+        newSpan = parseInt(spanSelect.get());
         if (span !== newSpan) {
             if (!isInAnimation()) {
                 offsetAt = offsetAt * (newSpan / span);
@@ -1834,11 +1930,11 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
         }
     };
     var updateFuseFps = function () {
-        fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.value);
+        fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
     };
     updateFuseFps();
     var updateEasing = function () {
-        easing = easingCheckbox.checked ?
+        easing = easingCheckbox.get() ?
             function (t) { return t <= 0.5 ?
                 2 * Math.pow(t, 2) :
                 1 - (2 * Math.pow(1 - t, 2)); } :
@@ -1864,46 +1960,50 @@ define("script/index", ["require", "exports", "flounder.style.js/index", "phi-co
                 playOrPause();
             }
             else if ("F" === event.key.toUpperCase()) {
-                toggleChecked(withFullscreen);
+                withFullscreen.toggle();
                 if (isInAnimation()) {
                     updateFullscreenState();
                 }
             }
+            else if ("S" === event.key.toUpperCase()) {
+                showFPS.toggle();
+                fpsElement.innerText = "";
+            }
             else if ("ArrowUp" === event.key) {
                 if (event.shiftKey) {
-                    switchSelect(canvasSizeSelect, true);
+                    canvasSizeSelect.switch(true);
                     updateCanvasSize();
                 }
                 else {
-                    switchSelect(layersSelect, true);
+                    layersSelect.switch(true);
                     updateLayers();
                 }
             }
             else if ("ArrowDown" === event.key) {
                 if (event.shiftKey) {
-                    switchSelect(canvasSizeSelect, false);
+                    canvasSizeSelect.switch(false);
                     updateCanvasSize();
                 }
                 else {
-                    switchSelect(layersSelect, false);
+                    layersSelect.switch(false);
                     updateLayers();
                 }
             }
             else if ("ArrowLeft" === event.key) {
                 if (event.shiftKey) {
-                    switchSelect(fuseFpsSelect, false);
+                    //fuseFpsSelect.switch(false);
                 }
                 else {
-                    switchSelect(spanSelect, true);
+                    spanSelect.switch(true);
                     updateSpan();
                 }
             }
             else if ("ArrowRight" === event.key) {
                 if (event.shiftKey) {
-                    switchSelect(fuseFpsSelect, true);
+                    //fuseFpsSelect.switch(true);
                 }
                 else {
-                    switchSelect(spanSelect, false);
+                    spanSelect.switch(false);
                     updateSpan();
                 }
             }
