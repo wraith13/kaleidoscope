@@ -54,6 +54,19 @@ export namespace Fps
                 }
             );
             isValid = true;
+            if (isUnderFuseFps())
+            {
+                console.error
+                (
+                    "❌ UnderFuseFps:",
+                    {
+                        fuseFps: Fps.fuseFps,
+                        maxFps: Fps.currentMaxFps.fps,
+                        nowFps: Fps.currentMaxFps.fps,
+                        minFps: Fps.currentMinFps.fps,
+                    }
+                );
+            }
         }
         else
         {

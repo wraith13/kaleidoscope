@@ -1,3 +1,146 @@
+declare module "script/control" {
+    export namespace Control {
+        interface ArgumentsBaseDom<T extends HTMLElement> {
+            dom: T;
+        }
+        interface ArgumentsBaseId {
+            id: string;
+        }
+        type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
+        const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
+        interface ButtonArgumentsBase<T extends HTMLElement> {
+            click: (event: Event, select: Button<T>) => unknown;
+        }
+        type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
+        class Button<T extends HTMLElement> {
+            data: ButtonArguments<T>;
+            dom: T;
+            constructor(data: ButtonArguments<T>);
+        }
+        interface SelectArgumentsBase<T> {
+            enum: T[];
+            default: T;
+        }
+        interface SelectOptions<T> {
+            makeLabel?: (value: T) => string;
+            change?: (event: Event, select: Select<T>) => unknown;
+        }
+        type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
+        class Select<T> {
+            data: SelectArguments<T>;
+            options?: SelectOptions<T> | undefined;
+            dom: HTMLSelectElement;
+            constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
+            switch: (valueOrDirection: T | boolean) => void;
+            get: () => string;
+        }
+        interface CheckboxArgumentsBase {
+            default?: boolean;
+        }
+        interface CheckboxOptions {
+            change?: (event: Event, checked: Checkbox) => unknown;
+        }
+        type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
+        class Checkbox {
+            data: CheckboxArguments;
+            options?: CheckboxOptions | undefined;
+            dom: HTMLInputElement;
+            constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
+            toggle: (checked?: boolean) => void;
+            get: () => boolean;
+        }
+    }
+}
+declare module "script/ui" {
+    export namespace UI {
+        const showPickerOnLabel: (label: HTMLLabelElement) => void;
+        class ToggleClassForWhileTimer {
+            timer: number | undefined;
+            constructor();
+            start(element: HTMLElement, token: string, span: number): void;
+            isOn: () => boolean;
+        }
+        const fullscreenEnabled: any;
+        const requestFullscreen: (dom?: Element) => void;
+        const exitFullscreen: () => void;
+        type Attributes = Record<string, string | number | boolean>;
+        type Styles = Partial<CSSStyleDeclaration>;
+        type Events = {
+            [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
+        };
+        interface ElementOptions {
+            text?: string;
+            attributes?: Attributes;
+            children?: HTMLElement[];
+            styles?: Styles;
+            events?: Events;
+        }
+        type HtmlTag = keyof HTMLElementTagNameMap;
+        const setOptions: <T extends HTMLElement>(element: T, options?: ElementOptions) => T;
+        const createElement: <T extends HtmlTag>(tag: T, options?: ElementOptions) => HTMLElementTagNameMap[T];
+        const appendChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, tag: T | HTMLElement, options?: ElementOptions) => ParentT;
+        const getElementsByClassName: <T extends HtmlTag>(tag: T, className: string) => HTMLElementTagNameMap[T][];
+        const querySelectorAllWithFallback: <T extends HtmlTag>(tag: T, selectorss: string[]) => HTMLElementTagNameMap[T][];
+        const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];
+        const querySelector: <T extends HtmlTag>(tag: T, selectors: string) => HTMLElementTagNameMap[T];
+    }
+}
+declare module "script/fps" {
+    export namespace Fps {
+        interface FpsHistoryEntry {
+            fps: number;
+            now: number;
+            text: string;
+        }
+        export let currentMaxFps: FpsHistoryEntry;
+        export let currentNowFps: FpsHistoryEntry;
+        export let currentMinFps: FpsHistoryEntry;
+        export let fuseFps: number;
+        export const reset: () => void;
+        export const step: (now: number) => void;
+        export let isValid: boolean;
+        export const getText: () => string;
+        export const isUnderFuseFps: () => boolean;
+        export {};
+    }
+}
+declare module "script/locale" {
+    import localeEn from "resource/lang.en";
+    import localeJa from "resource/lang.ja";
+    export namespace Locale {
+        const master: {
+            en: {
+                description: string;
+                "DELETEME.warningText": string;
+                informationFuseFps: string;
+                "DELETEME.informationLayers": string;
+                "DELETEME.informationPattern": string;
+                timeUnitMs: string;
+                timeUnitS: string;
+                timeUnitM: string;
+                timeUnitH: string;
+                timeUnitD: string;
+                ago: string;
+            };
+            ja: {
+                description: string;
+                "DELETEME.warningText": string;
+                informationFuseFps: string;
+                "DELETEME.informationLayers": string;
+                "DELETEME.informationPattern": string;
+                timeUnitMs: string;
+                timeUnitS: string;
+                timeUnitM: string;
+                timeUnitH: string;
+                timeUnitD: string;
+                ago: string;
+            };
+        };
+        type KeyType = keyof typeof localeEn & keyof typeof localeJa;
+        type Type = keyof typeof master;
+        const map: (key: KeyType) => string;
+    }
+}
 declare module "flounder.style.js/evil-type.ts/common/evil-type" {
     export namespace EvilType {
         const comparer: <Item, T extends ((i: Item) => any)[]>(...args: T) => (a: Item, b: Item) => 0 | 1 | -1;
@@ -272,139 +415,23 @@ declare module "flounder.style.js/index" {
         const selectClosestAngleDirection: (directions: OffsetCoefficientDirection[], angle: Type.DirectionAngle) => OffsetCoefficientDirection;
     }
 }
-declare module "script/control" {
-    export namespace Control {
-        interface ArgumentsBaseDom<T extends HTMLElement> {
-            dom: T;
-        }
-        interface ArgumentsBaseId {
-            id: string;
-        }
-        type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
-        const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
-        interface ButtonArgumentsBase<T extends HTMLElement> {
-            click: (event: Event, select: Button<T>) => unknown;
-        }
-        type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
-        class Button<T extends HTMLElement> {
-            data: ButtonArguments<T>;
-            dom: T;
-            constructor(data: ButtonArguments<T>);
-        }
-        interface SelectArgumentsBase<T> {
-            enum: T[];
-            default: T;
-        }
-        interface SelectOptions<T> {
-            makeLabel?: (value: T) => string;
-            change?: (event: Event, select: Select<T>) => unknown;
-        }
-        type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
-        class Select<T> {
-            data: SelectArguments<T>;
-            options?: SelectOptions<T> | undefined;
-            dom: HTMLSelectElement;
-            constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
-            switch: (valueOrDirection: T | boolean) => void;
-            get: () => string;
-        }
-        interface CheckboxArgumentsBase {
-            default?: boolean;
-        }
-        interface CheckboxOptions {
-            change?: (event: Event, checked: Checkbox) => unknown;
-        }
-        type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
-        class Checkbox {
-            data: CheckboxArguments;
-            options?: CheckboxOptions | undefined;
-            dom: HTMLInputElement;
-            constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
-            toggle: (checked?: boolean) => void;
-            get: () => boolean;
-        }
-    }
-}
-declare module "script/ui" {
-    export namespace UI {
-        const showPickerOnLabel: (label: HTMLLabelElement) => void;
-        class ToggleClassForWhileTimer {
-            timer: number | undefined;
-            constructor();
-            start(element: HTMLElement, token: string, span: number): void;
-            isOn: () => boolean;
-        }
-        const getElementsByClassName: <T extends Element>(type: {
-            new (): T;
-        }, className: string) => T[];
-        const querySelectorAllWithFallback: <T extends Element>(type: {
-            new (): T;
-        }, selectorss: string[]) => T[];
-        const getElementById: <T extends Element>(type: {
-            new (): T;
-        }, id: string) => T;
-        const querySelector: <T extends Element>(type: {
-            new (): T;
-        }, selectors: string) => T;
-        const createElement: <T extends Element>(type: {
-            new (): T;
-        }, tag: string) => T;
-    }
-}
-declare module "script/fps" {
-    export namespace Fps {
-        interface FpsHistoryEntry {
-            fps: number;
-            now: number;
-            text: string;
-        }
-        export let currentMaxFps: FpsHistoryEntry;
-        export let currentNowFps: FpsHistoryEntry;
-        export let currentMinFps: FpsHistoryEntry;
-        export let fuseFps: number;
-        export const reset: () => void;
-        export const step: (now: number) => void;
-        export let isValid: boolean;
-        export const getText: () => string;
-        export const isUnderFuseFps: () => boolean;
-        export {};
-    }
-}
-declare module "script/locale" {
-    import localeEn from "resource/lang.en";
-    import localeJa from "resource/lang.ja";
-    export namespace Locale {
-        const master: {
-            en: {
-                description: string;
-                "DELETEME.warningText": string;
-                informationFuseFps: string;
-                "DELETEME.informationLayers": string;
-                "DELETEME.informationPattern": string;
-                timeUnitMs: string;
-                timeUnitS: string;
-                timeUnitM: string;
-                timeUnitH: string;
-                timeUnitD: string;
-                ago: string;
-            };
-            ja: {
-                description: string;
-                "DELETEME.warningText": string;
-                informationFuseFps: string;
-                "DELETEME.informationLayers": string;
-                "DELETEME.informationPattern": string;
-                timeUnitMs: string;
-                timeUnitS: string;
-                timeUnitM: string;
-                timeUnitH: string;
-                timeUnitD: string;
-                ago: string;
-            };
-        };
-        type KeyType = keyof typeof localeEn & keyof typeof localeJa;
-        type Type = keyof typeof master;
-        const map: (key: KeyType) => string;
+declare module "script/animation" {
+    import { FlounderStyle } from "flounder.style.js/index";
+    import control from "resource/control";
+    export namespace Animation {
+        let pattern: typeof control.pattern.enum[number];
+        const updateSpan: (value: number) => void;
+        const startStep: (now: number) => number;
+        const pauseStep: (now: number) => number;
+        const adjustSpan: (now: number) => void;
+        const updateDiagonalSize: () => void;
+        const makeColor: (step: number, lightness?: number) => FlounderStyle.Type.HexColor;
+        const updateColoring: (coloring: (typeof control.coloring.enum)[number]) => void;
+        const step: (now: number) => void;
+        const update: () => void;
+        const isIn: () => boolean;
+        const updateLayers: (newLayers: number) => void;
+        const updateEasing: (enabled: boolean) => void;
     }
 }
 declare module "script/index" { }

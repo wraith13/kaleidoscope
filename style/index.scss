@@ -24,7 +24,7 @@ button
         {
             transform: translate(0px, -100%);
         }
-        @at-root body.press-shift &
+        @at-root body.press-control &
         {
             transform: translate(0px, -100%);
         }
@@ -36,7 +36,7 @@ button
         {
             transform: translate(0px, 100%);
         }
-        @at-root body.press-shift &
+        @at-root body.press-control &
         {
             transform: translate(0px, 100%);
         }
@@ -51,7 +51,7 @@ button
             cursor: none;
             pointer-events: none;
         }
-        @at-root body.press-shift &
+        @at-root body.press-control &
         {
             opacity: 0;
             filter: blur(1.0em);
@@ -308,7 +308,7 @@ button
                 pointer-events: none;
                 filter: blur(1.0em);
             }
-            @at-root body:press-shift &
+            @at-root body:press-control &
             {
                 opacity: 0;
                 cursor: none;
@@ -354,7 +354,7 @@ button
             pointer-events: none;
             filter: blur(1.0em);
         }
-        @at-root body.press-shift &
+        @at-root body.press-control &
         {
             opacity: 0;
             cursor: none;

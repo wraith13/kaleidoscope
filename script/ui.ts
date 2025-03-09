@@ -67,36 +67,115 @@ export namespace UI
         }
         isOn = () => undefined !== this.timer;
     }
-    export const getElementsByClassName = <T extends Element>(type: { new (): T }, className: string): T[] =>
+    export const fullscreenEnabled = document.fullscreenEnabled || (<any>document).webkitFullscreenEnabled;
+    export const requestFullscreen = (dom: Element = document.body) =>
     {
-        const result = <T[]><unknown>Array.from(document.getElementsByClassName(className));
+        if (dom.requestFullscreen)
+        {
+            dom.requestFullscreen();
+        }
+        else
+        if ("webkitRequestFullscreen" in dom)
+        {
+            (<any>dom).webkitRequestFullscreen();
+        }
+    };
+    export const exitFullscreen = () =>
+    {
+        if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement))
+        {
+            if (document.exitFullscreen)
+            {
+                document.exitFullscreen();
+            }
+            else
+            if ("webkitCancelFullScreen" in document)
+            {
+                (<any>document).webkitCancelFullScreen();
+            }
+        }
+    };
+
+    export type Attributes = Record<string, string | number | boolean>;
+    export type Styles = Partial<CSSStyleDeclaration>;
+
+    export type Events =
+    {
+        [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
+    };
+    export interface ElementOptions
+    {
+        text?: string;
+        attributes?: Attributes;
+        children?: HTMLElement[];
+        styles?: Styles;
+        events?: Events;
+    }
+    export type HtmlTag = keyof HTMLElementTagNameMap;
+    export const setOptions = <T extends HTMLElement>(element: T, options: ElementOptions = {}): T =>
+    {
+        const { text, attributes = {}, children = [], styles = {}, events = {} } = options;
+        if ("string" === typeof text)
+        {
+            element.textContent = text;
+        }
+        Object.entries(attributes).forEach
+        (
+            ([key, value]) => element.setAttribute(key, String(value))
+        );
+        Object.entries(styles).forEach
+        (
+            ([key, value]) => (element.style as any)[key] = value
+        );
+        Object.entries(events).forEach
+        (
+            ([event, handler]) => element.addEventListener(event, handler as EventListener)
+        );
+        children.forEach(child => element.appendChild(child));
+        return element;
+    };
+    export const createElement = <T extends HtmlTag>(tag: T, options: ElementOptions = {}): HTMLElementTagNameMap[T] =>
+        setOptions(document.createElement(tag), options);
+    export const appendChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, tag: T | HTMLElement, options: ElementOptions = {}): ParentT =>
+    {
+        parent.appendChild
+        (
+            tag instanceof Element ?
+                setOptions(tag, options):
+                createElement(tag, options)
+        );
+        return parent;
+    };
+    export const getElementsByClassName = <T extends HtmlTag>(tag: T, className: string): HTMLElementTagNameMap[T][] =>
+    {
+        const result = <HTMLElementTagNameMap[T][]><unknown>Array.from(document.getElementsByClassName(className));
         result.forEach
         (
             i =>
             {
-                if ( ! (i instanceof type))
+                if (tag !== i.tagName.toLowerCase())
                 {
-                    console.error("🦋 FIXME: UI.getElementsByClassName.InvalidDom", className, type, i);
+                    console.error("🦋 FIXME: UI.getElementsByClassName.InvalidDom", className, tag, i);
                 }
             }
         );
         return result;
     }
-    export const querySelectorAllWithFallback = <T extends Element>(type: { new (): T }, selectorss: string[]): T[] =>
+    export const querySelectorAllWithFallback = <T extends HtmlTag>(tag: T, selectorss: string[]): HTMLElementTagNameMap[T][] =>
     {
         var lastError;
         for(var i = 0; i < selectorss.length; ++i)
         {
             try
             {
-                const result = <T[]><unknown>Array.from(document.querySelectorAll(selectorss[i]));
+                const result = <HTMLElementTagNameMap[T][]><unknown>Array.from(document.querySelectorAll(selectorss[i]));
                 result.forEach
                 (
                     j =>
                     {
-                        if ( ! (j instanceof type))
+                        if (tag !== j.tagName.toLowerCase())
                         {
-                            console.error("🦋 FIXME: UI.querySelectorAllWithFallback.InvalidDom", i, type, j);
+                            console.error("🦋 FIXME: UI.querySelectorAllWithFallback.InvalidDom", i, tag, j);
                         }
                     }
                 );
@@ -110,46 +189,32 @@ export namespace UI
         console.error("🦋 FIXME: querySelectorAllWithFallback.AllQueryFailed", selectorss, lastError);
         return [];
     }
-    export const getElementById = <T extends Element>(type: { new (): T }, id: string): T =>
+    export const getElementById = <T extends HtmlTag>(tag: T, id: string): HTMLElementTagNameMap[T] =>
     {
-        const result = <T><unknown>document.getElementById(id);
+        const result = <HTMLElementTagNameMap[T]><unknown>document.getElementById(id);
         if (null == result || undefined === result)
         {
             console.error("🦋 FIXME: UI.getElementById.NotExistsDom", id);
         }
         else
-        if ( ! (result instanceof type))
+        if (tag !== result.tagName.toLowerCase())
         {
-            console.error("🦋 FIXME: UI.getElementById.InvalidDom", id, type, result);
+            console.error("🦋 FIXME: UI.getElementById.InvalidDom", id, tag, result);
         }
         return result;
     };
-    export const querySelector = <T extends Element>(type: { new (): T }, selectors: string): T =>
+    export const querySelector = <T extends HtmlTag>(tag: T, selectors: string): HTMLElementTagNameMap[T] =>
     {
-        const result = <T><unknown>document.querySelector(selectors);
+        const result = <HTMLElementTagNameMap[T]><unknown>document.querySelector(selectors);
         if (null == result || undefined === result)
         {
             console.error("🦋 FIXME: UI.querySelector.NotExistsDom", selectors);
         }
         else
-        if ( ! (result instanceof type))
+        if (tag !== result.tagName.toLowerCase())
         {
-            console.error("🦋 FIXME: UI.querySelector.InvalidDom", selectors, type, result);
+            console.error("🦋 FIXME: UI.querySelector.InvalidDom", selectors, tag, result);
         }
         return result;
     };
-    export const createElement = <T extends Element>(type: { new (): T }, tag: string): T =>
-    {
-        const result = <T><unknown>document.createElement(tag);
-        if (null == result || undefined === result)
-        {
-            console.error("🦋 FIXME: UI.createElement.NotExistsDom", tag);
-        }
-        else
-        if ( ! (result instanceof type))
-        {
-            console.error("🦋 FIXME: UI.createElement.InvalidDom", tag, type, result);
-        }
-        return result;
-    }
 }
