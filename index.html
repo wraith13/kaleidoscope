@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Mar 09 2025 16:30:28 GMT+0900 (日本標準時)
+    build at: Mon Mar 10 2025 00:41:31 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -49,14 +49,30 @@ DEALINGS IN THE SOFTWARE.
 <meta name="twitter:description" lang="en" content="Kaleidoscope Web Screen Saver">
 <meta name="twitter:description" lang="ja" content="万華鏡 Web スクリーンセーバー">
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 100%;
+  line-height: 1.5;
+  color: inherit;
+  outline: 0;
+  vertical-align: baseline;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 0px;
+}
+
+@supports (not (content-visibility: auto)) or (not (contain-intrinsic-size: auto 0px)) {
+  * {
+    contain: content;
+    min-height: 1px;
+  }
+}
 body {
   margin: 0px;
   padding: 0px;
   background-color: black;
-}
-
-div {
-  content-visibility: auto;
 }
 
 button {
@@ -67,6 +83,10 @@ button {
 
 #screen-header {
   transition: transform 500ms;
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  left: 0px;
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -74,13 +94,9 @@ button {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  left: 0px;
   padding: 0px;
   position: fixed;
-  z-index: 900;
+  z-index: 100;
 }
 body.immersive #screen-header {
   transform: translate(0px, -100%);
@@ -95,16 +111,19 @@ body.press-control #screen-header {
 }
 #screen-header .segment {
   font-size: 0.75rem;
+  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-header .segment {
     font-size: 0.9rem;
+    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-header .segment {
     font-size: 1rem;
+    line-height: 1rem;
   }
 }
 #screen-header .segment {
@@ -149,10 +168,6 @@ body.press-control #screen-header {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: absolute;
   background-color: black;
 }
@@ -164,119 +179,28 @@ body.immersive.mousemove #screen-body {
   cursor: pointer;
 }
 
-#screen-body .option-panel {
-  transition: opacity 750ms, filter 750ms;
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-body.immersive #screen-body .option-panel {
-  opacity: 0;
-  filter: blur(1em);
-  cursor: none;
-  pointer-events: none;
-}
-
-body.press-control #screen-body .option-panel {
-  opacity: 0;
-  filter: blur(1em);
-  cursor: none;
-  pointer-events: none;
-}
-
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #screen-body .option-panel {
-    font-size: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #screen-body .option-panel {
-    font-size: 1rem;
-  }
-}
-#screen-body .option-panel {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-#screen-body .option-panel {
-  position: absolute;
-  top: 3.25rem;
-  left: 1rem;
-}
-#screen-body .option-panel label {
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.6);
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.125rem 0.5rem;
-  margin-bottom: 1px;
-  background-color: rgba(32, 28, 38, 0.6);
-  border-radius: 0.25rem;
-  height: 1.5rem;
-  flex-grow: 1;
-}
-@media (hover: hover) {
-  #screen-body .option-panel label:hover {
-    background-color: rgb(70, 80, 90);
-  }
-}
-#screen-body .option-panel label * {
-  user-select: none;
-  cursor: pointer;
-}
-#screen-body .option-panel label input {
-  margin: 0.5rem;
-  padding: 0px;
-}
-#screen-body .option-panel label select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #screen-body .option-panel label select {
-    font-size: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #screen-body .option-panel label select {
-    font-size: 1rem;
-  }
-}
-#screen-body .option-panel label select {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-#screen-body .option-panel label select {
-  color: rgb(230, 237, 243);
-  background-color: transparent;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.25rem;
-  text-align: right;
-}
-#screen-body .option-panel label select option {
-  background-color: rgb(32, 28, 38);
-  text-align: right;
-}
 #screen-body #fps {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   font-size: 0.75rem;
+  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-body #fps {
     font-size: 0.9rem;
+    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-body #fps {
     font-size: 1rem;
+    line-height: 1rem;
   }
 }
 #screen-body #fps {
@@ -287,11 +211,7 @@ body.press-control #screen-body .option-panel {
   top: 1rem;
   right: 1rem;
   border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5rem 0.75rem;
   transition: opacity 750ms, filter 750ms;
   text-align: right;
   white-space: pre;
@@ -303,11 +223,35 @@ body.press-control #screen-body .option-panel {
   pointer-events: none;
   filter: blur(1em);
 }
+#screen-body #fps:empty::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
 body:not(.immersive) #screen-body #fps {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
+}
+body:not(.immersive) #screen-body #fps::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 body:press-control #screen-body #fps {
@@ -316,55 +260,17 @@ body:press-control #screen-body #fps {
   pointer-events: none;
   filter: blur(1em);
 }
-
-#screen-body button {
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.6);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  transition: opacity 750ms, filter 750ms;
-  width: 11rem;
-  height: 11rem;
-  max-width: 30vw;
-  max-height: 30vw;
-  z-index: -10;
-}
-#screen-body button svg {
-  width: 100%;
-  height: 100%;
-  color: rgba(230, 237, 243, 0.7);
-  fill: rgba(230, 237, 243, 0.7);
-}
-@media (hover: hover) {
-  #screen-body button:hover {
-    background-color: rgba(32, 28, 38, 0.8);
-  }
-  #screen-body button:hover svg {
-    color: rgba(230, 237, 243, 0.9);
-    fill: rgba(230, 237, 243, 0.9);
-  }
-}
-body.immersive:not(.mousemove) #screen-body button {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
+body:press-control #screen-body #fps::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
   filter: blur(1em);
-}
-
-body.press-control #screen-body button {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
-  filter: blur(1em);
-}
-
-body.immersive #screen-body button #play-icon {
-  display: none;
-}
-
-body:not(.immersive) #screen-body button #pause-icon {
-  display: none;
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 #screen-body #canvas {
@@ -396,21 +302,228 @@ body:not(.immersive) #screen-body button #pause-icon {
   will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
 }
 
+.option-panel {
+  transition: opacity 750ms, filter 750ms;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+body.immersive .option-panel {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive .option-panel::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.press-control .option-panel {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.press-control .option-panel::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .option-panel {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  .option-panel {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+.option-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.option-panel {
+  position: absolute;
+  z-index: 80;
+  top: 3.25rem;
+  left: 1rem;
+}
+.option-panel label {
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.125rem 0.5rem;
+  margin-bottom: 1px;
+  background-color: rgba(32, 28, 38, 0.6);
+  border-radius: 0.25rem;
+  height: 1.5rem;
+  flex-grow: 1;
+}
+@media (hover: hover) {
+  .option-panel label:hover {
+    background-color: rgb(70, 80, 90);
+  }
+}
+.option-panel label * {
+  user-select: none;
+  cursor: pointer;
+}
+.option-panel label input {
+  margin: 0.5rem;
+  padding: 0px;
+}
+.option-panel label select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .option-panel label select {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  .option-panel label select {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+.option-panel label select {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+.option-panel label select {
+  color: rgb(230, 237, 243);
+  background-color: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  text-align: right;
+}
+.option-panel label select option {
+  background-color: rgb(32, 28, 38);
+  text-align: right;
+}
+
+#play-button {
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  transition: opacity 750ms, filter 750ms;
+  width: 11rem;
+  height: 11rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 30vw;
+  max-height: 30vw;
+  z-index: 150;
+}
+#play-button svg {
+  color: rgba(230, 237, 243, 0.7);
+  fill: rgba(230, 237, 243, 0.7);
+  width: 100%;
+  height: 100%;
+}
+@media (hover: hover) {
+  #play-button:hover {
+    background-color: rgba(32, 28, 38, 0.8);
+  }
+  #play-button:hover svg {
+    color: rgba(230, 237, 243, 0.9);
+    fill: rgba(230, 237, 243, 0.9);
+  }
+}
+body.immersive:not(.mousemove) #play-button {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive:not(.mousemove) #play-button::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.press-control #play-button {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.press-control #play-button::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.immersive #play-button #play-icon {
+  display: none;
+}
+
+body:not(.immersive) #play-button #pause-icon {
+  display: none;
+}
+
 #screen-footer {
   margin: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
-  position: fixed;
-  z-index: 100;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: stretch;
+  position: fixed;
+  z-index: 50;
   pointer-events: none;
 }
 #screen-footer #supplementary-line {
-  display: block;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -422,30 +535,57 @@ body:not(.immersive) #screen-body button #pause-icon {
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   font-size: 0.75rem;
+  line-height: 0.75rem;
   font-weight: 400;
 }
 body.immersive #screen-footer #supplementary-line #keyboard-shortcut {
   opacity: 0;
-  filter: blur(1em);
   cursor: none;
   pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive #screen-footer #supplementary-line #keyboard-shortcut::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 body.press-control #screen-footer #supplementary-line #keyboard-shortcut {
   opacity: 0;
-  filter: blur(1em);
   cursor: none;
   pointer-events: none;
+  filter: blur(1em);
+}
+body.press-control #screen-footer #supplementary-line #keyboard-shortcut::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #keyboard-shortcut {
     font-size: 0.9rem;
+    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #supplementary-line #keyboard-shortcut {
     font-size: 1rem;
+    line-height: 1rem;
   }
 }
 #screen-footer #supplementary-line #keyboard-shortcut {
@@ -454,10 +594,11 @@ body.press-control #screen-footer #supplementary-line #keyboard-shortcut {
 #screen-footer #supplementary-line #keyboard-shortcut {
   margin: 1rem;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   display: grid;
   grid-template-columns: minmax(0, max-content) minmax(0, max-content);
-  gap: 0.5rem;
+  gap: 0.5rem 0.5rem;
+  align-items: center;
   pointer-events: initial;
 }
 #screen-footer #supplementary-line #keyboard-shortcut span {
@@ -468,22 +609,27 @@ body.press-control #screen-footer #supplementary-line #keyboard-shortcut {
 }
 #screen-footer #supplementary-line #keyboard-shortcut span kbd {
   font-size: 0.75rem;
+  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #keyboard-shortcut span kbd {
     font-size: 0.9rem;
+    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #supplementary-line #keyboard-shortcut span kbd {
     font-size: 1rem;
+    line-height: 1rem;
   }
 }
 #screen-footer #supplementary-line #keyboard-shortcut span kbd {
   font-family: monospace;
 }
 #screen-footer #supplementary-line #keyboard-shortcut span kbd {
+  display: inline-block;
+  contain: paint;
   border-style: solid;
   border-width: 1px;
   border-color: rgba(255, 255, 255, 0.6);
@@ -492,7 +638,7 @@ body.press-control #screen-footer #supplementary-line #keyboard-shortcut {
   margin: 2px;
   background-color: rgba(255, 255, 255, 0.15);
 }
-@media (max-height: 830px) {
+@media (max-width: 760px) or (max-height: 780px) {
   #screen-footer #supplementary-line #keyboard-shortcut {
     visibility: hidden;
     width: 0px;
@@ -505,30 +651,57 @@ body.press-control #screen-footer #supplementary-line #keyboard-shortcut {
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   font-size: 0.75rem;
+  line-height: 0.75rem;
   font-weight: 400;
 }
 body.immersive #screen-footer #supplementary-line #powered-by {
   opacity: 0;
-  filter: blur(1em);
   cursor: none;
   pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive #screen-footer #supplementary-line #powered-by::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 body.press-control #screen-footer #supplementary-line #powered-by {
   opacity: 0;
-  filter: blur(1em);
   cursor: none;
   pointer-events: none;
+  filter: blur(1em);
+}
+body.press-control #screen-footer #supplementary-line #powered-by::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #powered-by {
     font-size: 0.9rem;
+    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #supplementary-line #powered-by {
     font-size: 1rem;
+    line-height: 1rem;
   }
 }
 #screen-footer #supplementary-line #powered-by {
@@ -546,17 +719,20 @@ body.press-control #screen-footer #supplementary-line #powered-by {
   display: block;
   margin: 0px;
   padding: 0px;
+  border: 0;
 }
 #screen-footer #supplementary-line #powered-by ul {
   display: block;
   margin: 0px;
   padding: 0px;
+  border: 0;
   padding-left: 1rem;
 }
 #screen-footer #supplementary-line #powered-by ul li {
   display: block;
   margin: 0px;
   padding: 0px;
+  border: 0;
 }
 #screen-footer #supplementary-line #powered-by ul li a {
   color: rgba(230, 237, 243, 0.7);
@@ -583,17 +759,24 @@ body.press-control #screen-footer #information-line {
 }
 
 #screen-footer #information-line #information {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   font-size: 0.75rem;
+  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #information-line #information {
     font-size: 0.9rem;
+    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #information-line #information {
     font-size: 1rem;
+    line-height: 1rem;
   }
 }
 #screen-footer #information-line #information {
@@ -601,10 +784,6 @@ body.press-control #screen-footer #information-line {
 }
 #screen-footer #information-line #information {
   color: rgb(230, 237, 243);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 }
 #screen-footer #information-line #information ul {
   display: inline-block;
@@ -623,8 +802,8 @@ body.press-control #screen-footer #information-line {
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Mar 09 2025 16:30:28 GMT+0900 (日本標準時)",
-    tick: 1741505428100
+    at: "Mon Mar 10 2025 00:41:31 GMT+0900 (日本標準時)",
+    tick: 1741534891781
 };
 const evilCommonjsConfig =
 {
@@ -3611,47 +3790,52 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <body>
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope"><span>Kaleidoscope</a></div></h1>
 <div id="screen-body">
-    <div class="option-panel">
-        <label for="pattern">
-            <span id="patternLabel">Pattern:</span>
-            <select id="pattern"></select>
-        </label>
-        <label for="coloring">
-            Coloring:
-            <select id="coloring"></select>
-        </label>
-        <label for="canvas-size">
-            Canvas Size:
-            <select id="canvas-size"></select>
-        </label>
-        <label for="layers">
-            Layers:
-            <select id="layers"></select>
-        </label>
-        <label for="span">
-            Cycle Span:
-            <select id="span"></select>
-        </label>
-        <label for="fuse-fps">
-            Fuse FPS:
-            <select id="fuse-fps"></select>
-        </label>
-        <label for="easing">
-            Easing:
-            <input id="easing" type="checkbox">
-        </label>
-        <label for="with-fullscreen">
-            FullScreen:
-            <input id="with-fullscreen" type="checkbox">
-        </label>
-        <label for="show-fps">
-            Show FPS:
-            <input id="show-fps" type="checkbox">
-        </label>
-    </div>
     <div id="fps"></div>
-    <button id="play-button">
-        <div id="play-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <div id="canvas">
+        <div id="top-coat"></div>
+        <div class="layer"></div>
+    </div>
+</div>
+<div class="option-panel">
+    <label for="pattern">
+        <span id="patternLabel">Pattern:</span>
+        <select id="pattern"></select>
+    </label>
+    <label for="coloring">
+        Coloring:
+        <select id="coloring"></select>
+    </label>
+    <label for="canvas-size">
+        Canvas Size:
+        <select id="canvas-size"></select>
+    </label>
+    <label for="layers">
+        Layers:
+        <select id="layers"></select>
+    </label>
+    <label for="span">
+        Cycle Span:
+        <select id="span"></select>
+    </label>
+    <label for="fuse-fps">
+        Fuse FPS:
+        <select id="fuse-fps"></select>
+    </label>
+    <label for="easing">
+        Easing:
+        <input id="easing" type="checkbox">
+    </label>
+    <label for="with-fullscreen">
+        FullScreen:
+        <input id="with-fullscreen" type="checkbox">
+    </label>
+    <label for="show-fps">
+        Show FPS:
+        <input id="show-fps" type="checkbox">
+    </label>
+</div>
+<button id="play-button">
+    <div id="play-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(1,0,0,1,-20.52,-0.152764)">
         <path d="M277.128,192.306L277.129,192C277.294,169.198 295.857,150.737 318.698,150.737C326.626,150.737 334.038,152.961 340.345,156.819L893.467,476.149L893.46,476.161C906.034,483.312 914.523,496.833 914.523,512.321C914.523,529.423 904.173,544.126 889.4,550.504L340.335,867.492C339.741,867.855 339.138,868.203 338.526,868.537L336.016,869.985L335.929,869.834C330.678,872.232 324.842,873.568 318.697,873.568C295.755,873.568 277.128,854.942 277.128,832L277.128,192.306Z"/>
     </g>
@@ -3662,12 +3846,7 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
     </g>
 </svg>
 </div>
-    </button>
-    <div id="canvas">
-        <div id="top-coat"></div>
-        <div class="layer"></div>
-    </div>
-</div>
+</button>
 <div id="screen-footer">
     <div id="supplementary-line">
         <div id="keyboard-shortcut">
@@ -3993,19 +4172,24 @@ define("script/fps", ["require", "exports"], function (require, exports) {
     exports.Fps = void 0;
     var Fps;
     (function (Fps) {
-        var fpsCalcUnit = 5;
+        var fpsWindow = 1000;
         var frameTimings = [];
         var fpsHistory = [];
         Fps.reset = function () {
+            Fps.isValid = false;
             frameTimings = [];
             fpsHistory = [];
         };
         Fps.step = function (now) {
-            var _a;
             frameTimings.push(now);
-            if (fpsCalcUnit <= frameTimings.length) {
-                var first = (_a = frameTimings.shift()) !== null && _a !== void 0 ? _a : 0;
-                var fps = (fpsCalcUnit * 1000.0) / (now - first);
+            Fps.isValid = 2 <= frameTimings.length;
+            if (Fps.isValid) {
+                while (2 < frameTimings.length && fpsWindow < now - frameTimings[0]) {
+                    frameTimings.shift();
+                }
+                var timeSpan = Math.max(now - frameTimings[0], 0.001); // max for avoid 0 div
+                var frameCount = frameTimings.length - 1;
+                var fps = (frameCount * 1000) / timeSpan;
                 Fps.currentNowFps =
                     {
                         fps: fps,
@@ -4027,7 +4211,6 @@ define("script/fps", ["require", "exports"], function (require, exports) {
                         Fps.currentMinFps = i;
                     }
                 });
-                Fps.isValid = true;
                 if (Fps.isUnderFuseFps()) {
                     console.error("❌ UnderFuseFps:", {
                         fuseFps: Fps.fuseFps,
@@ -4036,9 +4219,6 @@ define("script/fps", ["require", "exports"], function (require, exports) {
                         minFps: Fps.currentMinFps.fps,
                     });
                 }
-            }
-            else {
-                Fps.isValid = false;
             }
         };
         var makeFpsText = function (fps) {
@@ -4061,7 +4241,21 @@ define("resource/lang.en", [], {
     "timeUnitM": "m",
     "timeUnitH": "h",
     "timeUnitD": "d",
-    "ago": "ago"
+    "ago": "ago",
+    "Hide UI": "Hide UI",
+    "Play / Pause": "Play / Pause",
+    "Switch Pattern (Forward)": "Switch Pattern (Forward)",
+    "Switch Pattern (Backward)": "Switch Pattern (Backward)",
+    "Switch Coloring (Forward)": "Switch Coloring (Forward)",
+    "Switch Coloring (Backward)": "Switch Coloring (Backward)",
+    "Increase Canvas Size": "Increase Canvas Size",
+    "Decrease Canvas Size": "Decrease Canvas Size",
+    "Increase Layer": "Increase Layer",
+    "Decrease Layer": "Decrease Layer",
+    "Speed Down": "Speed Down",
+    "Speed Up": "Speed Up",
+    "FullScreen": "FullScreen",
+    "Show FPS": "Show FPS"
 });
 define("resource/lang.ja", [], {
     "description": "万華鏡 Web スクリーンセーバー",
@@ -4074,7 +4268,21 @@ define("resource/lang.ja", [], {
     "timeUnitM": "分",
     "timeUnitH": "時間",
     "timeUnitD": "日",
-    "ago": "前"
+    "ago": "前",
+    "Hide UI": "UI 非表示",
+    "Play / Pause": "再生 / 一時停止",
+    "Switch Pattern (Forward)": "パターン切り替え (順方向)",
+    "Switch Pattern (Backward)": "パターン切り替え (逆方向)",
+    "Switch Coloring (Forward)": "カラーリング切り替え (順方向)",
+    "Switch Coloring (Backward)": "カラーリング切り替え (逆方向)",
+    "Increase Canvas Size": "キャンバスサイズ拡大",
+    "Decrease Canvas Size": "キャンバスサイズ縮小",
+    "Increase Layer": "レイヤー増加",
+    "Decrease Layer": "レイヤー減少",
+    "Speed Down": "スピードダウン",
+    "Speed Up": "スピードアップ",
+    "FullScreen": "フルスクリーン",
+    "Show FPS": "FPS 表示"
 });
 define("script/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -5380,7 +5588,7 @@ define("resource/control", [], {
             1500,
             1000
         ],
-        "default": 7500
+        "default": 5000
     },
     "fuseFps": {
         "id": "fuse-fps",
@@ -5821,10 +6029,12 @@ define("script/shortcuts", ["require", "exports", "resource/shortcuts"], functio
                 key.length === 1 ? key.toUpperCase() :
                     key;
         };
-        var joinable = function (value) { return undefined !== value && null !== value ? [value,] : []; };
+        var joinable = function (value, condition) {
+            return undefined !== value && null !== value && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
+        };
         Shortcuts.handleKeyEvent = function (type, event, commandMap) {
             var normalizedKey = normalizeKey(event.key, event.code);
-            var pressedKeys = __spreadArray(__spreadArray(__spreadArray([], joinable(event.shiftKey ? "Shift" : null), true), joinable(event.ctrlKey ? "Control" : null), true), [
+            var pressedKeys = __spreadArray(__spreadArray(__spreadArray([], joinable("Shift", event.shiftKey), true), joinable("Control", event.ctrlKey), true), [
                 normalizedKey,
             ], false).filter(function (i, ix, list) { return ix === list.indexOf(i); });
             if (!shouldRequireFocusCheck(pressedKeys) || !isInputElementFocused()) {
@@ -5922,7 +6132,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     var keyboardShortcut = ui_2.UI.getElementById("div", "keyboard-shortcut");
     shortcuts_1.Shortcuts.getDisplayList().forEach(function (i) {
         ui_2.UI.appendChild(keyboardShortcut, "span", { children: i.keys.map(function (key) { return ui_2.UI.createElement("kbd", { text: key }); }) });
-        ui_2.UI.appendChild(keyboardShortcut, "span", { text: i.description, });
+        ui_2.UI.appendChild(keyboardShortcut, "span", { text: locale_1.Locale.map(i.description), });
     });
     var poweredByElement = ui_2.UI.querySelector("ul", "#powered-by ul");
     Object.entries(powered_by_json_1.default).forEach(function (_a) {

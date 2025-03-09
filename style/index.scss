@@ -1,170 +1,25 @@
-$white-oolor: rgb(230, 237, 243);
-body
-{
-    margin: 0px;
-    padding: 0px;
-    background-color: black;
-}
-div
-{
-    content-visibility: auto;
-}
-button
-{
-    border-style: none;
-    border-width: 0px;
-    cursor: pointer;
-}
-@mixin default-mode-element($transition)
-{
-    @if "slide-up" == $transition
-    {
-        transition: transform 500ms;
-        @at-root body.immersive &
-        {
-            transform: translate(0px, -100%);
-        }
-        @at-root body.press-control &
-        {
-            transform: translate(0px, -100%);
-        }
-    }
-    @else if $transition == "slide-down"
-    {
-        transition: transform 500ms;
-        @at-root body.immersive &
-        {
-            transform: translate(0px, 100%);
-        }
-        @at-root body.press-control &
-        {
-            transform: translate(0px, 100%);
-        }
-    }
-    @else if $transition == "fade"
-    {
-        transition: opacity 750ms, filter 750ms;
-        @at-root body.immersive &
-        {
-            opacity: 0;
-            filter: blur(1.0em);
-            cursor: none;
-            pointer-events: none;
-        }
-        @at-root body.press-control &
-        {
-            opacity: 0;
-            filter: blur(1.0em);
-            cursor: none;
-            pointer-events: none;
-        }
-    }
-}
-@mixin flex-row-start-center()
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-}
-@mixin flex-column-center-center()
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-@mixin full-stretch-box()
-{
-    margin: 0px;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-}
-@mixin top-stretch-box()
-{
-    margin: 0px;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-}
-@mixin bottom-stretch-box()
-{
-    margin: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-}
-@mixin reset-appearance()
-{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-@mixin black-panel-style-base()
-{
-    backdrop-filter: blur(1rem);
-    color: $white-oolor;
-}
-@mixin black-line-panel-style()
-{
-    @include black-panel-style-base();
-    background-color: rgb(32, 28, 38, 0.8);
-}
-@mixin black-pop-panel-style()
-{
-    @include black-panel-style-base();
-    background-color: rgba(32, 28, 38, 0.6);
-}
-@mixin font-base()
-{
-    font-size: 0.75rem;
-    font-weight: 400;
-    @media (min-width: 1024px) and (max-width: 1599px)
-    {
-        font-size: 0.9rem;
-    }
-    @media (min-width: 1600px)
-    {
-        font-size: 1.0rem;
-    }
-}
-@mixin font()
-{
-    @include font-base();
-    &
-    {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    }
-}
-@mixin monospace-font()
-{
-    @include font-base();
-    &
-    {
-        font-family: monospace;
-    }
-}
+@use "./params" as *;
+@use "./traits" as *;
+@use "./base" as *;
 #screen-header
 {
     @include default-mode-element("slide-up");
-    @include flex-row-start-center();
-    @include black-line-panel-style();
     @include top-stretch-box();
+    @include flex();
+    @include black-line-panel-style();
     padding: 0px;
     position: fixed;
-    z-index: 900;
+    z-index: 100;
     a
     {
-        color: $white-oolor;
+        color: $white-color;
     }
     .segment
     {
         @include font();
         &
         {
-            @include flex-row-start-center();
+            @include flex();
             position: relative;
             padding: 0.75rem 1.00rem;
             overflow-x: hidden;
@@ -183,7 +38,7 @@ button
                 margin-left: 0rem;
                 border-left-style: solid;
                 border-left-width: 1px;
-                border-left-color: $white-oolor !important;
+                border-left-color: $white-color !important;
             }
             & > *
             {
@@ -193,7 +48,7 @@ button
             {
                 &[href]:hover
                 {
-                    background-color: rgb(70,80,90);
+                    background-color: $hover-black-color;
                 }
             }
         }
@@ -202,9 +57,9 @@ button
 #screen-body
 {
     @include full-stretch-box();
-    @include flex-column-center-center();
+    //@include flex(column, center);
     position: absolute;
-    background-color: black;
+    background-color: $body-background-color;
     @at-root body.immersive:not(.mousemove) &
     {
         cursor: none;
@@ -213,71 +68,10 @@ button
     {
         cursor: pointer;
     }
-    .option-panel
-    {
-        @include default-mode-element("fade");
-        @include font();
-        &
-        {
-            position: absolute;
-            top: 3.25rem;
-            left: 1.0rem;
-            label
-            {
-                @include black-pop-panel-style();
-                cursor: pointer;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0.125rem 0.5rem;
-                margin-bottom: 1px;
-                background-color: rgba(32, 28, 38, 0.6);
-                border-radius: 0.25rem;
-                height: 1.5rem;
-                flex-grow: 1;
-                @media (hover: hover)
-                {
-                    &:hover
-                    {
-                        background-color: rgb(70,80,90);
-                    }
-                }
-                *
-                {
-                    user-select: none;
-                    cursor: pointer;
-                }
-                input
-                {
-                    margin: 0.5rem;
-                    padding: 0px;
-                }
-                select
-                {
-                    @include reset-appearance();
-                    @include font();
-                    &
-                    {
-                        color: $white-oolor;
-                        background-color: transparent;
-                        border: none;
-                        border-radius: 0.5rem;
-                        padding: 0.25rem;
-                        text-align: right;
-                        option
-                        {
-                            background-color: rgba(32, 28, 38, 1.0);
-                            text-align: right;
-                        }
-                    }
-                }
-            }
-        }
-    }
     #fps
     {
         @include black-pop-panel-style();
+        @include flex(row, center);
         @include monospace-font();
         &
         {
@@ -285,89 +79,23 @@ button
             top: 1rem;
             right: 1rem;
             border-radius: 0.5rem;
-            padding: 0.5rem 1.0rem;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
+            padding: 0.5rem 0.75rem;
             transition: opacity 750ms, filter 750ms;
             text-align: right;
             white-space: pre;
             will-change: contents opacity filter;
             &:empty
             {
-                opacity: 0;
-                cursor: none;
-                pointer-events: none;
-                filter: blur(1.0em);
+                @include mist-disperse-effect();
             }
             @at-root body:not(.immersive) &
             {
-                opacity: 0;
-                cursor: none;
-                pointer-events: none;
-                filter: blur(1.0em);
+                @include mist-disperse-effect();
             }
             @at-root body:press-control &
             {
-                opacity: 0;
-                cursor: none;
-                pointer-events: none;
-                filter: blur(1.0em);
+                @include mist-disperse-effect();
             }
-        }
-    }
-    button
-    {
-        @include black-pop-panel-style();
-        border-radius: 1.5rem;
-        padding: 1.5rem;
-        transition: opacity 750ms, filter 750ms;
-        width: 11rem;
-        height: 11rem;
-        max-width: 30vw;
-        max-height: 30vw;
-        z-index: -10;
-        svg
-        {
-            width: 100%;
-            height: 100%;
-            color: rgba(230, 237, 243, 0.7);
-            fill: rgba(230, 237, 243, 0.7);
-        }
-        @media (hover: hover)
-        {
-            &:hover
-            {
-                background-color: rgba(32, 28, 38, 0.8);
-            }
-            &:hover svg
-            {
-                color: rgba(230, 237, 243, 0.9);
-                fill: rgba(230, 237, 243, 0.9);
-            }
-        }
-        @at-root body.immersive:not(.mousemove) &
-        {
-            opacity: 0;
-            cursor: none;
-            pointer-events: none;
-            filter: blur(1.0em);
-        }
-        @at-root body.press-control &
-        {
-            opacity: 0;
-            cursor: none;
-            pointer-events: none;
-            filter: blur(1.0em);
-        }
-        @at-root body.immersive & #play-icon
-        {
-            display: none;
-        }
-        @at-root body:not(.immersive) & #pause-icon
-        {
-            display: none;
         }
     }
     #canvas
@@ -390,23 +118,125 @@ button
         }
     }
 }
+.option-panel
+{
+    @include default-mode-element("fade");
+    @include font();
+    &
+    {
+        position: absolute;
+        z-index: 80;
+        top: 3.25rem;
+        left: 1.0rem;
+        label
+        {
+            @include black-pop-panel-style();
+            @include flex(row, space-between);
+            cursor: pointer;
+            padding: 0.125rem 0.5rem;
+            margin-bottom: 1px;
+            background-color: black-color(0.6);
+            border-radius: 0.25rem;
+            height: 1.5rem;
+            flex-grow: 1;
+            @media (hover: hover)
+            {
+                &:hover
+                {
+                    background-color: $hover-black-color;
+                }
+            }
+            *
+            {
+                user-select: none;
+                cursor: pointer;
+            }
+            input
+            {
+                margin: 0.5rem;
+                padding: 0px;
+            }
+            select
+            {
+                @include reset-appearance();
+                @include font();
+                &
+                {
+                    color: $white-color;
+                    background-color: transparent;
+                    border: none;
+                    border-radius: 0.5rem;
+                    padding: 0.25rem;
+                    text-align: right;
+                    option
+                    {
+                        background-color: black-color(1.0);
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+}
+#play-button
+{
+    @include black-pop-panel-style();
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    transition: opacity 750ms, filter 750ms;
+    width: 11rem;
+    height: 11rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 30vw;
+    max-height: 30vw;
+    z-index: 150;
+    svg
+    {
+        @include svg-color(white-color(0.7));
+        width: 100%;
+        height: 100%;
+    }
+    @media (hover: hover)
+    {
+        &:hover
+        {
+            background-color: black-color(0.8);
+        }
+        &:hover svg
+        {
+            @include svg-color(white-color(0.9));
+        }
+    }
+    @at-root body.immersive:not(.mousemove) &
+    {
+        @include mist-disperse-effect();
+    }
+    @at-root body.press-control &
+    {
+        @include mist-disperse-effect();
+    }
+    @at-root body.immersive & #play-icon
+    {
+        display: none;
+    }
+    @at-root body:not(.immersive) & #pause-icon
+    {
+        display: none;
+    }
+}
 #screen-footer
 {
     @include bottom-stretch-box();
+    @include flex(column, start, stretch);
     position: fixed;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: stretch;
+    z-index: 50;
     pointer-events: none;
     #supplementary-line
     {
-        display: block;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: end;
+        @include flex(row, space-between, end);
         #keyboard-shortcut
         {
             @include default-mode-element("fade");
@@ -416,10 +246,11 @@ button
             {
                 margin: 1rem;
                 border-radius: 0.5rem;
-                padding: 0.5rem;
+                padding: 0.5rem 1.0rem;
                 display: grid;
                 grid-template-columns: minmax(0, max-content) minmax(0, max-content);
-                gap: 0.5rem;
+                gap: 0.5rem 0.5rem;
+                align-items: center;
                 pointer-events: initial;
                 span
                 {
@@ -433,17 +264,19 @@ button
                         @include monospace-font();
                         &
                         {
+                            display: inline-block;
+                            contain: paint;
                             border-style: solid;
                             border-width: 1px;
-                            border-color: rgba(255, 255, 255, 0.6);
+                            border-color: $kbd-border-color;
                             border-radius: 4px;
                             padding: 1px 4px;
                             margin: 2px;
-                            background-color: rgba(255, 255, 255, 0.15);
+                            background-color: $kbd-background-color;
                         }
                     }
                 }
-                @media(max-height: 830px)
+                @media (max-width: 760px) or (max-height: 780px)
                 {
                     visibility: hidden;
                     width: 0px;
@@ -466,30 +299,24 @@ button
                 pointer-events: initial;
                 .title
                 {
-                    display: block;
-                    margin: 0px;
-                    padding: 0px;
+                    @include solid-box();
                 }
                 ul
                 {
-                    display: block;
-                    margin: 0px;
-                    padding: 0px;
+                    @include solid-box();
                     padding-left: 1.0rem;
                     li
                     {
-                        display: block;
-                        margin: 0px;
-                        padding: 0px;
+                        @include solid-box();
                         a
                         {
-                            color: rgba(230, 237, 243, 0.7);
+                            color: white-color(0.7);
                             cursor: pointer;
                             @media (hover: hover)
                             {
                                 &:hover
                                 {
-                                    color: $white-oolor;
+                                    color: $white-color;
                                 }
                             }
                         }
@@ -505,14 +332,11 @@ button
         pointer-events: initial;
         #information
         {
+            @include flex(row, center);
             @include font();
             &
             {
-                color: $white-oolor;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
+                color: $white-color;
                 ul
                 {
                     display: inline-block;

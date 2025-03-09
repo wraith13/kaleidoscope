@@ -30,14 +30,15 @@ export namespace Shortcuts
         code === "Space" ? " ":
         key.length === 1 ? key.toUpperCase():
         key;
-    const joinable = <T>(value: T) => undefined !== value && null !== value ? [ value, ]: [];
+    const joinable = <T>(value: T, condition?: boolean) =>
+        undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
     export const handleKeyEvent = (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) =>
     {
         const normalizedKey = normalizeKey(event.key, event.code);
         const pressedKeys =
         [
-            ...joinable(event.shiftKey ? "Shift": null),
-            ...joinable(event.ctrlKey ? "Control": null),
+            ...joinable("Shift", event.shiftKey),
+            ...joinable("Control", event.ctrlKey),
             normalizedKey,
         ]
         .filter((i, ix, list) => ix === list.indexOf(i));

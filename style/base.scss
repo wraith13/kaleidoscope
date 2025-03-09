@@ -1,0 +1,35 @@
+@use "./params" as *;
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0;
+    font-size: 100%;
+    line-height: 1.5;
+    color: inherit;
+    outline: 0;
+    vertical-align: baseline;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 0px;
+}
+@supports (not (content-visibility: auto)) or (not (contain-intrinsic-size: auto 0px))
+{
+    *
+    {
+        contain: content;
+        min-height: 1px;
+    }
+}
+body
+{
+    margin: 0px;
+    padding: 0px;
+    background-color: $body-background-color;
+}
+button
+{
+    border-style: none;
+    border-width: 0px;
+    cursor: pointer;
+}

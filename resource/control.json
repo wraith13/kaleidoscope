@@ -94,7 +94,7 @@
             1500,
             1000
         ],
-        "default": 7500
+        "default": 5000
     },
     "fuseFps": {
         "id": "fuse-fps",

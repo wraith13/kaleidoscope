@@ -1,0 +1,156 @@
+@use "./params" as *;
+@mixin default-mode-element($transition)
+{
+    @if "slide-up" == $transition
+    {
+        transition: transform 500ms;
+        @at-root body.immersive &
+        {
+            transform: translate(0px, -100%);
+        }
+        @at-root body.press-control &
+        {
+            transform: translate(0px, -100%);
+        }
+    }
+    @else if $transition == "slide-down"
+    {
+        transition: transform 500ms;
+        @at-root body.immersive &
+        {
+            transform: translate(0px, 100%);
+        }
+        @at-root body.press-control &
+        {
+            transform: translate(0px, 100%);
+        }
+    }
+    @else if $transition == "fade"
+    {
+        transition: opacity 750ms, filter 750ms;
+        @at-root body.immersive &
+        {
+            @include mist-disperse-effect();
+        }
+        @at-root body.press-control &
+        {
+            @include mist-disperse-effect();
+        }
+    }
+}
+@mixin flex($flex-direction: row, $justify-content: start, $align-items: center)
+{
+    display: flex;
+    flex-direction: $flex-direction;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+@mixin solid-box()
+{
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    border: 0;
+}
+@mixin full-stretch-box()
+{
+    margin: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+@mixin top-stretch-box()
+{
+    margin: 0px;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+}
+@mixin bottom-stretch-box()
+{
+    margin: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+@mixin reset-appearance()
+{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+@mixin black-panel-style-base()
+{
+    backdrop-filter: blur(1rem);
+    color: $white-color;
+}
+@mixin black-line-panel-style()
+{
+    @include black-panel-style-base();
+    background-color: rgb(32, 28, 38, 0.8);
+}
+@mixin black-pop-panel-style()
+{
+    @include black-panel-style-base();
+    background-color: rgba(32, 28, 38, 0.6);
+}
+@mixin font-size($font-size)
+{
+    font-size: $font-size;
+    line-height: $font-size;
+}
+@mixin font-base()
+{
+    @include font-size(0.75rem);
+    font-weight: 400;
+    @media (min-width: 1024px) and (max-width: 1599px)
+    {
+        @include font-size(0.9rem);
+    }
+    @media (min-width: 1600px)
+    {
+        @include font-size(1.0rem);
+    }
+}
+@mixin font()
+{
+    @include font-base();
+    &
+    {
+        font-family: $default-font;
+    }
+}
+@mixin monospace-font()
+{
+    @include font-base();
+    &
+    {
+        font-family: $monospace-font;
+    }
+}
+@mixin mist-disperse-effect()
+{
+    opacity: 0;
+    cursor: none;
+    pointer-events: none;
+    filter: blur(1.0em);
+    &::before
+    {
+        content: "";
+        position: absolute;
+        top: -1em;
+        left: -1em;
+        right: -1em;
+        bottom: -1em;
+        background: inherit;
+        filter: blur(1.0em);
+        z-index: -1;
+        transition: filter 750ms;
+    }
+}
+@mixin svg-color($color)
+{
+    color: $color;
+    fill: $color;
+}

@@ -6,25 +6,33 @@ export namespace Fps
         now: number;
         text: string;
     }
-    const fpsCalcUnit = 5;
+    const fpsWindow = 1000;
     let frameTimings: number[] = [];
     let fpsHistory: FpsHistoryEntry[] = [];
     export let currentMaxFps: FpsHistoryEntry;
     export let currentNowFps: FpsHistoryEntry;
     export let currentMinFps: FpsHistoryEntry;
     export let fuseFps: number;
+    export let isValid: boolean;
     export const reset = () =>
     {
+        isValid = false;
         frameTimings = [];
         fpsHistory = [];
     };
     export const step = (now: number) =>
     {
         frameTimings.push(now);
-        if (fpsCalcUnit <= frameTimings.length)
+        isValid = 2 <= frameTimings.length;
+        if (isValid)
         {
-            const first = frameTimings.shift() ?? 0;
-            const fps = (fpsCalcUnit *1000.0) /(now -first);
+            while (2 < frameTimings.length && fpsWindow < now - frameTimings[0])
+            {
+                frameTimings.shift();
+            }
+            const timeSpan = Math.max(now - frameTimings[0], 0.001); // max for avoid 0 div
+            const frameCount = frameTimings.length - 1;
+            const fps = (frameCount * 1000) / timeSpan;
             currentNowFps =
             {
                 fps,
@@ -53,7 +61,6 @@ export namespace Fps
                     }
                 }
             );
-            isValid = true;
             if (isUnderFuseFps())
             {
                 console.error
@@ -68,12 +75,7 @@ export namespace Fps
                 );
             }
         }
-        else
-        {
-            isValid = false;
-        }
     };
-    export let isValid: boolean;
     const makeFpsText = (fps: number) =>
         `${fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, })} FPS`;
     export const getText = () =>

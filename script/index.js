@@ -305,19 +305,24 @@ define("script/fps", ["require", "exports"], function (require, exports) {
     exports.Fps = void 0;
     var Fps;
     (function (Fps) {
-        var fpsCalcUnit = 5;
+        var fpsWindow = 1000;
         var frameTimings = [];
         var fpsHistory = [];
         Fps.reset = function () {
+            Fps.isValid = false;
             frameTimings = [];
             fpsHistory = [];
         };
         Fps.step = function (now) {
-            var _a;
             frameTimings.push(now);
-            if (fpsCalcUnit <= frameTimings.length) {
-                var first = (_a = frameTimings.shift()) !== null && _a !== void 0 ? _a : 0;
-                var fps = (fpsCalcUnit * 1000.0) / (now - first);
+            Fps.isValid = 2 <= frameTimings.length;
+            if (Fps.isValid) {
+                while (2 < frameTimings.length && fpsWindow < now - frameTimings[0]) {
+                    frameTimings.shift();
+                }
+                var timeSpan = Math.max(now - frameTimings[0], 0.001); // max for avoid 0 div
+                var frameCount = frameTimings.length - 1;
+                var fps = (frameCount * 1000) / timeSpan;
                 Fps.currentNowFps =
                     {
                         fps: fps,
@@ -339,7 +344,6 @@ define("script/fps", ["require", "exports"], function (require, exports) {
                         Fps.currentMinFps = i;
                     }
                 });
-                Fps.isValid = true;
                 if (Fps.isUnderFuseFps()) {
                     console.error("❌ UnderFuseFps:", {
                         fuseFps: Fps.fuseFps,
@@ -348,9 +352,6 @@ define("script/fps", ["require", "exports"], function (require, exports) {
                         minFps: Fps.currentMinFps.fps,
                     });
                 }
-            }
-            else {
-                Fps.isValid = false;
             }
         };
         var makeFpsText = function (fps) {
@@ -373,7 +374,21 @@ define("resource/lang.en", [], {
     "timeUnitM": "m",
     "timeUnitH": "h",
     "timeUnitD": "d",
-    "ago": "ago"
+    "ago": "ago",
+    "Hide UI": "Hide UI",
+    "Play / Pause": "Play / Pause",
+    "Switch Pattern (Forward)": "Switch Pattern (Forward)",
+    "Switch Pattern (Backward)": "Switch Pattern (Backward)",
+    "Switch Coloring (Forward)": "Switch Coloring (Forward)",
+    "Switch Coloring (Backward)": "Switch Coloring (Backward)",
+    "Increase Canvas Size": "Increase Canvas Size",
+    "Decrease Canvas Size": "Decrease Canvas Size",
+    "Increase Layer": "Increase Layer",
+    "Decrease Layer": "Decrease Layer",
+    "Speed Down": "Speed Down",
+    "Speed Up": "Speed Up",
+    "FullScreen": "FullScreen",
+    "Show FPS": "Show FPS"
 });
 define("resource/lang.ja", [], {
     "description": "万華鏡 Web スクリーンセーバー",
@@ -386,7 +401,21 @@ define("resource/lang.ja", [], {
     "timeUnitM": "分",
     "timeUnitH": "時間",
     "timeUnitD": "日",
-    "ago": "前"
+    "ago": "前",
+    "Hide UI": "UI 非表示",
+    "Play / Pause": "再生 / 一時停止",
+    "Switch Pattern (Forward)": "パターン切り替え (順方向)",
+    "Switch Pattern (Backward)": "パターン切り替え (逆方向)",
+    "Switch Coloring (Forward)": "カラーリング切り替え (順方向)",
+    "Switch Coloring (Backward)": "カラーリング切り替え (逆方向)",
+    "Increase Canvas Size": "キャンバスサイズ拡大",
+    "Decrease Canvas Size": "キャンバスサイズ縮小",
+    "Increase Layer": "レイヤー増加",
+    "Decrease Layer": "レイヤー減少",
+    "Speed Down": "スピードダウン",
+    "Speed Up": "スピードアップ",
+    "FullScreen": "フルスクリーン",
+    "Show FPS": "FPS 表示"
 });
 define("script/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -1692,7 +1721,7 @@ define("resource/control", [], {
             1500,
             1000
         ],
-        "default": 7500
+        "default": 5000
     },
     "fuseFps": {
         "id": "fuse-fps",
@@ -2133,10 +2162,12 @@ define("script/shortcuts", ["require", "exports", "resource/shortcuts"], functio
                 key.length === 1 ? key.toUpperCase() :
                     key;
         };
-        var joinable = function (value) { return undefined !== value && null !== value ? [value,] : []; };
+        var joinable = function (value, condition) {
+            return undefined !== value && null !== value && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
+        };
         Shortcuts.handleKeyEvent = function (type, event, commandMap) {
             var normalizedKey = normalizeKey(event.key, event.code);
-            var pressedKeys = __spreadArray(__spreadArray(__spreadArray([], joinable(event.shiftKey ? "Shift" : null), true), joinable(event.ctrlKey ? "Control" : null), true), [
+            var pressedKeys = __spreadArray(__spreadArray(__spreadArray([], joinable("Shift", event.shiftKey), true), joinable("Control", event.ctrlKey), true), [
                 normalizedKey,
             ], false).filter(function (i, ix, list) { return ix === list.indexOf(i); });
             if (!shouldRequireFocusCheck(pressedKeys) || !isInputElementFocused()) {
@@ -2234,7 +2265,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     var keyboardShortcut = ui_2.UI.getElementById("div", "keyboard-shortcut");
     shortcuts_1.Shortcuts.getDisplayList().forEach(function (i) {
         ui_2.UI.appendChild(keyboardShortcut, "span", { children: i.keys.map(function (key) { return ui_2.UI.createElement("kbd", { text: key }); }) });
-        ui_2.UI.appendChild(keyboardShortcut, "span", { text: i.description, });
+        ui_2.UI.appendChild(keyboardShortcut, "span", { text: locale_1.Locale.map(i.description), });
     });
     var poweredByElement = ui_2.UI.querySelector("ul", "#powered-by ul");
     Object.entries(powered_by_json_1.default).forEach(function (_a) {

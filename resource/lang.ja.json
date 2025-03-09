@@ -9,5 +9,19 @@
     "timeUnitM": "分",
     "timeUnitH": "時間",
     "timeUnitD": "日",
-    "ago": "前"
+    "ago": "前",
+    "Hide UI": "UI 非表示",
+    "Play / Pause": "再生 / 一時停止",
+    "Switch Pattern (Forward)": "パターン切り替え (順方向)",
+    "Switch Pattern (Backward)": "パターン切り替え (逆方向)",
+    "Switch Coloring (Forward)": "カラーリング切り替え (順方向)",
+    "Switch Coloring (Backward)": "カラーリング切り替え (逆方向)",
+    "Increase Canvas Size": "キャンバスサイズ拡大",
+    "Decrease Canvas Size": "キャンバスサイズ縮小",
+    "Increase Layer": "レイヤー増加",
+    "Decrease Layer": "レイヤー減少",
+    "Speed Down": "スピードダウン",
+    "Speed Up": "スピードアップ",
+    "FullScreen": "フルスクリーン",
+    "Show FPS": "FPS 表示"
 }

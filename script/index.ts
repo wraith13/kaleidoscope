@@ -84,7 +84,7 @@ Shortcuts.getDisplayList().forEach
     i =>
     {
         UI.appendChild(keyboardShortcut, "span", { children: i.keys.map(key => UI.createElement("kbd", { text: key })) });
-        UI.appendChild(keyboardShortcut, "span", { text: i.description, });
+        UI.appendChild(keyboardShortcut, "span", { text: Locale.map(i.description as Locale.KeyType), });
     }
 );
 const poweredByElement = UI.querySelector("ul", "#powered-by ul");
