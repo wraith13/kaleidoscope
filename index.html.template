@@ -105,20 +105,6 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <div id="screen-footer">
     <div id="supplementary-line">
         <div id="keyboard-shortcut">
-            <span><kbd>Control</kbd></span><span>Hide UI</span>
-            <span><kbd>Space</kbd></span><span>Play / Pause</span>
-            <span><kbd>P</kbd></span><span>Switch Pattern ( Forward )</span>
-            <span><kbd>Shift</kbd><kbd>P</kbd></span><span>Switch Pattern ( Backward )</span>
-            <span><kbd>C</kbd></span><span>Switch Coloring ( Forward )</span>
-            <span><kbd>Shift</kbd><kbd>C</kbd></span><span>Switch Coloring ( Backward )</span>
-            <span><kbd>Shift</kbd><kbd>↑</kbd></span><span>Increase Canvas Size</span>
-            <span><kbd>Shift</kbd><kbd>↓</kbd></span><span>Decrease Canvas Size</span>
-            <span><kbd>↑</kbd></span><span>Increase Layer</span>
-            <span><kbd>↓</kbd></span><span>Decrease Layer</span>
-            <span><kbd>←</kbd></span><span>Speed Down</span>
-            <span><kbd>→</kbd></span><span>Speed Up</span>
-            <span><kbd>F</kbd></span><span>FullScreen</span>
-            <span><kbd>S</kbd></span><span>Show FPS</span>
         </div>
         <div id="powered-by">
             <span class="title">powered by</span>

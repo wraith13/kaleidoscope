@@ -1,0 +1,105 @@
+[
+    {
+        "description": "Hide UI",
+        "keys": [
+            "U"
+        ],
+        "onKeyDown": "toggleControlPressOn",
+        "onKeyUp": "toggleControlPressOff"
+    },
+    {
+        "description": "Play / Pause",
+        "keys": [
+            " "
+        ],
+        "onKeyDown": "playOrPause"
+    },
+    {
+        "description": "Switch Pattern (Forward)",
+        "keys": [
+            "P"
+        ],
+        "onKeyDown": "switchPatternForward"
+    },
+    {
+        "description": "Switch Pattern (Backward)",
+        "keys": [
+            "Shift",
+            "P"
+        ],
+        "onKeyDown": "switchPatternBackward"
+    },
+    {
+        "description": "Switch Coloring (Forward)",
+        "keys": [
+            "C"
+        ],
+        "onKeyDown": "switchColoringForward"
+    },
+    {
+        "description": "Switch Coloring (Backward)",
+        "keys": [
+            "Shift",
+            "C"
+        ],
+        "onKeyDown": "switchColoringBackward"
+    },
+    {
+        "description": "Increase Canvas Size",
+        "keys": [
+            "Shift",
+            "ArrowUp"
+        ],
+        "onKeyDown": "increaseCanvasSize"
+    },
+    {
+        "description": "Decrease Canvas Size",
+        "keys": [
+            "Shift",
+            "ArrowDown"
+        ],
+        "onKeyDown": "decreaseCanvasSize"
+    },
+    {
+        "description": "Increase Layer",
+        "keys": [
+            "ArrowUp"
+        ],
+        "onKeyDown": "increaseLayer"
+    },
+    {
+        "description": "Decrease Layer",
+        "keys": [
+            "ArrowDown"
+        ],
+        "onKeyDown": "decreaseLayer"
+    },
+    {
+        "description": "Speed Down",
+        "keys": [
+            "ArrowLeft"
+        ],
+        "onKeyDown": "speedDown"
+    },
+    {
+        "description": "Speed Up",
+        "keys": [
+            "ArrowRight"
+        ],
+        "onKeyDown": "speedUp"
+    },
+    {
+        "description": "FullScreen",
+        "keys": [
+            "F"
+        ],
+        "onKeyDown": "toggleFullScreen"
+    },
+    {
+        "description": "Show FPS",
+        "keys": [
+            "S"
+        ],
+        "onKeyDown": "toggleShowFPS"
+    }
+]

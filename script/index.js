@@ -365,7 +365,7 @@ define("script/fps", ["require", "exports"], function (require, exports) {
 define("resource/lang.en", [], {
     "description": "Kaleidoscope Web Screen Saver",
     "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
-    "informationFuseFps": "It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
+    "informationFuseFps": "⚠️ It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
     "DELETEME.informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
     "DELETEME.informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",
     "timeUnitMs": "ms",
@@ -378,7 +378,7 @@ define("resource/lang.en", [], {
 define("resource/lang.ja", [], {
     "description": "万華鏡 Web スクリーンセーバー",
     "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
-    "informationFuseFps": "Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
+    "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
     "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
     "DELETEME.informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
     "timeUnitMs": "ミリ秒",
@@ -1663,7 +1663,7 @@ define("resource/control", [], {
             2,
             1
         ],
-        "default": 23
+        "default": 17
     },
     "span": {
         "id": "span",
@@ -1692,7 +1692,7 @@ define("resource/control", [], {
             1500,
             1000
         ],
-        "default": 60000
+        "default": 7500
     },
     "fuseFps": {
         "id": "fuse-fps",
@@ -1995,6 +1995,178 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
         };
     })(Animation || (exports.Animation = Animation = {}));
 });
+define("resource/shortcuts", [], [
+    {
+        "description": "Hide UI",
+        "keys": [
+            "U"
+        ],
+        "onKeyDown": "toggleControlPressOn",
+        "onKeyUp": "toggleControlPressOff"
+    },
+    {
+        "description": "Play / Pause",
+        "keys": [
+            " "
+        ],
+        "onKeyDown": "playOrPause"
+    },
+    {
+        "description": "Switch Pattern (Forward)",
+        "keys": [
+            "P"
+        ],
+        "onKeyDown": "switchPatternForward"
+    },
+    {
+        "description": "Switch Pattern (Backward)",
+        "keys": [
+            "Shift",
+            "P"
+        ],
+        "onKeyDown": "switchPatternBackward"
+    },
+    {
+        "description": "Switch Coloring (Forward)",
+        "keys": [
+            "C"
+        ],
+        "onKeyDown": "switchColoringForward"
+    },
+    {
+        "description": "Switch Coloring (Backward)",
+        "keys": [
+            "Shift",
+            "C"
+        ],
+        "onKeyDown": "switchColoringBackward"
+    },
+    {
+        "description": "Increase Canvas Size",
+        "keys": [
+            "Shift",
+            "ArrowUp"
+        ],
+        "onKeyDown": "increaseCanvasSize"
+    },
+    {
+        "description": "Decrease Canvas Size",
+        "keys": [
+            "Shift",
+            "ArrowDown"
+        ],
+        "onKeyDown": "decreaseCanvasSize"
+    },
+    {
+        "description": "Increase Layer",
+        "keys": [
+            "ArrowUp"
+        ],
+        "onKeyDown": "increaseLayer"
+    },
+    {
+        "description": "Decrease Layer",
+        "keys": [
+            "ArrowDown"
+        ],
+        "onKeyDown": "decreaseLayer"
+    },
+    {
+        "description": "Speed Down",
+        "keys": [
+            "ArrowLeft"
+        ],
+        "onKeyDown": "speedDown"
+    },
+    {
+        "description": "Speed Up",
+        "keys": [
+            "ArrowRight"
+        ],
+        "onKeyDown": "speedUp"
+    },
+    {
+        "description": "FullScreen",
+        "keys": [
+            "F"
+        ],
+        "onKeyDown": "toggleFullScreen"
+    },
+    {
+        "description": "Show FPS",
+        "keys": [
+            "S"
+        ],
+        "onKeyDown": "toggleShowFPS"
+    }
+]);
+define("script/shortcuts", ["require", "exports", "resource/shortcuts"], function (require, exports, shortcuts_json_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Shortcuts = void 0;
+    shortcuts_json_1 = __importDefault(shortcuts_json_1);
+    var Shortcuts;
+    (function (Shortcuts) {
+        var keyDisplayNames = {
+            "ArrowUp": "↑",
+            "ArrowDown": "↓",
+            "ArrowLeft": "←",
+            "ArrowRight": "→",
+            " ": "Space",
+            "Control": "Ctrl",
+        };
+        var shouldRequireFocusCheck = function (keys) {
+            return !keys.some(function (key) { return ["Shift", "Control", "Alt", "Meta"].includes(key); });
+        };
+        var getDisplayKeyName = function (key) { return keyDisplayNames[key] || key; };
+        Shortcuts.getDisplayList = function () {
+            return shortcuts_json_1.default.map(function (i) {
+                return ({
+                    keys: i.keys.map(function (key) { return getDisplayKeyName(key); }),
+                    description: i.description,
+                });
+            });
+        };
+        var isInputElementFocused = function () { var _a, _b, _c; return ["input", "textarea", "button"].includes((_c = (_b = (_a = document.activeElement) === null || _a === void 0 ? void 0 : _a.tagName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) !== null && _c !== void 0 ? _c : ""); };
+        var normalizeKey = function (key, code) {
+            return code === "Space" ? " " :
+                key.length === 1 ? key.toUpperCase() :
+                    key;
+        };
+        var joinable = function (value) { return undefined !== value && null !== value ? [value,] : []; };
+        Shortcuts.handleKeyEvent = function (type, event, commandMap) {
+            var normalizedKey = normalizeKey(event.key, event.code);
+            var pressedKeys = __spreadArray(__spreadArray(__spreadArray([], joinable(event.shiftKey ? "Shift" : null), true), joinable(event.ctrlKey ? "Control" : null), true), [
+                normalizedKey,
+            ], false).filter(function (i, ix, list) { return ix === list.indexOf(i); });
+            if (!shouldRequireFocusCheck(pressedKeys) || !isInputElementFocused()) {
+                var commandKeys = shortcuts_json_1.default.filter(function (shortcut) {
+                    return shortcut.keys.length === pressedKeys.length &&
+                        shortcut.keys.every(function (key) { return pressedKeys.includes(key); }) &&
+                        shortcut[type];
+                })
+                    .map(function (i) { return i[type]; });
+                if (0 < commandKeys.length) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                commandKeys.forEach(function (i) {
+                    console.log("👆 KeyboardShortcut:", i, type, pressedKeys);
+                    var command = commandMap[i];
+                    if (command) {
+                        command();
+                    }
+                    else {
+                        console.error("🦋 FIXME: Shortcuts.handleKeyEvent.NotFountCommand", i);
+                    }
+                });
+                if ("onKeyDown" === type && commandKeys.length <= 0 && !["Shift", "Control"].includes(normalizedKey)) {
+                    console.log("💡 UnknownKeyDown:", pressedKeys);
+                }
+            }
+        };
+    })(Shortcuts || (exports.Shortcuts = Shortcuts = {}));
+});
 define("resource/powered-by", [], {
     "build.js": "https://github.com/wraith13/build.js",
     "evil-commonjs": "https://github.com/wraith13/evil-commonjs",
@@ -2002,7 +2174,7 @@ define("resource/powered-by", [], {
     "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
     "phi-colors": "https://github.com/wraith13/phi-colors"
 });
-define("script/index", ["require", "exports", "script/control", "script/ui", "script/fps", "script/locale", "script/animation", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, control_1, ui_2, fps_1, locale_1, animation_1, control_json_2, config_json_4, powered_by_json_1) {
+define("script/index", ["require", "exports", "script/control", "script/ui", "script/fps", "script/locale", "script/animation", "script/shortcuts", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, control_1, ui_2, fps_1, locale_1, animation_1, shortcuts_1, control_json_2, config_json_4, powered_by_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     control_json_2 = __importDefault(control_json_2);
@@ -2059,6 +2231,11 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     }
     var showFPS = new control_1.Control.Checkbox(control_json_2.default.showFPS);
     var fpsElement = ui_2.UI.getElementById("div", "fps");
+    var keyboardShortcut = ui_2.UI.getElementById("div", "keyboard-shortcut");
+    shortcuts_1.Shortcuts.getDisplayList().forEach(function (i) {
+        ui_2.UI.appendChild(keyboardShortcut, "span", { children: i.keys.map(function (key) { return ui_2.UI.createElement("kbd", { text: key }); }) });
+        ui_2.UI.appendChild(keyboardShortcut, "span", { text: i.description, });
+    });
     var poweredByElement = ui_2.UI.querySelector("ul", "#powered-by ul");
     Object.entries(powered_by_json_1.default).forEach(function (_a) {
         var text = _a[0], href = _a[1];
@@ -2162,74 +2339,51 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         return animation_1.Animation.updateEasing(easingCheckbox.get());
     };
     updateEasing();
-    window.addEventListener("keydown", function (event) {
-        var _a, _b, _c;
-        if ("Control" === event.key) {
-            document.body.classList.toggle("press-control", true);
+    var CommandMap = {
+        "toggleControlPressOn": function () { return document.body.classList.toggle("press-control", true); },
+        "toggleControlPressOff": function () { return document.body.classList.toggle("press-control", false); },
+        "playOrPause": function () { return playOrPause(); },
+        "switchPatternForward": function () { return patternSelect.switch(true); },
+        "switchPatternBackward": function () { return patternSelect.switch(false); },
+        "switchColoringForward": function () { return coloringSelect.switch(true); },
+        "switchColoringBackward": function () { return coloringSelect.switch(false); },
+        "increaseCanvasSize": function () {
+            canvasSizeSelect.switch(true);
+            updateCanvasSize();
+        },
+        "decreaseCanvasSize": function () {
+            canvasSizeSelect.switch(false);
+            updateCanvasSize();
+        },
+        "increaseLayer": function () {
+            layersSelect.switch(true);
+            updateLayers();
+        },
+        "decreaseLayer": function () {
+            layersSelect.switch(false);
+            updateLayers();
+        },
+        "speedDown": function () {
+            spanSelect.switch(true);
+            updateSpan();
+        },
+        "speedUp": function () {
+            spanSelect.switch(false);
+            updateSpan();
+        },
+        "toggleFullScreen": function () {
+            withFullscreen.toggle();
+            if (animation_1.Animation.isIn()) {
+                updateFullscreenState();
+            }
+        },
+        "toggleShowFPS": function () {
+            showFPS.toggle();
+            fpsElement.innerText = "";
         }
-        var focusedElementTagName = (_c = (_b = (_a = document.activeElement) === null || _a === void 0 ? void 0 : _a.tagName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) !== null && _c !== void 0 ? _c : "";
-        if (["input", "textarea", "button"].indexOf(focusedElementTagName) < 0) {
-            if (" " === event.key || "Space" === event.code) {
-                playOrPause();
-            }
-            else if ("F" === event.key.toUpperCase()) {
-                withFullscreen.toggle();
-                if (animation_1.Animation.isIn()) {
-                    updateFullscreenState();
-                }
-            }
-            else if ("S" === event.key.toUpperCase()) {
-                showFPS.toggle();
-                fpsElement.innerText = "";
-            }
-            else if ("ArrowUp" === event.key) {
-                if (event.shiftKey) {
-                    canvasSizeSelect.switch(true);
-                    updateCanvasSize();
-                }
-                else {
-                    layersSelect.switch(true);
-                    updateLayers();
-                }
-            }
-            else if ("ArrowDown" === event.key) {
-                if (event.shiftKey) {
-                    canvasSizeSelect.switch(false);
-                    updateCanvasSize();
-                }
-                else {
-                    layersSelect.switch(false);
-                    updateLayers();
-                }
-            }
-            else if ("ArrowLeft" === event.key) {
-                if (event.shiftKey) {
-                    //fuseFpsSelect.switch(false);
-                }
-                else {
-                    spanSelect.switch(true);
-                    updateSpan();
-                }
-            }
-            else if ("ArrowRight" === event.key) {
-                if (event.shiftKey) {
-                    //fuseFpsSelect.switch(true);
-                }
-                else {
-                    spanSelect.switch(false);
-                    updateSpan();
-                }
-            }
-            else if (["Shift", "Control",].indexOf(event.key) < 0) {
-                console.log("💡 UnknownKeyDown:", { key: event.key, code: event.code });
-            }
-        }
-    });
-    window.addEventListener("keyup", function (event) {
-        if ("Control" === event.key) {
-            document.body.classList.toggle("press-control", false);
-        }
-    });
+    };
+    window.addEventListener("keydown", function (event) { return shortcuts_1.Shortcuts.handleKeyEvent("onKeyDown", event, CommandMap); });
+    window.addEventListener("keyup", function (event) { return shortcuts_1.Shortcuts.handleKeyEvent("onKeyUp", event, CommandMap); });
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(timespanToString(new Date().getTime() - build.tick, 1), " ").concat(locale_1.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

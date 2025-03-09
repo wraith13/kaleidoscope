@@ -3,6 +3,7 @@ import { UI } from "./ui";
 import { Fps } from "./fps";
 import { Locale } from "./locale";
 import { Animation } from "./animation";
+import { Shortcuts } from "./shortcuts";
 import control from "@resource/control.json";
 import config from "@resource/config.json";
 import poweredBy from "@resource/powered-by.json";
@@ -77,6 +78,15 @@ if ( ! UI.fullscreenEnabled && withFullscreen.dom.parentElement)
 }
 const showFPS = new Control.Checkbox(control.showFPS);
 const fpsElement = UI.getElementById("div", "fps");
+const keyboardShortcut = UI.getElementById("div", "keyboard-shortcut");
+Shortcuts.getDisplayList().forEach
+(
+    i =>
+    {
+        UI.appendChild(keyboardShortcut, "span", { children: i.keys.map(key => UI.createElement("kbd", { text: key })) });
+        UI.appendChild(keyboardShortcut, "span", { text: i.description, });
+    }
+);
 const poweredByElement = UI.querySelector("ul", "#powered-by ul");
 Object.entries(poweredBy).forEach
 (
@@ -216,110 +226,61 @@ updateFuseFps();
 const updateEasing = () =>
     Animation.updateEasing(easingCheckbox.get());
 updateEasing();
-window.addEventListener
-(
-    "keydown",
-    (event: KeyboardEvent) =>
+const CommandMap: Shortcuts.CommandMap =
+{
+    "toggleControlPressOn": () => document.body.classList.toggle("press-control", true),
+    "toggleControlPressOff": () => document.body.classList.toggle("press-control", false),
+    "playOrPause": () => playOrPause(),
+    "switchPatternForward": () => patternSelect.switch(true),
+    "switchPatternBackward": () => patternSelect.switch(false),
+    "switchColoringForward": () => coloringSelect.switch(true),
+    "switchColoringBackward": () => coloringSelect.switch(false),
+    "increaseCanvasSize": () =>
     {
-        if ("Control" === event.key)
-        {
-            document.body.classList.toggle("press-control", true);
-        }
-        const focusedElementTagName = document.activeElement?.tagName?.toLowerCase() ?? "";
-        if (["input", "textarea", "button"].indexOf(focusedElementTagName) < 0)
-        {
-            if (" " === event.key || "Space" === event.code)
-            {
-                playOrPause();
-            }
-            else
-            if ("F" === event.key.toUpperCase())
-            {
-                withFullscreen.toggle();
-                if (Animation.isIn())
-                {
-                    updateFullscreenState();
-                }
-            }
-            else
-            if ("S" === event.key.toUpperCase())
-            {
-                showFPS.toggle();
-                fpsElement.innerText = "";
-            }
-            else
-            if ("ArrowUp" === event.key)
-            {
-                if (event.shiftKey)
-                {
-                    canvasSizeSelect.switch(true);
-                    updateCanvasSize();
-                }
-                else
-                {
-                    layersSelect.switch(true);
-                    updateLayers();
-                }
-            }
-            else
-            if ("ArrowDown" === event.key)
-            {
-                if (event.shiftKey)
-                {
-                    canvasSizeSelect.switch(false);
-                    updateCanvasSize();
-                }
-                else
-                {
-                    layersSelect.switch(false);
-                    updateLayers();
-                }
-            }
-            else
-            if ("ArrowLeft" === event.key)
-            {
-                if (event.shiftKey)
-                {
-                    //fuseFpsSelect.switch(false);
-                }
-                else
-                {
-                    spanSelect.switch(true);
-                    updateSpan();
-                }
-            }
-            else
-            if ("ArrowRight" === event.key)
-            {
-                if (event.shiftKey)
-                {
-                    //fuseFpsSelect.switch(true);
-                }
-                else
-                {
-                    spanSelect.switch(false);
-                    updateSpan();
-                }
-            }
-            else
-            if ([ "Shift", "Control", ].indexOf(event.key) < 0)
-            {
-                console.log("💡 UnknownKeyDown:", { key: event.key, code:event.code });
-            }
-        }
-    }
-);
-window.addEventListener
-(
-    "keyup",
-    (event: KeyboardEvent) =>
+        canvasSizeSelect.switch(true);
+        updateCanvasSize();
+    },
+    "decreaseCanvasSize": () =>
     {
-        if ("Control" === event.key)
+        canvasSizeSelect.switch(false);
+        updateCanvasSize();
+    },
+    "increaseLayer": () =>
+    {
+        layersSelect.switch(true);
+        updateLayers();
+    },
+    "decreaseLayer": () =>
+    {
+        layersSelect.switch(false);
+        updateLayers();
+    },
+    "speedDown": () =>
+    {
+        spanSelect.switch(true);
+        updateSpan();
+    },
+    "speedUp": () =>
+    {
+        spanSelect.switch(false);
+        updateSpan();
+    },
+    "toggleFullScreen": () =>
+    {
+        withFullscreen.toggle();
+        if (Animation.isIn())
         {
-            document.body.classList.toggle("press-control", false);
+            updateFullscreenState();
         }
+    },
+    "toggleShowFPS": () =>
+    {
+        showFPS.toggle();
+        fpsElement.innerText = "";
     }
-);
+};
+window.addEventListener("keydown", (event) => Shortcuts.handleKeyEvent("onKeyDown", event, CommandMap));
+window.addEventListener("keyup", (event) => Shortcuts.handleKeyEvent("onKeyUp", event, CommandMap));
 interface BuildInformation
 {
     at: string;

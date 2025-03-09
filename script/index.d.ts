@@ -434,4 +434,18 @@ declare module "script/animation" {
         const updateEasing: (enabled: boolean) => void;
     }
 }
+declare module "script/shortcuts" {
+    import shortcuts from "resource/shortcuts";
+    export namespace Shortcuts {
+        type CommandKey = Exclude<(typeof shortcuts)[number]["onKeyDown"] | (typeof shortcuts)[number]["onKeyUp"], undefined>;
+        type CommandMap = {
+            [key in Shortcuts.CommandKey]-?: () => void;
+        };
+        const getDisplayList: () => {
+            keys: string[];
+            description: string;
+        }[];
+        const handleKeyEvent: (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) => void;
+    }
+}
 declare module "script/index" { }
