@@ -111,6 +111,10 @@ export namespace UI
         styles?: Styles;
         events?: Events;
     }
+    export interface CreateElementArguments<T extends HtmlTag> extends ElementOptions
+    {
+        tag: T;
+    }
     export type HtmlTag = keyof HTMLElementTagNameMap;
     export const setOptions = <T extends HTMLElement>(element: T, options: ElementOptions = {}): T =>
     {
@@ -134,17 +138,41 @@ export namespace UI
         children.forEach(child => element.appendChild(child));
         return element;
     };
-    export const createElement = <T extends HtmlTag>(tag: T, options: ElementOptions = {}): HTMLElementTagNameMap[T] =>
-        setOptions(document.createElement(tag), options);
-    export const appendChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, tag: T | HTMLElement, options: ElementOptions = {}): ParentT =>
+    export const createElement = <T extends HtmlTag>(element: CreateElementArguments<T> | HTMLElementTagNameMap[T]): HTMLElementTagNameMap[T] =>
+        element instanceof Element ?
+            element:
+            setOptions(document.createElement(element.tag), element);
+    export const removeAllChildren = <ParentT extends HTMLElement>(parent: ParentT): ParentT =>
     {
-        parent.appendChild
-        (
-            tag instanceof Element ?
-                setOptions(tag, options):
-                createElement(tag, options)
-        );
+        Array.from(parent.children).forEach(i => parent.removeChild(i));
         return parent;
+    };
+    export const appendChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]): ParentT =>
+    {
+        parent.appendChild(createElement(element));
+        return parent;
+    };
+    export const replaceChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]): ParentT =>
+    {
+        removeAllChildren(parent);
+        return appendChild(parent, element);
+    };
+    export const appendChildren = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]): ParentT =>
+    {
+        if ("append" in parent)
+        {
+            parent.append(...elements.map(i => createElement(i)));
+        }
+        else
+        {
+            elements.forEach(i => appendChild(parent, i));
+        }
+        return parent;
+    };
+    export const replaceChildren = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]): ParentT =>
+    {
+        removeAllChildren(parent);
+        return appendChildren(parent, elements);
     };
     export const getElementsByClassName = <T extends HtmlTag>(tag: T, className: string): HTMLElementTagNameMap[T][] =>
     {

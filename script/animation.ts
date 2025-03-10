@@ -5,23 +5,36 @@ import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
 {
+    const getDiagonalSize = () => Math.sqrt(Math.pow(canvas.clientWidth ?? 0, 2) +Math.pow(canvas.clientHeight ?? 0, 2));
+    const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
     const canvas = UI.getElementById("div", "canvas");
-    let pattern: typeof control.pattern.enum[number];
-    let startAt = 0;
-    let offsetAt = 0;
-    let cycleSpan = control.cycleSpan.default;
-    export const startStep = (now: number) =>
-        startAt = now -offsetAt;
     interface Layer
     {
         layer: HTMLDivElement;
         mile: number;
         offset: number;
-        arguments: FlounderStyle.Type.Arguments | undefined;}
+        arguments: FlounderStyle.Type.Arguments | undefined;
+    }
     let layers: Layer[] = [];
-    const getDiagonalSize = () => Math.sqrt(Math.pow(canvas.clientWidth ?? 0, 2) +Math.pow(canvas.clientHeight ?? 0, 2));
-    let diagonalSize = getDiagonalSize();
-    const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
+    let pattern: typeof control.pattern.enum[number];
+    let startAt = 0;
+    let offsetAt = 0;
+    let cycleSpan = control.cycleSpan.default;
+    let diagonalSize = 0;
+    let h = Math.random();
+    let hueUnit = 1 / phiColors.phi;
+    let defaultLightness = 0.5;
+    let hsl =
+    {
+        h:rate(phiColors.HslHMin, phiColors.HslHMax)(h),
+        s:rate(phiColors.HslSMin, phiColors.HslSMax)(0.8),
+        l:rate(phiColors.HslLMin, phiColors.HslLMax)(defaultLightness),
+    };
+    let easing: (t: number) => number;
+    let getForegroundColor: (i: Layer, ix: number) => FlounderStyle.Type.Color;
+    const argumentHistory: FlounderStyle.Type.Arguments[] = [];
+    export const startStep = (now: number) =>
+        startAt = now -offsetAt;
     const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
     const randomSelect = <T>(list: T[]): T => list[makeRandomInteger(list.length)];
     const indexSelect = <T>(list: T[], ix: number): T => list[ix %list.length];
@@ -87,7 +100,6 @@ export namespace Animation
                 ];
         }
     };
-    const argumentHistory: FlounderStyle.Type.Arguments[] = [];
     const makeRandomArguments = (): FlounderStyle.Type.Arguments =>
     {
         const result = randomSelect(getPatterns())
@@ -106,15 +118,6 @@ export namespace Animation
         }
         return result;
     };
-    let h = Math.random();
-    let hueUnit = 1 / phiColors.phi;
-    let defaultLightness = 0.5;
-    let hsl =
-    {
-        h:rate(phiColors.HslHMin, phiColors.HslHMax)(h),
-        s:rate(phiColors.HslSMin, phiColors.HslSMax)(0.8),
-        l:rate(phiColors.HslLMin, phiColors.HslLMax)(defaultLightness),
-    };
     export const makeColor = (step: number, lightness?: number) =>
         <FlounderStyle.Type.HexColor>phiColors.rgbForStyle
         (
@@ -128,8 +131,6 @@ export namespace Animation
                 })
             )
         );
-    let easing: (t: number) => number;
-    let getForegroundColor: (i: Layer, ix: number) => FlounderStyle.Type.Color;
     const getBackgroundColor = (i: Layer, ix: number): FlounderStyle.Type.Color =>
     {
         if (i.arguments)
@@ -212,6 +213,7 @@ export namespace Animation
     {
         const newDiagonalSize = getDiagonalSize();
         const fixRate = newDiagonalSize /diagonalSize;
+        diagonalSize = newDiagonalSize;
         layers.forEach
         (
             i =>
@@ -240,18 +242,14 @@ export namespace Animation
                 }
             }
         );
-        diagonalSize = newDiagonalSize;
     };
     export const updateCycleSpan = (newCycleSpan: number) =>
     {
-        if (cycleSpan !== newCycleSpan)
-        {
-            const fixRate = newCycleSpan /cycleSpan;
-            const now = performance.now();
-            offsetAt = offsetAt *fixRate;
-            startStep(now);
-            cycleSpan = newCycleSpan;
-        }
+        const fixRate = newCycleSpan /cycleSpan;
+        const now = performance.now();
+        offsetAt = offsetAt *fixRate;
+        startStep(now);
+        cycleSpan = newCycleSpan;
     };
     export const updateLayers = (newLayers: number) =>
     {
@@ -260,7 +258,7 @@ export namespace Animation
         {
             for (let i = oldLayerList.length; i < newLayers; ++i)
             {
-                canvas.appendChild(UI.createElement("div", { attributes: { class: "layer", }, }));
+                canvas.appendChild(UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
             }
         }
         else

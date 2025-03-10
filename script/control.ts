@@ -30,7 +30,7 @@ export namespace Control
         {
             console.error("🦋 FIXME: Contorl.getDom.InvalidDom", data, result);
         }
-    return result;
+        return result;
     }
     export interface ButtonArgumentsBase<T extends HTMLElement>
     {

@@ -78,10 +78,17 @@ declare module "script/ui" {
             styles?: Styles;
             events?: Events;
         }
+        interface CreateElementArguments<T extends HtmlTag> extends ElementOptions {
+            tag: T;
+        }
         type HtmlTag = keyof HTMLElementTagNameMap;
         const setOptions: <T extends HTMLElement>(element: T, options?: ElementOptions) => T;
-        const createElement: <T extends HtmlTag>(tag: T, options?: ElementOptions) => HTMLElementTagNameMap[T];
-        const appendChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, tag: T | HTMLElement, options?: ElementOptions) => ParentT;
+        const createElement: <T extends HtmlTag>(element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => HTMLElementTagNameMap[T];
+        const removeAllChildren: <ParentT extends HTMLElement>(parent: ParentT) => ParentT;
+        const appendChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
+        const replaceChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
+        const appendChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
+        const replaceChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
         const getElementsByClassName: <T extends HtmlTag>(tag: T, className: string) => HTMLElementTagNameMap[T][];
         const querySelectorAllWithFallback: <T extends HtmlTag>(tag: T, selectorss: string[]) => HTMLElementTagNameMap[T][];
         const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];

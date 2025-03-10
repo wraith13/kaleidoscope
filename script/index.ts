@@ -129,32 +129,32 @@ if ( ! UI.fullscreenEnabled && withFullscreen.dom.parentElement)
 }
 const showFPS = new Control.Checkbox(control.showFPS);
 const fpsElement = UI.getElementById("div", "fps");
-const keyboardShortcut = UI.getElementById("div", "keyboard-shortcut");
-Shortcuts.getDisplayList().forEach
+UI.replaceChildren
 (
-    i =>
-    {
-        UI.appendChild(keyboardShortcut, "span", { children: i.keys.map(key => UI.createElement("kbd", { text: key })) });
-        UI.appendChild(keyboardShortcut, "span", { text: Locale.map(i.description as Locale.KeyType), });
-    }
-);
-const poweredByElement = UI.querySelector("ul", "#powered-by ul");
-Object.entries(poweredBy).forEach
-(
-    ([ text, href, ]) => UI.appendChild
+    UI.getElementById("div", "keyboard-shortcut"),
+    Shortcuts.getDisplayList().map
     (
-        poweredByElement,
-        "li",
-        {
-            children: [ UI.createElement("a", { text, attributes: { href, } }), ],
-        }
+        i =>
+        [
+            { tag: "span", children: i.keys.map(key => UI.createElement({ tag: "kbd", text: key })) } as const,
+            { tag: "span", text: Locale.map(i.description as Locale.KeyType), } as const,
+        ]
+    )
+    .reduce((a, b) => a.concat(b), [])
+);
+UI.replaceChildren
+(
+    UI.querySelector("ul", "#powered-by ul"),
+    Object.entries(poweredBy).map
+    (
+        ([ text, href, ]) => ({ tag: "li", children: [ UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
     )
 );
 UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", Animation.makeColor(0.0));
-const informationList = UI.getElementById("ul", "information-list");
-config.informations.forEach
+UI.replaceChildren
 (
-    i => UI.appendChild(informationList, "li", { text: Locale.map(<Locale.KeyType>i), })
+    UI.getElementById("ul", "information-list"),
+    config.informations.map(i => ({ tag: "li", text: Locale.map(<Locale.KeyType>i), }))
 );
 const updateFullscreenState = (fullscreen?: boolean) =>
 {
@@ -231,7 +231,7 @@ screenBody.addEventListener
 )
 updatePattern();
 updateColoring();
-//updateDiagonalSize();
+updateDiagonalSize();
 updateCycleSpan();
 updateEasing();
 updateFuseFps();
@@ -266,6 +266,7 @@ Shortcuts.setCommandMap
         fpsElement.innerText = "";
     }
 });
+window.addEventListener("resize", () => updateDiagonalSize());
 interface BuildInformation
 {
     at: string;

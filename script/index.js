@@ -249,16 +249,35 @@ define("script/ui", ["require", "exports", "resource/config"], function (require
             children.forEach(function (child) { return element.appendChild(child); });
             return element;
         };
-        UI.createElement = function (tag, options) {
-            if (options === void 0) { options = {}; }
-            return UI.setOptions(document.createElement(tag), options);
+        UI.createElement = function (element) {
+            return element instanceof Element ?
+                element :
+                UI.setOptions(document.createElement(element.tag), element);
         };
-        UI.appendChild = function (parent, tag, options) {
-            if (options === void 0) { options = {}; }
-            parent.appendChild(tag instanceof Element ?
-                UI.setOptions(tag, options) :
-                UI.createElement(tag, options));
+        UI.removeAllChildren = function (parent) {
+            Array.from(parent.children).forEach(function (i) { return parent.removeChild(i); });
             return parent;
+        };
+        UI.appendChild = function (parent, element) {
+            parent.appendChild(UI.createElement(element));
+            return parent;
+        };
+        UI.replaceChild = function (parent, element) {
+            UI.removeAllChildren(parent);
+            return UI.appendChild(parent, element);
+        };
+        UI.appendChildren = function (parent, elements) {
+            if ("append" in parent) {
+                parent.append.apply(parent, elements.map(function (i) { return UI.createElement(i); }));
+            }
+            else {
+                elements.forEach(function (i) { return UI.appendChild(parent, i); });
+            }
+            return parent;
+        };
+        UI.replaceChildren = function (parent, elements) {
+            UI.removeAllChildren(parent);
+            return UI.appendChildren(parent, elements);
         };
         UI.getElementsByClassName = function (tag, className) {
             var result = Array.from(document.getElementsByClassName(className));
@@ -1769,18 +1788,29 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
     config_json_3 = __importDefault(config_json_3);
     var Animation;
     (function (Animation) {
+        var getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
+        var rate = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
         var canvas = ui_1.UI.getElementById("div", "canvas");
+        var layers = [];
         var pattern;
         var startAt = 0;
         var offsetAt = 0;
         var cycleSpan = control_json_1.default.cycleSpan.default;
+        var diagonalSize = 0;
+        var h = Math.random();
+        var hueUnit = 1 / phi_colors_1.phiColors.phi;
+        var defaultLightness = 0.5;
+        var hsl = {
+            h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h),
+            s: rate(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(0.8),
+            l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(defaultLightness),
+        };
+        var easing;
+        var getForegroundColor;
+        var argumentHistory = [];
         Animation.startStep = function (now) {
             return startAt = now - offsetAt;
         };
-        var layers = [];
-        var getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
-        var diagonalSize = getDiagonalSize();
-        var rate = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
         var makeRandomInteger = function (size) { return Math.floor(Math.random() * size); };
         var randomSelect = function (list) { return list[makeRandomInteger(list.length)]; };
         var indexSelect = function (list, ix) { return list[ix % list.length]; };
@@ -1850,7 +1880,6 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     ];
             }
         };
-        var argumentHistory = [];
         var makeRandomArguments = function () {
             var result = randomSelect(getPatterns())(rate(diagonalSize * config_json_3.default.intervalSize.minRate, diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
             argumentHistory.push(result);
@@ -1859,14 +1888,6 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
             }
             return result;
         };
-        var h = Math.random();
-        var hueUnit = 1 / phi_colors_1.phiColors.phi;
-        var defaultLightness = 0.5;
-        var hsl = {
-            h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h),
-            s: rate(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(0.8),
-            l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(defaultLightness),
-        };
         Animation.makeColor = function (step, lightness) {
             return phi_colors_1.phiColors.rgbForStyle(phi_colors_1.phiColors.clipRgb(phi_colors_1.phiColors.hslToRgb({
                 h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)((h + (hueUnit * step)) % 1),
@@ -1874,8 +1895,6 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                 l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(lightness !== null && lightness !== void 0 ? lightness : defaultLightness),
             })));
         };
-        var easing;
-        var getForegroundColor;
         var getBackgroundColor = function (i, ix) {
             if (i.arguments) {
                 return i.arguments.foregroundColor;
@@ -1939,6 +1958,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
         Animation.updateDiagonalSize = function () {
             var newDiagonalSize = getDiagonalSize();
             var fixRate = newDiagonalSize / diagonalSize;
+            diagonalSize = newDiagonalSize;
             layers.forEach(function (i) {
                 var _a;
                 if (undefined !== ((_a = i.arguments) === null || _a === void 0 ? void 0 : _a.intervalSize)) {
@@ -1956,23 +1976,20 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     }
                 }
             });
-            diagonalSize = newDiagonalSize;
         };
         Animation.updateCycleSpan = function (newCycleSpan) {
-            if (cycleSpan !== newCycleSpan) {
-                var fixRate = newCycleSpan / cycleSpan;
-                var now = performance.now();
-                offsetAt = offsetAt * fixRate;
-                Animation.startStep(now);
-                cycleSpan = newCycleSpan;
-            }
+            var fixRate = newCycleSpan / cycleSpan;
+            var now = performance.now();
+            offsetAt = offsetAt * fixRate;
+            Animation.startStep(now);
+            cycleSpan = newCycleSpan;
         };
         Animation.updateLayers = function (newLayers) {
             var _a, _b, _c;
             var oldLayerList = ui_1.UI.getElementsByClassName("div", "layer");
             if (oldLayerList.length < newLayers) {
                 for (var i = oldLayerList.length; i < newLayers; ++i) {
-                    canvas.appendChild(ui_1.UI.createElement("div", { attributes: { class: "layer", }, }));
+                    canvas.appendChild(ui_1.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
                 }
             }
             else {
@@ -2300,21 +2317,19 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     }
     var showFPS = new control_1.Control.Checkbox(control_json_2.default.showFPS);
     var fpsElement = ui_2.UI.getElementById("div", "fps");
-    var keyboardShortcut = ui_2.UI.getElementById("div", "keyboard-shortcut");
-    shortcuts_1.Shortcuts.getDisplayList().forEach(function (i) {
-        ui_2.UI.appendChild(keyboardShortcut, "span", { children: i.keys.map(function (key) { return ui_2.UI.createElement("kbd", { text: key }); }) });
-        ui_2.UI.appendChild(keyboardShortcut, "span", { text: locale_1.Locale.map(i.description), });
-    });
-    var poweredByElement = ui_2.UI.querySelector("ul", "#powered-by ul");
-    Object.entries(powered_by_json_1.default).forEach(function (_a) {
+    ui_2.UI.replaceChildren(ui_2.UI.getElementById("div", "keyboard-shortcut"), shortcuts_1.Shortcuts.getDisplayList().map(function (i) {
+        return [
+            { tag: "span", children: i.keys.map(function (key) { return ui_2.UI.createElement({ tag: "kbd", text: key }); }) },
+            { tag: "span", text: locale_1.Locale.map(i.description), },
+        ];
+    })
+        .reduce(function (a, b) { return a.concat(b); }, []));
+    ui_2.UI.replaceChildren(ui_2.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
         var text = _a[0], href = _a[1];
-        return ui_2.UI.appendChild(poweredByElement, "li", {
-            children: [ui_2.UI.createElement("a", { text: text, attributes: { href: href, } }),],
-        });
-    });
+        return ({ tag: "li", children: [ui_2.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
+    }));
     ui_2.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animation_1.Animation.makeColor(0.0));
-    var informationList = ui_2.UI.getElementById("ul", "information-list");
-    config_json_4.default.informations.forEach(function (i) { return ui_2.UI.appendChild(informationList, "li", { text: locale_1.Locale.map(i), }); });
+    ui_2.UI.replaceChildren(ui_2.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: locale_1.Locale.map(i), }); }));
     var updateFullscreenState = function (fullscreen) {
         if (ui_2.UI.fullscreenEnabled) {
             if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.get()) {
@@ -2361,7 +2376,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     });
     updatePattern();
     updateColoring();
-    //updateDiagonalSize();
+    updateDiagonalSize();
     updateCycleSpan();
     updateEasing();
     updateFuseFps();
@@ -2392,6 +2407,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
             fpsElement.innerText = "";
         }
     });
+    window.addEventListener("resize", function () { return updateDiagonalSize(); });
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(timespanToString(new Date().getTime() - build.tick, 1), " ").concat(locale_1.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map
