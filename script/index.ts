@@ -18,6 +18,68 @@ const timespanToString = (value: number, maximumFractionDigits?: number) =>
 const screenBody = UI.getElementById("div", "screen-body");
 const canvas = UI.getElementById("div", "canvas");
 const topCoat = UI.getElementById("div", "top-coat");
+const isInAnimation = () => document.body.classList.contains("immersive");
+const playAnimation = () =>
+{
+    document.body.classList.toggle("immersive", true);
+    document.body.classList.toggle("mousemove", false);
+    updateFullscreenState();
+    updateCanvasSize();
+    updateLayers();
+    fpsElement.innerText = "";
+    start();
+};
+const pauseAnimation = () =>
+{
+    document.body.classList.toggle("immersive", false);
+    //fpsElement.innerText = "";
+    updateFullscreenState(false);
+};
+const update = () =>
+{
+    if ( ! isInAnimation())
+    {
+        Animation.update();
+    }
+};
+const playOrPauseAnimation = () =>
+    isInAnimation() ? pauseAnimation(): playAnimation();
+const updateDiagonalSize = () =>
+{
+    Animation.updateDiagonalSize();
+    update();
+};
+const updatePattern = (): unknown =>
+    Animation.updatePattern(patternSelect.get());
+const updateColoring = () =>
+{
+    Animation.updateColoring(coloringSelect.get());
+};
+const updateLayers = (): void =>
+{
+    Animation.updateLayers(parseInt(layersSelect.get()));
+    update();
+};
+const updateCanvasSize = () =>
+{
+    const newCanvasSize = parseFloat(canvasSizeSelect.get());
+    const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
+    const canvasMergin = (1 -newCanvasSizeRate) *100 /2;
+    [ "top", "right", "bottom", "left", ].forEach
+    (
+        i => canvas.style.setProperty(i, `${canvasMergin}%`)
+    );
+    updateDiagonalSize();
+};
+const updateCycleSpan = (): void =>
+    Animation.updateCycleSpan(parseInt(cycleSpanSelect.get()));
+const updateFuseFps = (): number =>
+    Fps.fuseFps = parseFloat(fuseFpsSelect.get());
+const updateEasing = () =>
+{
+    Animation.updateEasing(easingCheckbox.get());
+    update();
+};
 //const playButton =
 new Control.Button
 ({
@@ -26,49 +88,38 @@ new Control.Button
     {
         event.stopPropagation();
         button.dom.blur();
-        playOrPause();
+        playOrPauseAnimation();
     }
 });
 const patternSelect = new Control.Select
 (
     control.pattern,
-    {
-        change: () => updatePattern,
-    }
+    { change: () => updatePattern(), }
 );
-const updatePattern = () =>
-    Animation.pattern = patternSelect.get();
-updatePattern();
-const coloringSelect = new Control.Select(control.coloring);
+const coloringSelect = new Control.Select
+(
+    control.coloring,
+    { change: () => updateColoring(), }
+);
 const canvasSizeSelect = new Control.Select
 (
     control.canvasSize,
-    {
-        makeLabel: i => `${i} %`,
-        change: () => updateCanvasSize()
-    }
+    { makeLabel: i => `${i} %`, change: () => updateCanvasSize(), }
 );
 const layersSelect = new Control.Select
 (
     control.layers,
-    {
-        change: () => updateLayers()
-    }
+    { change: () => updateLayers(), }
 );
-const spanSelect = new Control.Select
+const cycleSpanSelect = new Control.Select
 (
-    control.span,
-    {
-        makeLabel: timespanToString,
-        change: () => updateSpan(),
-    }
+    control.cycleSpan,
+    { makeLabel: timespanToString, change: () => updateCycleSpan(), }
 );
 const fuseFpsSelect = new Control.Select
 (
     control.fuseFps,
-    {
-        change: () => updateFuseFps(),
-    }
+    { change: () => updateFuseFps(), }
 );
 const easingCheckbox = new Control.Checkbox(control.easing);
 const withFullscreen = new Control.Checkbox(control.withFullscreen);
@@ -121,21 +172,22 @@ const updateFullscreenState = (fullscreen?: boolean) =>
 };
 const animation = (now: number) =>
 {
-    Fps.step(now);
-    if (Animation.isIn() && ! Fps.isUnderFuseFps())
+    if (isInAnimation())
     {
+        Fps.step(now);
         if (showFPS.get())
         {
             fpsElement.innerText = Fps.getText();
         }
-        Animation.adjustSpan(now);
-        Animation.step(now);
-        window.requestAnimationFrame(animation);
-    }
-    else
-    {
-        pause();
-        Animation.pauseStep(now);
+        if (Fps.isUnderFuseFps())
+        {
+            pauseAnimation();
+        }
+        else
+        {
+            Animation.step(now);
+            window.requestAnimationFrame(animation);
+        }
     }
 };
 const start = () => setTimeout
@@ -151,24 +203,6 @@ const start = () => setTimeout
     ),
     config.startWait
 );
-const play = () =>
-{
-    document.body.classList.toggle("immersive", true);
-    document.body.classList.toggle("mousemove", false);
-    updateFullscreenState();
-    updateCanvasSize();
-    updateLayers();
-    fpsElement.innerText = "";
-    start();
-};
-const pause = () =>
-{
-    document.body.classList.toggle("immersive", false);
-    //fpsElement.innerText = "";
-    updateFullscreenState(false);
-};
-const playOrPause = () =>
-    Animation.isIn() ? pause(): play();
 topCoat.addEventListener
 (
     "click",
@@ -178,7 +212,7 @@ topCoat.addEventListener
         if (event.target === event.currentTarget)
         {
             console.log("👆 topCoat.Click:", event, topCoat);
-            pause();
+            pauseAnimation();
         }
     }
 );
@@ -195,80 +229,33 @@ screenBody.addEventListener
         mousemoveTimer.start(document.body, "mousemove", 1000)
     }
 )
+updatePattern();
+updateColoring();
+//updateDiagonalSize();
+updateCycleSpan();
+updateEasing();
+updateFuseFps();
 UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]", ])
     .forEach(label => UI.showPickerOnLabel(label));
-const updateColoring = () =>
-{
-    Animation.updateColoring(coloringSelect.get() ?? "phi-colors");
-};
-updateColoring();
-const updateLayers = (): void =>
-    Animation.updateLayers(parseInt(layersSelect.get()));
-const updateCanvasSize = () =>
-{
-    const newCanvasSize = parseFloat(canvasSizeSelect.get());
-    const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
-    const canvasMergin = (1 -newCanvasSizeRate) *100 /2;
-    [ "top", "right", "bottom", "left", ].forEach
-    (
-        i => canvas.style.setProperty(i, `${canvasMergin}%`)
-    );
-    updateDiagonalSize();
-};
-const updateDiagonalSize = () =>
-    Animation.updateDiagonalSize();
-const updateSpan = (): void =>
-    Animation.updateSpan(parseInt(spanSelect.get()));
-updateSpan();
-const updateFuseFps = (): number =>
-    Fps.fuseFps = parseFloat(fuseFpsSelect.get());
-updateFuseFps();
-const updateEasing = () =>
-    Animation.updateEasing(easingCheckbox.get());
-updateEasing();
-const CommandMap: Shortcuts.CommandMap =
-{
+Shortcuts.setCommandMap
+({
     "toggleControlPressOn": () => document.body.classList.toggle("press-control", true),
     "toggleControlPressOff": () => document.body.classList.toggle("press-control", false),
-    "playOrPause": () => playOrPause(),
+    "playOrPause": () => playOrPauseAnimation(),
     "switchPatternForward": () => patternSelect.switch(true),
     "switchPatternBackward": () => patternSelect.switch(false),
     "switchColoringForward": () => coloringSelect.switch(true),
     "switchColoringBackward": () => coloringSelect.switch(false),
-    "increaseCanvasSize": () =>
-    {
-        canvasSizeSelect.switch(true);
-        updateCanvasSize();
-    },
-    "decreaseCanvasSize": () =>
-    {
-        canvasSizeSelect.switch(false);
-        updateCanvasSize();
-    },
-    "increaseLayer": () =>
-    {
-        layersSelect.switch(true);
-        updateLayers();
-    },
-    "decreaseLayer": () =>
-    {
-        layersSelect.switch(false);
-        updateLayers();
-    },
-    "speedDown": () =>
-    {
-        spanSelect.switch(true);
-        updateSpan();
-    },
-    "speedUp": () =>
-    {
-        spanSelect.switch(false);
-        updateSpan();
-    },
+    "increaseCanvasSize": () => canvasSizeSelect.switch(true),
+    "decreaseCanvasSize": () => canvasSizeSelect.switch(false),
+    "increaseLayer": () => layersSelect.switch(true),
+    "decreaseLayer": () => layersSelect.switch(false),
+    "speedDown": () => cycleSpanSelect.switch(true),
+    "speedUp": () => cycleSpanSelect.switch(false),
     "toggleFullScreen": () =>
     {
         withFullscreen.toggle();
-        if (Animation.isIn())
+        if (isInAnimation())
         {
             updateFullscreenState();
         }
@@ -278,9 +265,7 @@ const CommandMap: Shortcuts.CommandMap =
         showFPS.toggle();
         fpsElement.innerText = "";
     }
-};
-window.addEventListener("keydown", (event) => Shortcuts.handleKeyEvent("onKeyDown", event, CommandMap));
-window.addEventListener("keyup", (event) => Shortcuts.handleKeyEvent("onKeyUp", event, CommandMap));
+});
 interface BuildInformation
 {
     at: string;

@@ -6,33 +6,12 @@ import config from "@resource/config.json";
 export namespace Animation
 {
     const canvas = UI.getElementById("div", "canvas");
-    export let pattern: typeof control.pattern.enum[number];
-    let newSpan: number;
-    export const updateSpan = (value: number) =>
-    {
-        newSpan = value;
-        if (span !== newSpan)
-        {
-            if ( ! Animation.isIn())
-            {
-                offsetAt = offsetAt *(newSpan /span);
-                span = newSpan;
-            }
-        }
-    };
+    let pattern: typeof control.pattern.enum[number];
+    let startAt = 0;
+    let offsetAt = 0;
+    let cycleSpan = control.cycleSpan.default;
     export const startStep = (now: number) =>
         startAt = now -offsetAt;
-    export const pauseStep = (now: number) =>
-        offsetAt = now -startAt;
-    export const adjustSpan = (now: number) =>
-    {
-        if (span !== newSpan)
-        {
-            const universalStep = (now -startAt) /span;
-            startAt = now -(universalStep *newSpan);
-            span = newSpan;
-        }
-    };
     interface Layer
     {
         layer: HTMLDivElement;
@@ -42,41 +21,6 @@ export namespace Animation
     let layers: Layer[] = [];
     const getDiagonalSize = () => Math.sqrt(Math.pow(canvas.clientWidth ?? 0, 2) +Math.pow(canvas.clientHeight ?? 0, 2));
     let diagonalSize = getDiagonalSize();
-    export const updateDiagonalSize = () =>
-    {
-        const newDiagonalSize = getDiagonalSize();
-        const fixRate = newDiagonalSize /diagonalSize;
-        layers.forEach
-        (
-            i =>
-            {
-                if (undefined !== i.arguments?.intervalSize)
-                {
-                    i.arguments.intervalSize *= fixRate;
-                    if (undefined !== i.arguments.maxPatternSize)
-                    {
-                        i.arguments.maxPatternSize *= fixRate;
-                    }
-                }
-            }
-        );
-        argumentHistory.forEach
-        (
-            i =>
-            {
-                if (undefined !== i.intervalSize)
-                {
-                    i.intervalSize *= fixRate;
-                    if (undefined !== i.maxPatternSize)
-                    {
-                        i.maxPatternSize *= fixRate;
-                    }
-                }
-            }
-        );
-        diagonalSize = newDiagonalSize;
-        update();
-    };
     const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
     const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
     const randomSelect = <T>(list: T[]): T => list[makeRandomInteger(list.length)];
@@ -162,9 +106,6 @@ export namespace Animation
         }
         return result;
     };
-    let startAt = 0;
-    let offsetAt = 0;
-    let span = control.span.default;
     let h = Math.random();
     let hueUnit = 1 / phiColors.phi;
     let defaultLightness = 0.5;
@@ -206,29 +147,10 @@ export namespace Animation
         }
     };
     const getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
-    export const updateColoring = (coloring: typeof control.coloring.enum[number]) =>
-    {
-        switch(coloring)
-        {
-        case "monochrome":
-            getForegroundColor = (i: Layer, _ix: number) =>
-                indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
-            break;
-        case "primary-colors":
-            getForegroundColor = (i: Layer, ix: number) =>
-                indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
-            break;
-        case "phi-colors":
-        default:
-            getForegroundColor = (i: Layer, _ix: number) =>
-                <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
-            break;
-        }
-    };
-        
     export const step = (now: number) =>
     {
-        const universalStep = (now -startAt) /span;
+        offsetAt = now -startAt;
+        const universalStep = offsetAt /cycleSpan;
         layers.forEach
         (
             (i, ix) =>
@@ -261,12 +183,76 @@ export namespace Animation
     }
     export const update = () =>
     {
-        if ( ! isIn())
-        {
-            step(startAt +offsetAt);
-        }
+        step(startAt +offsetAt);
     }
-    export const isIn = () => document.body.classList.contains("immersive");
+    export const updatePattern = (newPattern: typeof control.pattern.enum[number]) =>
+    {
+        pattern = newPattern;
+    };
+    export const updateColoring = (coloring: typeof control.coloring.enum[number]) =>
+    {
+        switch(coloring)
+        {
+        case "monochrome":
+            getForegroundColor = (i: Layer, _ix: number) =>
+                indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
+            break;
+        case "primary-colors":
+            getForegroundColor = (i: Layer, ix: number) =>
+                indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
+            break;
+        case "phi-colors":
+        default:
+            getForegroundColor = (i: Layer, _ix: number) =>
+                <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
+            break;
+        }
+    };
+    export const updateDiagonalSize = () =>
+    {
+        const newDiagonalSize = getDiagonalSize();
+        const fixRate = newDiagonalSize /diagonalSize;
+        layers.forEach
+        (
+            i =>
+            {
+                if (undefined !== i.arguments?.intervalSize)
+                {
+                    i.arguments.intervalSize *= fixRate;
+                    if (undefined !== i.arguments.maxPatternSize)
+                    {
+                        i.arguments.maxPatternSize *= fixRate;
+                    }
+                }
+            }
+        );
+        argumentHistory.forEach
+        (
+            i =>
+            {
+                if (undefined !== i.intervalSize)
+                {
+                    i.intervalSize *= fixRate;
+                    if (undefined !== i.maxPatternSize)
+                    {
+                        i.maxPatternSize *= fixRate;
+                    }
+                }
+            }
+        );
+        diagonalSize = newDiagonalSize;
+    };
+    export const updateCycleSpan = (newCycleSpan: number) =>
+    {
+        if (cycleSpan !== newCycleSpan)
+        {
+            const fixRate = newCycleSpan /cycleSpan;
+            const now = performance.now();
+            offsetAt = offsetAt *fixRate;
+            startStep(now);
+            cycleSpan = newCycleSpan;
+        }
+    };
     export const updateLayers = (newLayers: number) =>
     {
         const oldLayerList = UI.getElementsByClassName("div", "layer");
@@ -328,7 +314,6 @@ export namespace Animation
                 }
             )
         );
-        update();
     };
     export const updateEasing = (enabled: boolean) =>
     {
@@ -337,6 +322,5 @@ export namespace Animation
                 2 *Math.pow(t, 2):
                 1 -(2 *Math.pow(1 -t, 2)):
             (t: number) => t;
-        update();
     };
 }

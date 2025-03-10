@@ -67,8 +67,8 @@
         ],
         "default": 17
     },
-    "span": {
-        "id": "span",
+    "cycleSpan": {
+        "id": "cycle-span",
         "enum": [
             3600000,
             1800000,

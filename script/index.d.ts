@@ -23,22 +23,25 @@ declare module "script/control" {
         }
         interface SelectOptions<T> {
             makeLabel?: (value: T) => string;
-            change?: (event: Event, select: Select<T>) => unknown;
+            change?: (event: Event | null, select: Select<T>) => unknown;
+            preventOnChangeWhenNew?: boolean;
         }
+        const preventOnChange: "preventOnChange";
         type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
         class Select<T> {
             data: SelectArguments<T>;
             options?: SelectOptions<T> | undefined;
             dom: HTMLSelectElement;
             constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
-            switch: (valueOrDirection: T | boolean) => void;
+            switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") => void;
             get: () => string;
         }
         interface CheckboxArgumentsBase {
             default?: boolean;
         }
         interface CheckboxOptions {
-            change?: (event: Event, checked: Checkbox) => unknown;
+            change?: (event: Event | null, checked: Checkbox) => unknown;
+            preventOnChangeWhenNew?: boolean;
         }
         type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
         class Checkbox {
@@ -46,7 +49,7 @@ declare module "script/control" {
             options?: CheckboxOptions | undefined;
             dom: HTMLInputElement;
             constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
-            toggle: (checked?: boolean) => void;
+            toggle: (checked?: boolean, preventOnChange?: "preventOnChange") => void;
             get: () => boolean;
         }
     }
@@ -447,17 +450,14 @@ declare module "script/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
     import control from "resource/control";
     export namespace Animation {
-        let pattern: typeof control.pattern.enum[number];
-        const updateSpan: (value: number) => void;
         const startStep: (now: number) => number;
-        const pauseStep: (now: number) => number;
-        const adjustSpan: (now: number) => void;
-        const updateDiagonalSize: () => void;
         const makeColor: (step: number, lightness?: number) => FlounderStyle.Type.HexColor;
-        const updateColoring: (coloring: (typeof control.coloring.enum)[number]) => void;
         const step: (now: number) => void;
         const update: () => void;
-        const isIn: () => boolean;
+        const updatePattern: (newPattern: (typeof control.pattern.enum)[number]) => void;
+        const updateColoring: (coloring: (typeof control.coloring.enum)[number]) => void;
+        const updateDiagonalSize: () => void;
+        const updateCycleSpan: (newCycleSpan: number) => void;
         const updateLayers: (newLayers: number) => void;
         const updateEasing: (enabled: boolean) => void;
     }
@@ -474,6 +474,7 @@ declare module "script/shortcuts" {
             description: string;
         }[];
         const handleKeyEvent: (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) => void;
+        const setCommandMap: (commandMap: CommandMap) => void;
     }
 }
 declare module "script/index" { }

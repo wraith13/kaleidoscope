@@ -47,12 +47,15 @@ define("script/control", ["require", "exports"], function (require, exports) {
             return Button;
         }());
         Control.Button = Button;
+        Control.preventOnChange = "preventOnChange";
         var Select = /** @class */ (function () {
             function Select(data, options) {
                 var _this = this;
+                var _a;
                 this.data = data;
                 this.options = options;
-                this.switch = function (valueOrDirection) {
+                this.switch = function (valueOrDirection, preventOnChange) {
+                    var _a, _b;
                     if ("boolean" === typeof valueOrDirection) {
                         var options = Array.from(_this.dom.getElementsByTagName("option"));
                         var optionValues = options.map(function (i) { return i.value; });
@@ -66,6 +69,9 @@ define("script/control", ["require", "exports"], function (require, exports) {
                     else {
                         _this.dom.value = "".concat(valueOrDirection);
                     }
+                    if (undefined === preventOnChange) {
+                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
+                    }
                 };
                 this.get = function () { return _this.dom.value; };
                 this.dom = Control.getDom(data);
@@ -73,7 +79,7 @@ define("script/control", ["require", "exports"], function (require, exports) {
                     console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
                 }
                 this.data.enum.forEach(function (i) { var _a, _b, _c; return _this.dom.appendChild(makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i))); });
-                this.switch(this.data.default);
+                this.switch(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
                     console.log("👆 Select.Change:", event, _this);
@@ -86,10 +92,15 @@ define("script/control", ["require", "exports"], function (require, exports) {
         var Checkbox = /** @class */ (function () {
             function Checkbox(data, options) {
                 var _this = this;
+                var _a;
                 this.data = data;
                 this.options = options;
-                this.toggle = function (checked) {
+                this.toggle = function (checked, preventOnChange) {
+                    var _a, _b;
                     _this.dom.checked = checked !== null && checked !== void 0 ? checked : !_this.get();
+                    if (undefined === preventOnChange) {
+                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
+                    }
                 };
                 this.get = function () { return _this.dom.checked; };
                 this.dom = Control.getDom(data);
@@ -97,7 +108,7 @@ define("script/control", ["require", "exports"], function (require, exports) {
                     console.error("🦋 FIXME: Contorl.Checkbox.InvalidDom", data, this.dom);
                 }
                 if (undefined !== this.data.default) {
-                    this.toggle(this.data.default);
+                    this.toggle(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
                 }
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
@@ -1694,8 +1705,8 @@ define("resource/control", [], {
         ],
         "default": 17
     },
-    "span": {
-        "id": "span",
+    "cycleSpan": {
+        "id": "cycle-span",
         "enum": [
             3600000,
             1800000,
@@ -1759,55 +1770,16 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
     var Animation;
     (function (Animation) {
         var canvas = ui_1.UI.getElementById("div", "canvas");
-        var newSpan;
-        Animation.updateSpan = function (value) {
-            newSpan = value;
-            if (span !== newSpan) {
-                if (!Animation.isIn()) {
-                    offsetAt = offsetAt * (newSpan / span);
-                    span = newSpan;
-                }
-            }
-        };
+        var pattern;
+        var startAt = 0;
+        var offsetAt = 0;
+        var cycleSpan = control_json_1.default.cycleSpan.default;
         Animation.startStep = function (now) {
             return startAt = now - offsetAt;
-        };
-        Animation.pauseStep = function (now) {
-            return offsetAt = now - startAt;
-        };
-        Animation.adjustSpan = function (now) {
-            if (span !== newSpan) {
-                var universalStep = (now - startAt) / span;
-                startAt = now - (universalStep * newSpan);
-                span = newSpan;
-            }
         };
         var layers = [];
         var getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
         var diagonalSize = getDiagonalSize();
-        Animation.updateDiagonalSize = function () {
-            var newDiagonalSize = getDiagonalSize();
-            var fixRate = newDiagonalSize / diagonalSize;
-            layers.forEach(function (i) {
-                var _a;
-                if (undefined !== ((_a = i.arguments) === null || _a === void 0 ? void 0 : _a.intervalSize)) {
-                    i.arguments.intervalSize *= fixRate;
-                    if (undefined !== i.arguments.maxPatternSize) {
-                        i.arguments.maxPatternSize *= fixRate;
-                    }
-                }
-            });
-            argumentHistory.forEach(function (i) {
-                if (undefined !== i.intervalSize) {
-                    i.intervalSize *= fixRate;
-                    if (undefined !== i.maxPatternSize) {
-                        i.maxPatternSize *= fixRate;
-                    }
-                }
-            });
-            diagonalSize = newDiagonalSize;
-            Animation.update();
-        };
         var rate = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
         var makeRandomInteger = function (size) { return Math.floor(Math.random() * size); };
         var randomSelect = function (list) { return list[makeRandomInteger(list.length)]; };
@@ -1855,7 +1827,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
             return makeRandomLineArguments("triline", intervalSize);
         };
         var getPatterns = function () {
-            switch (Animation.pattern) {
+            switch (pattern) {
                 case "lines":
                     return [
                         makeRandomStripeArguments,
@@ -1887,9 +1859,6 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
             }
             return result;
         };
-        var startAt = 0;
-        var offsetAt = 0;
-        var span = control_json_1.default.span.default;
         var h = Math.random();
         var hueUnit = 1 / phi_colors_1.phiColors.phi;
         var defaultLightness = 0.5;
@@ -1919,28 +1888,9 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
             }
         };
         var getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
-        Animation.updateColoring = function (coloring) {
-            switch (coloring) {
-                case "monochrome":
-                    getForegroundColor = function (i, _ix) {
-                        return indexSelect(config_json_3.default.colors.monochrome, i.mile + 1.0);
-                    };
-                    break;
-                case "primary-colors":
-                    getForegroundColor = function (i, ix) {
-                        return indexSelect(config_json_3.default.colors.primaryColors, ix + i.mile + 1.0);
-                    };
-                    break;
-                case "phi-colors":
-                default:
-                    getForegroundColor = function (i, _ix) {
-                        return Animation.makeColor(i.mile + i.offset + 1.0, 0.6);
-                    };
-                    break;
-            }
-        };
         Animation.step = function (now) {
-            var universalStep = (now - startAt) / span;
+            offsetAt = now - startAt;
+            var universalStep = offsetAt / cycleSpan;
             layers.forEach(function (i, ix) {
                 var _a, _b;
                 var step = getStep(universalStep, i);
@@ -1961,11 +1911,62 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
             });
         };
         Animation.update = function () {
-            if (!Animation.isIn()) {
-                Animation.step(startAt + offsetAt);
+            Animation.step(startAt + offsetAt);
+        };
+        Animation.updatePattern = function (newPattern) {
+            pattern = newPattern;
+        };
+        Animation.updateColoring = function (coloring) {
+            switch (coloring) {
+                case "monochrome":
+                    getForegroundColor = function (i, _ix) {
+                        return indexSelect(config_json_3.default.colors.monochrome, i.mile + 1.0);
+                    };
+                    break;
+                case "primary-colors":
+                    getForegroundColor = function (i, ix) {
+                        return indexSelect(config_json_3.default.colors.primaryColors, ix + i.mile + 1.0);
+                    };
+                    break;
+                case "phi-colors":
+                default:
+                    getForegroundColor = function (i, _ix) {
+                        return Animation.makeColor(i.mile + i.offset + 1.0, 0.6);
+                    };
+                    break;
             }
         };
-        Animation.isIn = function () { return document.body.classList.contains("immersive"); };
+        Animation.updateDiagonalSize = function () {
+            var newDiagonalSize = getDiagonalSize();
+            var fixRate = newDiagonalSize / diagonalSize;
+            layers.forEach(function (i) {
+                var _a;
+                if (undefined !== ((_a = i.arguments) === null || _a === void 0 ? void 0 : _a.intervalSize)) {
+                    i.arguments.intervalSize *= fixRate;
+                    if (undefined !== i.arguments.maxPatternSize) {
+                        i.arguments.maxPatternSize *= fixRate;
+                    }
+                }
+            });
+            argumentHistory.forEach(function (i) {
+                if (undefined !== i.intervalSize) {
+                    i.intervalSize *= fixRate;
+                    if (undefined !== i.maxPatternSize) {
+                        i.maxPatternSize *= fixRate;
+                    }
+                }
+            });
+            diagonalSize = newDiagonalSize;
+        };
+        Animation.updateCycleSpan = function (newCycleSpan) {
+            if (cycleSpan !== newCycleSpan) {
+                var fixRate = newCycleSpan / cycleSpan;
+                var now = performance.now();
+                offsetAt = offsetAt * fixRate;
+                Animation.startStep(now);
+                cycleSpan = newCycleSpan;
+            }
+        };
         Animation.updateLayers = function (newLayers) {
             var _a, _b, _c;
             var oldLayerList = ui_1.UI.getElementsByClassName("div", "layer");
@@ -2012,7 +2013,6 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     arguments: 0 === ix ? newArguments : restoreArgument(oldArguments, ix),
                 });
             });
-            Animation.update();
         };
         Animation.updateEasing = function (enabled) {
             easing = enabled ?
@@ -2020,7 +2020,6 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     2 * Math.pow(t, 2) :
                     1 - (2 * Math.pow(1 - t, 2)); } :
                 function (t) { return t; };
-            Animation.update();
         };
     })(Animation || (exports.Animation = Animation = {}));
 });
@@ -2144,9 +2143,6 @@ define("script/shortcuts", ["require", "exports", "resource/shortcuts"], functio
             " ": "Space",
             "Control": "Ctrl",
         };
-        var shouldRequireFocusCheck = function (keys) {
-            return !keys.some(function (key) { return ["Shift", "Control", "Alt", "Meta"].includes(key); });
-        };
         var getDisplayKeyName = function (key) { return keyDisplayNames[key] || key; };
         Shortcuts.getDisplayList = function () {
             return shortcuts_json_1.default.map(function (i) {
@@ -2170,7 +2166,7 @@ define("script/shortcuts", ["require", "exports", "resource/shortcuts"], functio
             var pressedKeys = __spreadArray(__spreadArray(__spreadArray([], joinable("Shift", event.shiftKey), true), joinable("Control", event.ctrlKey), true), [
                 normalizedKey,
             ], false).filter(function (i, ix, list) { return ix === list.indexOf(i); });
-            if (!shouldRequireFocusCheck(pressedKeys) || !isInputElementFocused()) {
+            if (!isInputElementFocused()) {
                 var commandKeys = shortcuts_json_1.default.filter(function (shortcut) {
                     return shortcut.keys.length === pressedKeys.length &&
                         shortcut.keys.every(function (key) { return pressedKeys.includes(key); }) &&
@@ -2195,6 +2191,10 @@ define("script/shortcuts", ["require", "exports", "resource/shortcuts"], functio
                     console.log("💡 UnknownKeyDown:", pressedKeys);
                 }
             }
+        };
+        Shortcuts.setCommandMap = function (commandMap) {
+            window.addEventListener("keydown", function (event) { return Shortcuts.handleKeyEvent("onKeyDown", event, commandMap); });
+            window.addEventListener("keyup", function (event) { return Shortcuts.handleKeyEvent("onKeyUp", event, commandMap); });
         };
     })(Shortcuts || (exports.Shortcuts = Shortcuts = {}));
 });
@@ -2224,37 +2224,75 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     var screenBody = ui_2.UI.getElementById("div", "screen-body");
     var canvas = ui_2.UI.getElementById("div", "canvas");
     var topCoat = ui_2.UI.getElementById("div", "top-coat");
+    var isInAnimation = function () { return document.body.classList.contains("immersive"); };
+    var playAnimation = function () {
+        document.body.classList.toggle("immersive", true);
+        document.body.classList.toggle("mousemove", false);
+        updateFullscreenState();
+        updateCanvasSize();
+        updateLayers();
+        fpsElement.innerText = "";
+        start();
+    };
+    var pauseAnimation = function () {
+        document.body.classList.toggle("immersive", false);
+        //fpsElement.innerText = "";
+        updateFullscreenState(false);
+    };
+    var update = function () {
+        if (!isInAnimation()) {
+            animation_1.Animation.update();
+        }
+    };
+    var playOrPauseAnimation = function () {
+        return isInAnimation() ? pauseAnimation() : playAnimation();
+    };
+    var updateDiagonalSize = function () {
+        animation_1.Animation.updateDiagonalSize();
+        update();
+    };
+    var updatePattern = function () {
+        return animation_1.Animation.updatePattern(patternSelect.get());
+    };
+    var updateColoring = function () {
+        animation_1.Animation.updateColoring(coloringSelect.get());
+    };
+    var updateLayers = function () {
+        animation_1.Animation.updateLayers(parseInt(layersSelect.get()));
+        update();
+    };
+    var updateCanvasSize = function () {
+        var newCanvasSize = parseFloat(canvasSizeSelect.get());
+        var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
+        var canvasMergin = (1 - newCanvasSizeRate) * 100 / 2;
+        ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMergin, "%")); });
+        updateDiagonalSize();
+    };
+    var updateCycleSpan = function () {
+        return animation_1.Animation.updateCycleSpan(parseInt(cycleSpanSelect.get()));
+    };
+    var updateFuseFps = function () {
+        return fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
+    };
+    var updateEasing = function () {
+        animation_1.Animation.updateEasing(easingCheckbox.get());
+        update();
+    };
     //const playButton =
     new control_1.Control.Button({
         id: "play-button",
         click: function (event, button) {
             event.stopPropagation();
             button.dom.blur();
-            playOrPause();
+            playOrPauseAnimation();
         }
     });
-    var patternSelect = new control_1.Control.Select(control_json_2.default.pattern, {
-        change: function () { return updatePattern; },
-    });
-    var updatePattern = function () {
-        return animation_1.Animation.pattern = patternSelect.get();
-    };
-    updatePattern();
-    var coloringSelect = new control_1.Control.Select(control_json_2.default.coloring);
-    var canvasSizeSelect = new control_1.Control.Select(control_json_2.default.canvasSize, {
-        makeLabel: function (i) { return "".concat(i, " %"); },
-        change: function () { return updateCanvasSize(); }
-    });
-    var layersSelect = new control_1.Control.Select(control_json_2.default.layers, {
-        change: function () { return updateLayers(); }
-    });
-    var spanSelect = new control_1.Control.Select(control_json_2.default.span, {
-        makeLabel: timespanToString,
-        change: function () { return updateSpan(); },
-    });
-    var fuseFpsSelect = new control_1.Control.Select(control_json_2.default.fuseFps, {
-        change: function () { return updateFuseFps(); },
-    });
+    var patternSelect = new control_1.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
+    var coloringSelect = new control_1.Control.Select(control_json_2.default.coloring, { change: function () { return updateColoring(); }, });
+    var canvasSizeSelect = new control_1.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); }, change: function () { return updateCanvasSize(); }, });
+    var layersSelect = new control_1.Control.Select(control_json_2.default.layers, { change: function () { return updateLayers(); }, });
+    var cycleSpanSelect = new control_1.Control.Select(control_json_2.default.cycleSpan, { makeLabel: timespanToString, change: function () { return updateCycleSpan(); }, });
+    var fuseFpsSelect = new control_1.Control.Select(control_json_2.default.fuseFps, { change: function () { return updateFuseFps(); }, });
     var easingCheckbox = new control_1.Control.Checkbox(control_json_2.default.easing);
     var withFullscreen = new control_1.Control.Checkbox(control_json_2.default.withFullscreen);
     if (!ui_2.UI.fullscreenEnabled && withFullscreen.dom.parentElement) {
@@ -2288,18 +2326,18 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         }
     };
     var animation = function (now) {
-        fps_1.Fps.step(now);
-        if (animation_1.Animation.isIn() && !fps_1.Fps.isUnderFuseFps()) {
+        if (isInAnimation()) {
+            fps_1.Fps.step(now);
             if (showFPS.get()) {
                 fpsElement.innerText = fps_1.Fps.getText();
             }
-            animation_1.Animation.adjustSpan(now);
-            animation_1.Animation.step(now);
-            window.requestAnimationFrame(animation);
-        }
-        else {
-            pause();
-            animation_1.Animation.pauseStep(now);
+            if (fps_1.Fps.isUnderFuseFps()) {
+                pauseAnimation();
+            }
+            else {
+                animation_1.Animation.step(now);
+                window.requestAnimationFrame(animation);
+            }
         }
     };
     var start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
@@ -2307,28 +2345,11 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         animation_1.Animation.startStep(now);
         animation(now);
     }); }, config_json_4.default.startWait); };
-    var play = function () {
-        document.body.classList.toggle("immersive", true);
-        document.body.classList.toggle("mousemove", false);
-        updateFullscreenState();
-        updateCanvasSize();
-        updateLayers();
-        fpsElement.innerText = "";
-        start();
-    };
-    var pause = function () {
-        document.body.classList.toggle("immersive", false);
-        //fpsElement.innerText = "";
-        updateFullscreenState(false);
-    };
-    var playOrPause = function () {
-        return animation_1.Animation.isIn() ? pause() : play();
-    };
     topCoat.addEventListener("click", function (event) {
         event.stopPropagation();
         if (event.target === event.currentTarget) {
             console.log("👆 topCoat.Click:", event, topCoat);
-            pause();
+            pauseAnimation();
         }
     });
     var mousemoveTimer = new ui_2.UI.ToggleClassForWhileTimer();
@@ -2338,73 +2359,31 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         }
         mousemoveTimer.start(document.body, "mousemove", 1000);
     });
+    updatePattern();
+    updateColoring();
+    //updateDiagonalSize();
+    updateCycleSpan();
+    updateEasing();
+    updateFuseFps();
     ui_2.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]",])
         .forEach(function (label) { return ui_2.UI.showPickerOnLabel(label); });
-    var updateColoring = function () {
-        var _a;
-        animation_1.Animation.updateColoring((_a = coloringSelect.get()) !== null && _a !== void 0 ? _a : "phi-colors");
-    };
-    updateColoring();
-    var updateLayers = function () {
-        return animation_1.Animation.updateLayers(parseInt(layersSelect.get()));
-    };
-    var updateCanvasSize = function () {
-        var newCanvasSize = parseFloat(canvasSizeSelect.get());
-        var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
-        var canvasMergin = (1 - newCanvasSizeRate) * 100 / 2;
-        ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMergin, "%")); });
-        updateDiagonalSize();
-    };
-    var updateDiagonalSize = function () {
-        return animation_1.Animation.updateDiagonalSize();
-    };
-    var updateSpan = function () {
-        return animation_1.Animation.updateSpan(parseInt(spanSelect.get()));
-    };
-    updateSpan();
-    var updateFuseFps = function () {
-        return fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
-    };
-    updateFuseFps();
-    var updateEasing = function () {
-        return animation_1.Animation.updateEasing(easingCheckbox.get());
-    };
-    updateEasing();
-    var CommandMap = {
+    shortcuts_1.Shortcuts.setCommandMap({
         "toggleControlPressOn": function () { return document.body.classList.toggle("press-control", true); },
         "toggleControlPressOff": function () { return document.body.classList.toggle("press-control", false); },
-        "playOrPause": function () { return playOrPause(); },
+        "playOrPause": function () { return playOrPauseAnimation(); },
         "switchPatternForward": function () { return patternSelect.switch(true); },
         "switchPatternBackward": function () { return patternSelect.switch(false); },
         "switchColoringForward": function () { return coloringSelect.switch(true); },
         "switchColoringBackward": function () { return coloringSelect.switch(false); },
-        "increaseCanvasSize": function () {
-            canvasSizeSelect.switch(true);
-            updateCanvasSize();
-        },
-        "decreaseCanvasSize": function () {
-            canvasSizeSelect.switch(false);
-            updateCanvasSize();
-        },
-        "increaseLayer": function () {
-            layersSelect.switch(true);
-            updateLayers();
-        },
-        "decreaseLayer": function () {
-            layersSelect.switch(false);
-            updateLayers();
-        },
-        "speedDown": function () {
-            spanSelect.switch(true);
-            updateSpan();
-        },
-        "speedUp": function () {
-            spanSelect.switch(false);
-            updateSpan();
-        },
+        "increaseCanvasSize": function () { return canvasSizeSelect.switch(true); },
+        "decreaseCanvasSize": function () { return canvasSizeSelect.switch(false); },
+        "increaseLayer": function () { return layersSelect.switch(true); },
+        "decreaseLayer": function () { return layersSelect.switch(false); },
+        "speedDown": function () { return cycleSpanSelect.switch(true); },
+        "speedUp": function () { return cycleSpanSelect.switch(false); },
         "toggleFullScreen": function () {
             withFullscreen.toggle();
-            if (animation_1.Animation.isIn()) {
+            if (isInAnimation()) {
                 updateFullscreenState();
             }
         },
@@ -2412,9 +2391,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
             showFPS.toggle();
             fpsElement.innerText = "";
         }
-    };
-    window.addEventListener("keydown", function (event) { return shortcuts_1.Shortcuts.handleKeyEvent("onKeyDown", event, CommandMap); });
-    window.addEventListener("keyup", function (event) { return shortcuts_1.Shortcuts.handleKeyEvent("onKeyUp", event, CommandMap); });
+    });
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(timespanToString(new Date().getTime() - build.tick, 1), " ").concat(locale_1.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

@@ -62,8 +62,10 @@ export namespace Control
     export interface SelectOptions<T>
     {
         makeLabel?: (value: T) => string;
-        change?: (event: Event, select: Select<T>) => unknown;
+        change?: (event: Event | null, select: Select<T>) => unknown;
+        preventOnChangeWhenNew?: boolean;
     }
+    export const preventOnChange = "preventOnChange" as const;
     export type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
     export class Select<T>
     {
@@ -76,7 +78,7 @@ export namespace Control
                 console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
             }
             this.data.enum.forEach(i => this.dom.appendChild(makeSelectOption(`${i}`, this.options?.makeLabel?.(i) ?? `${i}`)));
-            this.switch(this.data.default);
+            this.switch(this.data.default, [preventOnChange][false !== this.options?.preventOnChangeWhenNew ?0:1]);
             this.dom.addEventListener
             (
                 "change", event =>
@@ -86,7 +88,7 @@ export namespace Control
                 }
             );
         }
-        switch = (valueOrDirection: T | boolean) =>
+        switch = (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") =>
         {
             if ("boolean" === typeof valueOrDirection)
             {
@@ -104,6 +106,10 @@ export namespace Control
             {
                 this.dom.value = `${valueOrDirection}`;
             }
+            if (undefined === preventOnChange)
+            {
+                this.options?.change?.(null, this);
+            }
         };
         get = () => this.dom.value;
     }
@@ -113,7 +119,8 @@ export namespace Control
     }
     export interface CheckboxOptions
     {
-        change?: (event: Event, checked: Checkbox) => unknown;
+        change?: (event: Event | null, checked: Checkbox) => unknown;
+        preventOnChangeWhenNew?: boolean;
     }
     export type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
     export class Checkbox
@@ -128,7 +135,7 @@ export namespace Control
             }
             if (undefined !== this.data.default)
             {
-                this.toggle(this.data.default);
+                this.toggle(this.data.default, [preventOnChange][false !== this.options?.preventOnChangeWhenNew ?0:1]);
             }
             this.dom.addEventListener
             (
@@ -140,9 +147,13 @@ export namespace Control
                 }
             );
         }
-        toggle = (checked?: boolean) =>
+        toggle = (checked?: boolean, preventOnChange?: "preventOnChange") =>
         {
             this.dom.checked = checked ?? ! this.get();
+            if (undefined === preventOnChange)
+            {
+                this.options?.change?.(null, this);
+            }
         };
         get = () => this.dom.checked;
     }

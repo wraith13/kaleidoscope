@@ -12,8 +12,6 @@ export namespace Shortcuts
         " ": "Space",
         "Control": "Ctrl",
     };
-    const shouldRequireFocusCheck = (keys: string[]) =>
-        ! keys.some(key => ["Shift", "Control", "Alt", "Meta"].includes(key));
     const getDisplayKeyName = (key: string) => keyDisplayNames[key as keyof typeof keyDisplayNames] || key;
     export const getDisplayList = () =>
         shortcuts.map
@@ -42,7 +40,7 @@ export namespace Shortcuts
             normalizedKey,
         ]
         .filter((i, ix, list) => ix === list.indexOf(i));
-        if ( ! shouldRequireFocusCheck(pressedKeys) || ! isInputElementFocused())
+        if ( ! isInputElementFocused())
         {
             const commandKeys = shortcuts.filter
             (
@@ -79,4 +77,9 @@ export namespace Shortcuts
             }
         }
     }
+    export const setCommandMap = (commandMap: CommandMap) =>
+    {
+        window.addEventListener("keydown", (event) => Shortcuts.handleKeyEvent("onKeyDown", event, commandMap));
+        window.addEventListener("keyup", (event) => Shortcuts.handleKeyEvent("onKeyUp", event, commandMap));
+    };
 }
