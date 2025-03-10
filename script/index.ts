@@ -235,8 +235,10 @@ updateDiagonalSize();
 updateCycleSpan();
 updateEasing();
 updateFuseFps();
-UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]", ])
+UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]" ])
     .forEach(label => UI.showPickerOnLabel(label));
+UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
+    .forEach(i => i.innerText = Locale.map(i.getAttribute("data-lang-key") as Locale.KeyType));
 Shortcuts.setCommandMap
 ({
     "toggleControlPressOn": () => document.body.classList.toggle("press-control", true),

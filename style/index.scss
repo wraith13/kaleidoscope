@@ -168,6 +168,7 @@
                     border-radius: 0.5rem;
                     padding: 0.25rem;
                     text-align: right;
+                    text-align-last: right;
                     option
                     {
                         background-color: black-color(1.0);
@@ -203,11 +204,11 @@
     {
         &:hover
         {
-            background-color: black-color(0.8);
+            background-color: $hover-black-color;
         }
         &:hover svg
         {
-            @include svg-color(white-color(0.9));
+            @include svg-color($white-color);
         }
     }
     @at-root body.immersive:not(.mousemove) &

@@ -395,6 +395,15 @@ define("script/fps", ["require", "exports"], function (require, exports) {
 });
 define("resource/lang.en", [], {
     "description": "Kaleidoscope Web Screen Saver",
+    "pattern-label": "Pattern:",
+    "coloring-label": "Coloring:",
+    "canvas-size-label": "Canvas Size:",
+    "layers-label": "Layers:",
+    "cycle-span-label": "Cycle Span:",
+    "fuse-fps-label": "Fuse FPS:",
+    "easing-label": "Easing:",
+    "with-fullscreen-label": "FullScreen:",
+    "show-fps-label": "Show FPS:",
     "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "⚠️ It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
     "DELETEME.informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
@@ -422,6 +431,15 @@ define("resource/lang.en", [], {
 });
 define("resource/lang.ja", [], {
     "description": "万華鏡 Web スクリーンセーバー",
+    "pattern-label": "パターン:",
+    "coloring-label": "カラーリング:",
+    "canvas-size-label": "キャンバスサイズ:",
+    "layers-label": "レイヤー数:",
+    "cycle-span-label": "サイクルスパン:",
+    "fuse-fps-label": "フューズ FPS:",
+    "easing-label": "イージング:",
+    "with-fullscreen-label": "フルスクリーン:",
+    "show-fps-label": "FPS を表示:",
     "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
     "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
@@ -2380,8 +2398,10 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     updateCycleSpan();
     updateEasing();
     updateFuseFps();
-    ui_2.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]",])
+    ui_2.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
         .forEach(function (label) { return ui_2.UI.showPickerOnLabel(label); });
+    ui_2.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
+        .forEach(function (i) { return i.innerText = locale_1.Locale.map(i.getAttribute("data-lang-key")); });
     shortcuts_1.Shortcuts.setCommandMap({
         "toggleControlPressOn": function () { return document.body.classList.toggle("press-control", true); },
         "toggleControlPressOff": function () { return document.body.classList.toggle("press-control", false); },

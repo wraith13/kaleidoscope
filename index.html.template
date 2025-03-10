@@ -63,40 +63,39 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 </div>
 <div class="option-panel">
     <label for="pattern">
-        <span id="pattern-label">Pattern:</span>
+        <span data-lang-key="pattern-label">Pattern:</span>
         <select id="pattern"></select>
     </label>
     <label for="coloring">
-        <span id="coloring-label">Coloring:</span>
+        <span data-lang-key="coloring-label">Coloring:</span>
         <select id="coloring"></select>
     </label>
     <label for="canvas-size">
-        <span id="coloring-label">Canvas Size:</span>
+        <span data-lang-key="canvas-size-label">Canvas Size:</span>
         <select id="canvas-size"></select>
     </label>
     <label for="layers">
-        <span id="layers-label">Layers:</span>
+        <span data-lang-key="layers-label">Layers:</span>
         <select id="layers"></select>
     </label>
     <label for="cycle-span">
-        <span id="cycle-span-label">Cycle Span:</span>
+        <span data-lang-key="cycle-span-label">Cycle Span:</span>
         <select id="cycle-span"></select>
     </label>
     <label for="fuse-fps">
-        <span id="fuse-fps-label">Pattern:</span>
-        Fuse FPS:
+        <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
         <select id="fuse-fps"></select>
     </label>
     <label for="easing">
-        <span id="easing-label">Easing:</span>
+        <span data-lang-key="easing-label">Easing:</span>
         <input id="easing" type="checkbox">
     </label>
     <label for="with-fullscreen">
-        <span id="with-fullscreen-label">FullScreen:</span>
+        <span data-lang-key="with-fullscreen-label">FullScreen:</span>
         <input id="with-fullscreen" type="checkbox">
     </label>
     <label for="show-fps">
-        <span id="show-fps-label">Show FPS:</span>
+        <span data-lang-key="show-fps-label">Show FPS:</span>
         <input id="show-fps" type="checkbox">
     </label>
 </div>

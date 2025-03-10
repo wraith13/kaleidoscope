@@ -121,6 +121,15 @@ declare module "script/locale" {
         const master: {
             en: {
                 description: string;
+                "pattern-label": string;
+                "coloring-label": string;
+                "canvas-size-label": string;
+                "layers-label": string;
+                "cycle-span-label": string;
+                "fuse-fps-label": string;
+                "easing-label": string;
+                "with-fullscreen-label": string;
+                "show-fps-label": string;
                 "DELETEME.warningText": string;
                 informationFuseFps: string;
                 "DELETEME.informationLayers": string;
@@ -148,6 +157,15 @@ declare module "script/locale" {
             };
             ja: {
                 description: string;
+                "pattern-label": string;
+                "coloring-label": string;
+                "canvas-size-label": string;
+                "layers-label": string;
+                "cycle-span-label": string;
+                "fuse-fps-label": string;
+                "easing-label": string;
+                "with-fullscreen-label": string;
+                "show-fps-label": string;
                 "DELETEME.warningText": string;
                 informationFuseFps: string;
                 "DELETEME.informationLayers": string;
