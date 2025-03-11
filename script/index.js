@@ -1806,29 +1806,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
     config_json_3 = __importDefault(config_json_3);
     var Animation;
     (function (Animation) {
-        var getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
         var rate = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
-        var canvas = ui_1.UI.getElementById("div", "canvas");
-        var layers = [];
-        var pattern;
-        var startAt = 0;
-        var offsetAt = 0;
-        var cycleSpan = control_json_1.default.cycleSpan.default;
-        var diagonalSize = 0;
-        var h = Math.random();
-        var hueUnit = 1 / phi_colors_1.phiColors.phi;
-        var defaultLightness = 0.5;
-        var hsl = {
-            h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h),
-            s: rate(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(0.8),
-            l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(defaultLightness),
-        };
-        var easing;
-        var getForegroundColor;
-        var argumentHistory = [];
-        Animation.startStep = function (now) {
-            return startAt = now - offsetAt;
-        };
         var makeRandomInteger = function (size) { return Math.floor(Math.random() * size); };
         var randomSelect = function (list) { return list[makeRandomInteger(list.length)]; };
         var indexSelect = function (list, ix) { return list[ix % list.length]; };
@@ -1874,188 +1852,217 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
         var makeRandomTrilineArguments = function (intervalSize) {
             return makeRandomLineArguments("triline", intervalSize);
         };
-        var getPatterns = function () {
-            switch (pattern) {
-                case "lines":
-                    return [
-                        makeRandomStripeArguments,
-                        makeRandomDilineArguments,
-                        makeRandomTrilineArguments,
-                    ];
-                case "spots":
-                    return [
-                        makeRandomTrispotArguments,
-                        makeRandomTetraspotArguments,
-                    ];
-                case "multi":
-                default:
-                    return [
-                        makeRandomStripeArguments,
-                        makeRandomDilineArguments,
-                        makeRandomTrilineArguments,
-                        makeRandomTrispotArguments,
-                        makeRandomTetraspotArguments,
-                    ];
+        var PhiColoring = /** @class */ (function () {
+            function PhiColoring() {
+                var _this = this;
+                this.h = Math.random();
+                this.hueUnit = 1 / phi_colors_1.phiColors.phi;
+                this.defaultLightness = 0.5;
+                this.hsl = {
+                    h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(this.h),
+                    s: rate(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(0.8),
+                    l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(this.defaultLightness),
+                };
+                this.makeColor = function (step, lightness) {
+                    return phi_colors_1.phiColors.rgbForStyle(phi_colors_1.phiColors.clipRgb(phi_colors_1.phiColors.hslToRgb({
+                        h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)((_this.h + (_this.hueUnit * step)) % 1),
+                        s: _this.hsl.s,
+                        l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(lightness !== null && lightness !== void 0 ? lightness : _this.defaultLightness),
+                    })));
+                };
             }
-        };
-        var makeRandomArguments = function () {
-            var result = randomSelect(getPatterns())(rate(diagonalSize * config_json_3.default.intervalSize.minRate, diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
-            argumentHistory.push(result);
-            if (3 <= argumentHistory.length) {
-                argumentHistory.shift();
-            }
-            return result;
-        };
-        Animation.makeColor = function (step, lightness) {
-            return phi_colors_1.phiColors.rgbForStyle(phi_colors_1.phiColors.clipRgb(phi_colors_1.phiColors.hslToRgb({
-                h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)((h + (hueUnit * step)) % 1),
-                s: hsl.s,
-                l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(lightness !== null && lightness !== void 0 ? lightness : defaultLightness),
-            })));
-        };
-        var getBackgroundColor = function (i, ix) {
-            if (i.arguments) {
-                return i.arguments.foregroundColor;
-            }
-            else if (0 === ix) {
-                return Animation.makeColor(0.0);
-            }
-            else {
-                return "black";
-            }
-        };
-        var getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
-        Animation.step = function (now) {
-            offsetAt = now - startAt;
-            var universalStep = offsetAt / cycleSpan;
-            layers.forEach(function (i, ix) {
-                var _a, _b;
-                var step = getStep(universalStep, i);
-                if (0 <= step) {
-                    if (1.0 <= step || undefined === i.arguments) {
-                        while (1.0 <= step) {
-                            ++i.mile;
-                            step = getStep(universalStep, i);
+            return PhiColoring;
+        }());
+        Animation.PhiColoring = PhiColoring;
+        var Animator = /** @class */ (function () {
+            function Animator(canvas, phiColoring) {
+                if (phiColoring === void 0) { phiColoring = new PhiColoring(); }
+                var _this = this;
+                this.canvas = canvas;
+                this.phiColoring = phiColoring;
+                this.layers = [];
+                this.pattern = control_json_1.default.pattern.default;
+                this.startAt = 0;
+                this.offsetAt = 0;
+                this.cycleSpan = control_json_1.default.cycleSpan.default;
+                this.diagonalSize = 0;
+                this.getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = _this.canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = _this.canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
+                this.easing = function (t) { return t; };
+                this.argumentHistory = [];
+                this.startStep = function (now) {
+                    return _this.startAt = now - _this.offsetAt;
+                };
+                this.getPatterns = function () {
+                    switch (_this.pattern) {
+                        case "lines":
+                            return [
+                                makeRandomStripeArguments,
+                                makeRandomDilineArguments,
+                                makeRandomTrilineArguments,
+                            ];
+                        case "spots":
+                            return [
+                                makeRandomTrispotArguments,
+                                makeRandomTetraspotArguments,
+                            ];
+                        case "multi":
+                        default:
+                            return [
+                                makeRandomStripeArguments,
+                                makeRandomDilineArguments,
+                                makeRandomTrilineArguments,
+                                makeRandomTrispotArguments,
+                                makeRandomTetraspotArguments,
+                            ];
+                    }
+                };
+                this.makeRandomArguments = function () {
+                    var result = randomSelect(_this.getPatterns())(rate(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
+                    _this.argumentHistory.push(result);
+                    if (3 <= _this.argumentHistory.length) {
+                        _this.argumentHistory.shift();
+                    }
+                    return result;
+                };
+                this.getNextColorMaker = function (coloring) {
+                    switch (coloring) {
+                        case "monochrome":
+                            return function (mile, _offset, _ix) {
+                                return indexSelect(config_json_3.default.colors.monochrome, mile + 1.0);
+                            };
+                        case "primary-colors":
+                            return function (mile, _offset, ix) {
+                                return indexSelect(config_json_3.default.colors.primaryColors, ix + mile + 1.0);
+                            };
+                        case "phi-colors":
+                        default:
+                            return function (mile, offset, _ix) {
+                                return _this.phiColoring.makeColor(mile + offset + 1.0, 0.6);
+                            };
+                    }
+                };
+                this.getForegroundColor = this.getNextColorMaker("phi-colors");
+                this.getBackgroundColor = function (mile, offset, ix) {
+                    if (0 < mile) {
+                        return _this.getForegroundColor(mile - 1, offset, ix);
+                    }
+                    else if (0 === ix) {
+                        return _this.phiColoring.makeColor(0.0);
+                    }
+                    else {
+                        return "black";
+                    }
+                };
+                this.getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
+                this.step = function (now) {
+                    _this.offsetAt = now - _this.startAt;
+                    var universalStep = _this.offsetAt / _this.cycleSpan;
+                    _this.layers.forEach(function (i, ix) {
+                        var _a, _b;
+                        var step = _this.getStep(universalStep, i);
+                        if (0 <= step) {
+                            if (1.0 <= step || undefined === i.arguments) {
+                                while (1.0 <= step) {
+                                    ++i.mile;
+                                    step = _this.getStep(universalStep, i);
+                                }
+                                i.arguments = Object.assign({}, (_b = (_a = _this.layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : _this.makeRandomArguments(), {
+                                    foregroundColor: _this.getForegroundColor(i.mile, i.offset, ix),
+                                    backgroundColor: _this.getBackgroundColor(i.mile, i.offset, ix),
+                                });
+                            }
+                            i.arguments.depth = _this.easing(step);
+                            flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
                         }
-                        i.arguments = Object.assign({}, (_b = (_a = layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : makeRandomArguments(), {
-                            foregroundColor: getForegroundColor(i, ix),
-                            backgroundColor: getBackgroundColor(i, ix),
-                        });
+                    });
+                };
+                this.update = function () {
+                    return _this.step(_this.startAt + _this.offsetAt);
+                };
+                this.updatePattern = function (newPattern) {
+                    return _this.pattern = newPattern;
+                };
+                this.updateColoring = function (coloring) {
+                    return _this.getForegroundColor = _this.getNextColorMaker(coloring);
+                };
+                this.updateDiagonalSize = function () {
+                    var newDiagonalSize = _this.getDiagonalSize();
+                    var fixRate = newDiagonalSize / _this.diagonalSize;
+                    _this.diagonalSize = newDiagonalSize;
+                    _this.layers.forEach(function (i) {
+                        var _a;
+                        if (undefined !== ((_a = i.arguments) === null || _a === void 0 ? void 0 : _a.intervalSize)) {
+                            i.arguments.intervalSize *= fixRate;
+                            if (undefined !== i.arguments.maxPatternSize) {
+                                i.arguments.maxPatternSize *= fixRate;
+                            }
+                        }
+                    });
+                    _this.argumentHistory.forEach(function (i) {
+                        if (undefined !== i.intervalSize) {
+                            i.intervalSize *= fixRate;
+                            if (undefined !== i.maxPatternSize) {
+                                i.maxPatternSize *= fixRate;
+                            }
+                        }
+                    });
+                };
+                this.updateCycleSpan = function (newCycleSpan) {
+                    var fixRate = newCycleSpan / _this.cycleSpan;
+                    var now = performance.now();
+                    _this.offsetAt = _this.offsetAt * fixRate;
+                    _this.startStep(now);
+                    _this.cycleSpan = newCycleSpan;
+                };
+                this.updateLayers = function (newLayers) {
+                    var _a, _b, _c;
+                    var oldLayerList = ui_1.UI.getElementsByClassName("div", "layer");
+                    if (oldLayerList.length < newLayers) {
+                        for (var i = oldLayerList.length; i < newLayers; ++i) {
+                            _this.canvas.appendChild(ui_1.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
+                        }
                     }
-                    i.arguments.depth = easing(step);
-                    flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
-                }
-            });
-        };
-        Animation.update = function () {
-            Animation.step(startAt + offsetAt);
-        };
-        Animation.updatePattern = function (newPattern) {
-            pattern = newPattern;
-        };
-        Animation.updateColoring = function (coloring) {
-            switch (coloring) {
-                case "monochrome":
-                    getForegroundColor = function (i, _ix) {
-                        return indexSelect(config_json_3.default.colors.monochrome, i.mile + 1.0);
-                    };
-                    break;
-                case "primary-colors":
-                    getForegroundColor = function (i, ix) {
-                        return indexSelect(config_json_3.default.colors.primaryColors, ix + i.mile + 1.0);
-                    };
-                    break;
-                case "phi-colors":
-                default:
-                    getForegroundColor = function (i, _ix) {
-                        return Animation.makeColor(i.mile + i.offset + 1.0, 0.6);
-                    };
-                    break;
-            }
-        };
-        Animation.updateDiagonalSize = function () {
-            var newDiagonalSize = getDiagonalSize();
-            var fixRate = newDiagonalSize / diagonalSize;
-            diagonalSize = newDiagonalSize;
-            layers.forEach(function (i) {
-                var _a;
-                if (undefined !== ((_a = i.arguments) === null || _a === void 0 ? void 0 : _a.intervalSize)) {
-                    i.arguments.intervalSize *= fixRate;
-                    if (undefined !== i.arguments.maxPatternSize) {
-                        i.arguments.maxPatternSize *= fixRate;
+                    else {
+                        for (var i = newLayers; i < oldLayerList.length; ++i) {
+                            _this.canvas.removeChild(oldLayerList[i]);
+                        }
                     }
-                }
-            });
-            argumentHistory.forEach(function (i) {
-                if (undefined !== i.intervalSize) {
-                    i.intervalSize *= fixRate;
-                    if (undefined !== i.maxPatternSize) {
-                        i.maxPatternSize *= fixRate;
-                    }
-                }
-            });
-        };
-        Animation.updateCycleSpan = function (newCycleSpan) {
-            var fixRate = newCycleSpan / cycleSpan;
-            var now = performance.now();
-            offsetAt = offsetAt * fixRate;
-            Animation.startStep(now);
-            cycleSpan = newCycleSpan;
-        };
-        Animation.updateLayers = function (newLayers) {
-            var _a, _b, _c;
-            var oldLayerList = ui_1.UI.getElementsByClassName("div", "layer");
-            if (oldLayerList.length < newLayers) {
-                for (var i = oldLayerList.length; i < newLayers; ++i) {
-                    canvas.appendChild(ui_1.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
-                }
-            }
-            else {
-                for (var i = newLayers; i < oldLayerList.length; ++i) {
-                    canvas.removeChild(oldLayerList[i]);
-                }
-            }
-            var layerList = ui_1.UI.getElementsByClassName("div", "layer");
-            var newArguments = (_a = layers[0]) === null || _a === void 0 ? void 0 : _a.arguments;
-            var oldArguments = argumentHistory[argumentHistory.length - 2];
-            var newMile = (_c = (_b = layers[0]) === null || _b === void 0 ? void 0 : _b.mile) !== null && _c !== void 0 ? _c : 0;
-            var oldMile = Math.max(newMile - 1, 0);
-            var restoreArgument = function (i, ix) {
-                if (undefined !== i) {
-                    var layer = {
-                        mile: oldMile,
-                        offset: ix / layerList.length,
+                    var layerList = ui_1.UI.getElementsByClassName("div", "layer");
+                    var newArguments = (_a = _this.layers[0]) === null || _a === void 0 ? void 0 : _a.arguments;
+                    var oldArguments = _this.argumentHistory[_this.argumentHistory.length - 2];
+                    var newMile = (_c = (_b = _this.layers[0]) === null || _b === void 0 ? void 0 : _b.mile) !== null && _c !== void 0 ? _c : 0;
+                    var oldMile = Math.max(newMile - 1, 0);
+                    var restoreArgument = function (i, ix) {
+                        if (undefined !== i) {
+                            var result = Object.assign({}, i);
+                            var offset = ix / layerList.length;
+                            result.foregroundColor = _this.getForegroundColor(oldMile, offset, ix);
+                            result.backgroundColor = _this.getBackgroundColor(oldMile, offset, ix);
+                            return result;
+                        }
+                        return undefined;
                     };
-                    i.foregroundColor = getForegroundColor(layer, ix);
-                    if (0 < oldMile) {
-                        var oldLayer = {
-                            mile: oldMile - 1,
+                    _this.layers = layerList.map(function (layer, ix) {
+                        return ({
+                            layer: layer,
+                            mile: 0 === ix ? newMile : oldMile,
                             offset: ix / layerList.length,
-                        };
-                        layer.arguments = {
-                            foregroundColor: getForegroundColor(oldLayer, ix),
-                        };
-                    }
-                    i.backgroundColor = getBackgroundColor(layer, ix);
-                }
-                return i;
-            };
-            layers = layerList.map(function (layer, ix) {
-                return ({
-                    layer: layer,
-                    mile: 0 === ix ? newMile : oldMile,
-                    offset: ix / layerList.length,
-                    arguments: 0 === ix ? newArguments : restoreArgument(oldArguments, ix),
-                });
-            });
-        };
-        Animation.updateEasing = function (enabled) {
-            easing = enabled ?
-                function (t) { return t <= 0.5 ?
-                    2 * Math.pow(t, 2) :
-                    1 - (2 * Math.pow(1 - t, 2)); } :
-                function (t) { return t; };
-        };
+                            arguments: 0 === ix ? newArguments : restoreArgument(oldArguments, ix),
+                        });
+                    });
+                };
+                this.updateEasing = function (enabled) {
+                    _this.easing = enabled ?
+                        function (t) { return t <= 0.5 ?
+                            2 * Math.pow(t, 2) :
+                            1 - (2 * Math.pow(1 - t, 2)); } :
+                        function (t) { return t; };
+                };
+            }
+            ;
+            return Animator;
+        }());
+        Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
 define("resource/shortcuts", [], [
@@ -2266,6 +2273,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     };
     var screenBody = ui_2.UI.getElementById("div", "screen-body");
     var canvas = ui_2.UI.getElementById("div", "canvas");
+    var animator = new animation_1.Animation.Animator(canvas);
     var topCoat = ui_2.UI.getElementById("div", "top-coat");
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
     var playAnimation = function () {
@@ -2282,24 +2290,24 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     };
     var update = function () {
         if (!isInAnimation()) {
-            animation_1.Animation.update();
+            animator.update();
         }
     };
     var playOrPauseAnimation = function () {
         return isInAnimation() ? pauseAnimation() : playAnimation();
     };
     var updateDiagonalSize = function () {
-        animation_1.Animation.updateDiagonalSize();
+        animator.updateDiagonalSize();
         update();
     };
     var updatePattern = function () {
-        return animation_1.Animation.updatePattern(patternSelect.get());
+        return animator.updatePattern(patternSelect.get());
     };
     var updateColoring = function () {
-        animation_1.Animation.updateColoring(coloringSelect.get());
+        animator.updateColoring(coloringSelect.get());
     };
     var updateLayers = function () {
-        animation_1.Animation.updateLayers(parseInt(layersSelect.get()));
+        animator.updateLayers(parseInt(layersSelect.get()));
         update();
     };
     var updateCanvasSize = function () {
@@ -2310,13 +2318,13 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         updateDiagonalSize();
     };
     var updateCycleSpan = function () {
-        return animation_1.Animation.updateCycleSpan(parseInt(cycleSpanSelect.get()));
+        return animator.updateCycleSpan(parseInt(cycleSpanSelect.get()));
     };
     var updateFuseFps = function () {
         return fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
     };
     var updateEasing = function () {
-        animation_1.Animation.updateEasing(easingCheckbox.get());
+        animator.updateEasing(easingCheckbox.get());
         update();
     };
     //const playButton =
@@ -2352,7 +2360,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         var text = _a[0], href = _a[1];
         return ({ tag: "li", children: [ui_2.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
     }));
-    ui_2.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animation_1.Animation.makeColor(0.0));
+    ui_2.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
     ui_2.UI.replaceChildren(ui_2.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: locale_1.Locale.map(i), }); }));
     var updateFullscreenState = function (fullscreen) {
         if (ui_2.UI.fullscreenEnabled) {
@@ -2374,14 +2382,14 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
                 pauseAnimation();
             }
             else {
-                animation_1.Animation.step(now);
+                animator.step(now);
                 window.requestAnimationFrame(animation);
             }
         }
     };
     var start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
         fps_1.Fps.reset();
-        animation_1.Animation.startStep(now);
+        animator.startStep(now);
         animation(now);
     }); }, config_json_4.default.startWait); };
     topCoat.addEventListener("click", function (event) {

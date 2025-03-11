@@ -475,16 +475,54 @@ declare module "script/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
     import control from "resource/control";
     export namespace Animation {
-        const startStep: (now: number) => number;
-        const makeColor: (step: number, lightness?: number) => FlounderStyle.Type.HexColor;
-        const step: (now: number) => void;
-        const update: () => void;
-        const updatePattern: (newPattern: (typeof control.pattern.enum)[number]) => void;
-        const updateColoring: (coloring: (typeof control.coloring.enum)[number]) => void;
-        const updateDiagonalSize: () => void;
-        const updateCycleSpan: (newCycleSpan: number) => void;
-        const updateLayers: (newLayers: number) => void;
-        const updateEasing: (enabled: boolean) => void;
+        type IntervalSize = Exclude<FlounderStyle.Type.Arguments["intervalSize"], undefined>;
+        interface Layer {
+            layer: HTMLDivElement;
+            mile: number;
+            offset: number;
+            arguments: FlounderStyle.Type.Arguments | undefined;
+        }
+        export class PhiColoring {
+            h: number;
+            hueUnit: number;
+            defaultLightness: number;
+            hsl: {
+                h: number;
+                s: number;
+                l: number;
+            };
+            makeColor: (step: number, lightness?: number) => FlounderStyle.Type.HexColor;
+        }
+        export class Animator {
+            canvas: HTMLDivElement;
+            phiColoring: PhiColoring;
+            layers: Layer[];
+            pattern: typeof control.pattern.enum[number];
+            startAt: number;
+            offsetAt: number;
+            cycleSpan: number;
+            diagonalSize: number;
+            constructor(canvas: HTMLDivElement, phiColoring?: PhiColoring);
+            getDiagonalSize: () => number;
+            easing: (t: number) => number;
+            argumentHistory: FlounderStyle.Type.Arguments[];
+            startStep: (now: number) => number;
+            getPatterns: () => ((intervalSize: IntervalSize) => FlounderStyle.Type.Arguments)[];
+            makeRandomArguments: () => FlounderStyle.Type.Arguments;
+            getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
+            getForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
+            getBackgroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
+            getStep: (universalStep: number, layer: Layer) => number;
+            step: (now: number) => void;
+            update: () => void;
+            updatePattern: (newPattern: (typeof control.pattern.enum)[number]) => string;
+            updateColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
+            updateDiagonalSize: () => void;
+            updateCycleSpan: (newCycleSpan: number) => void;
+            updateLayers: (newLayers: number) => void;
+            updateEasing: (enabled: boolean) => void;
+        }
+        export {};
     }
 }
 declare module "script/shortcuts" {

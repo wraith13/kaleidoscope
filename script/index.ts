@@ -17,6 +17,7 @@ const timespanToString = (value: number, maximumFractionDigits?: number) =>
         `${numberToString(value /(24 *60 *60 *1000), maximumFractionDigits)} ${Locale.map("timeUnitD")}`;
 const screenBody = UI.getElementById("div", "screen-body");
 const canvas = UI.getElementById("div", "canvas");
+const animator = new Animation.Animator(canvas);
 const topCoat = UI.getElementById("div", "top-coat");
 const isInAnimation = () => document.body.classList.contains("immersive");
 const playAnimation = () =>
@@ -37,25 +38,25 @@ const update = () =>
 {
     if ( ! isInAnimation())
     {
-        Animation.update();
+        animator.update();
     }
 };
 const playOrPauseAnimation = () =>
     isInAnimation() ? pauseAnimation(): playAnimation();
 const updateDiagonalSize = () =>
 {
-    Animation.updateDiagonalSize();
+    animator.updateDiagonalSize();
     update();
 };
 const updatePattern = (): unknown =>
-    Animation.updatePattern(patternSelect.get());
+    animator.updatePattern(patternSelect.get());
 const updateColoring = () =>
 {
-    Animation.updateColoring(coloringSelect.get());
+    animator.updateColoring(coloringSelect.get());
 };
 const updateLayers = (): void =>
 {
-    Animation.updateLayers(parseInt(layersSelect.get()));
+    animator.updateLayers(parseInt(layersSelect.get()));
     update();
 };
 const updateCanvasSize = () =>
@@ -70,12 +71,12 @@ const updateCanvasSize = () =>
     updateDiagonalSize();
 };
 const updateCycleSpan = (): void =>
-    Animation.updateCycleSpan(parseInt(cycleSpanSelect.get()));
+    animator.updateCycleSpan(parseInt(cycleSpanSelect.get()));
 const updateFuseFps = (): number =>
     Fps.fuseFps = parseFloat(fuseFpsSelect.get());
 const updateEasing = () =>
 {
-    Animation.updateEasing(easingCheckbox.get());
+    animator.updateEasing(easingCheckbox.get());
     update();
 };
 //const playButton =
@@ -148,7 +149,7 @@ UI.replaceChildren
         ([ text, href, ]) => ({ tag: "li", children: [ UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
     )
 );
-UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", Animation.makeColor(0.0));
+UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
 UI.replaceChildren
 (
     UI.getElementById("ul", "information-list"),
@@ -183,7 +184,7 @@ const animation = (now: number) =>
         }
         else
         {
-            Animation.step(now);
+            animator.step(now);
             window.requestAnimationFrame(animation);
         }
     }
@@ -195,7 +196,7 @@ const start = () => setTimeout
         now =>
         {
             Fps.reset();
-            Animation.startStep(now);
+            animator.startStep(now);
             animation(now);
         }
     ),

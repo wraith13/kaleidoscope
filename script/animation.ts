@@ -5,36 +5,7 @@ import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
 {
-    const getDiagonalSize = () => Math.sqrt(Math.pow(canvas.clientWidth ?? 0, 2) +Math.pow(canvas.clientHeight ?? 0, 2));
     const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
-    const canvas = UI.getElementById("div", "canvas");
-    interface Layer
-    {
-        layer: HTMLDivElement;
-        mile: number;
-        offset: number;
-        arguments: FlounderStyle.Type.Arguments | undefined;
-    }
-    let layers: Layer[] = [];
-    let pattern: typeof control.pattern.enum[number];
-    let startAt = 0;
-    let offsetAt = 0;
-    let cycleSpan = control.cycleSpan.default;
-    let diagonalSize = 0;
-    let h = Math.random();
-    let hueUnit = 1 / phiColors.phi;
-    let defaultLightness = 0.5;
-    let hsl =
-    {
-        h:rate(phiColors.HslHMin, phiColors.HslHMax)(h),
-        s:rate(phiColors.HslSMin, phiColors.HslSMax)(0.8),
-        l:rate(phiColors.HslLMin, phiColors.HslLMax)(defaultLightness),
-    };
-    let easing: (t: number) => number;
-    let getForegroundColor: (i: Layer, ix: number) => FlounderStyle.Type.Color;
-    const argumentHistory: FlounderStyle.Type.Arguments[] = [];
-    export const startStep = (now: number) =>
-        startAt = now -offsetAt;
     const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
     const randomSelect = <T>(list: T[]): T => list[makeRandomInteger(list.length)];
     const indexSelect = <T>(list: T[], ix: number): T => list[ix %list.length];
@@ -74,251 +45,269 @@ export namespace Animation
         makeRandomLineArguments("diline", intervalSize);
     const makeRandomTrilineArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
         makeRandomLineArguments("triline", intervalSize);
-    const getPatterns = (): ((intervalSize: IntervalSize) => FlounderStyle.Type.Arguments)[] =>
+    interface Layer
     {
-        switch(pattern)
-        {
-            case "lines":
-                return [
-                    makeRandomStripeArguments,
-                    makeRandomDilineArguments,
-                    makeRandomTrilineArguments,
-                ];
-            case "spots":
-                return [
-                    makeRandomTrispotArguments,
-                    makeRandomTetraspotArguments,
-                ];
-            case "multi":
-            default:
-                return [
-                    makeRandomStripeArguments,
-                    makeRandomDilineArguments,
-                    makeRandomTrilineArguments,
-                    makeRandomTrispotArguments,
-                    makeRandomTetraspotArguments,
-                ];
-        }
-    };
-    const makeRandomArguments = (): FlounderStyle.Type.Arguments =>
-    {
-        const result = randomSelect(getPatterns())
-        (
-            rate
-            (
-                diagonalSize *config.intervalSize.minRate,
-                diagonalSize *config.intervalSize.maxRate
-            )
-            (Math.random())
-        );
-        argumentHistory.push(result);
-        if (3 <= argumentHistory.length)
-        {
-            argumentHistory.shift();
-        }
-        return result;
-    };
-    export const makeColor = (step: number, lightness?: number) =>
-        <FlounderStyle.Type.HexColor>phiColors.rgbForStyle
-        (
-            phiColors.clipRgb
-            (
-                phiColors.hslToRgb
-                ({
-                    h: rate(phiColors.HslHMin, phiColors.HslHMax)((h +(hueUnit *step)) %1),
-                    s: hsl.s,
-                    l: rate(phiColors.HslLMin, phiColors.HslLMax)(lightness ?? defaultLightness),
-                })
-            )
-        );
-    const getBackgroundColor = (i: Layer, ix: number): FlounderStyle.Type.Color =>
-    {
-        if (i.arguments)
-        {
-            return i.arguments.foregroundColor;
-        }
-        else
-        if (0 === ix)
-        {
-            return makeColor(0.0);
-        }
-        else
-        {
-            return "black";
-        }
-    };
-    const getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
-    export const step = (now: number) =>
-    {
-        offsetAt = now -startAt;
-        const universalStep = offsetAt /cycleSpan;
-        layers.forEach
-        (
-            (i, ix) =>
-            {
-                let step = getStep(universalStep, i);
-                if (0 <= step)
-                {
-                    if (1.0 <= step || undefined === i.arguments)
-                    {
-                        while(1.0 <= step)
-                        {
-                            ++i.mile;
-                            step = getStep(universalStep, i);
-                        }
-                        i.arguments = Object.assign
-                        (
-                            { },
-                            layers[ix -1]?.arguments ?? makeRandomArguments(),
-                            {
-                                foregroundColor: getForegroundColor(i, ix),
-                                backgroundColor: getBackgroundColor(i, ix),
-                            }
-                        );
-                    }
-                    i.arguments.depth = easing(step);
-                    FlounderStyle.setStyle(i.layer, i.arguments);
-                }
-            }
-        );
+        layer: HTMLDivElement;
+        mile: number;
+        offset: number;
+        arguments: FlounderStyle.Type.Arguments | undefined;
     }
-    export const update = () =>
+    export class PhiColoring
     {
-        step(startAt +offsetAt);
-    }
-    export const updatePattern = (newPattern: typeof control.pattern.enum[number]) =>
-    {
-        pattern = newPattern;
-    };
-    export const updateColoring = (coloring: typeof control.coloring.enum[number]) =>
-    {
-        switch(coloring)
+        h = Math.random();
+        hueUnit = 1 / phiColors.phi;
+        defaultLightness = 0.5;
+        hsl =
         {
-        case "monochrome":
-            getForegroundColor = (i: Layer, _ix: number) =>
-                indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, i.mile +1.0);
-            break;
-        case "primary-colors":
-            getForegroundColor = (i: Layer, ix: number) =>
-                indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +i.mile +1.0);
-            break;
-        case "phi-colors":
-        default:
-            getForegroundColor = (i: Layer, _ix: number) =>
-                <FlounderStyle.Type.Color>makeColor(i.mile +i.offset +1.0, 0.6);
-            break;
-        }
-    };
-    export const updateDiagonalSize = () =>
-    {
-        const newDiagonalSize = getDiagonalSize();
-        const fixRate = newDiagonalSize /diagonalSize;
-        diagonalSize = newDiagonalSize;
-        layers.forEach
-        (
-            i =>
-            {
-                if (undefined !== i.arguments?.intervalSize)
-                {
-                    i.arguments.intervalSize *= fixRate;
-                    if (undefined !== i.arguments.maxPatternSize)
-                    {
-                        i.arguments.maxPatternSize *= fixRate;
-                    }
-                }
-            }
-        );
-        argumentHistory.forEach
-        (
-            i =>
-            {
-                if (undefined !== i.intervalSize)
-                {
-                    i.intervalSize *= fixRate;
-                    if (undefined !== i.maxPatternSize)
-                    {
-                        i.maxPatternSize *= fixRate;
-                    }
-                }
-            }
-        );
-    };
-    export const updateCycleSpan = (newCycleSpan: number) =>
-    {
-        const fixRate = newCycleSpan /cycleSpan;
-        const now = performance.now();
-        offsetAt = offsetAt *fixRate;
-        startStep(now);
-        cycleSpan = newCycleSpan;
-    };
-    export const updateLayers = (newLayers: number) =>
-    {
-        const oldLayerList = UI.getElementsByClassName("div", "layer");
-        if (oldLayerList.length < newLayers)
-        {
-            for (let i = oldLayerList.length; i < newLayers; ++i)
-            {
-                canvas.appendChild(UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
-            }
-        }
-        else
-        {
-            for (let i = newLayers; i < oldLayerList.length; ++i)
-            {
-                canvas.removeChild(oldLayerList[i]);
-            }
-        }
-        const layerList = UI.getElementsByClassName("div", "layer");
-        const newArguments = layers[0]?.arguments;
-        const oldArguments = argumentHistory[argumentHistory.length -2];
-        const newMile = layers[0]?.mile ?? 0;
-        const oldMile = Math.max(newMile -1, 0);
-        const restoreArgument = (i: FlounderStyle.Type.Arguments, ix: number) =>
-        {
-            if (undefined !== i)
-            {
-                const layer = <Layer>
-                {
-                    mile: oldMile,
-                    offset: ix /layerList.length,
-                };
-                i.foregroundColor = getForegroundColor(layer, ix);
-                if (0 < oldMile)
-                {
-                    const oldLayer = <Layer>
-                    {
-                        mile: oldMile -1,
-                        offset: ix /layerList.length,
-                    };
-                    layer.arguments = <FlounderStyle.Type.Arguments>
-                    {
-                        foregroundColor: getForegroundColor(oldLayer, ix),
-                    };
-                }
-                i.backgroundColor = getBackgroundColor(layer, ix);
-            }
-            return i;
+            h:rate(phiColors.HslHMin, phiColors.HslHMax)(this.h),
+            s:rate(phiColors.HslSMin, phiColors.HslSMax)(0.8),
+            l:rate(phiColors.HslLMin, phiColors.HslLMax)(this.defaultLightness),
         };
-        layers = layerList.map
-        (
-            (layer, ix) =>
+        makeColor = (step: number, lightness?: number) =>
+            <FlounderStyle.Type.HexColor>phiColors.rgbForStyle
             (
-                <Layer>
-                {
-                    layer,
-                    mile: 0 === ix ? newMile: oldMile,
-                    offset: ix /layerList.length,
-                    arguments: 0 === ix ? newArguments: restoreArgument(oldArguments, ix),
-                }
-            )
-        );
-    };
-    export const updateEasing = (enabled: boolean) =>
+                phiColors.clipRgb
+                (
+                    phiColors.hslToRgb
+                    ({
+                        h: rate(phiColors.HslHMin, phiColors.HslHMax)((this.h +(this.hueUnit *step)) %1),
+                        s: this.hsl.s,
+                        l: rate(phiColors.HslLMin, phiColors.HslLMax)(lightness ?? this.defaultLightness),
+                    })
+                )
+            );
+    }
+    export class Animator
     {
-        easing = enabled ?
-            (t: number) => t <= 0.5 ?
-                2 *Math.pow(t, 2):
-                1 -(2 *Math.pow(1 -t, 2)):
-            (t: number) => t;
-    };
+        layers: Layer[] = [];
+        pattern: typeof control.pattern.enum[number] = control.pattern.default;
+        startAt = 0;
+        offsetAt = 0;
+        cycleSpan = control.cycleSpan.default;
+        diagonalSize = 0;
+        constructor(public canvas: HTMLDivElement, public phiColoring: PhiColoring = new PhiColoring())
+        {
+        };
+        getDiagonalSize = () => Math.sqrt(Math.pow(this.canvas.clientWidth ?? 0, 2) +Math.pow(this.canvas.clientHeight ?? 0, 2));
+        easing: (t: number) => number = t => t;
+        argumentHistory: FlounderStyle.Type.Arguments[] = [];
+        public startStep = (now: number) =>
+            this.startAt = now -this.offsetAt;
+        getPatterns = (): ((intervalSize: IntervalSize) => FlounderStyle.Type.Arguments)[] =>
+        {
+            switch(this.pattern)
+            {
+                case "lines":
+                    return [
+                        makeRandomStripeArguments,
+                        makeRandomDilineArguments,
+                        makeRandomTrilineArguments,
+                    ];
+                case "spots":
+                    return [
+                        makeRandomTrispotArguments,
+                        makeRandomTetraspotArguments,
+                    ];
+                case "multi":
+                default:
+                    return [
+                        makeRandomStripeArguments,
+                        makeRandomDilineArguments,
+                        makeRandomTrilineArguments,
+                        makeRandomTrispotArguments,
+                        makeRandomTetraspotArguments,
+                    ];
+            }
+        };
+        makeRandomArguments = (): FlounderStyle.Type.Arguments =>
+        {
+            const result = randomSelect(this.getPatterns())
+            (
+                rate
+                (
+                    this.diagonalSize *config.intervalSize.minRate,
+                    this.diagonalSize *config.intervalSize.maxRate
+                )
+                (Math.random())
+            );
+            this.argumentHistory.push(result);
+            if (3 <= this.argumentHistory.length)
+            {
+                this.argumentHistory.shift();
+            }
+            return result;
+        };
+        getNextColorMaker = (coloring: typeof control.coloring.enum[number]) =>
+        {
+            switch(coloring)
+            {
+            case "monochrome":
+                return (mile: number, _offset: number, _ix: number) =>
+                    indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
+            case "primary-colors":
+                return  (mile: number, _offset: number, ix: number) =>
+                    indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);
+            case "phi-colors":
+            default:
+                return  (mile: number, offset: number, _ix: number) =>
+                    this.phiColoring.makeColor(mile +offset +1.0, 0.6);
+            }
+        };
+        getForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color = this.getNextColorMaker("phi-colors");
+        getBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
+        {
+            if (0 < mile)
+            {
+                return this.getForegroundColor(mile -1, offset, ix);
+            }
+            else
+            if (0 === ix)
+            {
+                return this.phiColoring.makeColor(0.0);
+            }
+            else
+            {
+                return "black";
+            }
+        };
+        getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
+        step = (now: number) =>
+        {
+            this.offsetAt = now -this.startAt;
+            const universalStep = this.offsetAt /this.cycleSpan;
+            this.layers.forEach
+            (
+                (i, ix) =>
+                {
+                    let step = this.getStep(universalStep, i);
+                    if (0 <= step)
+                    {
+                        if (1.0 <= step || undefined === i.arguments)
+                        {
+                            while(1.0 <= step)
+                            {
+                                ++i.mile;
+                                step = this.getStep(universalStep, i);
+                            }
+                            i.arguments = Object.assign
+                            (
+                                { },
+                                this.layers[ix -1]?.arguments ?? this.makeRandomArguments(),
+                                {
+                                    foregroundColor: this.getForegroundColor(i.mile, i.offset, ix),
+                                    backgroundColor: this.getBackgroundColor(i.mile, i.offset, ix),
+                                }
+                            );
+                        }
+                        i.arguments.depth = this.easing(step);
+                        FlounderStyle.setStyle(i.layer, i.arguments);
+                    }
+                }
+            );
+        }
+        update = () =>
+            this.step(this.startAt +this.offsetAt);
+        updatePattern = (newPattern: typeof control.pattern.enum[number]) =>
+            this.pattern = newPattern;
+        updateColoring = (coloring: typeof control.coloring.enum[number]) =>
+            this.getForegroundColor = this.getNextColorMaker(coloring);
+        updateDiagonalSize = () =>
+        {
+            const newDiagonalSize = this.getDiagonalSize();
+            const fixRate = newDiagonalSize /this.diagonalSize;
+            this.diagonalSize = newDiagonalSize;
+            this.layers.forEach
+            (
+                i =>
+                {
+                    if (undefined !== i.arguments?.intervalSize)
+                    {
+                        i.arguments.intervalSize *= fixRate;
+                        if (undefined !== i.arguments.maxPatternSize)
+                        {
+                            i.arguments.maxPatternSize *= fixRate;
+                        }
+                    }
+                }
+            );
+            this.argumentHistory.forEach
+            (
+                i =>
+                {
+                    if (undefined !== i.intervalSize)
+                    {
+                        i.intervalSize *= fixRate;
+                        if (undefined !== i.maxPatternSize)
+                        {
+                            i.maxPatternSize *= fixRate;
+                        }
+                    }
+                }
+            );
+        };
+        updateCycleSpan = (newCycleSpan: number) =>
+        {
+            const fixRate = newCycleSpan /this.cycleSpan;
+            const now = performance.now();
+            this.offsetAt = this.offsetAt *fixRate;
+            this.startStep(now);
+            this.cycleSpan = newCycleSpan;
+        };
+        updateLayers = (newLayers: number) =>
+        {
+            const oldLayerList = UI.getElementsByClassName("div", "layer");
+            if (oldLayerList.length < newLayers)
+            {
+                for (let i = oldLayerList.length; i < newLayers; ++i)
+                {
+                    this.canvas.appendChild(UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
+                }
+            }
+            else
+            {
+                for (let i = newLayers; i < oldLayerList.length; ++i)
+                {
+                    this.canvas.removeChild(oldLayerList[i]);
+                }
+            }
+            const layerList = UI.getElementsByClassName("div", "layer");
+            const newArguments = this.layers[0]?.arguments;
+            const oldArguments = this.argumentHistory[this.argumentHistory.length -2];
+            const newMile = this.layers[0]?.mile ?? 0;
+            const oldMile = Math.max(newMile -1, 0);
+            const restoreArgument = (i: FlounderStyle.Type.Arguments, ix: number) =>
+            {
+                if (undefined !== i)
+                {
+                    const result = Object.assign({ }, i);
+                    const offset = ix /layerList.length;
+                    result.foregroundColor = this.getForegroundColor(oldMile, offset, ix);
+                    result.backgroundColor = this.getBackgroundColor(oldMile, offset, ix);
+                    return result;
+                }
+                return undefined;
+            };
+            this.layers = layerList.map
+            (
+                (layer, ix) =>
+                (
+                    <Layer>
+                    {
+                        layer,
+                        mile: 0 === ix ? newMile: oldMile,
+                        offset: ix /layerList.length,
+                        arguments: 0 === ix ? newArguments: restoreArgument(oldArguments, ix),
+                    }
+                )
+            );
+        };
+        updateEasing = (enabled: boolean) =>
+        {
+            this.easing = enabled ?
+                (t: number) => t <= 0.5 ?
+                    2 *Math.pow(t, 2):
+                    1 -(2 *Math.pow(1 -t, 2)):
+                (t: number) => t;
+        };
+    }
 }
