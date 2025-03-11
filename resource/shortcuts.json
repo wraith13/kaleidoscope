@@ -2,10 +2,10 @@
     {
         "description": "Hide UI",
         "keys": [
-            "U"
+            "U", "I"
         ],
-        "onKeyDown": "toggleControlPressOn",
-        "onKeyUp": "toggleControlPressOff"
+        "onKeyDown": "toggleHideUI",
+        "onKeyUp": "nop"
     },
     {
         "description": "Play / Pause",

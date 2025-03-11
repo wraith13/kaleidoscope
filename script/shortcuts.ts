@@ -28,25 +28,30 @@ export namespace Shortcuts
         code === "Space" ? " ":
         key.length === 1 ? key.toUpperCase():
         key;
-    const joinable = <T>(value: T, condition?: boolean) =>
-        undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
+    // const joinable = <T>(value: T, condition?: boolean) =>
+    //     undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
+    const pressedKeys: string[] = [];
     export const handleKeyEvent = (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) =>
     {
         const normalizedKey = normalizeKey(event.key, event.code);
-        const pressedKeys =
-        [
-            ...joinable("Shift", event.shiftKey),
-            ...joinable("Control", event.ctrlKey),
-            normalizedKey,
-        ]
-        .filter((i, ix, list) => ix === list.indexOf(i));
+        let shortcutkeys = pressedKeys.concat([]);
+        switch(type)
+        {
+        case "onKeyDown":
+            pressedKeys.push(normalizedKey);
+            shortcutkeys = pressedKeys;
+            break;
+        case "onKeyUp":
+            while(0 < pressedKeys.splice(pressedKeys.indexOf(normalizedKey), 1).length);
+            break;
+        }
         if ( ! isInputElementFocused())
         {
             const commandKeys = shortcuts.filter
             (
                 shortcut =>
-                    shortcut.keys.length === pressedKeys.length &&
-                    shortcut.keys.every(key => pressedKeys.includes(key)) &&
+                    shortcut.keys.length === shortcutkeys.length &&
+                    shortcut.keys.every(key => shortcutkeys.includes(key)) &&
                     shortcut[type]
             )
             .map(i => i[type] as CommandKey);

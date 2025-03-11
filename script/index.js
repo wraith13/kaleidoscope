@@ -2062,10 +2062,10 @@ define("resource/shortcuts", [], [
     {
         "description": "Hide UI",
         "keys": [
-            "U"
+            "U", "I"
         ],
-        "onKeyDown": "toggleControlPressOn",
-        "onKeyUp": "toggleControlPressOff"
+        "onKeyDown": "toggleHideUI",
+        "onKeyUp": "nop"
     },
     {
         "description": "Play / Pause",
@@ -2193,18 +2193,26 @@ define("script/shortcuts", ["require", "exports", "resource/shortcuts"], functio
                 key.length === 1 ? key.toUpperCase() :
                     key;
         };
-        var joinable = function (value, condition) {
-            return undefined !== value && null !== value && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
-        };
+        // const joinable = <T>(value: T, condition?: boolean) =>
+        //     undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
+        var pressedKeys = [];
         Shortcuts.handleKeyEvent = function (type, event, commandMap) {
             var normalizedKey = normalizeKey(event.key, event.code);
-            var pressedKeys = __spreadArray(__spreadArray(__spreadArray([], joinable("Shift", event.shiftKey), true), joinable("Control", event.ctrlKey), true), [
-                normalizedKey,
-            ], false).filter(function (i, ix, list) { return ix === list.indexOf(i); });
+            var shortcutkeys = pressedKeys.concat([]);
+            switch (type) {
+                case "onKeyDown":
+                    pressedKeys.push(normalizedKey);
+                    shortcutkeys = pressedKeys;
+                    break;
+                case "onKeyUp":
+                    while (0 < pressedKeys.splice(pressedKeys.indexOf(normalizedKey), 1).length)
+                        ;
+                    break;
+            }
             if (!isInputElementFocused()) {
                 var commandKeys = shortcuts_json_1.default.filter(function (shortcut) {
-                    return shortcut.keys.length === pressedKeys.length &&
-                        shortcut.keys.every(function (key) { return pressedKeys.includes(key); }) &&
+                    return shortcut.keys.length === shortcutkeys.length &&
+                        shortcut.keys.every(function (key) { return shortcutkeys.includes(key); }) &&
                         shortcut[type];
                 })
                     .map(function (i) { return i[type]; });
@@ -2264,8 +2272,6 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("mousemove", false);
         updateFullscreenState();
-        updateCanvasSize();
-        updateLayers();
         fpsElement.innerText = "";
         start();
     };
@@ -2394,17 +2400,18 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     });
     updatePattern();
     updateColoring();
-    updateDiagonalSize();
-    updateCycleSpan();
+    updateCanvasSize();
     updateEasing();
+    updateLayers();
+    updateCycleSpan();
     updateFuseFps();
     ui_2.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
         .forEach(function (label) { return ui_2.UI.showPickerOnLabel(label); });
     ui_2.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
         .forEach(function (i) { return i.innerText = locale_1.Locale.map(i.getAttribute("data-lang-key")); });
     shortcuts_1.Shortcuts.setCommandMap({
-        "toggleControlPressOn": function () { return document.body.classList.toggle("press-control", true); },
-        "toggleControlPressOff": function () { return document.body.classList.toggle("press-control", false); },
+        "nop": function () { },
+        "toggleHideUI": function () { return document.body.classList.toggle("hide-ui"); },
         "playOrPause": function () { return playOrPauseAnimation(); },
         "switchPatternForward": function () { return patternSelect.switch(true); },
         "switchPatternBackward": function () { return patternSelect.switch(false); },

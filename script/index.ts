@@ -24,8 +24,6 @@ const playAnimation = () =>
     document.body.classList.toggle("immersive", true);
     document.body.classList.toggle("mousemove", false);
     updateFullscreenState();
-    updateCanvasSize();
-    updateLayers();
     fpsElement.innerText = "";
     start();
 };
@@ -231,9 +229,10 @@ screenBody.addEventListener
 )
 updatePattern();
 updateColoring();
-updateDiagonalSize();
-updateCycleSpan();
+updateCanvasSize();
 updateEasing();
+updateLayers();
+updateCycleSpan();
 updateFuseFps();
 UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]" ])
     .forEach(label => UI.showPickerOnLabel(label));
@@ -241,8 +240,8 @@ UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
     .forEach(i => i.innerText = Locale.map(i.getAttribute("data-lang-key") as Locale.KeyType));
 Shortcuts.setCommandMap
 ({
-    "toggleControlPressOn": () => document.body.classList.toggle("press-control", true),
-    "toggleControlPressOff": () => document.body.classList.toggle("press-control", false),
+    "nop": () => { },
+    "toggleHideUI": () => document.body.classList.toggle("hide-ui"),
     "playOrPause": () => playOrPauseAnimation(),
     "switchPatternForward": () => patternSelect.switch(true),
     "switchPatternBackward": () => patternSelect.switch(false),

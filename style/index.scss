@@ -92,7 +92,7 @@
             {
                 @include mist-disperse-effect();
             }
-            @at-root body:press-control &
+            @at-root body:hide-ui &
             {
                 @include mist-disperse-effect();
             }
@@ -215,7 +215,7 @@
     {
         @include mist-disperse-effect();
     }
-    @at-root body.press-control &
+    @at-root body.hide-ui &
     {
         @include mist-disperse-effect();
     }
