@@ -4,17 +4,10 @@ import { Fps } from "./fps";
 import { Locale } from "./locale";
 import { Animation } from "./animation";
 import { Shortcuts } from "./shortcuts";
+import { Tools } from "./tools";
 import control from "@resource/control.json";
 import config from "@resource/config.json";
 import poweredBy from "@resource/powered-by.json";
-const numberToString = (value: number, maximumFractionDigits?: number) =>
-    value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits, });
-const timespanToString = (value: number, maximumFractionDigits?: number) =>
-    value < 1000 ? `${numberToString(value, maximumFractionDigits)} ${Locale.map("timeUnitMs")}`:
-    value < 60 *1000 ? `${numberToString(value /1000, maximumFractionDigits)} ${Locale.map("timeUnitS")}`:
-    value < 60 *60 *1000 ?`${numberToString(value /(60 *1000), maximumFractionDigits)} ${Locale.map("timeUnitM")}`:
-    value < 24 *60 *60 *1000 ?`${numberToString(value /(60 *60 *1000), maximumFractionDigits)} ${Locale.map("timeUnitH")}`:
-        `${numberToString(value /(24 *60 *60 *1000), maximumFractionDigits)} ${Locale.map("timeUnitD")}`;
 const screenBody = UI.getElementById("div", "screen-body");
 const canvas = UI.getElementById("div", "canvas");
 const animator = new Animation.Animator(canvas);
@@ -113,7 +106,7 @@ const layersSelect = new Control.Select
 const cycleSpanSelect = new Control.Select
 (
     control.cycleSpan,
-    { makeLabel: timespanToString, change: () => updateCycleSpan(), }
+    { makeLabel: Tools.Timespan.toDisplayString, change: () => updateCycleSpan(), }
 );
 const fuseFpsSelect = new Control.Select
 (
@@ -275,4 +268,4 @@ interface BuildInformation
     tick: number;
 }
 declare var build: BuildInformation;
-console.log(`📦 BUILD AT: ${build.at} ( ${timespanToString(new Date().getTime() -build.tick, 1)} ${Locale.map("ago")} )`);
+console.log(`📦 BUILD AT: ${build.at} ( ${Tools.Timespan.toDisplayString(new Date().getTime() -build.tick, 1)} ${Locale.map("ago")} )`);

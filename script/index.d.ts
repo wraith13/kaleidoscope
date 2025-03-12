@@ -471,6 +471,46 @@ declare module "flounder.style.js/index" {
         const selectClosestAngleDirection: (directions: OffsetCoefficientDirection[], angle: Type.DirectionAngle) => OffsetCoefficientDirection;
     }
 }
+declare module "script/tools/number" {
+    export namespace Number {
+        const toString: (value: number, maximumFractionDigits?: number) => string;
+    }
+}
+declare module "script/tools/timespan" {
+    export namespace Timespan {
+        const toDisplayString: (value: number, maximumFractionDigits?: number) => string;
+    }
+}
+declare module "script/tools/math" {
+    export namespace Math {
+        const scale: (min: number, max: number) => (r: number) => number;
+    }
+}
+declare module "script/tools/random" {
+    export namespace Random {
+        const makeInteger: (size: number) => number;
+        const select: <T>(list: T[]) => T;
+    }
+}
+declare module "script/tools/array" {
+    export namespace Array {
+        const cycleSelect: <T>(list: T[], ix: number) => T;
+    }
+}
+declare module "script/tools/index" {
+    import * as ImportedNumber from "script/tools/number";
+    import * as ImportedTimespan from "script/tools/timespan";
+    import * as ImportedMath from "script/tools/math";
+    import * as ImportedRandom from "script/tools/random";
+    import * as ImportedArray from "script/tools/array";
+    export namespace Tools {
+        export import Number = ImportedNumber.Number;
+        export import Timespan = ImportedTimespan.Timespan;
+        export import Math = ImportedMath.Math;
+        export import Random = ImportedRandom.Random;
+        export import Array = ImportedArray.Array;
+    }
+}
 declare module "script/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
     import control from "resource/control";

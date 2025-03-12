@@ -10,6 +10,39 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 define("script/control", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -1677,6 +1710,78 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
         };
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
+define("script/tools/number", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Number = void 0;
+    var Number;
+    (function (Number) {
+        Number.toString = function (value, maximumFractionDigits) {
+            return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: maximumFractionDigits, });
+        };
+    })(Number || (exports.Number = Number = {}));
+});
+define("script/tools/timespan", ["require", "exports", "script/locale", "script/tools/number"], function (require, exports, locale_1, number_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Timespan = void 0;
+    var Timespan;
+    (function (Timespan) {
+        Timespan.toDisplayString = function (value, maximumFractionDigits) {
+            return value < 1000 ? "".concat(number_1.Number.toString(value, maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitMs")) :
+                value < 60 * 1000 ? "".concat(number_1.Number.toString(value / 1000, maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitS")) :
+                    value < 60 * 60 * 1000 ? "".concat(number_1.Number.toString(value / (60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitM")) :
+                        value < 24 * 60 * 60 * 1000 ? "".concat(number_1.Number.toString(value / (60 * 60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitH")) :
+                            "".concat(number_1.Number.toString(value / (24 * 60 * 60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitD"));
+        };
+    })(Timespan || (exports.Timespan = Timespan = {}));
+});
+define("script/tools/math", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Math = void 0;
+    var Math;
+    (function (Math) {
+        Math.scale = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
+    })(Math || (exports.Math = Math = {}));
+});
+define("script/tools/random", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Random = void 0;
+    var Random;
+    (function (Random) {
+        Random.makeInteger = function (size) { return Math.floor(Math.random() * size); };
+        Random.select = function (list) { return list[Random.makeInteger(list.length)]; };
+    })(Random || (exports.Random = Random = {}));
+});
+define("script/tools/array", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Array = void 0;
+    var Array;
+    (function (Array) {
+        Array.cycleSelect = function (list, ix) { return list[ix % list.length]; };
+    })(Array || (exports.Array = Array = {}));
+});
+define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Tools = void 0;
+    ImportedNumber = __importStar(ImportedNumber);
+    ImportedTimespan = __importStar(ImportedTimespan);
+    ImportedMath = __importStar(ImportedMath);
+    ImportedRandom = __importStar(ImportedRandom);
+    ImportedArray = __importStar(ImportedArray);
+    var Tools;
+    (function (Tools) {
+        Tools.Number = ImportedNumber.Number;
+        Tools.Timespan = ImportedTimespan.Timespan;
+        Tools.Math = ImportedMath.Math;
+        Tools.Random = ImportedRandom.Random;
+        Tools.Array = ImportedArray.Array;
+    })(Tools || (exports.Tools = Tools = {}));
+});
 define("resource/control", [], {
     "pattern": {
         "id": "pattern",
@@ -1802,7 +1907,7 @@ define("resource/control", [], {
         "default": false
     }
 });
-define("script/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/ui", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, ui_1, control_json_1, config_json_3) {
+define("script/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/ui", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, ui_1, tools_1, control_json_1, config_json_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
@@ -1810,20 +1915,16 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
     config_json_3 = __importDefault(config_json_3);
     var Animation;
     (function (Animation) {
-        var scale = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
-        var makeRandomInteger = function (size) { return Math.floor(Math.random() * size); };
-        var randomSelect = function (list) { return list[makeRandomInteger(list.length)]; };
-        var indexSelect = function (list, ix) { return list[ix % list.length]; };
         var makeRandomSpotArguments = function (type, intervalSize) {
             return ({
                 type: type,
-                layoutAngle: randomSelect(["regular", "alternative",]),
+                layoutAngle: tools_1.Tools.Random.select(["regular", "alternative",]),
                 foregroundColor: "forestgreen",
                 backgroundColor: "blanchedalmond",
                 intervalSize: intervalSize,
                 depth: 0.0,
-                maxPatternSize: randomSelect([undefined, intervalSize / 4,]),
-                reverseRate: randomSelect([undefined, 0.0,]),
+                maxPatternSize: tools_1.Tools.Random.select([undefined, intervalSize / 4,]),
+                reverseRate: tools_1.Tools.Random.select([undefined, 0.0,]),
                 maximumFractionDigits: config_json_3.default.maximumFractionDigits,
             });
         };
@@ -1841,9 +1942,9 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                 backgroundColor: "blanchedalmond",
                 intervalSize: intervalSize,
                 depth: 0.0,
-                maxPatternSize: randomSelect([undefined, intervalSize / (2 + makeRandomInteger(9)),]),
-                reverseRate: randomSelect([undefined, 0.0,]),
-                anglePerDepth: randomSelect([undefined, "auto", "-auto", 1, 0, -1.0,]),
+                maxPatternSize: tools_1.Tools.Random.select([undefined, intervalSize / (2 + tools_1.Tools.Random.makeInteger(9)),]),
+                reverseRate: tools_1.Tools.Random.select([undefined, 0.0,]),
+                anglePerDepth: tools_1.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
                 maximumFractionDigits: config_json_3.default.maximumFractionDigits,
             });
         };
@@ -1876,9 +1977,9 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                 this.s = PhiColoring.regulateL(saturation);
                 this.l = PhiColoring.regulateL(lightness);
             }
-            PhiColoring.regulateH = function (h) { return scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
-            PhiColoring.regulateS = function (s) { return scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
-            PhiColoring.regulateL = function (l) { return scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
+            PhiColoring.regulateH = function (h) { return tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
+            PhiColoring.regulateS = function (s) { return tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
+            PhiColoring.regulateL = function (l) { return tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
             return PhiColoring;
         }());
         Animation.PhiColoring = PhiColoring;
@@ -1925,7 +2026,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     }
                 };
                 this.makeRandomArguments = function () {
-                    var result = randomSelect(_this.getPatterns())(scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
+                    var result = tools_1.Tools.Random.select(_this.getPatterns())(tools_1.Tools.Math.scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
                     _this.argumentHistory.push(result);
                     if (3 <= _this.argumentHistory.length) {
                         _this.argumentHistory.shift();
@@ -1936,11 +2037,11 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     switch (coloring) {
                         case "monochrome":
                             return function (mile, _offset, _ix) {
-                                return indexSelect(config_json_3.default.colors.monochrome, mile + 1.0);
+                                return tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.monochrome, mile + 1.0);
                             };
                         case "primary-colors":
                             return function (mile, _offset, ix) {
-                                return indexSelect(config_json_3.default.colors.primaryColors, ix + mile + 1.0);
+                                return tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.primaryColors, ix + mile + 1.0);
                             };
                         case "phi-colors":
                         default:
@@ -2263,22 +2364,12 @@ define("resource/powered-by", [], {
     "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
     "phi-colors": "https://github.com/wraith13/phi-colors"
 });
-define("script/index", ["require", "exports", "script/control", "script/ui", "script/fps", "script/locale", "script/animation", "script/shortcuts", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, control_1, ui_2, fps_1, locale_1, animation_1, shortcuts_1, control_json_2, config_json_4, powered_by_json_1) {
+define("script/index", ["require", "exports", "script/control", "script/ui", "script/fps", "script/locale", "script/animation", "script/shortcuts", "script/tools/index", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, control_1, ui_2, fps_1, locale_2, animation_1, shortcuts_1, tools_2, control_json_2, config_json_4, powered_by_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     control_json_2 = __importDefault(control_json_2);
     config_json_4 = __importDefault(config_json_4);
     powered_by_json_1 = __importDefault(powered_by_json_1);
-    var numberToString = function (value, maximumFractionDigits) {
-        return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: maximumFractionDigits, });
-    };
-    var timespanToString = function (value, maximumFractionDigits) {
-        return value < 1000 ? "".concat(numberToString(value, maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitMs")) :
-            value < 60 * 1000 ? "".concat(numberToString(value / 1000, maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitS")) :
-                value < 60 * 60 * 1000 ? "".concat(numberToString(value / (60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitM")) :
-                    value < 24 * 60 * 60 * 1000 ? "".concat(numberToString(value / (60 * 60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitH")) :
-                        "".concat(numberToString(value / (24 * 60 * 60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitD"));
-    };
     var screenBody = ui_2.UI.getElementById("div", "screen-body");
     var canvas = ui_2.UI.getElementById("div", "canvas");
     var animator = new animation_1.Animation.Animator(canvas);
@@ -2348,7 +2439,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     var coloringSelect = new control_1.Control.Select(control_json_2.default.coloring, { change: function () { return updateColoring(); }, });
     var canvasSizeSelect = new control_1.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); }, change: function () { return updateCanvasSize(); }, });
     var layersSelect = new control_1.Control.Select(control_json_2.default.layers, { change: function () { return updateLayers(); }, });
-    var cycleSpanSelect = new control_1.Control.Select(control_json_2.default.cycleSpan, { makeLabel: timespanToString, change: function () { return updateCycleSpan(); }, });
+    var cycleSpanSelect = new control_1.Control.Select(control_json_2.default.cycleSpan, { makeLabel: tools_2.Tools.Timespan.toDisplayString, change: function () { return updateCycleSpan(); }, });
     var fuseFpsSelect = new control_1.Control.Select(control_json_2.default.fuseFps, { change: function () { return updateFuseFps(); }, });
     var easingCheckbox = new control_1.Control.Checkbox(control_json_2.default.easing);
     var withFullscreen = new control_1.Control.Checkbox(control_json_2.default.withFullscreen);
@@ -2360,7 +2451,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     ui_2.UI.replaceChildren(ui_2.UI.getElementById("div", "keyboard-shortcut"), shortcuts_1.Shortcuts.getDisplayList().map(function (i) {
         return [
             { tag: "span", children: i.keys.map(function (key) { return ui_2.UI.createElement({ tag: "kbd", text: key }); }) },
-            { tag: "span", text: locale_1.Locale.map(i.description), },
+            { tag: "span", text: locale_2.Locale.map(i.description), },
         ];
     })
         .reduce(function (a, b) { return a.concat(b); }, []));
@@ -2369,7 +2460,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         return ({ tag: "li", children: [ui_2.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
     }));
     ui_2.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
-    ui_2.UI.replaceChildren(ui_2.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: locale_1.Locale.map(i), }); }));
+    ui_2.UI.replaceChildren(ui_2.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: locale_2.Locale.map(i), }); }));
     var updateFullscreenState = function (fullscreen) {
         if (ui_2.UI.fullscreenEnabled) {
             if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.get()) {
@@ -2424,7 +2515,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     ui_2.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
         .forEach(function (label) { return ui_2.UI.showPickerOnLabel(label); });
     ui_2.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-        .forEach(function (i) { return i.innerText = locale_1.Locale.map(i.getAttribute("data-lang-key")); });
+        .forEach(function (i) { return i.innerText = locale_2.Locale.map(i.getAttribute("data-lang-key")); });
     shortcuts_1.Shortcuts.setCommandMap({
         "nop": function () { },
         "toggleHideUI": function () { return document.body.classList.toggle("hide-ui"); },
@@ -2451,6 +2542,6 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         }
     });
     window.addEventListener("resize", function () { return updateDiagonalSize(); });
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(timespanToString(new Date().getTime() - build.tick, 1), " ").concat(locale_1.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(tools_2.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(locale_2.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

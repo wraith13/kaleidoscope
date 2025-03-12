@@ -1,25 +1,22 @@
 import { FlounderStyle } from "flounder.style.js";
 import { phiColors } from "phi-colors"
 import { UI } from "./ui";
+import { Tools } from "./tools";
 import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
 {
-    const scale = (min: number, max: number) => (r: number) => min + ((max -min) *r);
-    const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
-    const randomSelect = <T>(list: T[]): T => list[makeRandomInteger(list.length)];
-    const indexSelect = <T>(list: T[], ix: number): T => list[ix %list.length];
     type IntervalSize = Exclude<FlounderStyle.Type.Arguments["intervalSize"], undefined>;
     const makeRandomSpotArguments = (type: FlounderStyle.Type.SpotArguments["type"], intervalSize: IntervalSize): FlounderStyle.Type.SpotArguments =>
     ({
         type,
-        layoutAngle: randomSelect([ "regular", "alternative", ]),
+        layoutAngle: Tools.Random.select([ "regular", "alternative", ]),
         foregroundColor: "forestgreen",
         backgroundColor: "blanchedalmond",
         intervalSize,
         depth: 0.0,
-        maxPatternSize: randomSelect([ undefined, intervalSize /4, ]),
-        reverseRate: randomSelect([ undefined, 0.0, ]),
+        maxPatternSize: Tools.Random.select([ undefined, intervalSize /4, ]),
+        reverseRate: Tools.Random.select([ undefined, 0.0, ]),
         maximumFractionDigits: config.maximumFractionDigits,
     });
     const makeRandomTrispotArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
@@ -34,9 +31,9 @@ export namespace Animation
         backgroundColor: "blanchedalmond",
         intervalSize,
         depth: 0.0,
-        maxPatternSize: randomSelect([ undefined, intervalSize /(2 +makeRandomInteger(9)), ]),
-        reverseRate: randomSelect([ undefined, 0.0, ]),
-        anglePerDepth: randomSelect([ undefined, "auto", "-auto", 1,0, -1.0, ]),
+        maxPatternSize: Tools.Random.select([ undefined, intervalSize /(2 +Tools.Random.makeInteger(9)), ]),
+        reverseRate: Tools.Random.select([ undefined, 0.0, ]),
+        anglePerDepth: Tools.Random.select([ undefined, "auto", "-auto", 1,0, -1.0, ]),
         maximumFractionDigits: config.maximumFractionDigits,
     });
     const makeRandomStripeArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
@@ -54,9 +51,9 @@ export namespace Animation
     }
     export class PhiColoring
     {
-        public static regulateH = (h: number) => scale(phiColors.HslHMin, phiColors.HslHMax)(h);
-        public static regulateS = (s: number) => scale(phiColors.HslSMin, phiColors.HslSMax)(s);
-        public static regulateL = (l: number) => scale(phiColors.HslLMin, phiColors.HslLMax)(l);
+        public static regulateH = (h: number) => Tools.Math.scale(phiColors.HslHMin, phiColors.HslHMax)(h);
+        public static regulateS = (s: number) => Tools.Math.scale(phiColors.HslSMin, phiColors.HslSMax)(s);
+        public static regulateL = (l: number) => Tools.Math.scale(phiColors.HslLMin, phiColors.HslLMax)(l);
         constructor
         (
             public hue = Math.random(),
@@ -130,9 +127,9 @@ export namespace Animation
         };
         makeRandomArguments = (): FlounderStyle.Type.Arguments =>
         {
-            const result = randomSelect(this.getPatterns())
+            const result = Tools.Random.select(this.getPatterns())
             (
-                scale
+                Tools.Math.scale
                 (
                     this.diagonalSize *config.intervalSize.minRate,
                     this.diagonalSize *config.intervalSize.maxRate
@@ -152,10 +149,10 @@ export namespace Animation
             {
             case "monochrome":
                 return (mile: number, _offset: number, _ix: number) =>
-                    indexSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
+                    Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
             case "primary-colors":
                 return  (mile: number, _offset: number, ix: number) =>
-                    indexSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);
+                    Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);
             case "phi-colors":
             default:
                 return  (mile: number, offset: number, _ix: number) =>
