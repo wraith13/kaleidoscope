@@ -5,7 +5,7 @@ import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
 {
-    const rate = (min: number, max: number) => (r: number) => min + ((max -min) *r);
+    const scale = (min: number, max: number) => (r: number) => min + ((max -min) *r);
     const makeRandomInteger = (size: number) => Math.floor(Math.random() *size);
     const randomSelect = <T>(list: T[]): T => list[makeRandomInteger(list.length)];
     const indexSelect = <T>(list: T[], ix: number): T => list[ix %list.length];
@@ -54,25 +54,34 @@ export namespace Animation
     }
     export class PhiColoring
     {
-        h = Math.random();
-        hueUnit = 1 / phiColors.phi;
-        defaultLightness = 0.5;
-        hsl =
+        public static regulateH = (h: number) => scale(phiColors.HslHMin, phiColors.HslHMax)(h);
+        public static regulateS = (s: number) => scale(phiColors.HslSMin, phiColors.HslSMax)(s);
+        public static regulateL = (l: number) => scale(phiColors.HslLMin, phiColors.HslLMax)(l);
+        constructor
+        (
+            public hue = Math.random(),
+            saturation :number = config.colors.phiColors.saturation,
+            lightness :number = config.colors.phiColors.lightness,
+            public hueUnit = 1 / phiColors.phi
+        )
         {
-            h:rate(phiColors.HslHMin, phiColors.HslHMax)(this.h),
-            s:rate(phiColors.HslSMin, phiColors.HslSMax)(0.8),
-            l:rate(phiColors.HslLMin, phiColors.HslLMax)(this.defaultLightness),
-        };
-        makeColor = (step: number, lightness?: number) =>
+            //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
+            this.s = PhiColoring.regulateL(saturation);
+            this.l = PhiColoring.regulateL(lightness);
+        }
+        //h: number;
+        s: number;
+        l: number;
+        makeColor = (step: number) =>
             <FlounderStyle.Type.HexColor>phiColors.rgbForStyle
             (
                 phiColors.clipRgb
                 (
                     phiColors.hslToRgb
                     ({
-                        h: rate(phiColors.HslHMin, phiColors.HslHMax)((this.h +(this.hueUnit *step)) %1),
-                        s: this.hsl.s,
-                        l: rate(phiColors.HslLMin, phiColors.HslLMax)(lightness ?? this.defaultLightness),
+                        h: PhiColoring.regulateH((this.hue +(this.hueUnit *step)) %1),
+                        s: this.s,
+                        l: this.l,
                     })
                 )
             );
@@ -123,7 +132,7 @@ export namespace Animation
         {
             const result = randomSelect(this.getPatterns())
             (
-                rate
+                scale
                 (
                     this.diagonalSize *config.intervalSize.minRate,
                     this.diagonalSize *config.intervalSize.maxRate
@@ -150,7 +159,7 @@ export namespace Animation
             case "phi-colors":
             default:
                 return  (mile: number, offset: number, _ix: number) =>
-                    this.phiColoring.makeColor(mile +offset +1.0, 0.6);
+                    this.phiColoring.makeColor(mile +offset +1.0);
             }
         };
         getForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color = this.getNextColorMaker("phi-colors");

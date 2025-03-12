@@ -14,7 +14,11 @@
             "red",
             "green",
             "blue"
-        ]
+        ],
+        "phiColors": {
+            "saturation": 0.8,
+            "lightness": 0.6
+        }
     },
     "intervalSize": {
         "minRate": 0.03,

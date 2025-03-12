@@ -483,15 +483,15 @@ declare module "script/animation" {
             arguments: FlounderStyle.Type.Arguments | undefined;
         }
         export class PhiColoring {
-            h: number;
+            hue: number;
             hueUnit: number;
-            defaultLightness: number;
-            hsl: {
-                h: number;
-                s: number;
-                l: number;
-            };
-            makeColor: (step: number, lightness?: number) => FlounderStyle.Type.HexColor;
+            static regulateH: (h: number) => number;
+            static regulateS: (s: number) => number;
+            static regulateL: (l: number) => number;
+            constructor(hue?: number, saturation?: number, lightness?: number, hueUnit?: number);
+            s: number;
+            l: number;
+            makeColor: (step: number) => FlounderStyle.Type.HexColor;
         }
         export class Animator {
             canvas: HTMLDivElement;

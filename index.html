@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Tue Mar 11 2025 23:48:35 GMT+0900 (日本標準時)
+    build at: Wed Mar 12 2025 09:42:18 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -803,8 +803,8 @@ body.hide-ui #screen-footer #information-line {
 <script type="text/javascript">
 const build =
 {
-    at: "Tue Mar 11 2025 23:48:35 GMT+0900 (日本標準時)",
-    tick: 1741704515676
+    at: "Wed Mar 12 2025 09:42:18 GMT+0900 (日本標準時)",
+    tick: 1741740138554
 };
 const evilCommonjsConfig =
 {
@@ -4005,7 +4005,11 @@ define("resource/config", [], {
             "red",
             "green",
             "blue"
-        ]
+        ],
+        "phiColors": {
+            "saturation": 0.8,
+            "lightness": 0.6
+        }
     },
     "intervalSize": {
         "minRate": 0.03,
@@ -5674,7 +5678,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
     config_json_3 = __importDefault(config_json_3);
     var Animation;
     (function (Animation) {
-        var rate = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
+        var scale = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
         var makeRandomInteger = function (size) { return Math.floor(Math.random() * size); };
         var randomSelect = function (list) { return list[makeRandomInteger(list.length)]; };
         var indexSelect = function (list, ix) { return list[ix % list.length]; };
@@ -5721,24 +5725,28 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
             return makeRandomLineArguments("triline", intervalSize);
         };
         var PhiColoring = /** @class */ (function () {
-            function PhiColoring() {
+            function PhiColoring(hue, saturation, lightness, hueUnit) {
+                if (hue === void 0) { hue = Math.random(); }
+                if (saturation === void 0) { saturation = config_json_3.default.colors.phiColors.saturation; }
+                if (lightness === void 0) { lightness = config_json_3.default.colors.phiColors.lightness; }
+                if (hueUnit === void 0) { hueUnit = 1 / phi_colors_1.phiColors.phi; }
                 var _this = this;
-                this.h = Math.random();
-                this.hueUnit = 1 / phi_colors_1.phiColors.phi;
-                this.defaultLightness = 0.5;
-                this.hsl = {
-                    h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(this.h),
-                    s: rate(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(0.8),
-                    l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(this.defaultLightness),
-                };
-                this.makeColor = function (step, lightness) {
+                this.hue = hue;
+                this.hueUnit = hueUnit;
+                this.makeColor = function (step) {
                     return phi_colors_1.phiColors.rgbForStyle(phi_colors_1.phiColors.clipRgb(phi_colors_1.phiColors.hslToRgb({
-                        h: rate(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)((_this.h + (_this.hueUnit * step)) % 1),
-                        s: _this.hsl.s,
-                        l: rate(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(lightness !== null && lightness !== void 0 ? lightness : _this.defaultLightness),
+                        h: PhiColoring.regulateH((_this.hue + (_this.hueUnit * step)) % 1),
+                        s: _this.s,
+                        l: _this.l,
                     })));
                 };
+                //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
+                this.s = PhiColoring.regulateL(saturation);
+                this.l = PhiColoring.regulateL(lightness);
             }
+            PhiColoring.regulateH = function (h) { return scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
+            PhiColoring.regulateS = function (s) { return scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
+            PhiColoring.regulateL = function (l) { return scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
             return PhiColoring;
         }());
         Animation.PhiColoring = PhiColoring;
@@ -5785,7 +5793,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     }
                 };
                 this.makeRandomArguments = function () {
-                    var result = randomSelect(_this.getPatterns())(rate(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
+                    var result = randomSelect(_this.getPatterns())(scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
                     _this.argumentHistory.push(result);
                     if (3 <= _this.argumentHistory.length) {
                         _this.argumentHistory.shift();
@@ -5805,7 +5813,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                         case "phi-colors":
                         default:
                             return function (mile, offset, _ix) {
-                                return _this.phiColoring.makeColor(mile + offset + 1.0, 0.6);
+                                return _this.phiColoring.makeColor(mile + offset + 1.0);
                             };
                     }
                 };
