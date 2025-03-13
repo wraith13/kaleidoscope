@@ -1,14 +1,13 @@
 import { Library } from "@library";
 import { Tools } from "@tools";
-import { Fps } from "./fps";
-import { Animation } from "./animation";
+import { Features } from "@features";
 import control from "@resource/control.json";
 import config from "@resource/config.json";
 import poweredBy from "@resource/powered-by.json";
 const screenBody = Library.UI.getElementById("div", "screen-body");
 const canvas = Library.UI.getElementById("div", "canvas");
-const animator = new Animation.Animator(canvas);
 const topCoat = Library.UI.getElementById("div", "top-coat");
+const animator = new Features.Animation.Animator(canvas);
 const isInAnimation = () => document.body.classList.contains("immersive");
 const playAnimation = () =>
 {
@@ -63,7 +62,7 @@ const updateCanvasSize = () =>
 const updateCycleSpan = (): void =>
     animator.updateCycleSpan(parseInt(cycleSpanSelect.get()));
 const updateFuseFps = (): number =>
-    Fps.fuseFps = parseFloat(fuseFpsSelect.get());
+    Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
 const updateEasing = () =>
 {
     animator.updateEasing(easingCheckbox.get());
@@ -163,12 +162,12 @@ const animation = (now: number) =>
 {
     if (isInAnimation())
     {
-        Fps.step(now);
+        Features.Fps.step(now);
         if (showFPS.get())
         {
-            fpsElement.innerText = Fps.getText();
+            fpsElement.innerText = Features.Fps.getText();
         }
-        if (Fps.isUnderFuseFps())
+        if (Features.Fps.isUnderFuseFps())
         {
             pauseAnimation();
         }
@@ -185,7 +184,7 @@ const start = () => setTimeout
     (
         now =>
         {
-            Fps.reset();
+            Features.Fps.reset();
             animator.startStep(now);
             animation(now);
         }

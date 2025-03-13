@@ -162,17 +162,14 @@ export namespace Animation
         getForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color = this.getNextColorMaker("phi-colors");
         getBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
         {
-            if (0 < mile)
+            switch(true)
             {
+            case 0 < mile:
                 return this.getForegroundColor(mile -1, offset, ix);
-            }
-            else
-            if (0 === ix)
-            {
+            case mile <= 0 && ix <= 0:
                 return this.phiColoring.makeColor(0.0);
-            }
-            else
-            {
+            case mile <= 0 && 0 < ix:
+            default:
                 return "black";
             }
         };

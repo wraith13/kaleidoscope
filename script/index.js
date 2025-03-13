@@ -725,7 +725,7 @@ define("script/tools/index", ["require", "exports", "script/tools/number", "scri
         Tools.Array = ImportedArray.Array;
     })(Tools || (exports.Tools = Tools = {}));
 });
-define("script/fps", ["require", "exports"], function (require, exports) {
+define("script/features/fps", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Fps = void 0;
@@ -2106,7 +2106,7 @@ define("resource/control", [], {
         "default": false
     }
 });
-define("script/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_2, _tools_1, control_json_1, config_json_3) {
+define("script/features/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_2, _tools_1, control_json_1, config_json_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
@@ -2251,14 +2251,14 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                 };
                 this.getForegroundColor = this.getNextColorMaker("phi-colors");
                 this.getBackgroundColor = function (mile, offset, ix) {
-                    if (0 < mile) {
-                        return _this.getForegroundColor(mile - 1, offset, ix);
-                    }
-                    else if (0 === ix) {
-                        return _this.phiColoring.makeColor(0.0);
-                    }
-                    else {
-                        return "black";
+                    switch (true) {
+                        case 0 < mile:
+                            return _this.getForegroundColor(mile - 1, offset, ix);
+                        case mile <= 0 && ix <= 0:
+                            return _this.phiColoring.makeColor(0.0);
+                        case mile <= 0 && 0 < ix:
+                        default:
+                            return "black";
                     }
                 };
                 this.getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
@@ -2373,6 +2373,18 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
+define("script/features/index", ["require", "exports", "script/features/fps", "script/features/animation"], function (require, exports, ImportedFps, ImportedAnimation) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Features = void 0;
+    ImportedFps = __importStar(ImportedFps);
+    ImportedAnimation = __importStar(ImportedAnimation);
+    var Features;
+    (function (Features) {
+        Features.Fps = ImportedFps.Fps;
+        Features.Animation = ImportedAnimation.Animation;
+    })(Features || (exports.Features = Features = {}));
+});
 define("resource/powered-by", [], {
     "build.js": "https://github.com/wraith13/build.js",
     "evil-commonjs": "https://github.com/wraith13/evil-commonjs",
@@ -2380,7 +2392,7 @@ define("resource/powered-by", [], {
     "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
     "phi-colors": "https://github.com/wraith13/phi-colors"
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/fps", "script/animation", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, _library_3, _tools_2, fps_1, animation_1, control_json_2, config_json_4, powered_by_json_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/features/index", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, _library_3, _tools_2, _features_1, control_json_2, config_json_4, powered_by_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     control_json_2 = __importDefault(control_json_2);
@@ -2388,8 +2400,8 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
     var canvas = _library_3.Library.UI.getElementById("div", "canvas");
-    var animator = new animation_1.Animation.Animator(canvas);
     var topCoat = _library_3.Library.UI.getElementById("div", "top-coat");
+    var animator = new _features_1.Features.Animation.Animator(canvas);
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
     var playAnimation = function () {
         document.body.classList.toggle("immersive", true);
@@ -2436,7 +2448,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         return animator.updateCycleSpan(parseInt(cycleSpanSelect.get()));
     };
     var updateFuseFps = function () {
-        return fps_1.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
+        return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
     };
     var updateEasing = function () {
         animator.updateEasing(easingCheckbox.get());
@@ -2489,11 +2501,11 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     };
     var animation = function (now) {
         if (isInAnimation()) {
-            fps_1.Fps.step(now);
+            _features_1.Features.Fps.step(now);
             if (showFPS.get()) {
-                fpsElement.innerText = fps_1.Fps.getText();
+                fpsElement.innerText = _features_1.Features.Fps.getText();
             }
-            if (fps_1.Fps.isUnderFuseFps()) {
+            if (_features_1.Features.Fps.isUnderFuseFps()) {
                 pauseAnimation();
             }
             else {
@@ -2503,7 +2515,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         }
     };
     var start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
-        fps_1.Fps.reset();
+        _features_1.Features.Fps.reset();
         animator.startStep(now);
         animation(now);
     }); }, config_json_4.default.startWait); };

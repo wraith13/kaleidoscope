@@ -245,7 +245,7 @@ declare module "script/tools/index" {
         export import Array = ImportedArray.Array;
     }
 }
-declare module "script/fps" {
+declare module "script/features/fps" {
     export namespace Fps {
         interface FpsHistoryEntry {
             fps: number;
@@ -538,7 +538,7 @@ declare module "flounder.style.js/index" {
         const selectClosestAngleDirection: (directions: OffsetCoefficientDirection[], angle: Type.DirectionAngle) => OffsetCoefficientDirection;
     }
 }
-declare module "script/animation" {
+declare module "script/features/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
     import control from "resource/control";
     export namespace Animation {
@@ -590,6 +590,14 @@ declare module "script/animation" {
             updateEasing: (enabled: boolean) => void;
         }
         export {};
+    }
+}
+declare module "script/features/index" {
+    import * as ImportedFps from "script/features/fps";
+    import * as ImportedAnimation from "script/features/animation";
+    export namespace Features {
+        export import Fps = ImportedFps.Fps;
+        export import Animation = ImportedAnimation.Animation;
     }
 }
 declare module "script/index" { }
