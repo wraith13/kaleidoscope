@@ -1,15 +1,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -43,116 +34,102 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-define("script/control", ["require", "exports"], function (require, exports) {
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+define("resource/lang.en", [], {
+    "description": "Kaleidoscope Web Screen Saver",
+    "pattern-label": "Pattern:",
+    "coloring-label": "Coloring:",
+    "canvas-size-label": "Canvas Size:",
+    "layers-label": "Layers:",
+    "cycle-span-label": "Cycle Span:",
+    "fuse-fps-label": "Fuse FPS:",
+    "easing-label": "Easing:",
+    "with-fullscreen-label": "FullScreen:",
+    "show-fps-label": "Show FPS:",
+    "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
+    "informationFuseFps": "⚠️ It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
+    "DELETEME.informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
+    "DELETEME.informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",
+    "timeUnitMs": "ms",
+    "timeUnitS": "s",
+    "timeUnitM": "m",
+    "timeUnitH": "h",
+    "timeUnitD": "d",
+    "ago": "ago",
+    "Hide UI": "Hide UI",
+    "Play / Pause": "Play / Pause",
+    "Switch Pattern (Forward)": "Switch Pattern (Forward)",
+    "Switch Pattern (Backward)": "Switch Pattern (Backward)",
+    "Switch Coloring (Forward)": "Switch Coloring (Forward)",
+    "Switch Coloring (Backward)": "Switch Coloring (Backward)",
+    "Increase Canvas Size": "Increase Canvas Size",
+    "Decrease Canvas Size": "Decrease Canvas Size",
+    "Increase Layer": "Increase Layer",
+    "Decrease Layer": "Decrease Layer",
+    "Speed Down": "Speed Down",
+    "Speed Up": "Speed Up",
+    "FullScreen": "FullScreen",
+    "Show FPS": "Show FPS"
+});
+define("resource/lang.ja", [], {
+    "description": "万華鏡 Web スクリーンセーバー",
+    "pattern-label": "パターン:",
+    "coloring-label": "カラーリング:",
+    "canvas-size-label": "キャンバスサイズ:",
+    "layers-label": "レイヤー数:",
+    "cycle-span-label": "サイクルスパン:",
+    "fuse-fps-label": "フューズ FPS:",
+    "easing-label": "イージング:",
+    "with-fullscreen-label": "フルスクリーン:",
+    "show-fps-label": "FPS を表示:",
+    "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
+    "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
+    "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
+    "DELETEME.informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
+    "timeUnitMs": "ミリ秒",
+    "timeUnitS": "秒",
+    "timeUnitM": "分",
+    "timeUnitH": "時間",
+    "timeUnitD": "日",
+    "ago": "前",
+    "Hide UI": "UI 非表示",
+    "Play / Pause": "再生 / 一時停止",
+    "Switch Pattern (Forward)": "パターン切り替え (順方向)",
+    "Switch Pattern (Backward)": "パターン切り替え (逆方向)",
+    "Switch Coloring (Forward)": "カラーリング切り替え (順方向)",
+    "Switch Coloring (Backward)": "カラーリング切り替え (逆方向)",
+    "Increase Canvas Size": "キャンバスサイズ拡大",
+    "Decrease Canvas Size": "キャンバスサイズ縮小",
+    "Increase Layer": "レイヤー増加",
+    "Decrease Layer": "レイヤー減少",
+    "Speed Down": "スピードダウン",
+    "Speed Up": "スピードアップ",
+    "FullScreen": "フルスクリーン",
+    "Show FPS": "FPS 表示"
+});
+define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Control = void 0;
-    var Control;
-    (function (Control) {
-        var makeSelectOption = function (value, text) {
-            var option = document.createElement("option");
-            option.value = value;
-            option.innerText = text;
-            return option;
+    exports.Locale = void 0;
+    lang_en_json_1 = __importDefault(lang_en_json_1);
+    lang_ja_json_1 = __importDefault(lang_ja_json_1);
+    var Locale;
+    (function (Locale) {
+        var lang = "ja" === navigator.language.substring(0, 2) ? "ja" : "en";
+        Locale.master = {
+            en: lang_en_json_1.default,
+            ja: lang_ja_json_1.default,
         };
-        Control.getDom = function (data) {
-            var result = "dom" in data ?
-                data.dom :
-                document.getElementById(data.id);
-            if (null == result || undefined === result) {
-                console.error("🦋 FIXME: Contorl.getDom.NotExistsDom", data);
-            }
-            else if (!(result instanceof HTMLElement)) {
-                console.error("🦋 FIXME: Contorl.getDom.InvalidDom", data, result);
-            }
-            return result;
-        };
-        var Button = /** @class */ (function () {
-            function Button(data) {
-                var _this = this;
-                this.data = data;
-                this.dom = Control.getDom(data);
-                this.dom.addEventListener("click", function (event) {
-                    console.log("👆 Button.Click:", event, _this);
-                    _this.data.click(event, _this);
-                });
-            }
-            return Button;
-        }());
-        Control.Button = Button;
-        Control.preventOnChange = "preventOnChange";
-        var Select = /** @class */ (function () {
-            function Select(data, options) {
-                var _this = this;
-                var _a;
-                this.data = data;
-                this.options = options;
-                this.switch = function (valueOrDirection, preventOnChange) {
-                    var _a, _b;
-                    if ("boolean" === typeof valueOrDirection) {
-                        var options = Array.from(_this.dom.getElementsByTagName("option"));
-                        var optionValues = options.map(function (i) { return i.value; });
-                        var index = optionValues.indexOf(_this.dom.value);
-                        var nextIndex = index + (valueOrDirection ? -1 : 1);
-                        var nextValue = optionValues[nextIndex];
-                        if (undefined !== nextValue) {
-                            _this.dom.value = nextValue;
-                        }
-                    }
-                    else {
-                        _this.dom.value = "".concat(valueOrDirection);
-                    }
-                    if (undefined === preventOnChange) {
-                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
-                    }
-                };
-                this.get = function () { return _this.dom.value; };
-                this.dom = Control.getDom(data);
-                if (!(this.dom instanceof HTMLSelectElement)) {
-                    console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
-                }
-                this.data.enum.forEach(function (i) { var _a, _b, _c; return _this.dom.appendChild(makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i))); });
-                this.switch(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
-                this.dom.addEventListener("change", function (event) {
-                    var _a, _b;
-                    console.log("👆 Select.Change:", event, _this);
-                    (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
-                });
-            }
-            return Select;
-        }());
-        Control.Select = Select;
-        var Checkbox = /** @class */ (function () {
-            function Checkbox(data, options) {
-                var _this = this;
-                var _a;
-                this.data = data;
-                this.options = options;
-                this.toggle = function (checked, preventOnChange) {
-                    var _a, _b;
-                    _this.dom.checked = checked !== null && checked !== void 0 ? checked : !_this.get();
-                    if (undefined === preventOnChange) {
-                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
-                    }
-                };
-                this.get = function () { return _this.dom.checked; };
-                this.dom = Control.getDom(data);
-                if (!(this.dom instanceof HTMLInputElement) || "checkbox" !== this.dom.type.toLowerCase()) {
-                    console.error("🦋 FIXME: Contorl.Checkbox.InvalidDom", data, this.dom);
-                }
-                if (undefined !== this.data.default) {
-                    this.toggle(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
-                }
-                this.dom.addEventListener("change", function (event) {
-                    var _a, _b;
-                    console.log("👆 Checkbox.Change:", event, _this);
-                    (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
-                });
-            }
-            return Checkbox;
-        }());
-        Control.Checkbox = Checkbox;
-    })(Control || (exports.Control = Control = {}));
+        Locale.map = function (key) { return Locale.master[lang][key]; };
+    })(Locale || (exports.Locale = Locale = {}));
 });
 define("resource/config", [], {
     "applicationTitle": "Kaleidoscope",
@@ -191,7 +168,7 @@ define("resource/config", [], {
     "maximumFractionDigits": 2,
     "startWait": 750
 });
-define("script/ui", ["require", "exports", "resource/config"], function (require, exports, config_json_1) {
+define("script/library/ui", ["require", "exports", "resource/config"], function (require, exports, config_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UI = void 0;
@@ -366,6 +343,388 @@ define("script/ui", ["require", "exports", "resource/config"], function (require
         };
     })(UI || (exports.UI = UI = {}));
 });
+define("script/library/control", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Control = void 0;
+    var Control;
+    (function (Control) {
+        var makeSelectOption = function (value, text) {
+            var option = document.createElement("option");
+            option.value = value;
+            option.innerText = text;
+            return option;
+        };
+        Control.getDom = function (data) {
+            var result = "dom" in data ?
+                data.dom :
+                document.getElementById(data.id);
+            if (null == result || undefined === result) {
+                console.error("🦋 FIXME: Contorl.getDom.NotExistsDom", data);
+            }
+            else if (!(result instanceof HTMLElement)) {
+                console.error("🦋 FIXME: Contorl.getDom.InvalidDom", data, result);
+            }
+            return result;
+        };
+        var Button = /** @class */ (function () {
+            function Button(data) {
+                var _this = this;
+                this.data = data;
+                this.dom = Control.getDom(data);
+                this.dom.addEventListener("click", function (event) {
+                    console.log("👆 Button.Click:", event, _this);
+                    _this.data.click(event, _this);
+                });
+            }
+            return Button;
+        }());
+        Control.Button = Button;
+        Control.preventOnChange = "preventOnChange";
+        var Select = /** @class */ (function () {
+            function Select(data, options) {
+                var _this = this;
+                var _a;
+                this.data = data;
+                this.options = options;
+                this.switch = function (valueOrDirection, preventOnChange) {
+                    var _a, _b;
+                    if ("boolean" === typeof valueOrDirection) {
+                        var options = Array.from(_this.dom.getElementsByTagName("option"));
+                        var optionValues = options.map(function (i) { return i.value; });
+                        var index = optionValues.indexOf(_this.dom.value);
+                        var nextIndex = index + (valueOrDirection ? -1 : 1);
+                        var nextValue = optionValues[nextIndex];
+                        if (undefined !== nextValue) {
+                            _this.dom.value = nextValue;
+                        }
+                    }
+                    else {
+                        _this.dom.value = "".concat(valueOrDirection);
+                    }
+                    if (undefined === preventOnChange) {
+                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
+                    }
+                };
+                this.get = function () { return _this.dom.value; };
+                this.dom = Control.getDom(data);
+                if (!(this.dom instanceof HTMLSelectElement)) {
+                    console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
+                }
+                this.data.enum.forEach(function (i) { var _a, _b, _c; return _this.dom.appendChild(makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i))); });
+                this.switch(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
+                this.dom.addEventListener("change", function (event) {
+                    var _a, _b;
+                    console.log("👆 Select.Change:", event, _this);
+                    (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
+                });
+            }
+            return Select;
+        }());
+        Control.Select = Select;
+        var Checkbox = /** @class */ (function () {
+            function Checkbox(data, options) {
+                var _this = this;
+                var _a;
+                this.data = data;
+                this.options = options;
+                this.toggle = function (checked, preventOnChange) {
+                    var _a, _b;
+                    _this.dom.checked = checked !== null && checked !== void 0 ? checked : !_this.get();
+                    if (undefined === preventOnChange) {
+                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
+                    }
+                };
+                this.get = function () { return _this.dom.checked; };
+                this.dom = Control.getDom(data);
+                if (!(this.dom instanceof HTMLInputElement) || "checkbox" !== this.dom.type.toLowerCase()) {
+                    console.error("🦋 FIXME: Contorl.Checkbox.InvalidDom", data, this.dom);
+                }
+                if (undefined !== this.data.default) {
+                    this.toggle(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
+                }
+                this.dom.addEventListener("change", function (event) {
+                    var _a, _b;
+                    console.log("👆 Checkbox.Change:", event, _this);
+                    (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
+                });
+            }
+            return Checkbox;
+        }());
+        Control.Checkbox = Checkbox;
+    })(Control || (exports.Control = Control = {}));
+});
+define("resource/shortcuts", [], [
+    {
+        "description": "Hide UI",
+        "keys": [
+            "U", "I"
+        ],
+        "onKeyDown": "toggleHideUI",
+        "onKeyUp": "nop"
+    },
+    {
+        "description": "Play / Pause",
+        "keys": [
+            " "
+        ],
+        "onKeyDown": "playOrPause"
+    },
+    {
+        "description": "Switch Pattern (Forward)",
+        "keys": [
+            "P"
+        ],
+        "onKeyDown": "switchPatternForward"
+    },
+    {
+        "description": "Switch Pattern (Backward)",
+        "keys": [
+            "Shift",
+            "P"
+        ],
+        "onKeyDown": "switchPatternBackward"
+    },
+    {
+        "description": "Switch Coloring (Forward)",
+        "keys": [
+            "C"
+        ],
+        "onKeyDown": "switchColoringForward"
+    },
+    {
+        "description": "Switch Coloring (Backward)",
+        "keys": [
+            "Shift",
+            "C"
+        ],
+        "onKeyDown": "switchColoringBackward"
+    },
+    {
+        "description": "Increase Canvas Size",
+        "keys": [
+            "Shift",
+            "ArrowUp"
+        ],
+        "onKeyDown": "increaseCanvasSize"
+    },
+    {
+        "description": "Decrease Canvas Size",
+        "keys": [
+            "Shift",
+            "ArrowDown"
+        ],
+        "onKeyDown": "decreaseCanvasSize"
+    },
+    {
+        "description": "Increase Layer",
+        "keys": [
+            "ArrowUp"
+        ],
+        "onKeyDown": "increaseLayer"
+    },
+    {
+        "description": "Decrease Layer",
+        "keys": [
+            "ArrowDown"
+        ],
+        "onKeyDown": "decreaseLayer"
+    },
+    {
+        "description": "Speed Down",
+        "keys": [
+            "ArrowLeft"
+        ],
+        "onKeyDown": "speedDown"
+    },
+    {
+        "description": "Speed Up",
+        "keys": [
+            "ArrowRight"
+        ],
+        "onKeyDown": "speedUp"
+    },
+    {
+        "description": "FullScreen",
+        "keys": [
+            "F"
+        ],
+        "onKeyDown": "toggleFullScreen"
+    },
+    {
+        "description": "Show FPS",
+        "keys": [
+            "S"
+        ],
+        "onKeyDown": "toggleShowFPS"
+    }
+]);
+define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"], function (require, exports, shortcuts_json_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Shortcuts = void 0;
+    shortcuts_json_1 = __importDefault(shortcuts_json_1);
+    var Shortcuts;
+    (function (Shortcuts) {
+        var keyDisplayNames = {
+            "ArrowUp": "↑",
+            "ArrowDown": "↓",
+            "ArrowLeft": "←",
+            "ArrowRight": "→",
+            " ": "Space",
+            "Control": "Ctrl",
+        };
+        var getDisplayKeyName = function (key) { return keyDisplayNames[key] || key; };
+        Shortcuts.getDisplayList = function () {
+            return shortcuts_json_1.default.map(function (i) {
+                return ({
+                    keys: i.keys.map(function (key) { return getDisplayKeyName(key); }),
+                    description: i.description,
+                });
+            });
+        };
+        var isInputElementFocused = function () { var _a, _b, _c; return ["input", "textarea", "button"].includes((_c = (_b = (_a = document.activeElement) === null || _a === void 0 ? void 0 : _a.tagName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) !== null && _c !== void 0 ? _c : ""); };
+        var normalizeKey = function (key, code) {
+            return code === "Space" ? " " :
+                key.length === 1 ? key.toUpperCase() :
+                    key;
+        };
+        // const joinable = <T>(value: T, condition?: boolean) =>
+        //     undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
+        var pressedKeys = [];
+        Shortcuts.handleKeyEvent = function (type, event, commandMap) {
+            var normalizedKey = normalizeKey(event.key, event.code);
+            var shortcutkeys = pressedKeys.concat([]);
+            switch (type) {
+                case "onKeyDown":
+                    pressedKeys.push(normalizedKey);
+                    shortcutkeys = pressedKeys;
+                    break;
+                case "onKeyUp":
+                    while (0 < pressedKeys.splice(pressedKeys.indexOf(normalizedKey), 1).length)
+                        ;
+                    break;
+            }
+            if (!isInputElementFocused()) {
+                var commandKeys = shortcuts_json_1.default.filter(function (shortcut) {
+                    return shortcut.keys.length === shortcutkeys.length &&
+                        shortcut.keys.every(function (key) { return shortcutkeys.includes(key); }) &&
+                        shortcut[type];
+                })
+                    .map(function (i) { return i[type]; });
+                if (0 < commandKeys.length) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                commandKeys.forEach(function (i) {
+                    console.log("👆 KeyboardShortcut:", i, type, pressedKeys);
+                    var command = commandMap[i];
+                    if (command) {
+                        command();
+                    }
+                    else {
+                        console.error("🦋 FIXME: Shortcuts.handleKeyEvent.NotFountCommand", i);
+                    }
+                });
+                if ("onKeyDown" === type && commandKeys.length <= 0 && !["Shift", "Control"].includes(normalizedKey)) {
+                    console.log("💡 UnknownKeyDown:", pressedKeys);
+                }
+            }
+        };
+        Shortcuts.setCommandMap = function (commandMap) {
+            window.addEventListener("keydown", function (event) { return Shortcuts.handleKeyEvent("onKeyDown", event, commandMap); });
+            window.addEventListener("keyup", function (event) { return Shortcuts.handleKeyEvent("onKeyUp", event, commandMap); });
+        };
+    })(Shortcuts || (exports.Shortcuts = Shortcuts = {}));
+});
+define("script/library/index", ["require", "exports", "script/library/locale", "script/library/ui", "script/library/control", "script/library/shortcuts"], function (require, exports, ImportedLocale, ImportedUI, ImportedControl, ImportedShortcuts) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Library = void 0;
+    ImportedLocale = __importStar(ImportedLocale);
+    ImportedUI = __importStar(ImportedUI);
+    ImportedControl = __importStar(ImportedControl);
+    ImportedShortcuts = __importStar(ImportedShortcuts);
+    var Library;
+    (function (Library) {
+        Library.Locale = ImportedLocale.Locale;
+        Library.UI = ImportedUI.UI;
+        Library.Control = ImportedControl.Control;
+        Library.Shortcuts = ImportedShortcuts.Shortcuts;
+    })(Library || (exports.Library = Library = {}));
+});
+define("script/tools/number", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Number = void 0;
+    var Number;
+    (function (Number) {
+        Number.toString = function (value, maximumFractionDigits) {
+            return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: maximumFractionDigits, });
+        };
+    })(Number || (exports.Number = Number = {}));
+});
+define("script/tools/timespan", ["require", "exports", "script/library/index", "script/tools/number"], function (require, exports, _library_1, number_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Timespan = void 0;
+    var Timespan;
+    (function (Timespan) {
+        Timespan.toDisplayString = function (value, maximumFractionDigits) {
+            return value < 1000 ? "".concat(number_1.Number.toString(value, maximumFractionDigits), " ").concat(_library_1.Library.Locale.map("timeUnitMs")) :
+                value < 60 * 1000 ? "".concat(number_1.Number.toString(value / 1000, maximumFractionDigits), " ").concat(_library_1.Library.Locale.map("timeUnitS")) :
+                    value < 60 * 60 * 1000 ? "".concat(number_1.Number.toString(value / (60 * 1000), maximumFractionDigits), " ").concat(_library_1.Library.Locale.map("timeUnitM")) :
+                        value < 24 * 60 * 60 * 1000 ? "".concat(number_1.Number.toString(value / (60 * 60 * 1000), maximumFractionDigits), " ").concat(_library_1.Library.Locale.map("timeUnitH")) :
+                            "".concat(number_1.Number.toString(value / (24 * 60 * 60 * 1000), maximumFractionDigits), " ").concat(_library_1.Library.Locale.map("timeUnitD"));
+        };
+    })(Timespan || (exports.Timespan = Timespan = {}));
+});
+define("script/tools/math", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Math = void 0;
+    var Math;
+    (function (Math) {
+        Math.scale = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
+    })(Math || (exports.Math = Math = {}));
+});
+define("script/tools/random", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Random = void 0;
+    var Random;
+    (function (Random) {
+        Random.makeInteger = function (size) { return Math.floor(Math.random() * size); };
+        Random.select = function (list) { return list[Random.makeInteger(list.length)]; };
+    })(Random || (exports.Random = Random = {}));
+});
+define("script/tools/array", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Array = void 0;
+    var Array;
+    (function (Array) {
+        Array.cycleSelect = function (list, ix) { return list[ix % list.length]; };
+    })(Array || (exports.Array = Array = {}));
+});
+define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Tools = void 0;
+    ImportedNumber = __importStar(ImportedNumber);
+    ImportedTimespan = __importStar(ImportedTimespan);
+    ImportedMath = __importStar(ImportedMath);
+    ImportedRandom = __importStar(ImportedRandom);
+    ImportedArray = __importStar(ImportedArray);
+    var Tools;
+    (function (Tools) {
+        Tools.Number = ImportedNumber.Number;
+        Tools.Timespan = ImportedTimespan.Timespan;
+        Tools.Math = ImportedMath.Math;
+        Tools.Random = ImportedRandom.Random;
+        Tools.Array = ImportedArray.Array;
+    })(Tools || (exports.Tools = Tools = {}));
+});
 define("script/fps", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -429,94 +788,6 @@ define("script/fps", ["require", "exports"], function (require, exports) {
         };
         Fps.isUnderFuseFps = function () { return Fps.isValid && Fps.currentMaxFps.fps < Fps.fuseFps; };
     })(Fps || (exports.Fps = Fps = {}));
-});
-define("resource/lang.en", [], {
-    "description": "Kaleidoscope Web Screen Saver",
-    "pattern-label": "Pattern:",
-    "coloring-label": "Coloring:",
-    "canvas-size-label": "Canvas Size:",
-    "layers-label": "Layers:",
-    "cycle-span-label": "Cycle Span:",
-    "fuse-fps-label": "Fuse FPS:",
-    "easing-label": "Easing:",
-    "with-fullscreen-label": "FullScreen:",
-    "show-fps-label": "Show FPS:",
-    "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
-    "informationFuseFps": "⚠️ It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
-    "DELETEME.informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
-    "DELETEME.informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",
-    "timeUnitMs": "ms",
-    "timeUnitS": "s",
-    "timeUnitM": "m",
-    "timeUnitH": "h",
-    "timeUnitD": "d",
-    "ago": "ago",
-    "Hide UI": "Hide UI",
-    "Play / Pause": "Play / Pause",
-    "Switch Pattern (Forward)": "Switch Pattern (Forward)",
-    "Switch Pattern (Backward)": "Switch Pattern (Backward)",
-    "Switch Coloring (Forward)": "Switch Coloring (Forward)",
-    "Switch Coloring (Backward)": "Switch Coloring (Backward)",
-    "Increase Canvas Size": "Increase Canvas Size",
-    "Decrease Canvas Size": "Decrease Canvas Size",
-    "Increase Layer": "Increase Layer",
-    "Decrease Layer": "Decrease Layer",
-    "Speed Down": "Speed Down",
-    "Speed Up": "Speed Up",
-    "FullScreen": "FullScreen",
-    "Show FPS": "Show FPS"
-});
-define("resource/lang.ja", [], {
-    "description": "万華鏡 Web スクリーンセーバー",
-    "pattern-label": "パターン:",
-    "coloring-label": "カラーリング:",
-    "canvas-size-label": "キャンバスサイズ:",
-    "layers-label": "レイヤー数:",
-    "cycle-span-label": "サイクルスパン:",
-    "fuse-fps-label": "フューズ FPS:",
-    "easing-label": "イージング:",
-    "with-fullscreen-label": "フルスクリーン:",
-    "show-fps-label": "FPS を表示:",
-    "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
-    "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
-    "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
-    "DELETEME.informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
-    "timeUnitMs": "ミリ秒",
-    "timeUnitS": "秒",
-    "timeUnitM": "分",
-    "timeUnitH": "時間",
-    "timeUnitD": "日",
-    "ago": "前",
-    "Hide UI": "UI 非表示",
-    "Play / Pause": "再生 / 一時停止",
-    "Switch Pattern (Forward)": "パターン切り替え (順方向)",
-    "Switch Pattern (Backward)": "パターン切り替え (逆方向)",
-    "Switch Coloring (Forward)": "カラーリング切り替え (順方向)",
-    "Switch Coloring (Backward)": "カラーリング切り替え (逆方向)",
-    "Increase Canvas Size": "キャンバスサイズ拡大",
-    "Decrease Canvas Size": "キャンバスサイズ縮小",
-    "Increase Layer": "レイヤー増加",
-    "Decrease Layer": "レイヤー減少",
-    "Speed Down": "スピードダウン",
-    "Speed Up": "スピードアップ",
-    "FullScreen": "フルスクリーン",
-    "Show FPS": "FPS 表示"
-});
-define("script/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Locale = void 0;
-    lang_en_json_1 = __importDefault(lang_en_json_1);
-    lang_ja_json_1 = __importDefault(lang_ja_json_1);
-    var Locale;
-    (function (Locale) {
-        var lang = "ja" === navigator.language.substring(0, 2) ? "ja" : "en";
-        Locale.master = {
-            en: lang_en_json_1.default,
-            ja: lang_ja_json_1.default,
-        };
-        Locale.map = function (key) { return Locale.master[lang][key]; };
-    })(Locale || (exports.Locale = Locale = {}));
 });
 define("flounder.style.js/evil-type.ts/common/evil-type", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -1710,78 +1981,6 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
         };
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
-define("script/tools/number", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Number = void 0;
-    var Number;
-    (function (Number) {
-        Number.toString = function (value, maximumFractionDigits) {
-            return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: maximumFractionDigits, });
-        };
-    })(Number || (exports.Number = Number = {}));
-});
-define("script/tools/timespan", ["require", "exports", "script/locale", "script/tools/number"], function (require, exports, locale_1, number_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Timespan = void 0;
-    var Timespan;
-    (function (Timespan) {
-        Timespan.toDisplayString = function (value, maximumFractionDigits) {
-            return value < 1000 ? "".concat(number_1.Number.toString(value, maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitMs")) :
-                value < 60 * 1000 ? "".concat(number_1.Number.toString(value / 1000, maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitS")) :
-                    value < 60 * 60 * 1000 ? "".concat(number_1.Number.toString(value / (60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitM")) :
-                        value < 24 * 60 * 60 * 1000 ? "".concat(number_1.Number.toString(value / (60 * 60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitH")) :
-                            "".concat(number_1.Number.toString(value / (24 * 60 * 60 * 1000), maximumFractionDigits), " ").concat(locale_1.Locale.map("timeUnitD"));
-        };
-    })(Timespan || (exports.Timespan = Timespan = {}));
-});
-define("script/tools/math", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Math = void 0;
-    var Math;
-    (function (Math) {
-        Math.scale = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
-    })(Math || (exports.Math = Math = {}));
-});
-define("script/tools/random", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Random = void 0;
-    var Random;
-    (function (Random) {
-        Random.makeInteger = function (size) { return Math.floor(Math.random() * size); };
-        Random.select = function (list) { return list[Random.makeInteger(list.length)]; };
-    })(Random || (exports.Random = Random = {}));
-});
-define("script/tools/array", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Array = void 0;
-    var Array;
-    (function (Array) {
-        Array.cycleSelect = function (list, ix) { return list[ix % list.length]; };
-    })(Array || (exports.Array = Array = {}));
-});
-define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Tools = void 0;
-    ImportedNumber = __importStar(ImportedNumber);
-    ImportedTimespan = __importStar(ImportedTimespan);
-    ImportedMath = __importStar(ImportedMath);
-    ImportedRandom = __importStar(ImportedRandom);
-    ImportedArray = __importStar(ImportedArray);
-    var Tools;
-    (function (Tools) {
-        Tools.Number = ImportedNumber.Number;
-        Tools.Timespan = ImportedTimespan.Timespan;
-        Tools.Math = ImportedMath.Math;
-        Tools.Random = ImportedRandom.Random;
-        Tools.Array = ImportedArray.Array;
-    })(Tools || (exports.Tools = Tools = {}));
-});
 define("resource/control", [], {
     "pattern": {
         "id": "pattern",
@@ -1907,7 +2106,7 @@ define("resource/control", [], {
         "default": false
     }
 });
-define("script/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/ui", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, ui_1, tools_1, control_json_1, config_json_3) {
+define("script/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_2, _tools_1, control_json_1, config_json_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
@@ -1918,13 +2117,13 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
         var makeRandomSpotArguments = function (type, intervalSize) {
             return ({
                 type: type,
-                layoutAngle: tools_1.Tools.Random.select(["regular", "alternative",]),
+                layoutAngle: _tools_1.Tools.Random.select(["regular", "alternative",]),
                 foregroundColor: "forestgreen",
                 backgroundColor: "blanchedalmond",
                 intervalSize: intervalSize,
                 depth: 0.0,
-                maxPatternSize: tools_1.Tools.Random.select([undefined, intervalSize / 4,]),
-                reverseRate: tools_1.Tools.Random.select([undefined, 0.0,]),
+                maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / 4,]),
+                reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
                 maximumFractionDigits: config_json_3.default.maximumFractionDigits,
             });
         };
@@ -1942,9 +2141,9 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                 backgroundColor: "blanchedalmond",
                 intervalSize: intervalSize,
                 depth: 0.0,
-                maxPatternSize: tools_1.Tools.Random.select([undefined, intervalSize / (2 + tools_1.Tools.Random.makeInteger(9)),]),
-                reverseRate: tools_1.Tools.Random.select([undefined, 0.0,]),
-                anglePerDepth: tools_1.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
+                maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / (2 + _tools_1.Tools.Random.makeInteger(9)),]),
+                reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
+                anglePerDepth: _tools_1.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
                 maximumFractionDigits: config_json_3.default.maximumFractionDigits,
             });
         };
@@ -1977,9 +2176,9 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                 this.s = PhiColoring.regulateL(saturation);
                 this.l = PhiColoring.regulateL(lightness);
             }
-            PhiColoring.regulateH = function (h) { return tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
-            PhiColoring.regulateS = function (s) { return tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
-            PhiColoring.regulateL = function (l) { return tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
+            PhiColoring.regulateH = function (h) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
+            PhiColoring.regulateS = function (s) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
+            PhiColoring.regulateL = function (l) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
             return PhiColoring;
         }());
         Animation.PhiColoring = PhiColoring;
@@ -2026,7 +2225,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     }
                 };
                 this.makeRandomArguments = function () {
-                    var result = tools_1.Tools.Random.select(_this.getPatterns())(tools_1.Tools.Math.scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
+                    var result = _tools_1.Tools.Random.select(_this.getPatterns())(_tools_1.Tools.Math.scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
                     _this.argumentHistory.push(result);
                     if (3 <= _this.argumentHistory.length) {
                         _this.argumentHistory.shift();
@@ -2037,11 +2236,11 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                     switch (coloring) {
                         case "monochrome":
                             return function (mile, _offset, _ix) {
-                                return tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.monochrome, mile + 1.0);
+                                return _tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.monochrome, mile + 1.0);
                             };
                         case "primary-colors":
                             return function (mile, _offset, ix) {
-                                return tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.primaryColors, ix + mile + 1.0);
+                                return _tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.primaryColors, ix + mile + 1.0);
                             };
                         case "phi-colors":
                         default:
@@ -2125,10 +2324,10 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                 };
                 this.updateLayers = function (newLayers) {
                     var _a, _b, _c;
-                    var oldLayerList = ui_1.UI.getElementsByClassName("div", "layer");
+                    var oldLayerList = _library_2.Library.UI.getElementsByClassName("div", "layer");
                     if (oldLayerList.length < newLayers) {
                         for (var i = oldLayerList.length; i < newLayers; ++i) {
-                            _this.canvas.appendChild(ui_1.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
+                            _this.canvas.appendChild(_library_2.Library.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
                         }
                     }
                     else {
@@ -2136,7 +2335,7 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
                             _this.canvas.removeChild(oldLayerList[i]);
                         }
                     }
-                    var layerList = ui_1.UI.getElementsByClassName("div", "layer");
+                    var layerList = _library_2.Library.UI.getElementsByClassName("div", "layer");
                     var newArguments = (_a = _this.layers[0]) === null || _a === void 0 ? void 0 : _a.arguments;
                     var oldArguments = _this.argumentHistory[_this.argumentHistory.length - 2];
                     var newMile = (_c = (_b = _this.layers[0]) === null || _b === void 0 ? void 0 : _b.mile) !== null && _c !== void 0 ? _c : 0;
@@ -2174,189 +2373,6 @@ define("script/animation", ["require", "exports", "flounder.style.js/index", "ph
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("resource/shortcuts", [], [
-    {
-        "description": "Hide UI",
-        "keys": [
-            "U", "I"
-        ],
-        "onKeyDown": "toggleHideUI",
-        "onKeyUp": "nop"
-    },
-    {
-        "description": "Play / Pause",
-        "keys": [
-            " "
-        ],
-        "onKeyDown": "playOrPause"
-    },
-    {
-        "description": "Switch Pattern (Forward)",
-        "keys": [
-            "P"
-        ],
-        "onKeyDown": "switchPatternForward"
-    },
-    {
-        "description": "Switch Pattern (Backward)",
-        "keys": [
-            "Shift",
-            "P"
-        ],
-        "onKeyDown": "switchPatternBackward"
-    },
-    {
-        "description": "Switch Coloring (Forward)",
-        "keys": [
-            "C"
-        ],
-        "onKeyDown": "switchColoringForward"
-    },
-    {
-        "description": "Switch Coloring (Backward)",
-        "keys": [
-            "Shift",
-            "C"
-        ],
-        "onKeyDown": "switchColoringBackward"
-    },
-    {
-        "description": "Increase Canvas Size",
-        "keys": [
-            "Shift",
-            "ArrowUp"
-        ],
-        "onKeyDown": "increaseCanvasSize"
-    },
-    {
-        "description": "Decrease Canvas Size",
-        "keys": [
-            "Shift",
-            "ArrowDown"
-        ],
-        "onKeyDown": "decreaseCanvasSize"
-    },
-    {
-        "description": "Increase Layer",
-        "keys": [
-            "ArrowUp"
-        ],
-        "onKeyDown": "increaseLayer"
-    },
-    {
-        "description": "Decrease Layer",
-        "keys": [
-            "ArrowDown"
-        ],
-        "onKeyDown": "decreaseLayer"
-    },
-    {
-        "description": "Speed Down",
-        "keys": [
-            "ArrowLeft"
-        ],
-        "onKeyDown": "speedDown"
-    },
-    {
-        "description": "Speed Up",
-        "keys": [
-            "ArrowRight"
-        ],
-        "onKeyDown": "speedUp"
-    },
-    {
-        "description": "FullScreen",
-        "keys": [
-            "F"
-        ],
-        "onKeyDown": "toggleFullScreen"
-    },
-    {
-        "description": "Show FPS",
-        "keys": [
-            "S"
-        ],
-        "onKeyDown": "toggleShowFPS"
-    }
-]);
-define("script/shortcuts", ["require", "exports", "resource/shortcuts"], function (require, exports, shortcuts_json_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Shortcuts = void 0;
-    shortcuts_json_1 = __importDefault(shortcuts_json_1);
-    var Shortcuts;
-    (function (Shortcuts) {
-        var keyDisplayNames = {
-            "ArrowUp": "↑",
-            "ArrowDown": "↓",
-            "ArrowLeft": "←",
-            "ArrowRight": "→",
-            " ": "Space",
-            "Control": "Ctrl",
-        };
-        var getDisplayKeyName = function (key) { return keyDisplayNames[key] || key; };
-        Shortcuts.getDisplayList = function () {
-            return shortcuts_json_1.default.map(function (i) {
-                return ({
-                    keys: i.keys.map(function (key) { return getDisplayKeyName(key); }),
-                    description: i.description,
-                });
-            });
-        };
-        var isInputElementFocused = function () { var _a, _b, _c; return ["input", "textarea", "button"].includes((_c = (_b = (_a = document.activeElement) === null || _a === void 0 ? void 0 : _a.tagName) === null || _b === void 0 ? void 0 : _b.toLowerCase()) !== null && _c !== void 0 ? _c : ""); };
-        var normalizeKey = function (key, code) {
-            return code === "Space" ? " " :
-                key.length === 1 ? key.toUpperCase() :
-                    key;
-        };
-        // const joinable = <T>(value: T, condition?: boolean) =>
-        //     undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
-        var pressedKeys = [];
-        Shortcuts.handleKeyEvent = function (type, event, commandMap) {
-            var normalizedKey = normalizeKey(event.key, event.code);
-            var shortcutkeys = pressedKeys.concat([]);
-            switch (type) {
-                case "onKeyDown":
-                    pressedKeys.push(normalizedKey);
-                    shortcutkeys = pressedKeys;
-                    break;
-                case "onKeyUp":
-                    while (0 < pressedKeys.splice(pressedKeys.indexOf(normalizedKey), 1).length)
-                        ;
-                    break;
-            }
-            if (!isInputElementFocused()) {
-                var commandKeys = shortcuts_json_1.default.filter(function (shortcut) {
-                    return shortcut.keys.length === shortcutkeys.length &&
-                        shortcut.keys.every(function (key) { return shortcutkeys.includes(key); }) &&
-                        shortcut[type];
-                })
-                    .map(function (i) { return i[type]; });
-                if (0 < commandKeys.length) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                commandKeys.forEach(function (i) {
-                    console.log("👆 KeyboardShortcut:", i, type, pressedKeys);
-                    var command = commandMap[i];
-                    if (command) {
-                        command();
-                    }
-                    else {
-                        console.error("🦋 FIXME: Shortcuts.handleKeyEvent.NotFountCommand", i);
-                    }
-                });
-                if ("onKeyDown" === type && commandKeys.length <= 0 && !["Shift", "Control"].includes(normalizedKey)) {
-                    console.log("💡 UnknownKeyDown:", pressedKeys);
-                }
-            }
-        };
-        Shortcuts.setCommandMap = function (commandMap) {
-            window.addEventListener("keydown", function (event) { return Shortcuts.handleKeyEvent("onKeyDown", event, commandMap); });
-            window.addEventListener("keyup", function (event) { return Shortcuts.handleKeyEvent("onKeyUp", event, commandMap); });
-        };
-    })(Shortcuts || (exports.Shortcuts = Shortcuts = {}));
-});
 define("resource/powered-by", [], {
     "build.js": "https://github.com/wraith13/build.js",
     "evil-commonjs": "https://github.com/wraith13/evil-commonjs",
@@ -2364,16 +2380,16 @@ define("resource/powered-by", [], {
     "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
     "phi-colors": "https://github.com/wraith13/phi-colors"
 });
-define("script/index", ["require", "exports", "script/control", "script/ui", "script/fps", "script/locale", "script/animation", "script/shortcuts", "script/tools/index", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, control_1, ui_2, fps_1, locale_2, animation_1, shortcuts_1, tools_2, control_json_2, config_json_4, powered_by_json_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/fps", "script/animation", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, _library_3, _tools_2, fps_1, animation_1, control_json_2, config_json_4, powered_by_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     control_json_2 = __importDefault(control_json_2);
     config_json_4 = __importDefault(config_json_4);
     powered_by_json_1 = __importDefault(powered_by_json_1);
-    var screenBody = ui_2.UI.getElementById("div", "screen-body");
-    var canvas = ui_2.UI.getElementById("div", "canvas");
+    var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
+    var canvas = _library_3.Library.UI.getElementById("div", "canvas");
     var animator = new animation_1.Animation.Animator(canvas);
-    var topCoat = ui_2.UI.getElementById("div", "top-coat");
+    var topCoat = _library_3.Library.UI.getElementById("div", "top-coat");
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
     var playAnimation = function () {
         document.body.classList.toggle("immersive", true);
@@ -2427,7 +2443,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         update();
     };
     //const playButton =
-    new control_1.Control.Button({
+    new _library_3.Library.Control.Button({
         id: "play-button",
         click: function (event, button) {
             event.stopPropagation();
@@ -2435,39 +2451,39 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
             playOrPauseAnimation();
         }
     });
-    var patternSelect = new control_1.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
-    var coloringSelect = new control_1.Control.Select(control_json_2.default.coloring, { change: function () { return updateColoring(); }, });
-    var canvasSizeSelect = new control_1.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); }, change: function () { return updateCanvasSize(); }, });
-    var layersSelect = new control_1.Control.Select(control_json_2.default.layers, { change: function () { return updateLayers(); }, });
-    var cycleSpanSelect = new control_1.Control.Select(control_json_2.default.cycleSpan, { makeLabel: tools_2.Tools.Timespan.toDisplayString, change: function () { return updateCycleSpan(); }, });
-    var fuseFpsSelect = new control_1.Control.Select(control_json_2.default.fuseFps, { change: function () { return updateFuseFps(); }, });
-    var easingCheckbox = new control_1.Control.Checkbox(control_json_2.default.easing);
-    var withFullscreen = new control_1.Control.Checkbox(control_json_2.default.withFullscreen);
-    if (!ui_2.UI.fullscreenEnabled && withFullscreen.dom.parentElement) {
+    var patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
+    var coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring, { change: function () { return updateColoring(); }, });
+    var canvasSizeSelect = new _library_3.Library.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); }, change: function () { return updateCanvasSize(); }, });
+    var layersSelect = new _library_3.Library.Control.Select(control_json_2.default.layers, { change: function () { return updateLayers(); }, });
+    var cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_2.Tools.Timespan.toDisplayString, change: function () { return updateCycleSpan(); }, });
+    var fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps, { change: function () { return updateFuseFps(); }, });
+    var easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
+    var withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
+    if (!_library_3.Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement) {
         withFullscreen.dom.parentElement.style.setProperty("display", "none");
     }
-    var showFPS = new control_1.Control.Checkbox(control_json_2.default.showFPS);
-    var fpsElement = ui_2.UI.getElementById("div", "fps");
-    ui_2.UI.replaceChildren(ui_2.UI.getElementById("div", "keyboard-shortcut"), shortcuts_1.Shortcuts.getDisplayList().map(function (i) {
+    var showFPS = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
+    var fpsElement = _library_3.Library.UI.getElementById("div", "fps");
+    _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("div", "keyboard-shortcut"), _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
         return [
-            { tag: "span", children: i.keys.map(function (key) { return ui_2.UI.createElement({ tag: "kbd", text: key }); }) },
-            { tag: "span", text: locale_2.Locale.map(i.description), },
+            { tag: "span", children: i.keys.map(function (key) { return _library_3.Library.UI.createElement({ tag: "kbd", text: key }); }) },
+            { tag: "span", text: _library_3.Library.Locale.map(i.description), },
         ];
     })
         .reduce(function (a, b) { return a.concat(b); }, []));
-    ui_2.UI.replaceChildren(ui_2.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
+    _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
         var text = _a[0], href = _a[1];
-        return ({ tag: "li", children: [ui_2.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
+        return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
     }));
-    ui_2.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
-    ui_2.UI.replaceChildren(ui_2.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: locale_2.Locale.map(i), }); }));
+    _library_3.Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
+    _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
     var updateFullscreenState = function (fullscreen) {
-        if (ui_2.UI.fullscreenEnabled) {
+        if (_library_3.Library.UI.fullscreenEnabled) {
             if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.get()) {
-                ui_2.UI.requestFullscreen(document.body);
+                _library_3.Library.UI.requestFullscreen(document.body);
             }
             else {
-                ui_2.UI.exitFullscreen();
+                _library_3.Library.UI.exitFullscreen();
             }
         }
     };
@@ -2498,7 +2514,7 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
             pauseAnimation();
         }
     });
-    var mousemoveTimer = new ui_2.UI.ToggleClassForWhileTimer();
+    var mousemoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
     screenBody.addEventListener("mousemove", function (_event) {
         if (config_json_4.default.log.mousemove && !mousemoveTimer.isOn()) {
             console.log("🖱️ MouseMove:", event, screenBody);
@@ -2512,11 +2528,11 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
     updateLayers();
     updateCycleSpan();
     updateFuseFps();
-    ui_2.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-        .forEach(function (label) { return ui_2.UI.showPickerOnLabel(label); });
-    ui_2.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-        .forEach(function (i) { return i.innerText = locale_2.Locale.map(i.getAttribute("data-lang-key")); });
-    shortcuts_1.Shortcuts.setCommandMap({
+    _library_3.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+        .forEach(function (label) { return _library_3.Library.UI.showPickerOnLabel(label); });
+    _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
+        .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
+    _library_3.Library.Shortcuts.setCommandMap({
         "nop": function () { },
         "toggleHideUI": function () { return document.body.classList.toggle("hide-ui"); },
         "playOrPause": function () { return playOrPauseAnimation(); },
@@ -2542,6 +2558,6 @@ define("script/index", ["require", "exports", "script/control", "script/ui", "sc
         }
     });
     window.addEventListener("resize", function () { return updateDiagonalSize(); });
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(tools_2.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(locale_2.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_2.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_3.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

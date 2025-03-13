@@ -1,7 +1,7 @@
 import { FlounderStyle } from "flounder.style.js";
 import { phiColors } from "phi-colors"
-import { UI } from "./ui";
-import { Tools } from "./tools";
+import { Library } from "@library";
+import { Tools } from "@tools";
 import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
@@ -261,12 +261,12 @@ export namespace Animation
         };
         updateLayers = (newLayers: number) =>
         {
-            const oldLayerList = UI.getElementsByClassName("div", "layer");
+            const oldLayerList = Library.UI.getElementsByClassName("div", "layer");
             if (oldLayerList.length < newLayers)
             {
                 for (let i = oldLayerList.length; i < newLayers; ++i)
                 {
-                    this.canvas.appendChild(UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
+                    this.canvas.appendChild(Library.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
                 }
             }
             else
@@ -276,7 +276,7 @@ export namespace Animation
                     this.canvas.removeChild(oldLayerList[i]);
                 }
             }
-            const layerList = UI.getElementsByClassName("div", "layer");
+            const layerList = Library.UI.getElementsByClassName("div", "layer");
             const newArguments = this.layers[0]?.arguments;
             const oldArguments = this.argumentHistory[this.argumentHistory.length -2];
             const newMile = this.layers[0]?.mile ?? 0;

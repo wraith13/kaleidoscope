@@ -1,120 +1,4 @@
-declare module "script/control" {
-    export namespace Control {
-        interface ArgumentsBaseDom<T extends HTMLElement> {
-            dom: T;
-        }
-        interface ArgumentsBaseId {
-            id: string;
-        }
-        type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
-        const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
-        interface ButtonArgumentsBase<T extends HTMLElement> {
-            click: (event: Event, select: Button<T>) => unknown;
-        }
-        type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
-        class Button<T extends HTMLElement> {
-            data: ButtonArguments<T>;
-            dom: T;
-            constructor(data: ButtonArguments<T>);
-        }
-        interface SelectArgumentsBase<T> {
-            enum: T[];
-            default: T;
-        }
-        interface SelectOptions<T> {
-            makeLabel?: (value: T) => string;
-            change?: (event: Event | null, select: Select<T>) => unknown;
-            preventOnChangeWhenNew?: boolean;
-        }
-        const preventOnChange: "preventOnChange";
-        type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
-        class Select<T> {
-            data: SelectArguments<T>;
-            options?: SelectOptions<T> | undefined;
-            dom: HTMLSelectElement;
-            constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
-            switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") => void;
-            get: () => string;
-        }
-        interface CheckboxArgumentsBase {
-            default?: boolean;
-        }
-        interface CheckboxOptions {
-            change?: (event: Event | null, checked: Checkbox) => unknown;
-            preventOnChangeWhenNew?: boolean;
-        }
-        type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
-        class Checkbox {
-            data: CheckboxArguments;
-            options?: CheckboxOptions | undefined;
-            dom: HTMLInputElement;
-            constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
-            toggle: (checked?: boolean, preventOnChange?: "preventOnChange") => void;
-            get: () => boolean;
-        }
-    }
-}
-declare module "script/ui" {
-    export namespace UI {
-        const showPickerOnLabel: (label: HTMLLabelElement) => void;
-        class ToggleClassForWhileTimer {
-            timer: number | undefined;
-            constructor();
-            start(element: HTMLElement, token: string, span: number): void;
-            isOn: () => boolean;
-        }
-        const fullscreenEnabled: any;
-        const requestFullscreen: (dom?: Element) => void;
-        const exitFullscreen: () => void;
-        type Attributes = Record<string, string | number | boolean>;
-        type Styles = Partial<CSSStyleDeclaration>;
-        type Events = {
-            [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
-        };
-        interface ElementOptions {
-            text?: string;
-            attributes?: Attributes;
-            children?: HTMLElement[];
-            styles?: Styles;
-            events?: Events;
-        }
-        interface CreateElementArguments<T extends HtmlTag> extends ElementOptions {
-            tag: T;
-        }
-        type HtmlTag = keyof HTMLElementTagNameMap;
-        const setOptions: <T extends HTMLElement>(element: T, options?: ElementOptions) => T;
-        const createElement: <T extends HtmlTag>(element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => HTMLElementTagNameMap[T];
-        const removeAllChildren: <ParentT extends HTMLElement>(parent: ParentT) => ParentT;
-        const appendChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
-        const replaceChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
-        const appendChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
-        const replaceChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
-        const getElementsByClassName: <T extends HtmlTag>(tag: T, className: string) => HTMLElementTagNameMap[T][];
-        const querySelectorAllWithFallback: <T extends HtmlTag>(tag: T, selectorss: string[]) => HTMLElementTagNameMap[T][];
-        const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];
-        const querySelector: <T extends HtmlTag>(tag: T, selectors: string) => HTMLElementTagNameMap[T];
-    }
-}
-declare module "script/fps" {
-    export namespace Fps {
-        interface FpsHistoryEntry {
-            fps: number;
-            now: number;
-            text: string;
-        }
-        export let currentMaxFps: FpsHistoryEntry;
-        export let currentNowFps: FpsHistoryEntry;
-        export let currentMinFps: FpsHistoryEntry;
-        export let fuseFps: number;
-        export let isValid: boolean;
-        export const reset: () => void;
-        export const step: (now: number) => void;
-        export const getText: () => string;
-        export const isUnderFuseFps: () => boolean;
-        export {};
-    }
-}
-declare module "script/locale" {
+declare module "script/library/locale" {
     import localeEn from "resource/lang.en";
     import localeJa from "resource/lang.ja";
     export namespace Locale {
@@ -195,6 +79,189 @@ declare module "script/locale" {
         type KeyType = keyof typeof localeEn & keyof typeof localeJa;
         type Type = keyof typeof master;
         const map: (key: KeyType) => string;
+    }
+}
+declare module "script/library/ui" {
+    export namespace UI {
+        const showPickerOnLabel: (label: HTMLLabelElement) => void;
+        class ToggleClassForWhileTimer {
+            timer: number | undefined;
+            constructor();
+            start(element: HTMLElement, token: string, span: number): void;
+            isOn: () => boolean;
+        }
+        const fullscreenEnabled: any;
+        const requestFullscreen: (dom?: Element) => void;
+        const exitFullscreen: () => void;
+        type Attributes = Record<string, string | number | boolean>;
+        type Styles = Partial<CSSStyleDeclaration>;
+        type Events = {
+            [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
+        };
+        interface ElementOptions {
+            text?: string;
+            attributes?: Attributes;
+            children?: HTMLElement[];
+            styles?: Styles;
+            events?: Events;
+        }
+        interface CreateElementArguments<T extends HtmlTag> extends ElementOptions {
+            tag: T;
+        }
+        type HtmlTag = keyof HTMLElementTagNameMap;
+        const setOptions: <T extends HTMLElement>(element: T, options?: ElementOptions) => T;
+        const createElement: <T extends HtmlTag>(element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => HTMLElementTagNameMap[T];
+        const removeAllChildren: <ParentT extends HTMLElement>(parent: ParentT) => ParentT;
+        const appendChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
+        const replaceChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
+        const appendChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
+        const replaceChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
+        const getElementsByClassName: <T extends HtmlTag>(tag: T, className: string) => HTMLElementTagNameMap[T][];
+        const querySelectorAllWithFallback: <T extends HtmlTag>(tag: T, selectorss: string[]) => HTMLElementTagNameMap[T][];
+        const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];
+        const querySelector: <T extends HtmlTag>(tag: T, selectors: string) => HTMLElementTagNameMap[T];
+    }
+}
+declare module "script/library/control" {
+    export namespace Control {
+        interface ArgumentsBaseDom<T extends HTMLElement> {
+            dom: T;
+        }
+        interface ArgumentsBaseId {
+            id: string;
+        }
+        type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
+        const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
+        interface ButtonArgumentsBase<T extends HTMLElement> {
+            click: (event: Event, select: Button<T>) => unknown;
+        }
+        type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
+        class Button<T extends HTMLElement> {
+            data: ButtonArguments<T>;
+            dom: T;
+            constructor(data: ButtonArguments<T>);
+        }
+        interface SelectArgumentsBase<T> {
+            enum: T[];
+            default: T;
+        }
+        interface SelectOptions<T> {
+            makeLabel?: (value: T) => string;
+            change?: (event: Event | null, select: Select<T>) => unknown;
+            preventOnChangeWhenNew?: boolean;
+        }
+        const preventOnChange: "preventOnChange";
+        type SelectArguments<T> = ArgumentsBase<HTMLSelectElement> & SelectArgumentsBase<T>;
+        class Select<T> {
+            data: SelectArguments<T>;
+            options?: SelectOptions<T> | undefined;
+            dom: HTMLSelectElement;
+            constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
+            switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") => void;
+            get: () => string;
+        }
+        interface CheckboxArgumentsBase {
+            default?: boolean;
+        }
+        interface CheckboxOptions {
+            change?: (event: Event | null, checked: Checkbox) => unknown;
+            preventOnChangeWhenNew?: boolean;
+        }
+        type CheckboxArguments = ArgumentsBase<HTMLInputElement> & CheckboxArgumentsBase;
+        class Checkbox {
+            data: CheckboxArguments;
+            options?: CheckboxOptions | undefined;
+            dom: HTMLInputElement;
+            constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
+            toggle: (checked?: boolean, preventOnChange?: "preventOnChange") => void;
+            get: () => boolean;
+        }
+    }
+}
+declare module "script/library/shortcuts" {
+    import shortcuts from "resource/shortcuts";
+    export namespace Shortcuts {
+        type CommandKey = Exclude<(typeof shortcuts)[number]["onKeyDown"] | (typeof shortcuts)[number]["onKeyUp"], undefined>;
+        type CommandMap = {
+            [key in Shortcuts.CommandKey]-?: () => void;
+        };
+        const getDisplayList: () => {
+            keys: string[];
+            description: string;
+        }[];
+        const handleKeyEvent: (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) => void;
+        const setCommandMap: (commandMap: CommandMap) => void;
+    }
+}
+declare module "script/library/index" {
+    import * as ImportedLocale from "script/library/locale";
+    import * as ImportedUI from "script/library/ui";
+    import * as ImportedControl from "script/library/control";
+    import * as ImportedShortcuts from "script/library/shortcuts";
+    export namespace Library {
+        export import Locale = ImportedLocale.Locale;
+        export import UI = ImportedUI.UI;
+        export import Control = ImportedControl.Control;
+        export import Shortcuts = ImportedShortcuts.Shortcuts;
+    }
+}
+declare module "script/tools/number" {
+    export namespace Number {
+        const toString: (value: number, maximumFractionDigits?: number) => string;
+    }
+}
+declare module "script/tools/timespan" {
+    export namespace Timespan {
+        const toDisplayString: (value: number, maximumFractionDigits?: number) => string;
+    }
+}
+declare module "script/tools/math" {
+    export namespace Math {
+        const scale: (min: number, max: number) => (r: number) => number;
+    }
+}
+declare module "script/tools/random" {
+    export namespace Random {
+        const makeInteger: (size: number) => number;
+        const select: <T>(list: T[]) => T;
+    }
+}
+declare module "script/tools/array" {
+    export namespace Array {
+        const cycleSelect: <T>(list: T[], ix: number) => T;
+    }
+}
+declare module "script/tools/index" {
+    import * as ImportedNumber from "script/tools/number";
+    import * as ImportedTimespan from "script/tools/timespan";
+    import * as ImportedMath from "script/tools/math";
+    import * as ImportedRandom from "script/tools/random";
+    import * as ImportedArray from "script/tools/array";
+    export namespace Tools {
+        export import Number = ImportedNumber.Number;
+        export import Timespan = ImportedTimespan.Timespan;
+        export import Math = ImportedMath.Math;
+        export import Random = ImportedRandom.Random;
+        export import Array = ImportedArray.Array;
+    }
+}
+declare module "script/fps" {
+    export namespace Fps {
+        interface FpsHistoryEntry {
+            fps: number;
+            now: number;
+            text: string;
+        }
+        export let currentMaxFps: FpsHistoryEntry;
+        export let currentNowFps: FpsHistoryEntry;
+        export let currentMinFps: FpsHistoryEntry;
+        export let fuseFps: number;
+        export let isValid: boolean;
+        export const reset: () => void;
+        export const step: (now: number) => void;
+        export const getText: () => string;
+        export const isUnderFuseFps: () => boolean;
+        export {};
     }
 }
 declare module "flounder.style.js/evil-type.ts/common/evil-type" {
@@ -471,46 +538,6 @@ declare module "flounder.style.js/index" {
         const selectClosestAngleDirection: (directions: OffsetCoefficientDirection[], angle: Type.DirectionAngle) => OffsetCoefficientDirection;
     }
 }
-declare module "script/tools/number" {
-    export namespace Number {
-        const toString: (value: number, maximumFractionDigits?: number) => string;
-    }
-}
-declare module "script/tools/timespan" {
-    export namespace Timespan {
-        const toDisplayString: (value: number, maximumFractionDigits?: number) => string;
-    }
-}
-declare module "script/tools/math" {
-    export namespace Math {
-        const scale: (min: number, max: number) => (r: number) => number;
-    }
-}
-declare module "script/tools/random" {
-    export namespace Random {
-        const makeInteger: (size: number) => number;
-        const select: <T>(list: T[]) => T;
-    }
-}
-declare module "script/tools/array" {
-    export namespace Array {
-        const cycleSelect: <T>(list: T[], ix: number) => T;
-    }
-}
-declare module "script/tools/index" {
-    import * as ImportedNumber from "script/tools/number";
-    import * as ImportedTimespan from "script/tools/timespan";
-    import * as ImportedMath from "script/tools/math";
-    import * as ImportedRandom from "script/tools/random";
-    import * as ImportedArray from "script/tools/array";
-    export namespace Tools {
-        export import Number = ImportedNumber.Number;
-        export import Timespan = ImportedTimespan.Timespan;
-        export import Math = ImportedMath.Math;
-        export import Random = ImportedRandom.Random;
-        export import Array = ImportedArray.Array;
-    }
-}
 declare module "script/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
     import control from "resource/control";
@@ -563,21 +590,6 @@ declare module "script/animation" {
             updateEasing: (enabled: boolean) => void;
         }
         export {};
-    }
-}
-declare module "script/shortcuts" {
-    import shortcuts from "resource/shortcuts";
-    export namespace Shortcuts {
-        type CommandKey = Exclude<(typeof shortcuts)[number]["onKeyDown"] | (typeof shortcuts)[number]["onKeyUp"], undefined>;
-        type CommandMap = {
-            [key in Shortcuts.CommandKey]-?: () => void;
-        };
-        const getDisplayList: () => {
-            keys: string[];
-            description: string;
-        }[];
-        const handleKeyEvent: (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) => void;
-        const setCommandMap: (commandMap: CommandMap) => void;
     }
 }
 declare module "script/index" { }

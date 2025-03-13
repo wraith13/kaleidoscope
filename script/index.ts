@@ -1,17 +1,14 @@
-import { Control } from "./control";
-import { UI } from "./ui";
+import { Library } from "@library";
+import { Tools } from "@tools";
 import { Fps } from "./fps";
-import { Locale } from "./locale";
 import { Animation } from "./animation";
-import { Shortcuts } from "./shortcuts";
-import { Tools } from "./tools";
 import control from "@resource/control.json";
 import config from "@resource/config.json";
 import poweredBy from "@resource/powered-by.json";
-const screenBody = UI.getElementById("div", "screen-body");
-const canvas = UI.getElementById("div", "canvas");
+const screenBody = Library.UI.getElementById("div", "screen-body");
+const canvas = Library.UI.getElementById("div", "canvas");
 const animator = new Animation.Animator(canvas);
-const topCoat = UI.getElementById("div", "top-coat");
+const topCoat = Library.UI.getElementById("div", "top-coat");
 const isInAnimation = () => document.body.classList.contains("immersive");
 const playAnimation = () =>
 {
@@ -73,7 +70,7 @@ const updateEasing = () =>
     update();
 };
 //const playButton =
-new Control.Button
+new Library.Control.Button
 ({
     id:"play-button",
     click: (event, button) =>
@@ -83,82 +80,82 @@ new Control.Button
         playOrPauseAnimation();
     }
 });
-const patternSelect = new Control.Select
+const patternSelect = new Library.Control.Select
 (
     control.pattern,
     { change: () => updatePattern(), }
 );
-const coloringSelect = new Control.Select
+const coloringSelect = new Library.Control.Select
 (
     control.coloring,
     { change: () => updateColoring(), }
 );
-const canvasSizeSelect = new Control.Select
+const canvasSizeSelect = new Library.Control.Select
 (
     control.canvasSize,
     { makeLabel: i => `${i} %`, change: () => updateCanvasSize(), }
 );
-const layersSelect = new Control.Select
+const layersSelect = new Library.Control.Select
 (
     control.layers,
     { change: () => updateLayers(), }
 );
-const cycleSpanSelect = new Control.Select
+const cycleSpanSelect = new Library.Control.Select
 (
     control.cycleSpan,
     { makeLabel: Tools.Timespan.toDisplayString, change: () => updateCycleSpan(), }
 );
-const fuseFpsSelect = new Control.Select
+const fuseFpsSelect = new Library.Control.Select
 (
     control.fuseFps,
     { change: () => updateFuseFps(), }
 );
-const easingCheckbox = new Control.Checkbox(control.easing);
-const withFullscreen = new Control.Checkbox(control.withFullscreen);
-if ( ! UI.fullscreenEnabled && withFullscreen.dom.parentElement)
+const easingCheckbox = new Library.Control.Checkbox(control.easing);
+const withFullscreen = new Library.Control.Checkbox(control.withFullscreen);
+if ( ! Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement)
 {
     withFullscreen.dom.parentElement.style.setProperty("display", "none");
 }
-const showFPS = new Control.Checkbox(control.showFPS);
-const fpsElement = UI.getElementById("div", "fps");
-UI.replaceChildren
+const showFPS = new Library.Control.Checkbox(control.showFPS);
+const fpsElement = Library.UI.getElementById("div", "fps");
+Library.UI.replaceChildren
 (
-    UI.getElementById("div", "keyboard-shortcut"),
-    Shortcuts.getDisplayList().map
+    Library.UI.getElementById("div", "keyboard-shortcut"),
+    Library.Shortcuts.getDisplayList().map
     (
         i =>
         [
-            { tag: "span", children: i.keys.map(key => UI.createElement({ tag: "kbd", text: key })) } as const,
-            { tag: "span", text: Locale.map(i.description as Locale.KeyType), } as const,
+            { tag: "span", children: i.keys.map(key => Library.UI.createElement({ tag: "kbd", text: key })) } as const,
+            { tag: "span", text: Library.Locale.map(i.description as Library.Locale.KeyType), } as const,
         ]
     )
     .reduce((a, b) => a.concat(b), [])
 );
-UI.replaceChildren
+Library.UI.replaceChildren
 (
-    UI.querySelector("ul", "#powered-by ul"),
+    Library.UI.querySelector("ul", "#powered-by ul"),
     Object.entries(poweredBy).map
     (
-        ([ text, href, ]) => ({ tag: "li", children: [ UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
+        ([ text, href, ]) => ({ tag: "li", children: [ Library.UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
     )
 );
-UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
-UI.replaceChildren
+Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
+Library.UI.replaceChildren
 (
-    UI.getElementById("ul", "information-list"),
-    config.informations.map(i => ({ tag: "li", text: Locale.map(<Locale.KeyType>i), }))
+    Library.UI.getElementById("ul", "information-list"),
+    config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.KeyType>i), }))
 );
 const updateFullscreenState = (fullscreen?: boolean) =>
 {
-    if (UI.fullscreenEnabled)
+    if (Library.UI.fullscreenEnabled)
     {
         if (fullscreen ?? withFullscreen.get())
         {
-            UI.requestFullscreen(document.body);
+            Library.UI.requestFullscreen(document.body);
         }
         else
         {
-            UI.exitFullscreen();
+            Library.UI.exitFullscreen();
         }
     }
 };
@@ -208,7 +205,7 @@ topCoat.addEventListener
         }
     }
 );
-const mousemoveTimer = new UI.ToggleClassForWhileTimer();
+const mousemoveTimer = new Library.UI.ToggleClassForWhileTimer();
 screenBody.addEventListener
 (
     "mousemove",
@@ -228,11 +225,11 @@ updateEasing();
 updateLayers();
 updateCycleSpan();
 updateFuseFps();
-UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]" ])
-    .forEach(label => UI.showPickerOnLabel(label));
-UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
-    .forEach(i => i.innerText = Locale.map(i.getAttribute("data-lang-key") as Locale.KeyType));
-Shortcuts.setCommandMap
+Library.UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]" ])
+    .forEach(label => Library.UI.showPickerOnLabel(label));
+    Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
+    .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.KeyType));
+    Library.Shortcuts.setCommandMap
 ({
     "nop": () => { },
     "toggleHideUI": () => document.body.classList.toggle("hide-ui"),
@@ -268,4 +265,4 @@ interface BuildInformation
     tick: number;
 }
 declare var build: BuildInformation;
-console.log(`📦 BUILD AT: ${build.at} ( ${Tools.Timespan.toDisplayString(new Date().getTime() -build.tick, 1)} ${Locale.map("ago")} )`);
+console.log(`📦 BUILD AT: ${build.at} ( ${Tools.Timespan.toDisplayString(new Date().getTime() -build.tick, 1)} ${Library.Locale.map("ago")} )`);

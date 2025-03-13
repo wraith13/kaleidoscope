@@ -33,6 +33,8 @@
         "outFile": "index.js",
         "paths": {
             "@resource/*": [ "../resource/*" ],
+            "@library": [ "./library" ],
+            "@tools": [ "./tools" ],
             "@script/*": [ "../script/*" ],
             "flounder.style.js": [ "../flounder.style.js" ],
             "phi-colors": [ "../phi-colors/library/source" ]
