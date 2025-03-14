@@ -542,13 +542,6 @@ declare module "script/features/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
     import control from "resource/control";
     export namespace Animation {
-        type IntervalSize = Exclude<FlounderStyle.Type.Arguments["intervalSize"], undefined>;
-        interface Layer {
-            layer: HTMLDivElement;
-            mile: number;
-            offset: number;
-            arguments: FlounderStyle.Type.Arguments | undefined;
-        }
         export class PhiColoring {
             hue: number;
             hueUnit: number;
@@ -559,6 +552,12 @@ declare module "script/features/animation" {
             s: number;
             l: number;
             makeColor: (step: number) => FlounderStyle.Type.HexColor;
+        }
+        interface Layer {
+            layer: HTMLDivElement;
+            mile: number;
+            offset: number;
+            arguments: FlounderStyle.Type.Arguments | undefined;
         }
         export class Animator {
             canvas: HTMLDivElement;
@@ -574,7 +573,6 @@ declare module "script/features/animation" {
             easing: (t: number) => number;
             argumentHistory: FlounderStyle.Type.Arguments[];
             startStep: (now: number) => number;
-            getPatterns: () => ((intervalSize: IntervalSize) => FlounderStyle.Type.Arguments)[];
             makeRandomArguments: () => FlounderStyle.Type.Arguments;
             getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
             getForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
@@ -582,12 +580,13 @@ declare module "script/features/animation" {
             getStep: (universalStep: number, layer: Layer) => number;
             step: (now: number) => void;
             update: () => void;
-            updatePattern: (newPattern: (typeof control.pattern.enum)[number]) => string;
-            updateColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
-            updateDiagonalSize: () => void;
-            updateCycleSpan: (newCycleSpan: number) => void;
-            updateLayers: (newLayers: number) => void;
-            updateEasing: (enabled: boolean) => void;
+            setPattern: (newPattern: (typeof control.pattern.enum)[number]) => string;
+            setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
+            adjustPatternSize: (i: FlounderStyle.Type.Arguments | undefined, fixRate: number) => void;
+            setDiagonalSize: () => void;
+            setCycleSpan: (newCycleSpan: number) => void;
+            setLayers: (newLayers: number) => void;
+            setEasing: (enabled: boolean) => void;
         }
         export {};
     }

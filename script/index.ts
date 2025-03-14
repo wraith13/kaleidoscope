@@ -34,18 +34,18 @@ const playOrPauseAnimation = () =>
     isInAnimation() ? pauseAnimation(): playAnimation();
 const updateDiagonalSize = () =>
 {
-    animator.updateDiagonalSize();
+    animator.setDiagonalSize();
     update();
 };
 const updatePattern = (): unknown =>
-    animator.updatePattern(patternSelect.get());
+    animator.setPattern(patternSelect.get());
 const updateColoring = () =>
 {
-    animator.updateColoring(coloringSelect.get());
+    animator.setColoring(coloringSelect.get());
 };
 const updateLayers = (): void =>
 {
-    animator.updateLayers(parseInt(layersSelect.get()));
+    animator.setLayers(parseInt(layersSelect.get()));
     update();
 };
 const updateCanvasSize = () =>
@@ -60,12 +60,12 @@ const updateCanvasSize = () =>
     updateDiagonalSize();
 };
 const updateCycleSpan = (): void =>
-    animator.updateCycleSpan(parseInt(cycleSpanSelect.get()));
+    animator.setCycleSpan(parseInt(cycleSpanSelect.get()));
 const updateFuseFps = (): number =>
     Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
 const updateEasing = () =>
 {
-    animator.updateEasing(easingCheckbox.get());
+    animator.setEasing(easingCheckbox.get());
     update();
 };
 //const playButton =

@@ -6,48 +6,72 @@ import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
 {
-    type IntervalSize = Exclude<FlounderStyle.Type.Arguments["intervalSize"], undefined>;
-    const makeRandomSpotArguments = (type: FlounderStyle.Type.SpotArguments["type"], intervalSize: IntervalSize): FlounderStyle.Type.SpotArguments =>
-    ({
-        type,
-        layoutAngle: Tools.Random.select([ "regular", "alternative", ]),
-        foregroundColor: "forestgreen",
-        backgroundColor: "blanchedalmond",
-        intervalSize,
-        depth: 0.0,
-        maxPatternSize: Tools.Random.select([ undefined, intervalSize /4, ]),
-        reverseRate: Tools.Random.select([ undefined, 0.0, ]),
-        maximumFractionDigits: config.maximumFractionDigits,
-    });
-    const makeRandomTrispotArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
-        makeRandomSpotArguments("trispot", intervalSize);
-    const makeRandomTetraspotArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
-        makeRandomSpotArguments("tetraspot", intervalSize);
-    const makeRandomLineArguments = (type: FlounderStyle.Type.LineArguments["type"], intervalSize: IntervalSize): FlounderStyle.Type.LineArguments =>
-    ({
-        type,
-        layoutAngle: Math.random(),
-        foregroundColor: "forestgreen",
-        backgroundColor: "blanchedalmond",
-        intervalSize,
-        depth: 0.0,
-        maxPatternSize: Tools.Random.select([ undefined, intervalSize /(2 +Tools.Random.makeInteger(9)), ]),
-        reverseRate: Tools.Random.select([ undefined, 0.0, ]),
-        anglePerDepth: Tools.Random.select([ undefined, "auto", "-auto", 1,0, -1.0, ]),
-        maximumFractionDigits: config.maximumFractionDigits,
-    });
-    const makeRandomStripeArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
-        makeRandomLineArguments("stripe", intervalSize);
-    const makeRandomDilineArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
-        makeRandomLineArguments("diline", intervalSize);
-    const makeRandomTrilineArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
-        makeRandomLineArguments("triline", intervalSize);
-    interface Layer
+    namespace Pattern
     {
-        layer: HTMLDivElement;
-        mile: number;
-        offset: number;
-        arguments: FlounderStyle.Type.Arguments | undefined;
+        export type IntervalSize = Exclude<FlounderStyle.Type.Arguments["intervalSize"], undefined>;
+        const makeRandomSpotArguments = (type: FlounderStyle.Type.SpotArguments["type"], intervalSize: IntervalSize): FlounderStyle.Type.SpotArguments =>
+        ({
+            type,
+            layoutAngle: Tools.Random.select([ "regular", "alternative", ]),
+            foregroundColor: "forestgreen",
+            backgroundColor: "blanchedalmond",
+            intervalSize,
+            depth: 0.0,
+            maxPatternSize: Tools.Random.select([ undefined, intervalSize /4, ]),
+            reverseRate: Tools.Random.select([ undefined, 0.0, ]),
+            maximumFractionDigits: config.maximumFractionDigits,
+        });
+        const makeRandomTrispotArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
+            makeRandomSpotArguments("trispot", intervalSize);
+        const makeRandomTetraspotArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
+            makeRandomSpotArguments("tetraspot", intervalSize);
+        const makeRandomLineArguments = (type: FlounderStyle.Type.LineArguments["type"], intervalSize: IntervalSize): FlounderStyle.Type.LineArguments =>
+        ({
+            type,
+            layoutAngle: Math.random(),
+            foregroundColor: "forestgreen",
+            backgroundColor: "blanchedalmond",
+            intervalSize,
+            depth: 0.0,
+            maxPatternSize: Tools.Random.select([ undefined, intervalSize /(2 +Tools.Random.makeInteger(9)), ]),
+            reverseRate: Tools.Random.select([ undefined, 0.0, ]),
+            anglePerDepth: Tools.Random.select([ undefined, "auto", "-auto", 1,0, -1.0, ]),
+            maximumFractionDigits: config.maximumFractionDigits,
+        });
+        const makeRandomStripeArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
+            makeRandomLineArguments("stripe", intervalSize);
+        const makeRandomDilineArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
+            makeRandomLineArguments("diline", intervalSize);
+        const makeRandomTrilineArguments = (intervalSize: IntervalSize): FlounderStyle.Type.Arguments =>
+            makeRandomLineArguments("triline", intervalSize);
+        const getList = (pattern: typeof control.pattern.enum[number]): ((intervalSize: IntervalSize) => FlounderStyle.Type.Arguments)[] =>
+        {
+            switch(pattern)
+            {
+                case "lines":
+                    return [
+                        makeRandomStripeArguments,
+                        makeRandomDilineArguments,
+                        makeRandomTrilineArguments,
+                    ];
+                case "spots":
+                    return [
+                        makeRandomTrispotArguments,
+                        makeRandomTetraspotArguments,
+                    ];
+                case "multi":
+                default:
+                    return [
+                        makeRandomStripeArguments,
+                        makeRandomDilineArguments,
+                        makeRandomTrilineArguments,
+                        makeRandomTrispotArguments,
+                        makeRandomTetraspotArguments,
+                    ];
+            }
+        };
+        export const make = (pattern: typeof control.pattern.enum[number], intervalSize: IntervalSize) =>
+            Tools.Random.select(getList(pattern))(intervalSize);
     }
     export class PhiColoring
     {
@@ -83,6 +107,13 @@ export namespace Animation
                 )
             );
     }
+    interface Layer
+    {
+        layer: HTMLDivElement;
+        mile: number;
+        offset: number;
+        arguments: FlounderStyle.Type.Arguments | undefined;
+    }
     export class Animator
     {
         layers: Layer[] = [];
@@ -99,36 +130,11 @@ export namespace Animation
         argumentHistory: FlounderStyle.Type.Arguments[] = [];
         public startStep = (now: number) =>
             this.startAt = now -this.offsetAt;
-        getPatterns = (): ((intervalSize: IntervalSize) => FlounderStyle.Type.Arguments)[] =>
-        {
-            switch(this.pattern)
-            {
-                case "lines":
-                    return [
-                        makeRandomStripeArguments,
-                        makeRandomDilineArguments,
-                        makeRandomTrilineArguments,
-                    ];
-                case "spots":
-                    return [
-                        makeRandomTrispotArguments,
-                        makeRandomTetraspotArguments,
-                    ];
-                case "multi":
-                default:
-                    return [
-                        makeRandomStripeArguments,
-                        makeRandomDilineArguments,
-                        makeRandomTrilineArguments,
-                        makeRandomTrispotArguments,
-                        makeRandomTetraspotArguments,
-                    ];
-            }
-        };
         makeRandomArguments = (): FlounderStyle.Type.Arguments =>
         {
-            const result = Tools.Random.select(this.getPatterns())
+            const result = Pattern.make
             (
+                this.pattern,
                 Tools.Math.scale
                 (
                     this.diagonalSize *config.intervalSize.minRate,
@@ -151,11 +157,11 @@ export namespace Animation
                 return (mile: number, _offset: number, _ix: number) =>
                     Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
             case "primary-colors":
-                return  (mile: number, _offset: number, ix: number) =>
+                return (mile: number, _offset: number, ix: number) =>
                     Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);
             case "phi-colors":
             default:
-                return  (mile: number, offset: number, _ix: number) =>
+                return (mile: number, offset: number, _ix: number) =>
                     this.phiColoring.makeColor(mile +offset +1.0);
             }
         };
@@ -198,7 +204,7 @@ export namespace Animation
                                 this.layers[ix -1]?.arguments ?? this.makeRandomArguments(),
                                 {
                                     foregroundColor: this.getForegroundColor(i.mile, i.offset, ix),
-                                    backgroundColor: this.getBackgroundColor(i.mile, i.offset, ix),
+                                    backgroundColor: i.arguments?.foregroundColor ?? this.getBackgroundColor(i.mile, i.offset, ix),
                                 }
                             );
                         }
@@ -210,45 +216,45 @@ export namespace Animation
         }
         update = () =>
             this.step(this.startAt +this.offsetAt);
-        updatePattern = (newPattern: typeof control.pattern.enum[number]) =>
+        setPattern = (newPattern: typeof control.pattern.enum[number]) =>
             this.pattern = newPattern;
-        updateColoring = (coloring: typeof control.coloring.enum[number]) =>
+        setColoring = (coloring: typeof control.coloring.enum[number]) =>
             this.getForegroundColor = this.getNextColorMaker(coloring);
-        updateDiagonalSize = () =>
+        adjustPatternSize = (i: FlounderStyle.Type.Arguments | undefined, fixRate: number) =>
+        {
+            if (undefined !== i?.intervalSize)
+            {
+                i.intervalSize *= fixRate;
+                if (undefined !== i.maxPatternSize)
+                {
+                    i.maxPatternSize *= fixRate;
+                }
+            }
+        };
+        setDiagonalSize = () =>
         {
             const newDiagonalSize = this.getDiagonalSize();
             const fixRate = newDiagonalSize /this.diagonalSize;
             this.diagonalSize = newDiagonalSize;
-            this.layers.forEach
-            (
-                i =>
-                {
-                    if (undefined !== i.arguments?.intervalSize)
+            this.layers
+                .map(i => i.arguments)
+                .concat(this.argumentHistory)
+                .forEach
+                (
+                    i =>
                     {
-                        i.arguments.intervalSize *= fixRate;
-                        if (undefined !== i.arguments.maxPatternSize)
+                        if (undefined !== i?.intervalSize)
                         {
-                            i.arguments.maxPatternSize *= fixRate;
+                            i.intervalSize *= fixRate;
+                            if (undefined !== i.maxPatternSize)
+                            {
+                                i.maxPatternSize *= fixRate;
+                            }
                         }
                     }
-                }
-            );
-            this.argumentHistory.forEach
-            (
-                i =>
-                {
-                    if (undefined !== i.intervalSize)
-                    {
-                        i.intervalSize *= fixRate;
-                        if (undefined !== i.maxPatternSize)
-                        {
-                            i.maxPatternSize *= fixRate;
-                        }
-                    }
-                }
-            );
+                );
         };
-        updateCycleSpan = (newCycleSpan: number) =>
+        setCycleSpan = (newCycleSpan: number) =>
         {
             const fixRate = newCycleSpan /this.cycleSpan;
             const now = performance.now();
@@ -256,7 +262,7 @@ export namespace Animation
             this.startStep(now);
             this.cycleSpan = newCycleSpan;
         };
-        updateLayers = (newLayers: number) =>
+        setLayers = (newLayers: number) =>
         {
             const oldLayerList = Library.UI.getElementsByClassName("div", "layer");
             if (oldLayerList.length < newLayers)
@@ -304,7 +310,7 @@ export namespace Animation
                 )
             );
         };
-        updateEasing = (enabled: boolean) =>
+        setEasing = (enabled: boolean) =>
         {
             this.easing = enabled ?
                 (t: number) => t <= 0.5 ?

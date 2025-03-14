@@ -2114,48 +2114,78 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
     config_json_3 = __importDefault(config_json_3);
     var Animation;
     (function (Animation) {
-        var makeRandomSpotArguments = function (type, intervalSize) {
-            return ({
-                type: type,
-                layoutAngle: _tools_1.Tools.Random.select(["regular", "alternative",]),
-                foregroundColor: "forestgreen",
-                backgroundColor: "blanchedalmond",
-                intervalSize: intervalSize,
-                depth: 0.0,
-                maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / 4,]),
-                reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
-                maximumFractionDigits: config_json_3.default.maximumFractionDigits,
-            });
-        };
-        var makeRandomTrispotArguments = function (intervalSize) {
-            return makeRandomSpotArguments("trispot", intervalSize);
-        };
-        var makeRandomTetraspotArguments = function (intervalSize) {
-            return makeRandomSpotArguments("tetraspot", intervalSize);
-        };
-        var makeRandomLineArguments = function (type, intervalSize) {
-            return ({
-                type: type,
-                layoutAngle: Math.random(),
-                foregroundColor: "forestgreen",
-                backgroundColor: "blanchedalmond",
-                intervalSize: intervalSize,
-                depth: 0.0,
-                maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / (2 + _tools_1.Tools.Random.makeInteger(9)),]),
-                reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
-                anglePerDepth: _tools_1.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
-                maximumFractionDigits: config_json_3.default.maximumFractionDigits,
-            });
-        };
-        var makeRandomStripeArguments = function (intervalSize) {
-            return makeRandomLineArguments("stripe", intervalSize);
-        };
-        var makeRandomDilineArguments = function (intervalSize) {
-            return makeRandomLineArguments("diline", intervalSize);
-        };
-        var makeRandomTrilineArguments = function (intervalSize) {
-            return makeRandomLineArguments("triline", intervalSize);
-        };
+        var Pattern;
+        (function (Pattern) {
+            var makeRandomSpotArguments = function (type, intervalSize) {
+                return ({
+                    type: type,
+                    layoutAngle: _tools_1.Tools.Random.select(["regular", "alternative",]),
+                    foregroundColor: "forestgreen",
+                    backgroundColor: "blanchedalmond",
+                    intervalSize: intervalSize,
+                    depth: 0.0,
+                    maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / 4,]),
+                    reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
+                    maximumFractionDigits: config_json_3.default.maximumFractionDigits,
+                });
+            };
+            var makeRandomTrispotArguments = function (intervalSize) {
+                return makeRandomSpotArguments("trispot", intervalSize);
+            };
+            var makeRandomTetraspotArguments = function (intervalSize) {
+                return makeRandomSpotArguments("tetraspot", intervalSize);
+            };
+            var makeRandomLineArguments = function (type, intervalSize) {
+                return ({
+                    type: type,
+                    layoutAngle: Math.random(),
+                    foregroundColor: "forestgreen",
+                    backgroundColor: "blanchedalmond",
+                    intervalSize: intervalSize,
+                    depth: 0.0,
+                    maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / (2 + _tools_1.Tools.Random.makeInteger(9)),]),
+                    reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
+                    anglePerDepth: _tools_1.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
+                    maximumFractionDigits: config_json_3.default.maximumFractionDigits,
+                });
+            };
+            var makeRandomStripeArguments = function (intervalSize) {
+                return makeRandomLineArguments("stripe", intervalSize);
+            };
+            var makeRandomDilineArguments = function (intervalSize) {
+                return makeRandomLineArguments("diline", intervalSize);
+            };
+            var makeRandomTrilineArguments = function (intervalSize) {
+                return makeRandomLineArguments("triline", intervalSize);
+            };
+            var getList = function (pattern) {
+                switch (pattern) {
+                    case "lines":
+                        return [
+                            makeRandomStripeArguments,
+                            makeRandomDilineArguments,
+                            makeRandomTrilineArguments,
+                        ];
+                    case "spots":
+                        return [
+                            makeRandomTrispotArguments,
+                            makeRandomTetraspotArguments,
+                        ];
+                    case "multi":
+                    default:
+                        return [
+                            makeRandomStripeArguments,
+                            makeRandomDilineArguments,
+                            makeRandomTrilineArguments,
+                            makeRandomTrispotArguments,
+                            makeRandomTetraspotArguments,
+                        ];
+                }
+            };
+            Pattern.make = function (pattern, intervalSize) {
+                return _tools_1.Tools.Random.select(getList(pattern))(intervalSize);
+            };
+        })(Pattern || (Pattern = {}));
         var PhiColoring = /** @class */ (function () {
             function PhiColoring(hue, saturation, lightness, hueUnit) {
                 if (hue === void 0) { hue = Math.random(); }
@@ -2200,32 +2230,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.startStep = function (now) {
                     return _this.startAt = now - _this.offsetAt;
                 };
-                this.getPatterns = function () {
-                    switch (_this.pattern) {
-                        case "lines":
-                            return [
-                                makeRandomStripeArguments,
-                                makeRandomDilineArguments,
-                                makeRandomTrilineArguments,
-                            ];
-                        case "spots":
-                            return [
-                                makeRandomTrispotArguments,
-                                makeRandomTetraspotArguments,
-                            ];
-                        case "multi":
-                        default:
-                            return [
-                                makeRandomStripeArguments,
-                                makeRandomDilineArguments,
-                                makeRandomTrilineArguments,
-                                makeRandomTrispotArguments,
-                                makeRandomTetraspotArguments,
-                            ];
-                    }
-                };
                 this.makeRandomArguments = function () {
-                    var result = _tools_1.Tools.Random.select(_this.getPatterns())(_tools_1.Tools.Math.scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
+                    var result = Pattern.make(_this.pattern, _tools_1.Tools.Math.scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
                     _this.argumentHistory.push(result);
                     if (3 <= _this.argumentHistory.length) {
                         _this.argumentHistory.shift();
@@ -2266,7 +2272,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     _this.offsetAt = now - _this.startAt;
                     var universalStep = _this.offsetAt / _this.cycleSpan;
                     _this.layers.forEach(function (i, ix) {
-                        var _a, _b;
+                        var _a, _b, _c, _d;
                         var step = _this.getStep(universalStep, i);
                         if (0 <= step) {
                             if (1.0 <= step || undefined === i.arguments) {
@@ -2276,7 +2282,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                                 }
                                 i.arguments = Object.assign({}, (_b = (_a = _this.layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : _this.makeRandomArguments(), {
                                     foregroundColor: _this.getForegroundColor(i.mile, i.offset, ix),
-                                    backgroundColor: _this.getBackgroundColor(i.mile, i.offset, ix),
+                                    backgroundColor: (_d = (_c = i.arguments) === null || _c === void 0 ? void 0 : _c.foregroundColor) !== null && _d !== void 0 ? _d : _this.getBackgroundColor(i.mile, i.offset, ix),
                                 });
                             }
                             i.arguments.depth = _this.easing(step);
@@ -2287,27 +2293,29 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.update = function () {
                     return _this.step(_this.startAt + _this.offsetAt);
                 };
-                this.updatePattern = function (newPattern) {
+                this.setPattern = function (newPattern) {
                     return _this.pattern = newPattern;
                 };
-                this.updateColoring = function (coloring) {
+                this.setColoring = function (coloring) {
                     return _this.getForegroundColor = _this.getNextColorMaker(coloring);
                 };
-                this.updateDiagonalSize = function () {
+                this.adjustPatternSize = function (i, fixRate) {
+                    if (undefined !== (i === null || i === void 0 ? void 0 : i.intervalSize)) {
+                        i.intervalSize *= fixRate;
+                        if (undefined !== i.maxPatternSize) {
+                            i.maxPatternSize *= fixRate;
+                        }
+                    }
+                };
+                this.setDiagonalSize = function () {
                     var newDiagonalSize = _this.getDiagonalSize();
                     var fixRate = newDiagonalSize / _this.diagonalSize;
                     _this.diagonalSize = newDiagonalSize;
-                    _this.layers.forEach(function (i) {
-                        var _a;
-                        if (undefined !== ((_a = i.arguments) === null || _a === void 0 ? void 0 : _a.intervalSize)) {
-                            i.arguments.intervalSize *= fixRate;
-                            if (undefined !== i.arguments.maxPatternSize) {
-                                i.arguments.maxPatternSize *= fixRate;
-                            }
-                        }
-                    });
-                    _this.argumentHistory.forEach(function (i) {
-                        if (undefined !== i.intervalSize) {
+                    _this.layers
+                        .map(function (i) { return i.arguments; })
+                        .concat(_this.argumentHistory)
+                        .forEach(function (i) {
+                        if (undefined !== (i === null || i === void 0 ? void 0 : i.intervalSize)) {
                             i.intervalSize *= fixRate;
                             if (undefined !== i.maxPatternSize) {
                                 i.maxPatternSize *= fixRate;
@@ -2315,14 +2323,14 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         }
                     });
                 };
-                this.updateCycleSpan = function (newCycleSpan) {
+                this.setCycleSpan = function (newCycleSpan) {
                     var fixRate = newCycleSpan / _this.cycleSpan;
                     var now = performance.now();
                     _this.offsetAt = _this.offsetAt * fixRate;
                     _this.startStep(now);
                     _this.cycleSpan = newCycleSpan;
                 };
-                this.updateLayers = function (newLayers) {
+                this.setLayers = function (newLayers) {
                     var _a, _b, _c;
                     var oldLayerList = _library_2.Library.UI.getElementsByClassName("div", "layer");
                     if (oldLayerList.length < newLayers) {
@@ -2359,7 +2367,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         });
                     });
                 };
-                this.updateEasing = function (enabled) {
+                this.setEasing = function (enabled) {
                     _this.easing = enabled ?
                         function (t) { return t <= 0.5 ?
                             2 * Math.pow(t, 2) :
@@ -2424,17 +2432,17 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         return isInAnimation() ? pauseAnimation() : playAnimation();
     };
     var updateDiagonalSize = function () {
-        animator.updateDiagonalSize();
+        animator.setDiagonalSize();
         update();
     };
     var updatePattern = function () {
-        return animator.updatePattern(patternSelect.get());
+        return animator.setPattern(patternSelect.get());
     };
     var updateColoring = function () {
-        animator.updateColoring(coloringSelect.get());
+        animator.setColoring(coloringSelect.get());
     };
     var updateLayers = function () {
-        animator.updateLayers(parseInt(layersSelect.get()));
+        animator.setLayers(parseInt(layersSelect.get()));
         update();
     };
     var updateCanvasSize = function () {
@@ -2445,13 +2453,13 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         updateDiagonalSize();
     };
     var updateCycleSpan = function () {
-        return animator.updateCycleSpan(parseInt(cycleSpanSelect.get()));
+        return animator.setCycleSpan(parseInt(cycleSpanSelect.get()));
     };
     var updateFuseFps = function () {
         return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
     };
     var updateEasing = function () {
-        animator.updateEasing(easingCheckbox.get());
+        animator.setEasing(easingCheckbox.get());
         update();
     };
     //const playButton =
