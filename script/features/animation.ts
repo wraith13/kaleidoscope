@@ -220,39 +220,16 @@ export namespace Animation
             this.pattern = newPattern;
         setColoring = (coloring: typeof control.coloring.enum[number]) =>
             this.getForegroundColor = this.getNextColorMaker(coloring);
-        adjustPatternSize = (i: FlounderStyle.Type.Arguments | undefined, fixRate: number) =>
-        {
-            if (undefined !== i?.intervalSize)
-            {
-                i.intervalSize *= fixRate;
-                if (undefined !== i.maxPatternSize)
-                {
-                    i.maxPatternSize *= fixRate;
-                }
-            }
-        };
         setDiagonalSize = () =>
         {
             const newDiagonalSize = this.getDiagonalSize();
             const fixRate = newDiagonalSize /this.diagonalSize;
             this.diagonalSize = newDiagonalSize;
-            this.layers
+            const list = this.layers
                 .map(i => i.arguments)
-                .concat(this.argumentHistory)
-                .forEach
-                (
-                    i =>
-                    {
-                        if (undefined !== i?.intervalSize)
-                        {
-                            i.intervalSize *= fixRate;
-                            if (undefined !== i.maxPatternSize)
-                            {
-                                i.maxPatternSize *= fixRate;
-                            }
-                        }
-                    }
-                );
+                .concat(this.argumentHistory);
+            list.filter(Library.TypeGuards.has("intervalSize")).forEach(i => i.intervalSize *= fixRate);
+            list.filter(Library.TypeGuards.has("maxPatternSize")).forEach(i => i.maxPatternSize *= fixRate);
         };
         setCycleSpan = (newCycleSpan: number) =>
         {

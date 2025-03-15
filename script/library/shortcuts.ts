@@ -28,8 +28,6 @@ export namespace Shortcuts
         code === "Space" ? " ":
         key.length === 1 ? key.toUpperCase():
         key;
-    // const joinable = <T>(value: T, condition?: boolean) =>
-    //     undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
     const pressedKeys: string[] = [];
     export const handleKeyEvent = (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) =>
     {
@@ -42,7 +40,18 @@ export namespace Shortcuts
             shortcutkeys = pressedKeys;
             break;
         case "onKeyUp":
-            while(0 < pressedKeys.splice(pressedKeys.indexOf(normalizedKey), 1).length);
+            while(true)
+            {
+                const i = pressedKeys.indexOf(normalizedKey);
+                if (0 <= i)
+                {
+                    pressedKeys.splice(i, 1);
+                }
+                else
+                {
+                    break;
+                }
+            }
             break;
         }
         if ( ! isInputElementFocused())

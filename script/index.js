@@ -43,6 +43,27 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+define("script/library/type-guards", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.TypeGuards = void 0;
+    var TypeGuards;
+    (function (TypeGuards) {
+        TypeGuards.hasValue = function (value) {
+            return value !== null && value !== undefined;
+        };
+        TypeGuards.has = function (keyOrKeys) {
+            return function (object) {
+                if (Array.isArray(keyOrKeys)) {
+                    return keyOrKeys.every(function (key) { return (object === null || object === void 0 ? void 0 : object[key]) !== undefined; });
+                }
+                else {
+                    return (object === null || object === void 0 ? void 0 : object[keyOrKeys]) !== undefined;
+                }
+            };
+        };
+    })(TypeGuards || (exports.TypeGuards = TypeGuards = {}));
+});
 define("resource/lang.en", [], {
     "description": "Kaleidoscope Web Screen Saver",
     "pattern-label": "Pattern:",
@@ -168,7 +189,7 @@ define("resource/config", [], {
     "maximumFractionDigits": 2,
     "startWait": 750
 });
-define("script/library/ui", ["require", "exports", "resource/config"], function (require, exports, config_json_1) {
+define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UI = void 0;
@@ -323,7 +344,7 @@ define("script/library/ui", ["require", "exports", "resource/config"], function 
         };
         UI.getElementById = function (tag, id) {
             var result = document.getElementById(id);
-            if (null == result || undefined === result) {
+            if (!type_guards_1.TypeGuards.hasValue(result)) {
                 console.error("🦋 FIXME: UI.getElementById.NotExistsDom", id);
             }
             else if (tag !== result.tagName.toLowerCase()) {
@@ -333,7 +354,7 @@ define("script/library/ui", ["require", "exports", "resource/config"], function 
         };
         UI.querySelector = function (tag, selectors) {
             var result = document.querySelector(selectors);
-            if (null == result || undefined === result) {
+            if (!type_guards_1.TypeGuards.hasValue(result)) {
                 console.error("🦋 FIXME: UI.querySelector.NotExistsDom", selectors);
             }
             else if (tag !== result.tagName.toLowerCase()) {
@@ -589,8 +610,6 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
                 key.length === 1 ? key.toUpperCase() :
                     key;
         };
-        // const joinable = <T>(value: T, condition?: boolean) =>
-        //     undefined !== value && null !== value && (condition ?? true) ? [ value, ]: [];
         var pressedKeys = [];
         Shortcuts.handleKeyEvent = function (type, event, commandMap) {
             var normalizedKey = normalizeKey(event.key, event.code);
@@ -601,8 +620,15 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
                     shortcutkeys = pressedKeys;
                     break;
                 case "onKeyUp":
-                    while (0 < pressedKeys.splice(pressedKeys.indexOf(normalizedKey), 1).length)
-                        ;
+                    while (true) {
+                        var i = pressedKeys.indexOf(normalizedKey);
+                        if (0 <= i) {
+                            pressedKeys.splice(i, 1);
+                        }
+                        else {
+                            break;
+                        }
+                    }
                     break;
             }
             if (!isInputElementFocused()) {
@@ -637,16 +663,18 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
         };
     })(Shortcuts || (exports.Shortcuts = Shortcuts = {}));
 });
-define("script/library/index", ["require", "exports", "script/library/locale", "script/library/ui", "script/library/control", "script/library/shortcuts"], function (require, exports, ImportedLocale, ImportedUI, ImportedControl, ImportedShortcuts) {
+define("script/library/index", ["require", "exports", "script/library/type-guards", "script/library/locale", "script/library/ui", "script/library/control", "script/library/shortcuts"], function (require, exports, ImportedTypeGuards, ImportedLocale, ImportedUI, ImportedControl, ImportedShortcuts) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Library = void 0;
+    ImportedTypeGuards = __importStar(ImportedTypeGuards);
     ImportedLocale = __importStar(ImportedLocale);
     ImportedUI = __importStar(ImportedUI);
     ImportedControl = __importStar(ImportedControl);
     ImportedShortcuts = __importStar(ImportedShortcuts);
     var Library;
     (function (Library) {
+        Library.TypeGuards = ImportedTypeGuards.TypeGuards;
         Library.Locale = ImportedLocale.Locale;
         Library.UI = ImportedUI.UI;
         Library.Control = ImportedControl.Control;
@@ -698,13 +726,16 @@ define("script/tools/random", ["require", "exports"], function (require, exports
         Random.select = function (list) { return list[Random.makeInteger(list.length)]; };
     })(Random || (exports.Random = Random = {}));
 });
-define("script/tools/array", ["require", "exports"], function (require, exports) {
+define("script/tools/array", ["require", "exports", "script/library/type-guards"], function (require, exports, type_guards_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Array = void 0;
     var Array;
     (function (Array) {
         Array.cycleSelect = function (list, ix) { return list[ix % list.length]; };
+        Array.joinable = function (value, condition) {
+            return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
+        };
     })(Array || (exports.Array = Array = {}));
 });
 define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray) {
@@ -2299,29 +2330,15 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.setColoring = function (coloring) {
                     return _this.getForegroundColor = _this.getNextColorMaker(coloring);
                 };
-                this.adjustPatternSize = function (i, fixRate) {
-                    if (undefined !== (i === null || i === void 0 ? void 0 : i.intervalSize)) {
-                        i.intervalSize *= fixRate;
-                        if (undefined !== i.maxPatternSize) {
-                            i.maxPatternSize *= fixRate;
-                        }
-                    }
-                };
                 this.setDiagonalSize = function () {
                     var newDiagonalSize = _this.getDiagonalSize();
                     var fixRate = newDiagonalSize / _this.diagonalSize;
                     _this.diagonalSize = newDiagonalSize;
-                    _this.layers
+                    var list = _this.layers
                         .map(function (i) { return i.arguments; })
-                        .concat(_this.argumentHistory)
-                        .forEach(function (i) {
-                        if (undefined !== (i === null || i === void 0 ? void 0 : i.intervalSize)) {
-                            i.intervalSize *= fixRate;
-                            if (undefined !== i.maxPatternSize) {
-                                i.maxPatternSize *= fixRate;
-                            }
-                        }
-                    });
+                        .concat(_this.argumentHistory);
+                    list.filter(_library_2.Library.TypeGuards.has("intervalSize")).forEach(function (i) { return i.intervalSize *= fixRate; });
+                    list.filter(_library_2.Library.TypeGuards.has("maxPatternSize")).forEach(function (i) { return i.maxPatternSize *= fixRate; });
                 };
                 this.setCycleSpan = function (newCycleSpan) {
                     var fixRate = newCycleSpan / _this.cycleSpan;

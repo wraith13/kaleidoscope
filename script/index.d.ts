@@ -1,3 +1,9 @@
+declare module "script/library/type-guards" {
+    export namespace TypeGuards {
+        const hasValue: <T>(value: T | null | undefined) => value is T;
+        const has: <KeyType extends string | string[]>(keyOrKeys: KeyType) => <ObjectType>(object: ObjectType | undefined) => object is ObjectType & (KeyType extends string ? { [PropertyName in KeyType]: Exclude<PropertyName extends keyof ObjectType ? ObjectType[PropertyName] : any, undefined>; } : KeyType extends string[] ? { [Prop in KeyType[number]]: Exclude<Prop extends keyof ObjectType ? ObjectType[Prop] : any, undefined>; } : never);
+    }
+}
 declare module "script/library/locale" {
     import localeEn from "resource/lang.en";
     import localeJa from "resource/lang.ja";
@@ -194,11 +200,13 @@ declare module "script/library/shortcuts" {
     }
 }
 declare module "script/library/index" {
+    import * as ImportedTypeGuards from "script/library/type-guards";
     import * as ImportedLocale from "script/library/locale";
     import * as ImportedUI from "script/library/ui";
     import * as ImportedControl from "script/library/control";
     import * as ImportedShortcuts from "script/library/shortcuts";
     export namespace Library {
+        export import TypeGuards = ImportedTypeGuards.TypeGuards;
         export import Locale = ImportedLocale.Locale;
         export import UI = ImportedUI.UI;
         export import Control = ImportedControl.Control;
@@ -229,6 +237,7 @@ declare module "script/tools/random" {
 declare module "script/tools/array" {
     export namespace Array {
         const cycleSelect: <T>(list: T[], ix: number) => T;
+        const joinable: <T>(value: T, condition?: boolean) => T[];
     }
 }
 declare module "script/tools/index" {
@@ -582,7 +591,6 @@ declare module "script/features/animation" {
             update: () => void;
             setPattern: (newPattern: (typeof control.pattern.enum)[number]) => string;
             setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
-            adjustPatternSize: (i: FlounderStyle.Type.Arguments | undefined, fixRate: number) => void;
             setDiagonalSize: () => void;
             setCycleSpan: (newCycleSpan: number) => void;
             setLayers: (newLayers: number) => void;

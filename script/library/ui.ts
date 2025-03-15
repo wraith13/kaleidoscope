@@ -1,4 +1,5 @@
 import config from "@resource/config.json";
+import { TypeGuards } from "@library/type-guards";
 export namespace UI
 {
     export const showPickerOnLabel = (label: HTMLLabelElement) =>
@@ -220,7 +221,7 @@ export namespace UI
     export const getElementById = <T extends HtmlTag>(tag: T, id: string): HTMLElementTagNameMap[T] =>
     {
         const result = <HTMLElementTagNameMap[T]><unknown>document.getElementById(id);
-        if (null == result || undefined === result)
+        if ( ! TypeGuards.hasValue(result))
         {
             console.error("🦋 FIXME: UI.getElementById.NotExistsDom", id);
         }
@@ -234,7 +235,7 @@ export namespace UI
     export const querySelector = <T extends HtmlTag>(tag: T, selectors: string): HTMLElementTagNameMap[T] =>
     {
         const result = <HTMLElementTagNameMap[T]><unknown>document.querySelector(selectors);
-        if (null == result || undefined === result)
+        if ( ! TypeGuards.hasValue(result))
         {
             console.error("🦋 FIXME: UI.querySelector.NotExistsDom", selectors);
         }

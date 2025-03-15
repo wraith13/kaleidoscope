@@ -34,8 +34,11 @@
         "paths": {
             "@resource/*": [ "../resource/*" ],
             "@library": [ "./library" ],
+            "@library/*": [ "./library/*" ],
             "@tools": [ "./tools" ],
+            "@tools/*": [ "./tools/*" ],
             "@features": [ "./features" ],
+            "@features/*": [ "./features/*" ],
             "@script/*": [ "../script/*" ],
             "flounder.style.js": [ "../flounder.style.js" ],
             "phi-colors": [ "../phi-colors/library/source" ]
