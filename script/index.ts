@@ -14,13 +14,11 @@ const playAnimation = () =>
     document.body.classList.toggle("immersive", true);
     document.body.classList.toggle("mousemove", false);
     updateFullscreenState();
-    fpsElement.innerText = "";
     start();
 };
 const pauseAnimation = () =>
 {
     document.body.classList.toggle("immersive", false);
-    //fpsElement.innerText = "";
     updateFullscreenState(false);
 };
 const playOrPauseAnimation = () =>
@@ -51,6 +49,10 @@ const updateCanvasSize = () =>
 const updateCycleSpan = (): void => update(() => animator.setCycleSpan(parseInt(cycleSpanSelect.get())));
 const updateFuseFps = (): number => Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
 const updateEasing = () => update(() => animator.setEasing(easingCheckbox.get()));
+const updateShowFps = () =>
+{
+    fpsElement.classList.toggle("hide", ! showFPS.get());
+};
 //const playButton =
 new Library.Control.Button
 ({
@@ -98,7 +100,11 @@ if ( ! Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement)
 {
     withFullscreen.dom.parentElement.style.setProperty("display", "none");
 }
-const showFPS = new Library.Control.Checkbox(control.showFPS);
+const showFPS = new Library.Control.Checkbox
+(
+    control.showFPS,
+    { change: () => updateShowFps(), }
+);
 const fpsElement = Library.UI.getElementById("div", "fps");
 Library.UI.replaceChildren
 (
@@ -207,6 +213,7 @@ updateEasing();
 updateLayers();
 updateCycleSpan();
 updateFuseFps();
+updateShowFps();
 Library.UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]" ])
     .forEach(label => Library.UI.showPickerOnLabel(label));
     Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
@@ -237,7 +244,7 @@ Library.UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "la
     "toggleShowFPS": () =>
     {
         showFPS.toggle();
-        fpsElement.innerText = "";
+        updateShowFps();
     }
 });
 window.addEventListener("resize", () => updateDiagonalSize());

@@ -84,7 +84,7 @@
             text-align: right;
             white-space: pre;
             will-change: contents opacity filter;
-            &:empty
+            &.hide
             {
                 @include mist-disperse-effect();
             }
@@ -193,7 +193,7 @@
     transform: translate(-50%, -50%);
     max-width: 30vw;
     max-height: 30vw;
-    z-index: 150;
+    z-index: 50;
     svg
     {
         @include svg-color(white-color(0.7));

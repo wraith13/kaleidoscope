@@ -2434,12 +2434,10 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("mousemove", false);
         updateFullscreenState();
-        fpsElement.innerText = "";
         start();
     };
     var pauseAnimation = function () {
         document.body.classList.toggle("immersive", false);
-        //fpsElement.innerText = "";
         updateFullscreenState(false);
     };
     var playOrPauseAnimation = function () {
@@ -2465,6 +2463,9 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var updateCycleSpan = function () { return update(function () { return animator.setCycleSpan(parseInt(cycleSpanSelect.get())); }); };
     var updateFuseFps = function () { return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get()); };
     var updateEasing = function () { return update(function () { return animator.setEasing(easingCheckbox.get()); }); };
+    var updateShowFps = function () {
+        fpsElement.classList.toggle("hide", !showFPS.get());
+    };
     //const playButton =
     new _library_3.Library.Control.Button({
         id: "play-button",
@@ -2485,7 +2486,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     if (!_library_3.Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement) {
         withFullscreen.dom.parentElement.style.setProperty("display", "none");
     }
-    var showFPS = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
+    var showFPS = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS, { change: function () { return updateShowFps(); }, });
     var fpsElement = _library_3.Library.UI.getElementById("div", "fps");
     _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("div", "keyboard-shortcut"), _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
         return [
@@ -2551,6 +2552,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     updateLayers();
     updateCycleSpan();
     updateFuseFps();
+    updateShowFps();
     _library_3.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
         .forEach(function (label) { return _library_3.Library.UI.showPickerOnLabel(label); });
     _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
@@ -2577,7 +2579,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         },
         "toggleShowFPS": function () {
             showFPS.toggle();
-            fpsElement.innerText = "";
+            updateShowFps();
         }
     });
     window.addEventListener("resize", function () { return updateDiagonalSize(); });
