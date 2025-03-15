@@ -2330,8 +2330,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.setColoring = function (coloring) {
                     return _this.getForegroundColor = _this.getNextColorMaker(coloring);
                 };
-                this.setDiagonalSize = function () {
-                    var newDiagonalSize = _this.getDiagonalSize();
+                this.setDiagonalSize = function (newDiagonalSize) {
                     var fixRate = newDiagonalSize / _this.diagonalSize;
                     _this.diagonalSize = newDiagonalSize;
                     var list = _this.layers
@@ -2339,6 +2338,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         .concat(_this.argumentHistory);
                     list.filter(_library_2.Library.TypeGuards.has("intervalSize")).forEach(function (i) { return i.intervalSize *= fixRate; });
                     list.filter(_library_2.Library.TypeGuards.has("maxPatternSize")).forEach(function (i) { return i.maxPatternSize *= fixRate; });
+                };
+                this.updateDiagonalSize = function () {
+                    return _this.setDiagonalSize(_this.getDiagonalSize());
                 };
                 this.setCycleSpan = function (newCycleSpan) {
                     var fixRate = newCycleSpan / _this.cycleSpan;
@@ -2440,28 +2442,19 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         //fpsElement.innerText = "";
         updateFullscreenState(false);
     };
-    var update = function () {
+    var playOrPauseAnimation = function () {
+        return isInAnimation() ? pauseAnimation() : playAnimation();
+    };
+    var update = function (setter) {
+        setter === null || setter === void 0 ? void 0 : setter();
         if (!isInAnimation()) {
             animator.update();
         }
     };
-    var playOrPauseAnimation = function () {
-        return isInAnimation() ? pauseAnimation() : playAnimation();
-    };
-    var updateDiagonalSize = function () {
-        animator.setDiagonalSize();
-        update();
-    };
-    var updatePattern = function () {
-        return animator.setPattern(patternSelect.get());
-    };
-    var updateColoring = function () {
-        animator.setColoring(coloringSelect.get());
-    };
-    var updateLayers = function () {
-        animator.setLayers(parseInt(layersSelect.get()));
-        update();
-    };
+    var updateDiagonalSize = function () { return update(function () { return animator.updateDiagonalSize(); }); };
+    var updatePattern = function () { return update(function () { return animator.setPattern(patternSelect.get()); }); };
+    var updateColoring = function () { return update(function () { return animator.setColoring(coloringSelect.get()); }); };
+    var updateLayers = function () { return update(function () { return animator.setLayers(parseInt(layersSelect.get())); }); };
     var updateCanvasSize = function () {
         var newCanvasSize = parseFloat(canvasSizeSelect.get());
         var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
@@ -2469,16 +2462,9 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMergin, "%")); });
         updateDiagonalSize();
     };
-    var updateCycleSpan = function () {
-        return animator.setCycleSpan(parseInt(cycleSpanSelect.get()));
-    };
-    var updateFuseFps = function () {
-        return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
-    };
-    var updateEasing = function () {
-        animator.setEasing(easingCheckbox.get());
-        update();
-    };
+    var updateCycleSpan = function () { return update(function () { return animator.setCycleSpan(parseInt(cycleSpanSelect.get())); }); };
+    var updateFuseFps = function () { return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get()); };
+    var updateEasing = function () { return update(function () { return animator.setEasing(easingCheckbox.get()); }); };
     //const playButton =
     new _library_3.Library.Control.Button({
         id: "play-button",

@@ -220,9 +220,8 @@ export namespace Animation
             this.pattern = newPattern;
         setColoring = (coloring: typeof control.coloring.enum[number]) =>
             this.getForegroundColor = this.getNextColorMaker(coloring);
-        setDiagonalSize = () =>
+        setDiagonalSize = (newDiagonalSize: number) =>
         {
-            const newDiagonalSize = this.getDiagonalSize();
             const fixRate = newDiagonalSize /this.diagonalSize;
             this.diagonalSize = newDiagonalSize;
             const list = this.layers
@@ -231,6 +230,8 @@ export namespace Animation
             list.filter(Library.TypeGuards.has("intervalSize")).forEach(i => i.intervalSize *= fixRate);
             list.filter(Library.TypeGuards.has("maxPatternSize")).forEach(i => i.maxPatternSize *= fixRate);
         };
+        updateDiagonalSize = () =>
+            this.setDiagonalSize(this.getDiagonalSize());
         setCycleSpan = (newCycleSpan: number) =>
         {
             const fixRate = newCycleSpan /this.cycleSpan;

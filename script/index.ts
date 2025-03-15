@@ -23,31 +23,20 @@ const pauseAnimation = () =>
     //fpsElement.innerText = "";
     updateFullscreenState(false);
 };
-const update = () =>
+const playOrPauseAnimation = () =>
+    isInAnimation() ? pauseAnimation(): playAnimation();
+const update = (setter?: () => unknown) =>
 {
+    setter?.();
     if ( ! isInAnimation())
     {
         animator.update();
     }
 };
-const playOrPauseAnimation = () =>
-    isInAnimation() ? pauseAnimation(): playAnimation();
-const updateDiagonalSize = () =>
-{
-    animator.setDiagonalSize();
-    update();
-};
-const updatePattern = (): unknown =>
-    animator.setPattern(patternSelect.get());
-const updateColoring = () =>
-{
-    animator.setColoring(coloringSelect.get());
-};
-const updateLayers = (): void =>
-{
-    animator.setLayers(parseInt(layersSelect.get()));
-    update();
-};
+const updateDiagonalSize = () => update(() => animator.updateDiagonalSize());
+const updatePattern = (): unknown => update(() => animator.setPattern(patternSelect.get()));
+const updateColoring = (): unknown => update(() => animator.setColoring(coloringSelect.get()));
+const updateLayers = (): void => update(() => animator.setLayers(parseInt(layersSelect.get())));
 const updateCanvasSize = () =>
 {
     const newCanvasSize = parseFloat(canvasSizeSelect.get());
@@ -59,15 +48,9 @@ const updateCanvasSize = () =>
     );
     updateDiagonalSize();
 };
-const updateCycleSpan = (): void =>
-    animator.setCycleSpan(parseInt(cycleSpanSelect.get()));
-const updateFuseFps = (): number =>
-    Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
-const updateEasing = () =>
-{
-    animator.setEasing(easingCheckbox.get());
-    update();
-};
+const updateCycleSpan = (): void => update(() => animator.setCycleSpan(parseInt(cycleSpanSelect.get())));
+const updateFuseFps = (): number => Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
+const updateEasing = () => update(() => animator.setEasing(easingCheckbox.get()));
 //const playButton =
 new Library.Control.Button
 ({

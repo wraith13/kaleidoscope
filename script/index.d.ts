@@ -591,7 +591,8 @@ declare module "script/features/animation" {
             update: () => void;
             setPattern: (newPattern: (typeof control.pattern.enum)[number]) => string;
             setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
-            setDiagonalSize: () => void;
+            setDiagonalSize: (newDiagonalSize: number) => void;
+            updateDiagonalSize: () => void;
             setCycleSpan: (newCycleSpan: number) => void;
             setLayers: (newLayers: number) => void;
             setEasing: (enabled: boolean) => void;
