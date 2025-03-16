@@ -281,13 +281,13 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
                 var event = _a[0], handler = _a[1];
                 return element.addEventListener(event, handler);
             });
-            children.forEach(function (child) { return element.appendChild(child); });
+            children.forEach(function (child) { return UI.appendChild(element, child); });
             return element;
         };
         UI.createElement = function (element) {
-            return element instanceof Element ?
-                element :
-                UI.setOptions(document.createElement(element.tag), element);
+            return "string" === typeof element ? document.createTextNode(element) :
+                element instanceof Node ? element :
+                    UI.setOptions(document.createElement(element.tag), element);
         };
         UI.removeAllChildren = function (parent) {
             Array.from(parent.children).forEach(function (i) { return parent.removeChild(i); });
@@ -736,6 +736,9 @@ define("script/tools/array", ["require", "exports", "script/library/type-guards"
         Array.joinable = function (value, condition) {
             return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
         };
+        Array.uniqueFilter = function (i, ix, list) {
+            return ix === list.indexOf(i);
+        };
     })(Array || (exports.Array = Array = {}));
 });
 define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray) {
@@ -776,9 +779,8 @@ define("script/features/fps", ["require", "exports"], function (require, exports
             Fps.isValid = false;
             frameTimings = [];
             fpsHistory = [];
-            Fps.currentMaxFps = makeInvalidFpsHistoryEntry();
-            Fps.currentNowFps = makeInvalidFpsHistoryEntry();
-            Fps.currentMinFps = makeInvalidFpsHistoryEntry();
+            Fps.currentMaxFps = Fps.currentNowFps = Fps.currentMinFps =
+                makeInvalidFpsHistoryEntry();
         };
         Fps.step = function (now) {
             frameTimings.push(now);
@@ -2509,8 +2511,8 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var fpsElement = _library_3.Library.UI.getElementById("div", "fps");
     _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("div", "keyboard-shortcut"), _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
         return [
-            { tag: "span", children: i.keys.map(function (key) { return _library_3.Library.UI.createElement({ tag: "kbd", text: key }); }) },
-            { tag: "span", text: _library_3.Library.Locale.map(i.description), },
+            { tag: "span", children: i.keys.map(function (key) { return ({ tag: "kbd", text: key }); }) },
+            { tag: "span", text: _library_3.Library.Locale.map(i.description), }
         ];
     })
         .reduce(function (a, b) { return a.concat(b); }, []));

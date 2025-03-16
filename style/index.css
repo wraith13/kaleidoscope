@@ -100,7 +100,7 @@ body.hide-ui #screen-header {
   margin-left: 0rem;
   border-left-style: solid;
   border-left-width: 1px;
-  border-left-color: rgb(230, 237, 243) !important;
+  border-left-color: rgba(230, 237, 243, 0.7) !important;
 }
 #screen-header .segment > * {
   transform: skewX(-150deg);

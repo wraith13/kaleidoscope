@@ -122,8 +122,8 @@ Library.UI.replaceChildren
     (
         i =>
         [
-            { tag: "span", children: i.keys.map(key => Library.UI.createElement({ tag: "kbd", text: key })) } as const,
-            { tag: "span", text: Library.Locale.map(i.description as Library.Locale.KeyType), } as const,
+            { tag: "span", children: i.keys.map(key => ({ tag: "kbd", text: key })) } as const,
+            { tag: "span", text: Library.Locale.map(i.description as Library.Locale.KeyType), } as const
         ]
     )
     .reduce((a, b) => a.concat(b), [])
@@ -221,9 +221,9 @@ updateFuseFps();
 updateShowFps();
 Library.UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]" ])
     .forEach(label => Library.UI.showPickerOnLabel(label));
-    Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
+Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
     .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.KeyType));
-    Library.Shortcuts.setCommandMap
+Library.Shortcuts.setCommandMap
 ({
     "nop": () => { },
     "toggleHideUI": () => document.body.classList.toggle("hide-ui"),

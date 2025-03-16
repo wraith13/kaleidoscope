@@ -104,10 +104,11 @@ declare module "script/library/ui" {
         type Events = {
             [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
         };
+        type ElementSource<T extends HtmlTag = any> = CreateElementArguments<T> | HTMLElementTagNameMap[T] | Text | string;
         interface ElementOptions {
             text?: string;
             attributes?: Attributes;
-            children?: HTMLElement[];
+            children?: ElementSource[];
             styles?: Styles;
             events?: Events;
         }
@@ -116,12 +117,12 @@ declare module "script/library/ui" {
         }
         type HtmlTag = keyof HTMLElementTagNameMap;
         const setOptions: <T extends HTMLElement>(element: T, options?: ElementOptions) => T;
-        const createElement: <T extends HtmlTag>(element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => HTMLElementTagNameMap[T];
+        const createElement: <T extends HtmlTag>(element: ElementSource<T>) => HTMLElementTagNameMap[T] | Text;
         const removeAllChildren: <ParentT extends HTMLElement>(parent: ParentT) => ParentT;
-        const appendChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
-        const replaceChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]) => ParentT;
-        const appendChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
-        const replaceChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]) => ParentT;
+        const appendChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: ElementSource<T>) => ParentT;
+        const replaceChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: ElementSource<T>) => ParentT;
+        const appendChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: ElementSource<T>[]) => ParentT;
+        const replaceChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: ElementSource<T>[]) => ParentT;
         const getElementsByClassName: <T extends HtmlTag>(tag: T, className: string) => HTMLElementTagNameMap[T][];
         const querySelectorAllWithFallback: <T extends HtmlTag>(tag: T, selectorss: string[]) => HTMLElementTagNameMap[T][];
         const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];
@@ -238,6 +239,7 @@ declare module "script/tools/array" {
     export namespace Array {
         const cycleSelect: <T>(list: T[], ix: number) => T;
         const joinable: <T>(value: T, condition?: boolean) => T[];
+        const uniqueFilter: <T>(i: T, ix: number, list: T[]) => boolean;
     }
 }
 declare module "script/tools/index" {

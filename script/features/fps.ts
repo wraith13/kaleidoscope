@@ -25,9 +25,8 @@ export namespace Fps
         isValid = false;
         frameTimings = [];
         fpsHistory = [];
-        currentMaxFps = makeInvalidFpsHistoryEntry();
-        currentNowFps = makeInvalidFpsHistoryEntry();
-        currentMinFps = makeInvalidFpsHistoryEntry();
+        currentMaxFps = currentNowFps = currentMinFps =
+            makeInvalidFpsHistoryEntry();
     };
     export const step = (now: number) =>
     {

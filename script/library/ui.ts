@@ -96,19 +96,18 @@ export namespace UI
             }
         }
     };
-
     export type Attributes = Record<string, string | number | boolean>;
     export type Styles = Partial<CSSStyleDeclaration>;
-
     export type Events =
     {
         [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void;
     };
+    export type ElementSource<T extends HtmlTag = any> = CreateElementArguments<T> | HTMLElementTagNameMap[T] | Text | string;
     export interface ElementOptions
     {
         text?: string;
         attributes?: Attributes;
-        children?: HTMLElement[];
+        children?: ElementSource[];
         styles?: Styles;
         events?: Events;
     }
@@ -136,29 +135,29 @@ export namespace UI
         (
             ([event, handler]) => element.addEventListener(event, handler as EventListener)
         );
-        children.forEach(child => element.appendChild(child));
+        children.forEach(child => appendChild(element, child));
         return element;
     };
-    export const createElement = <T extends HtmlTag>(element: CreateElementArguments<T> | HTMLElementTagNameMap[T]): HTMLElementTagNameMap[T] =>
-        element instanceof Element ?
-            element:
+    export const createElement = <T extends HtmlTag>(element: ElementSource<T>): HTMLElementTagNameMap[T] | Text =>
+        "string" === typeof element ? document.createTextNode(element):
+        element instanceof Node ? element:
             setOptions(document.createElement(element.tag), element);
     export const removeAllChildren = <ParentT extends HTMLElement>(parent: ParentT): ParentT =>
     {
         Array.from(parent.children).forEach(i => parent.removeChild(i));
         return parent;
     };
-    export const appendChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]): ParentT =>
+    export const appendChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: ElementSource<T>): ParentT =>
     {
         parent.appendChild(createElement(element));
         return parent;
     };
-    export const replaceChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: CreateElementArguments<T> | HTMLElementTagNameMap[T]): ParentT =>
+    export const replaceChild = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: ElementSource<T>): ParentT =>
     {
         removeAllChildren(parent);
         return appendChild(parent, element);
     };
-    export const appendChildren = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]): ParentT =>
+    export const appendChildren = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: ElementSource<T>[]): ParentT =>
     {
         if ("append" in parent)
         {
@@ -170,7 +169,7 @@ export namespace UI
         }
         return parent;
     };
-    export const replaceChildren = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: (CreateElementArguments<T> | HTMLElementTagNameMap[T])[]): ParentT =>
+    export const replaceChildren = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: ElementSource<T>[]): ParentT =>
     {
         removeAllChildren(parent);
         return appendChildren(parent, elements);
