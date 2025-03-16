@@ -595,7 +595,7 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
             " ": "Space",
             "Control": "Ctrl",
         };
-        var getDisplayKeyName = function (key) { return keyDisplayNames[key] || key; };
+        var getDisplayKeyName = function (key) { var _a; return (_a = keyDisplayNames[key]) !== null && _a !== void 0 ? _a : key; };
         Shortcuts.getDisplayList = function () {
             return shortcuts_json_1.default.map(function (i) {
                 return ({
@@ -612,6 +612,7 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
         };
         var pressedKeys = [];
         Shortcuts.handleKeyEvent = function (type, event, commandMap) {
+            var _a;
             var normalizedKey = normalizeKey(event.key, event.code);
             var shortcutkeys = pressedKeys.concat([]);
             switch (type) {
@@ -654,6 +655,7 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
                 });
                 if ("onKeyDown" === type && commandKeys.length <= 0 && !["Shift", "Control"].includes(normalizedKey)) {
                     console.log("💡 UnknownKeyDown:", pressedKeys);
+                    (_a = commandMap["unknownKeyDown"]) === null || _a === void 0 ? void 0 : _a.call(commandMap);
                 }
             }
         };
@@ -2442,6 +2444,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
     var canvas = _library_3.Library.UI.getElementById("div", "canvas");
     var topCoat = _library_3.Library.UI.getElementById("div", "top-coat");
+    var keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
     var animator = new _features_1.Features.Animation.Animator(canvas);
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
     var playAnimation = function () {
@@ -2509,7 +2512,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     }
     var showFPS = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS, { change: function () { return updateShowFps(); }, });
     var fpsElement = _library_3.Library.UI.getElementById("div", "fps");
-    _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("div", "keyboard-shortcut"), _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
+    _library_3.Library.UI.replaceChildren(keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
         return [
             { tag: "span", children: i.keys.map(function (key) { return ({ tag: "kbd", text: key }); }) },
             { tag: "span", text: _library_3.Library.Locale.map(i.description), }
@@ -2598,8 +2601,12 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         "toggleShowFPS": function () {
             showFPS.toggle();
             updateShowFps();
+        },
+        "unknownKeyDown": function () {
+            showShortcutsTimer.start(keyboardShortcut, "show", 3000);
         }
     });
+    var showShortcutsTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
     window.addEventListener("resize", function () { return updateDiagonalSize(); });
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_2.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_3.Library.Locale.map("ago"), " )"));
 });

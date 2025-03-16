@@ -7,6 +7,7 @@ import poweredBy from "@resource/powered-by.json";
 const screenBody = Library.UI.getElementById("div", "screen-body");
 const canvas = Library.UI.getElementById("div", "canvas");
 const topCoat = Library.UI.getElementById("div", "top-coat");
+const keyboardShortcut = Library.UI.getElementById("div", "keyboard-shortcut");
 const animator = new Features.Animation.Animator(canvas);
 const isInAnimation = () => document.body.classList.contains("immersive");
 const playAnimation = () =>
@@ -117,7 +118,7 @@ const showFPS = new Library.Control.Checkbox
 const fpsElement = Library.UI.getElementById("div", "fps");
 Library.UI.replaceChildren
 (
-    Library.UI.getElementById("div", "keyboard-shortcut"),
+    keyboardShortcut,
     Library.Shortcuts.getDisplayList().map
     (
         i =>
@@ -210,7 +211,7 @@ screenBody.addEventListener
         }
         mousemoveTimer.start(document.body, "mousemove", 1000)
     }
-)
+);
 updatePattern();
 updateColoring();
 updateCanvasSize();
@@ -250,8 +251,13 @@ Library.Shortcuts.setCommandMap
     {
         showFPS.toggle();
         updateShowFps();
+    },
+    "unknownKeyDown": () =>
+    {
+        showShortcutsTimer.start(keyboardShortcut, "show", 3000);
     }
 });
+const showShortcutsTimer = new Library.UI.ToggleClassForWhileTimer();
 window.addEventListener("resize", () => updateDiagonalSize());
 interface BuildInformation
 {

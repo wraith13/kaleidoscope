@@ -12,7 +12,7 @@ export namespace Shortcuts
         " ": "Space",
         "Control": "Ctrl",
     };
-    const getDisplayKeyName = (key: string) => keyDisplayNames[key as keyof typeof keyDisplayNames] || key;
+    const getDisplayKeyName = (key: string) => keyDisplayNames[key as keyof typeof keyDisplayNames] ?? key;
     export const getDisplayList = () =>
         shortcuts.map
         (
@@ -88,6 +88,7 @@ export namespace Shortcuts
             if ("onKeyDown" === type && commandKeys.length <= 0 && ! ["Shift", "Control"].includes(normalizedKey))
             {
                 console.log("💡 UnknownKeyDown:", pressedKeys);
+                commandMap["unknownKeyDown"]?.();
             }
         }
     }

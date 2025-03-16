@@ -47,11 +47,11 @@ button {
   position: fixed;
   z-index: 100;
 }
-body.immersive #screen-header {
+body.immersive #screen-header:not(.show) {
   transform: translate(0px, -100%);
 }
 
-body.hide-ui #screen-header {
+body.hide-ui #screen-header:not(.show) {
   transform: translate(0px, -100%);
 }
 
@@ -257,13 +257,13 @@ body:hide-ui #screen-body #fps::before {
   line-height: 0.75rem;
   font-weight: 400;
 }
-body.immersive .option-panel {
+body.immersive .option-panel:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.immersive .option-panel::before {
+body.immersive .option-panel:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -276,13 +276,13 @@ body.immersive .option-panel::before {
   transition: filter 750ms;
 }
 
-body.hide-ui .option-panel {
+body.hide-ui .option-panel:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.hide-ui .option-panel::before {
+body.hide-ui .option-panel:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -488,13 +488,13 @@ body:not(.immersive) #play-button #pause-icon {
   line-height: 0.75rem;
   font-weight: 400;
 }
-body.immersive #screen-footer #supplementary-line #keyboard-shortcut {
+body.immersive #screen-footer #supplementary-line #keyboard-shortcut:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.immersive #screen-footer #supplementary-line #keyboard-shortcut::before {
+body.immersive #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -507,13 +507,13 @@ body.immersive #screen-footer #supplementary-line #keyboard-shortcut::before {
   transition: filter 750ms;
 }
 
-body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut {
+body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut::before {
+body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -604,13 +604,13 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut::before {
   line-height: 0.75rem;
   font-weight: 400;
 }
-body.immersive #screen-footer #supplementary-line #powered-by {
+body.immersive #screen-footer #supplementary-line #powered-by:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.immersive #screen-footer #supplementary-line #powered-by::before {
+body.immersive #screen-footer #supplementary-line #powered-by:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -623,13 +623,13 @@ body.immersive #screen-footer #supplementary-line #powered-by::before {
   transition: filter 750ms;
 }
 
-body.hide-ui #screen-footer #supplementary-line #powered-by {
+body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.hide-ui #screen-footer #supplementary-line #powered-by::before {
+body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -700,11 +700,11 @@ body.hide-ui #screen-footer #supplementary-line #powered-by::before {
   transition: transform 500ms;
   pointer-events: initial;
 }
-body.immersive #screen-footer #information-line {
+body.immersive #screen-footer #information-line:not(.show) {
   transform: translate(0px, 100%);
 }
 
-body.hide-ui #screen-footer #information-line {
+body.hide-ui #screen-footer #information-line:not(.show) {
   transform: translate(0px, 100%);
 }
 

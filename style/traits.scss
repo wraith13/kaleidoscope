@@ -4,11 +4,11 @@
     @if "slide-up" == $transition
     {
         transition: transform 500ms;
-        @at-root body.immersive &
+        @at-root body.immersive &:not(.show)
         {
             transform: translate(0px, -100%);
         }
-        @at-root body.hide-ui &
+        @at-root body.hide-ui &:not(.show)
         {
             transform: translate(0px, -100%);
         }
@@ -16,11 +16,11 @@
     @else if $transition == "slide-down"
     {
         transition: transform 500ms;
-        @at-root body.immersive &
+        @at-root body.immersive &:not(.show)
         {
             transform: translate(0px, 100%);
         }
-        @at-root body.hide-ui &
+        @at-root body.hide-ui &:not(.show)
         {
             transform: translate(0px, 100%);
         }
@@ -28,11 +28,11 @@
     @else if $transition == "fade"
     {
         transition: opacity 750ms, filter 750ms;
-        @at-root body.immersive &
+        @at-root body.immersive &:not(.show)
         {
             @include mist-disperse-effect();
         }
-        @at-root body.hide-ui &
+        @at-root body.hide-ui &:not(.show)
         {
             @include mist-disperse-effect();
         }
