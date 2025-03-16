@@ -14,11 +14,20 @@ export namespace Fps
     export let currentMinFps: FpsHistoryEntry;
     export let fuseFps: number;
     export let isValid: boolean;
+    const makeInvalidFpsHistoryEntry = (): FpsHistoryEntry =>
+        ({
+            fps: NaN,
+            now: NaN,
+            text: "N/A FPS",
+        });
     export const reset = () =>
     {
         isValid = false;
         frameTimings = [];
         fpsHistory = [];
+        currentMaxFps = makeInvalidFpsHistoryEntry();
+        currentNowFps = makeInvalidFpsHistoryEntry();
+        currentMinFps = makeInvalidFpsHistoryEntry();
     };
     export const step = (now: number) =>
     {
@@ -79,6 +88,8 @@ export namespace Fps
     const makeFpsText = (fps: number) =>
         `${fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, })} FPS`;
     export const getText = () =>
-        isValid ? currentMaxFps.text +"(Max)\n" + currentNowFps.text + "(Now)\n" +currentMinFps.text +"(Min)": "";
+            currentMaxFps.text +"(Max)\n"
+            +currentNowFps.text + "(Now)\n"
+            +currentMinFps.text +"(Min)";
     export const isUnderFuseFps = () => isValid && currentMaxFps.fps < fuseFps;
 }

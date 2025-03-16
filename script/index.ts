@@ -14,6 +14,8 @@ const playAnimation = () =>
     document.body.classList.toggle("immersive", true);
     document.body.classList.toggle("mousemove", false);
     updateFullscreenState();
+    Features.Fps.reset();
+    updateFps();
     start();
 };
 const pauseAnimation = () =>
@@ -23,6 +25,13 @@ const pauseAnimation = () =>
 };
 const playOrPauseAnimation = () =>
     isInAnimation() ? pauseAnimation(): playAnimation();
+const updateFps = () =>
+{
+    if (showFPS.get())
+    {
+        fpsElement.innerText = Features.Fps.getText();
+    }
+}
 const update = (setter?: () => unknown) =>
 {
     setter?.();
@@ -152,10 +161,7 @@ const animation = (now: number) =>
     if (isInAnimation())
     {
         Features.Fps.step(now);
-        if (showFPS.get())
-        {
-            fpsElement.innerText = Features.Fps.getText();
-        }
+        updateFps();
         if (Features.Fps.isUnderFuseFps())
         {
             pauseAnimation();
@@ -173,7 +179,6 @@ const start = () => setTimeout
     (
         now =>
         {
-            Features.Fps.reset();
             animator.startStep(now);
             animation(now);
         }

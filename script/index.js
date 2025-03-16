@@ -765,10 +765,20 @@ define("script/features/fps", ["require", "exports"], function (require, exports
         var fpsWindow = 1000;
         var frameTimings = [];
         var fpsHistory = [];
+        var makeInvalidFpsHistoryEntry = function () {
+            return ({
+                fps: NaN,
+                now: NaN,
+                text: "N/A FPS",
+            });
+        };
         Fps.reset = function () {
             Fps.isValid = false;
             frameTimings = [];
             fpsHistory = [];
+            Fps.currentMaxFps = makeInvalidFpsHistoryEntry();
+            Fps.currentNowFps = makeInvalidFpsHistoryEntry();
+            Fps.currentMinFps = makeInvalidFpsHistoryEntry();
         };
         Fps.step = function (now) {
             frameTimings.push(now);
@@ -815,7 +825,9 @@ define("script/features/fps", ["require", "exports"], function (require, exports
             return "".concat(fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, }), " FPS");
         };
         Fps.getText = function () {
-            return Fps.isValid ? Fps.currentMaxFps.text + "(Max)\n" + Fps.currentNowFps.text + "(Now)\n" + Fps.currentMinFps.text + "(Min)" : "";
+            return Fps.currentMaxFps.text + "(Max)\n"
+                + Fps.currentNowFps.text + "(Now)\n"
+                + Fps.currentMinFps.text + "(Min)";
         };
         Fps.isUnderFuseFps = function () { return Fps.isValid && Fps.currentMaxFps.fps < Fps.fuseFps; };
     })(Fps || (exports.Fps = Fps = {}));
@@ -2434,6 +2446,8 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("mousemove", false);
         updateFullscreenState();
+        _features_1.Features.Fps.reset();
+        updateFps();
         start();
     };
     var pauseAnimation = function () {
@@ -2442,6 +2456,11 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     };
     var playOrPauseAnimation = function () {
         return isInAnimation() ? pauseAnimation() : playAnimation();
+    };
+    var updateFps = function () {
+        if (showFPS.get()) {
+            fpsElement.innerText = _features_1.Features.Fps.getText();
+        }
     };
     var update = function (setter) {
         setter === null || setter === void 0 ? void 0 : setter();
@@ -2514,9 +2533,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var animation = function (now) {
         if (isInAnimation()) {
             _features_1.Features.Fps.step(now);
-            if (showFPS.get()) {
-                fpsElement.innerText = _features_1.Features.Fps.getText();
-            }
+            updateFps();
             if (_features_1.Features.Fps.isUnderFuseFps()) {
                 pauseAnimation();
             }
@@ -2527,7 +2544,6 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         }
     };
     var start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
-        _features_1.Features.Fps.reset();
         animator.startStep(now);
         animation(now);
     }); }, config_json_4.default.startWait); };
