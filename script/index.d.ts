@@ -10,8 +10,7 @@ declare module "script/library/locale" {
     export namespace Locale {
         const master: {
             en: {
-                "language-label": string;
-                Language: string;
+                "lang-label": string;
                 Auto: string;
                 description: string;
                 "pattern-label": string;
@@ -23,6 +22,7 @@ declare module "script/library/locale" {
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
+                "language-label": string;
                 "DELETEME.warningText": string;
                 informationFuseFps: string;
                 "DELETEME.informationLayers": string;
@@ -49,8 +49,7 @@ declare module "script/library/locale" {
                 "Show FPS": string;
             };
             ja: {
-                "language-label": string;
-                Language: string;
+                "lang-label": string;
                 Auto: string;
                 description: string;
                 "pattern-label": string;
@@ -62,6 +61,7 @@ declare module "script/library/locale" {
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
+                "language-label": string;
                 "DELETEME.warningText": string;
                 informationFuseFps: string;
                 "DELETEME.informationLayers": string;

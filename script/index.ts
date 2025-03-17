@@ -150,7 +150,7 @@ const languageSelect = new Library.Control.Select
 (
     control.language,
     {
-        makeLabel: i => "Auto" === i ? Library.Locale.map("Auto"): Library.Locale.map("language-label", i as Library.Locale.Type),
+        makeLabel: i => "Auto" === i ? Library.Locale.map("Auto"): Library.Locale.map("lang-label", i as Library.Locale.Type),
         change: () => updateLanguage(),
     }
 );
