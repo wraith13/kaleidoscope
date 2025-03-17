@@ -174,9 +174,9 @@ export namespace UI
         removeAllChildren(parent);
         return appendChildren(parent, elements);
     };
-    export const getElementsByClassName = <T extends HtmlTag>(tag: T, className: string): HTMLElementTagNameMap[T][] =>
+    export const getElementsByClassName = <T extends HtmlTag>(tag: T, className: string, parent?: Element): HTMLElementTagNameMap[T][] =>
     {
-        const result = <HTMLElementTagNameMap[T][]><unknown>Array.from(document.getElementsByClassName(className));
+        const result = <HTMLElementTagNameMap[T][]><unknown>Array.from((parent ?? document).getElementsByClassName(className));
         result.forEach
         (
             i =>
@@ -189,14 +189,14 @@ export namespace UI
         );
         return result;
     }
-    export const querySelectorAllWithFallback = <T extends HtmlTag>(tag: T, selectorss: string[]): HTMLElementTagNameMap[T][] =>
+    export const querySelectorAllWithFallback = <T extends HtmlTag>(tag: T, selectorss: string[], parent?: Element): HTMLElementTagNameMap[T][] =>
     {
         var lastError;
         for(var i = 0; i < selectorss.length; ++i)
         {
             try
             {
-                const result = <HTMLElementTagNameMap[T][]><unknown>Array.from(document.querySelectorAll(selectorss[i]));
+                const result = <HTMLElementTagNameMap[T][]><unknown>Array.from((parent ?? document).querySelectorAll(selectorss[i]));
                 result.forEach
                 (
                     j =>
@@ -231,9 +231,9 @@ export namespace UI
         }
         return result;
     };
-    export const querySelector = <T extends HtmlTag>(tag: T, selectors: string): HTMLElementTagNameMap[T] =>
+    export const querySelector = <T extends HtmlTag>(tag: T, selectors: string, parent?: Element): HTMLElementTagNameMap[T] =>
     {
-        const result = <HTMLElementTagNameMap[T]><unknown>document.querySelector(selectors);
+        const result = <HTMLElementTagNameMap[T]><unknown>(parent ?? document).querySelector(selectors);
         if ( ! TypeGuards.hasValue(result))
         {
             console.error("🦋 FIXME: UI.querySelector.NotExistsDom", selectors);

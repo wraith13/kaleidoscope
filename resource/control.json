@@ -121,5 +121,14 @@
     "showFPS": {
         "id": "show-fps",
         "default": false
+    },
+    "language": {
+        "id": "language",
+        "enum": [
+            "Auto",
+            "en",
+            "ja"
+        ],
+        "default": "Auto"
     }
 }

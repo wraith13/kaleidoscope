@@ -65,6 +65,9 @@ define("script/library/type-guards", ["require", "exports"], function (require, 
     })(TypeGuards || (exports.TypeGuards = TypeGuards = {}));
 });
 define("resource/lang.en", [], {
+    "language-label": "English",
+    "Language": "Language:",
+    "Auto": "Auto",
     "description": "Kaleidoscope Web Screen Saver",
     "pattern-label": "Pattern:",
     "coloring-label": "Coloring:",
@@ -101,6 +104,9 @@ define("resource/lang.en", [], {
     "Show FPS": "Show FPS"
 });
 define("resource/lang.ja", [], {
+    "language-label": "日本語",
+    "Language": "言語:",
+    "Auto": "自動",
     "description": "万華鏡 Web スクリーンセーバー",
     "pattern-label": "パターン:",
     "coloring-label": "カラーリング:",
@@ -144,12 +150,27 @@ define("script/library/locale", ["require", "exports", "resource/lang.en", "reso
     lang_ja_json_1 = __importDefault(lang_ja_json_1);
     var Locale;
     (function (Locale) {
-        var lang = "ja" === navigator.language.substring(0, 2) ? "ja" : "en";
         Locale.master = {
             en: lang_en_json_1.default,
             ja: lang_ja_json_1.default,
         };
-        Locale.map = function (key) { return Locale.master[lang][key]; };
+        var supportedLangs = ["ja", "en"];
+        var systemLang = navigator.language.split("-")[0];
+        var defaultLang = supportedLangs.includes(systemLang) ? systemLang : "en";
+        var lang = defaultLang;
+        Locale.getLocale = function () { return lang; };
+        Locale.setLocale = function (locale) {
+            switch (locale) {
+                case undefined:
+                case "Auto":
+                    lang = defaultLang;
+                    break;
+                default:
+                    lang = locale;
+                    break;
+            }
+        };
+        Locale.map = function (key, l) { return Locale.master[l !== null && l !== void 0 ? l : lang][key]; };
     })(Locale || (exports.Locale = Locale = {}));
 });
 define("resource/config", [], {
@@ -314,8 +335,8 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
             UI.removeAllChildren(parent);
             return UI.appendChildren(parent, elements);
         };
-        UI.getElementsByClassName = function (tag, className) {
-            var result = Array.from(document.getElementsByClassName(className));
+        UI.getElementsByClassName = function (tag, className, parent) {
+            var result = Array.from((parent !== null && parent !== void 0 ? parent : document).getElementsByClassName(className));
             result.forEach(function (i) {
                 if (tag !== i.tagName.toLowerCase()) {
                     console.error("🦋 FIXME: UI.getElementsByClassName.InvalidDom", className, tag, i);
@@ -323,11 +344,11 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
             });
             return result;
         };
-        UI.querySelectorAllWithFallback = function (tag, selectorss) {
+        UI.querySelectorAllWithFallback = function (tag, selectorss, parent) {
             var lastError;
             for (var i = 0; i < selectorss.length; ++i) {
                 try {
-                    var result = Array.from(document.querySelectorAll(selectorss[i]));
+                    var result = Array.from((parent !== null && parent !== void 0 ? parent : document).querySelectorAll(selectorss[i]));
                     result.forEach(function (j) {
                         if (tag !== j.tagName.toLowerCase()) {
                             console.error("🦋 FIXME: UI.querySelectorAllWithFallback.InvalidDom", i, tag, j);
@@ -352,8 +373,8 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
             }
             return result;
         };
-        UI.querySelector = function (tag, selectors) {
-            var result = document.querySelector(selectors);
+        UI.querySelector = function (tag, selectors, parent) {
+            var result = (parent !== null && parent !== void 0 ? parent : document).querySelector(selectors);
             if (!type_guards_1.TypeGuards.hasValue(result)) {
                 console.error("🦋 FIXME: UI.querySelector.NotExistsDom", selectors);
             }
@@ -364,7 +385,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
         };
     })(UI || (exports.UI = UI = {}));
 });
-define("script/library/control", ["require", "exports"], function (require, exports) {
+define("script/library/control", ["require", "exports", "script/library/ui"], function (require, exports, ui_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Control = void 0;
@@ -405,9 +426,13 @@ define("script/library/control", ["require", "exports"], function (require, expo
         var Select = /** @class */ (function () {
             function Select(data, options) {
                 var _this = this;
-                var _a;
                 this.data = data;
                 this.options = options;
+                this.reloadOptions = function (value) {
+                    var oldValue = value !== null && value !== void 0 ? value : _this.get();
+                    ui_1.UI.replaceChildren(_this.dom, _this.data.enum.map(function (i) { var _a, _b, _c; return makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i)); }));
+                    _this.switch(oldValue, Control.preventOnChange);
+                };
                 this.switch = function (valueOrDirection, preventOnChange) {
                     var _a, _b;
                     if ("boolean" === typeof valueOrDirection) {
@@ -432,8 +457,7 @@ define("script/library/control", ["require", "exports"], function (require, expo
                 if (!(this.dom instanceof HTMLSelectElement)) {
                     console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
                 }
-                this.data.enum.forEach(function (i) { var _a, _b, _c; return _this.dom.appendChild(makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i))); });
-                this.switch(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
+                this.reloadOptions(this.data.default);
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
                     console.log("👆 Select.Change:", event, _this);
@@ -2151,6 +2175,15 @@ define("resource/control", [], {
     "showFPS": {
         "id": "show-fps",
         "default": false
+    },
+    "language": {
+        "id": "language",
+        "enum": [
+            "Auto",
+            "en",
+            "ja"
+        ],
+        "default": "Auto"
     }
 });
 define("script/features/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_2, _tools_1, control_json_1, config_json_3) {
@@ -2367,7 +2400,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 };
                 this.setLayers = function (newLayers) {
                     var _a, _b, _c;
-                    var oldLayerList = _library_2.Library.UI.getElementsByClassName("div", "layer");
+                    var oldLayerList = _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas);
                     if (oldLayerList.length < newLayers) {
                         for (var i = oldLayerList.length; i < newLayers; ++i) {
                             _this.canvas.appendChild(_library_2.Library.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
@@ -2378,7 +2411,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             _this.canvas.removeChild(oldLayerList[i]);
                         }
                     }
-                    var layerList = _library_2.Library.UI.getElementsByClassName("div", "layer");
+                    var layerList = _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas);
                     var newArguments = (_a = _this.layers[0]) === null || _a === void 0 ? void 0 : _a.arguments;
                     var oldArguments = _this.argumentHistory[_this.argumentHistory.length - 2];
                     var newMile = (_c = (_b = _this.layers[0]) === null || _b === void 0 ? void 0 : _b.mile) !== null && _c !== void 0 ? _c : 0;
@@ -2409,6 +2442,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             1 - (2 * Math.pow(1 - t, 2)); } :
                         function (t) { return t; };
                 };
+                _library_2.Library.UI.getElementsByClassName("div", "layer", this.canvas)[0].style.setProperty("background-color", this.phiColoring.makeColor(0.0));
             }
             ;
             return Animator;
@@ -2490,6 +2524,26 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var updateShowFps = function () {
         fpsElement.classList.toggle("hide", !showFPS.get());
     };
+    var updateLanguage = function () {
+        _library_3.Library.Locale.setLocale(languageSelect.get());
+        patternSelect.reloadOptions();
+        coloringSelect.reloadOptions();
+        canvasSizeSelect.reloadOptions();
+        layersSelect.reloadOptions();
+        cycleSpanSelect.reloadOptions();
+        fuseFpsSelect.reloadOptions();
+        languageSelect.reloadOptions();
+        _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
+            .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
+        _library_3.Library.UI.replaceChildren(keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
+            return [
+                { tag: "span", children: i.keys.map(function (key) { return ({ tag: "kbd", text: key }); }) },
+                { tag: "span", text: _library_3.Library.Locale.map(i.description), }
+            ];
+        })
+            .reduce(function (a, b) { return a.concat(b); }, []));
+        _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
+    };
     //const playButton =
     new _library_3.Library.Control.Button({
         id: "play-button",
@@ -2511,6 +2565,10 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         withFullscreen.dom.parentElement.style.setProperty("display", "none");
     }
     var showFPS = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS, { change: function () { return updateShowFps(); }, });
+    var languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
+        makeLabel: function (i) { return "Auto" === i ? _library_3.Library.Locale.map("Auto") : _library_3.Library.Locale.map("language-label", i); },
+        change: function () { return updateLanguage(); },
+    });
     var fpsElement = _library_3.Library.UI.getElementById("div", "fps");
     _library_3.Library.UI.replaceChildren(keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
         return [

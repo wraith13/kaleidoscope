@@ -98,6 +98,10 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <span data-lang-key="show-fps-label">Show FPS:</span>
         <input id="show-fps" type="checkbox">
     </label>
+    <label for="language">
+        <span data-lang-key="language-label">Language:</span>
+        <select id="language"></select>
+    </label>
 </div>
 <button id="play-button">
     __IMAGES__

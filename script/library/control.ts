@@ -1,3 +1,4 @@
+import { UI } from "./ui";
 export namespace Control
 {
     const makeSelectOption = (value: string, text: string) =>
@@ -77,8 +78,7 @@ export namespace Control
             {
                 console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
             }
-            this.data.enum.forEach(i => this.dom.appendChild(makeSelectOption(`${i}`, this.options?.makeLabel?.(i) ?? `${i}`)));
-            this.switch(this.data.default, [preventOnChange][false !== this.options?.preventOnChangeWhenNew ?0:1]);
+            this.reloadOptions(this.data.default);
             this.dom.addEventListener
             (
                 "change", event =>
@@ -88,6 +88,16 @@ export namespace Control
                 }
             );
         }
+        reloadOptions = (value?: T) =>
+        {
+            const oldValue = value ?? (this.get() as T);
+            UI.replaceChildren
+            (
+                this.dom,
+                this.data.enum.map(i => makeSelectOption(`${i}`, this.options?.makeLabel?.(i) ?? `${i}`))
+            );
+            this.switch(oldValue, preventOnChange);
+        };
         switch = (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") =>
         {
             if ("boolean" === typeof valueOrDirection)

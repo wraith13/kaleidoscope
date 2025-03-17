@@ -124,6 +124,7 @@ export namespace Animation
         diagonalSize = 0;
         constructor(public canvas: HTMLDivElement, public phiColoring: PhiColoring = new PhiColoring())
         {
+            Library.UI.getElementsByClassName("div", "layer", this.canvas)[0].style.setProperty("background-color", this.phiColoring.makeColor(0.0));
         };
         getDiagonalSize = () => Math.sqrt(Math.pow(this.canvas.clientWidth ?? 0, 2) +Math.pow(this.canvas.clientHeight ?? 0, 2));
         easing: (t: number) => number = t => t;
@@ -242,7 +243,7 @@ export namespace Animation
         };
         setLayers = (newLayers: number) =>
         {
-            const oldLayerList = Library.UI.getElementsByClassName("div", "layer");
+            const oldLayerList = Library.UI.getElementsByClassName("div", "layer", this.canvas);
             if (oldLayerList.length < newLayers)
             {
                 for (let i = oldLayerList.length; i < newLayers; ++i)
@@ -257,7 +258,7 @@ export namespace Animation
                     this.canvas.removeChild(oldLayerList[i]);
                 }
             }
-            const layerList = Library.UI.getElementsByClassName("div", "layer");
+            const layerList = Library.UI.getElementsByClassName("div", "layer", this.canvas);
             const newArguments = this.layers[0]?.arguments;
             const oldArguments = this.argumentHistory[this.argumentHistory.length -2];
             const newMile = this.layers[0]?.mile ?? 0;

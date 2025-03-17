@@ -63,6 +63,37 @@ const updateShowFps = () =>
 {
     fpsElement.classList.toggle("hide", ! showFPS.get());
 };
+const updateLanguage = () =>
+{
+    Library.Locale.setLocale(languageSelect.get() as Library.Locale.Type | "Auto");
+    patternSelect.reloadOptions();
+    coloringSelect.reloadOptions();
+    canvasSizeSelect.reloadOptions();
+    layersSelect.reloadOptions();
+    cycleSpanSelect.reloadOptions();
+    fuseFpsSelect.reloadOptions();
+    languageSelect.reloadOptions();
+    Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
+        .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.KeyType));
+    Library.UI.replaceChildren
+    (
+        keyboardShortcut,
+        Library.Shortcuts.getDisplayList().map
+        (
+            i =>
+            [
+                { tag: "span", children: i.keys.map(key => ({ tag: "kbd", text: key })) } as const,
+                { tag: "span", text: Library.Locale.map(i.description as Library.Locale.KeyType), } as const
+            ]
+        )
+        .reduce((a, b) => a.concat(b), [])
+    );
+    Library.UI.replaceChildren
+    (
+        Library.UI.getElementById("ul", "information-list"),
+        config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.KeyType>i), }))
+    );
+}
 //const playButton =
 new Library.Control.Button
 ({
@@ -114,6 +145,14 @@ const showFPS = new Library.Control.Checkbox
 (
     control.showFPS,
     { change: () => updateShowFps(), }
+);
+const languageSelect = new Library.Control.Select
+(
+    control.language,
+    {
+        makeLabel: i => "Auto" === i ? Library.Locale.map("Auto"): Library.Locale.map("language-label", i as Library.Locale.Type),
+        change: () => updateLanguage(),
+    }
 );
 const fpsElement = Library.UI.getElementById("div", "fps");
 Library.UI.replaceChildren

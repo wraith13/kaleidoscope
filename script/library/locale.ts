@@ -2,7 +2,6 @@ import localeEn from "@resource/lang.en.json";
 import localeJa from "@resource/lang.ja.json";
 export namespace Locale
 {
-    const lang = "ja" === navigator.language.substring(0, 2) ? "ja": "en";
     export const master =
     {
         en: localeEn,
@@ -12,5 +11,23 @@ export namespace Locale
         keyof typeof localeEn &
         keyof typeof localeJa;
     export type Type = keyof typeof master;
-    export const map = (key: KeyType) => master[lang][key];
+    const supportedLangs = ["ja", "en"] as const;
+    const systemLang = navigator.language.split("-")[0] as Type;
+    const defaultLang: Type = supportedLangs.includes(systemLang) ? systemLang: "en";
+    let lang: Type = defaultLang;
+    export const getLocale = () => lang;
+    export const setLocale = (locale?: Type | "Auto") =>
+    {
+        switch(locale)
+        {
+        case undefined:
+        case "Auto":
+            lang = defaultLang;
+            break;
+        default:
+            lang = locale;
+            break;
+        }
+    }
+    export const map = (key: KeyType, l?: Type) => master[l ?? lang][key];
 }
