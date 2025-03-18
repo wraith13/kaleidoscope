@@ -197,7 +197,7 @@ declare module "script/library/control" {
 declare module "script/library/shortcuts" {
     import shortcuts from "resource/shortcuts";
     export namespace Shortcuts {
-        type CommandKey = Exclude<(typeof shortcuts)[number]["onKeyDown"] | (typeof shortcuts)[number]["onKeyUp"], undefined>;
+        type CommandKey = (typeof shortcuts)[number]["command"];
         type CommandMap = {
             [key in Shortcuts.CommandKey]-?: () => void;
         };

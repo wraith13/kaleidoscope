@@ -501,107 +501,120 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
 });
 define("resource/shortcuts", [], [
     {
+        "command": "toggleHideUI",
         "description": "Hide UI",
+        "type": "onKeyDown",
         "keys": [
             "U", "I"
-        ],
-        "onKeyDown": "toggleHideUI",
-        "onKeyUp": "nop"
+        ]
     },
     {
+        "command": "playOrPause",
         "description": "Play / Pause",
+        "type": "onKeyDown",
         "keys": [
             " "
-        ],
-        "onKeyDown": "playOrPause"
+        ]
     },
     {
+        "command": "switchPatternForward",
         "description": "Switch Pattern (Forward)",
+        "type": "onKeyDown",
         "keys": [
             "P"
-        ],
-        "onKeyDown": "switchPatternForward"
+        ]
     },
     {
+        "command": "switchPatternBackward",
         "description": "Switch Pattern (Backward)",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "P"
-        ],
-        "onKeyDown": "switchPatternBackward"
+        ]
     },
     {
+        "command": "switchColoringForward",
         "description": "Switch Coloring (Forward)",
+        "type": "onKeyDown",
         "keys": [
             "C"
-        ],
-        "onKeyDown": "switchColoringForward"
+        ]
     },
     {
+        "command": "switchColoringBackward",
         "description": "Switch Coloring (Backward)",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "C"
-        ],
-        "onKeyDown": "switchColoringBackward"
+        ]
     },
     {
+        "command": "increaseCanvasSize",
         "description": "Increase Canvas Size",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "ArrowUp"
-        ],
-        "onKeyDown": "increaseCanvasSize"
+        ]
     },
     {
+        "command": "decreaseCanvasSize",
         "description": "Decrease Canvas Size",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "ArrowDown"
-        ],
-        "onKeyDown": "decreaseCanvasSize"
+        ]
     },
     {
+        "command": "increaseLayer",
         "description": "Increase Layer",
+        "type": "onKeyDown",
         "keys": [
             "ArrowUp"
-        ],
-        "onKeyDown": "increaseLayer"
+        ]
     },
     {
+        "command": "decreaseLayer",
         "description": "Decrease Layer",
+        "type": "onKeyDown",
         "keys": [
             "ArrowDown"
-        ],
-        "onKeyDown": "decreaseLayer"
+        ]
     },
     {
+        "command": "speedDown",
         "description": "Speed Down",
+        "type": "onKeyDown",
         "keys": [
             "ArrowLeft"
-        ],
-        "onKeyDown": "speedDown"
+        ]
     },
     {
+        "command": "speedUp",
         "description": "Speed Up",
+        "type": "onKeyDown",
         "keys": [
             "ArrowRight"
-        ],
-        "onKeyDown": "speedUp"
+        ]
     },
     {
+        "command": "toggleFullScreen",
         "description": "FullScreen",
+        "type": "onKeyDown",
         "keys": [
             "F"
-        ],
-        "onKeyDown": "toggleFullScreen"
+        ]
     },
     {
+        "command": "toggleShowFPS",
         "description": "Show FPS",
+        "type": "onKeyDown",
         "keys": [
             "S"
-        ],
-        "onKeyDown": "toggleShowFPS"
+        ]
     }
 ]);
 define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"], function (require, exports, shortcuts_json_1) {
@@ -660,9 +673,9 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
                 var commandKeys = shortcuts_json_1.default.filter(function (shortcut) {
                     return shortcut.keys.length === shortcutkeys.length &&
                         shortcut.keys.every(function (key) { return shortcutkeys.includes(key); }) &&
-                        shortcut[type];
+                        type === shortcut.type;
                 })
-                    .map(function (i) { return i[type]; });
+                    .map(function (i) { return i.command; });
                 if (0 < commandKeys.length) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -2484,6 +2497,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var playAnimation = function () {
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("mousemove", false);
+        keyboardShortcut.classList.toggle("show", false);
         updateFullscreenState();
         _features_1.Features.Fps.reset();
         updateFps();
@@ -2638,7 +2652,12 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
     _library_3.Library.Shortcuts.setCommandMap({
         "nop": function () { },
-        "toggleHideUI": function () { return document.body.classList.toggle("hide-ui"); },
+        "toggleHideUI": function () {
+            document.body.classList.toggle("hide-ui");
+            if (document.body.classList.contains("hide-ui")) {
+                keyboardShortcut.classList.toggle("show", false);
+            }
+        },
         "playOrPause": function () { return playOrPauseAnimation(); },
         "switchPatternForward": function () { return patternSelect.switch(true); },
         "switchPatternBackward": function () { return patternSelect.switch(false); },

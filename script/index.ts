@@ -14,6 +14,7 @@ const playAnimation = () =>
 {
     document.body.classList.toggle("immersive", true);
     document.body.classList.toggle("mousemove", false);
+    keyboardShortcut.classList.toggle("show", false);
     updateFullscreenState();
     Features.Fps.reset();
     updateFps();
@@ -266,7 +267,14 @@ Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
 Library.Shortcuts.setCommandMap
 ({
     "nop": () => { },
-    "toggleHideUI": () => document.body.classList.toggle("hide-ui"),
+    "toggleHideUI": () =>
+    {
+        document.body.classList.toggle("hide-ui");
+        if (document.body.classList.contains("hide-ui"))
+        {
+            keyboardShortcut.classList.toggle("show", false);
+        }
+    },
     "playOrPause": () => playOrPauseAnimation(),
     "switchPatternForward": () => patternSelect.switch(true),
     "switchPatternBackward": () => patternSelect.switch(false),

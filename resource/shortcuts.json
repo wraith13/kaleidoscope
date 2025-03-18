@@ -1,105 +1,118 @@
 [
     {
+        "command": "toggleHideUI",
         "description": "Hide UI",
+        "type": "onKeyDown",
         "keys": [
             "U", "I"
-        ],
-        "onKeyDown": "toggleHideUI",
-        "onKeyUp": "nop"
+        ]
     },
     {
+        "command": "playOrPause",
         "description": "Play / Pause",
+        "type": "onKeyDown",
         "keys": [
             " "
-        ],
-        "onKeyDown": "playOrPause"
+        ]
     },
     {
+        "command": "switchPatternForward",
         "description": "Switch Pattern (Forward)",
+        "type": "onKeyDown",
         "keys": [
             "P"
-        ],
-        "onKeyDown": "switchPatternForward"
+        ]
     },
     {
+        "command": "switchPatternBackward",
         "description": "Switch Pattern (Backward)",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "P"
-        ],
-        "onKeyDown": "switchPatternBackward"
+        ]
     },
     {
+        "command": "switchColoringForward",
         "description": "Switch Coloring (Forward)",
+        "type": "onKeyDown",
         "keys": [
             "C"
-        ],
-        "onKeyDown": "switchColoringForward"
+        ]
     },
     {
+        "command": "switchColoringBackward",
         "description": "Switch Coloring (Backward)",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "C"
-        ],
-        "onKeyDown": "switchColoringBackward"
+        ]
     },
     {
+        "command": "increaseCanvasSize",
         "description": "Increase Canvas Size",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "ArrowUp"
-        ],
-        "onKeyDown": "increaseCanvasSize"
+        ]
     },
     {
+        "command": "decreaseCanvasSize",
         "description": "Decrease Canvas Size",
+        "type": "onKeyDown",
         "keys": [
             "Shift",
             "ArrowDown"
-        ],
-        "onKeyDown": "decreaseCanvasSize"
+        ]
     },
     {
+        "command": "increaseLayer",
         "description": "Increase Layer",
+        "type": "onKeyDown",
         "keys": [
             "ArrowUp"
-        ],
-        "onKeyDown": "increaseLayer"
+        ]
     },
     {
+        "command": "decreaseLayer",
         "description": "Decrease Layer",
+        "type": "onKeyDown",
         "keys": [
             "ArrowDown"
-        ],
-        "onKeyDown": "decreaseLayer"
+        ]
     },
     {
+        "command": "speedDown",
         "description": "Speed Down",
+        "type": "onKeyDown",
         "keys": [
             "ArrowLeft"
-        ],
-        "onKeyDown": "speedDown"
+        ]
     },
     {
+        "command": "speedUp",
         "description": "Speed Up",
+        "type": "onKeyDown",
         "keys": [
             "ArrowRight"
-        ],
-        "onKeyDown": "speedUp"
+        ]
     },
     {
+        "command": "toggleFullScreen",
         "description": "FullScreen",
+        "type": "onKeyDown",
         "keys": [
             "F"
-        ],
-        "onKeyDown": "toggleFullScreen"
+        ]
     },
     {
+        "command": "toggleShowFPS",
         "description": "Show FPS",
+        "type": "onKeyDown",
         "keys": [
             "S"
-        ],
-        "onKeyDown": "toggleShowFPS"
+        ]
     }
 ]

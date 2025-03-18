@@ -1,7 +1,7 @@
 import shortcuts from "@resource/shortcuts.json";
 export namespace Shortcuts
 {
-    export type CommandKey = Exclude<(typeof shortcuts)[number]["onKeyDown"] | (typeof shortcuts)[number]["onKeyUp"], undefined>;
+    export type CommandKey = (typeof shortcuts)[number]["command"];
     export type CommandMap = { [key in Shortcuts.CommandKey]-?: () => void };
     const keyDisplayNames =
     {
@@ -61,9 +61,9 @@ export namespace Shortcuts
                 shortcut =>
                     shortcut.keys.length === shortcutkeys.length &&
                     shortcut.keys.every(key => shortcutkeys.includes(key)) &&
-                    shortcut[type]
+                    type === shortcut.type
             )
-            .map(i => i[type] as CommandKey);
+            .map(i => i.command);
             if (0 < commandKeys.length)
             {
                 event.preventDefault();
