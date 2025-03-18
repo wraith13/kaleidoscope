@@ -105,6 +105,7 @@ export namespace UI
     export type ElementSource<T extends HtmlTag = any> = CreateElementArguments<T> | HTMLElementTagNameMap[T] | Text | string;
     export interface ElementOptions
     {
+        className?: string;
         text?: string;
         attributes?: Attributes;
         children?: ElementSource[];
@@ -118,7 +119,11 @@ export namespace UI
     export type HtmlTag = keyof HTMLElementTagNameMap;
     export const setOptions = <T extends HTMLElement>(element: T, options: ElementOptions = {}): T =>
     {
-        const { text, attributes = {}, children = [], styles = {}, events = {} } = options;
+        const { className, text, attributes = {}, children = [], styles = {}, events = {} } = options;
+        if ("string" === typeof className)
+        {
+            element.className = className;
+        }
         if ("string" === typeof text)
         {
             element.textContent = text;
@@ -161,10 +166,12 @@ export namespace UI
     {
         if ("append" in parent)
         {
+console.log("\"append\" in parent", elements);
             parent.append(...elements.map(i => createElement(i)));
         }
         else
         {
+console.log("not \"append\" in parent", elements);
             elements.forEach(i => appendChild(parent, i));
         }
         return parent;

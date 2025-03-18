@@ -64,16 +64,8 @@ const updateShowFps = () =>
 {
     fpsElement.classList.toggle("hide", ! showFPS.get());
 };
-const updateLanguage = () =>
+const initializeLanguage = () =>
 {
-    Library.Locale.setLocale(languageSelect.get() as Library.Locale.Type | "Auto");
-    patternSelect.reloadOptions();
-    coloringSelect.reloadOptions();
-    canvasSizeSelect.reloadOptions();
-    layersSelect.reloadOptions();
-    cycleSpanSelect.reloadOptions();
-    fuseFpsSelect.reloadOptions();
-    languageSelect.reloadOptions();
     Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
         .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.KeyType));
     Library.UI.replaceChildren
@@ -83,7 +75,21 @@ const updateLanguage = () =>
         (
             i =>
             [
-                { tag: "span", children: i.keys.map(key => ({ tag: "kbd", text: key })) } as const,
+                {
+                    tag: "span",
+                    children: i.keyss
+                        .map(j => j.map(key => ({ tag: "kbd", text: key })))
+                        .reduce
+                        (
+                            (accumulator, item, i) =>
+                            [
+                                ...accumulator,
+                                ...(0 < i ? [{ tag: "span", className: "separator" , text: "/", }]: []),
+                                ...item,
+                            ],
+                            [] as Library.UI.ElementSource[]
+                        ),
+                } as const,
                 { tag: "span", text: Library.Locale.map(i.description as Library.Locale.KeyType), } as const
             ]
         )
@@ -94,6 +100,18 @@ const updateLanguage = () =>
         Library.UI.getElementById("ul", "information-list"),
         config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.KeyType>i), }))
     );
+};
+const updateLanguage = () =>
+{
+    Library.Locale.setLocale(languageSelect.get() as Library.Locale.Type | "Auto");
+    patternSelect.reloadOptions();
+    coloringSelect.reloadOptions();
+    canvasSizeSelect.reloadOptions();
+    layersSelect.reloadOptions();
+    cycleSpanSelect.reloadOptions();
+    fuseFpsSelect.reloadOptions();
+    languageSelect.reloadOptions();
+    initializeLanguage();
 }
 //const playButton =
 new Library.Control.Button
@@ -158,31 +176,13 @@ const languageSelect = new Library.Control.Select
 const fpsElement = Library.UI.getElementById("div", "fps");
 Library.UI.replaceChildren
 (
-    keyboardShortcut,
-    Library.Shortcuts.getDisplayList().map
-    (
-        i =>
-        [
-            { tag: "span", children: i.keys.map(key => ({ tag: "kbd", text: key })) } as const,
-            { tag: "span", text: Library.Locale.map(i.description as Library.Locale.KeyType), } as const
-        ]
-    )
-    .reduce((a, b) => a.concat(b), [])
-);
-Library.UI.replaceChildren
-(
     Library.UI.querySelector("ul", "#powered-by ul"),
     Object.entries(poweredBy).map
     (
         ([ text, href, ]) => ({ tag: "li", children: [ Library.UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
     )
 );
-Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
-Library.UI.replaceChildren
-(
-    Library.UI.getElementById("ul", "information-list"),
-    config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.KeyType>i), }))
-);
+//Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
 const updateFullscreenState = (fullscreen?: boolean) =>
 {
     if (Library.UI.fullscreenEnabled)
@@ -262,8 +262,7 @@ updateFuseFps();
 updateShowFps();
 Library.UI.querySelectorAllWithFallback("label", [ "label[for]:has(select)", "label[for]" ])
     .forEach(label => Library.UI.showPickerOnLabel(label));
-Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
-    .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.KeyType));
+initializeLanguage();
 Library.Shortcuts.setCommandMap
 ({
     "nop": () => { },

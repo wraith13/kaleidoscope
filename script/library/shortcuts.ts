@@ -1,7 +1,8 @@
 import shortcuts from "@resource/shortcuts.json";
 export namespace Shortcuts
 {
-    export type CommandKey = (typeof shortcuts)[number]["command"];
+    export type Entry = (typeof shortcuts)[number]["shortcuts"][number];
+    export type CommandKey = Entry["command"];
     export type CommandMap = { [key in Shortcuts.CommandKey]-?: () => void };
     const keyDisplayNames =
     {
@@ -18,7 +19,7 @@ export namespace Shortcuts
         (
             i =>
             ({
-                keys: i.keys.map(key => getDisplayKeyName(key)),
+                keyss: i.shortcuts.map(j => j.keys.map(key => getDisplayKeyName(key))),
                 description: i.description,
             })
         );
@@ -56,7 +57,7 @@ export namespace Shortcuts
         }
         if ( ! isInputElementFocused())
         {
-            const commandKeys = shortcuts.filter
+            const commandKeys = shortcuts.reduce((a, b) => a.concat(b.shortcuts), [] as Entry[]).filter
             (
                 shortcut =>
                     shortcut.keys.length === shortcutkeys.length &&

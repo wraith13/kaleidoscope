@@ -118,7 +118,7 @@ define("resource/lang.ja", [], {
     "show-fps-label": "FPS を表示:",
     "language-label": "言語:",
     "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
-    "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"Fuse FPS\" を下回ると自動停止します。",
+    "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
     "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
     "DELETEME.informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
     "timeUnitMs": "ミリ秒",
@@ -286,7 +286,10 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
         };
         UI.setOptions = function (element, options) {
             if (options === void 0) { options = {}; }
-            var text = options.text, _a = options.attributes, attributes = _a === void 0 ? {} : _a, _b = options.children, children = _b === void 0 ? [] : _b, _c = options.styles, styles = _c === void 0 ? {} : _c, _d = options.events, events = _d === void 0 ? {} : _d;
+            var className = options.className, text = options.text, _a = options.attributes, attributes = _a === void 0 ? {} : _a, _b = options.children, children = _b === void 0 ? [] : _b, _c = options.styles, styles = _c === void 0 ? {} : _c, _d = options.events, events = _d === void 0 ? {} : _d;
+            if ("string" === typeof className) {
+                element.className = className;
+            }
             if ("string" === typeof text) {
                 element.textContent = text;
             }
@@ -324,9 +327,11 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
         };
         UI.appendChildren = function (parent, elements) {
             if ("append" in parent) {
+                console.log("\"append\" in parent", elements);
                 parent.append.apply(parent, elements.map(function (i) { return UI.createElement(i); }));
             }
             else {
+                console.log("not \"append\" in parent", elements);
                 elements.forEach(function (i) { return UI.appendChild(parent, i); });
             }
             return parent;
@@ -501,119 +506,151 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
 });
 define("resource/shortcuts", [], [
     {
-        "command": "toggleHideUI",
         "description": "Hide UI",
-        "type": "onKeyDown",
-        "keys": [
-            "U", "I"
+        "shortcuts": [
+            {
+                "command": "toggleHideUI",
+                "type": "onKeyDown",
+                "keys": [
+                    "U",
+                    "I"
+                ]
+            }
         ]
     },
     {
-        "command": "playOrPause",
         "description": "Play / Pause",
-        "type": "onKeyDown",
-        "keys": [
-            " "
+        "shortcuts": [
+            {
+                "command": "playOrPause",
+                "type": "onKeyDown",
+                "keys": [
+                    " "
+                ]
+            }
         ]
     },
     {
-        "command": "switchPatternForward",
         "description": "Switch Pattern (Forward)",
-        "type": "onKeyDown",
-        "keys": [
-            "P"
+        "shortcuts": [
+            {
+                "command": "switchPatternForward",
+                "type": "onKeyDown",
+                "keys": [
+                    "P"
+                ]
+            },
+            {
+                "command": "switchPatternBackward",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "P"
+                ]
+            }
         ]
     },
     {
-        "command": "switchPatternBackward",
-        "description": "Switch Pattern (Backward)",
-        "type": "onKeyDown",
-        "keys": [
-            "Shift",
-            "P"
-        ]
-    },
-    {
-        "command": "switchColoringForward",
         "description": "Switch Coloring (Forward)",
-        "type": "onKeyDown",
-        "keys": [
-            "C"
+        "shortcuts": [
+            {
+                "command": "switchColoringForward",
+                "type": "onKeyDown",
+                "keys": [
+                    "C"
+                ]
+            },
+            {
+                "command": "switchColoringBackward",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "C"
+                ]
+            }
         ]
     },
     {
-        "command": "switchColoringBackward",
-        "description": "Switch Coloring (Backward)",
-        "type": "onKeyDown",
-        "keys": [
-            "Shift",
-            "C"
-        ]
-    },
-    {
-        "command": "increaseCanvasSize",
         "description": "Increase Canvas Size",
-        "type": "onKeyDown",
-        "keys": [
-            "Shift",
-            "ArrowUp"
+        "shortcuts": [
+            {
+                "command": "increaseCanvasSize",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "ArrowUp"
+                ]
+            },
+            {
+                "command": "decreaseCanvasSize",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "ArrowDown"
+                ]
+            }
         ]
     },
     {
-        "command": "decreaseCanvasSize",
-        "description": "Decrease Canvas Size",
-        "type": "onKeyDown",
-        "keys": [
-            "Shift",
-            "ArrowDown"
-        ]
-    },
-    {
-        "command": "increaseLayer",
         "description": "Increase Layer",
-        "type": "onKeyDown",
-        "keys": [
-            "ArrowUp"
+        "shortcuts": [
+            {
+                "command": "increaseLayer",
+                "type": "onKeyDown",
+                "keys": [
+                    "ArrowUp"
+                ]
+            },
+            {
+                "command": "decreaseLayer",
+                "type": "onKeyDown",
+                "keys": [
+                    "ArrowDown"
+                ]
+            }
         ]
     },
     {
-        "command": "decreaseLayer",
-        "description": "Decrease Layer",
-        "type": "onKeyDown",
-        "keys": [
-            "ArrowDown"
-        ]
-    },
-    {
-        "command": "speedDown",
         "description": "Speed Down",
-        "type": "onKeyDown",
-        "keys": [
-            "ArrowLeft"
+        "shortcuts": [
+            {
+                "command": "speedDown",
+                "type": "onKeyDown",
+                "keys": [
+                    "ArrowLeft"
+                ]
+            },
+            {
+                "command": "speedUp",
+                "type": "onKeyDown",
+                "keys": [
+                    "ArrowRight"
+                ]
+            }
         ]
     },
     {
-        "command": "speedUp",
-        "description": "Speed Up",
-        "type": "onKeyDown",
-        "keys": [
-            "ArrowRight"
-        ]
-    },
-    {
-        "command": "toggleFullScreen",
         "description": "FullScreen",
-        "type": "onKeyDown",
-        "keys": [
-            "F"
+        "shortcuts": [
+            {
+                "command": "toggleFullScreen",
+                "type": "onKeyDown",
+                "keys": [
+                    "F"
+                ]
+            }
         ]
     },
     {
-        "command": "toggleShowFPS",
         "description": "Show FPS",
-        "type": "onKeyDown",
-        "keys": [
-            "S"
+        "shortcuts": [
+            {
+                "command": "toggleShowFPS",
+                "type": "onKeyDown",
+                "keys": [
+                    "S"
+                ]
+            }
         ]
     }
 ]);
@@ -636,7 +673,7 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
         Shortcuts.getDisplayList = function () {
             return shortcuts_json_1.default.map(function (i) {
                 return ({
-                    keys: i.keys.map(function (key) { return getDisplayKeyName(key); }),
+                    keyss: i.shortcuts.map(function (j) { return j.keys.map(function (key) { return getDisplayKeyName(key); }); }),
                     description: i.description,
                 });
             });
@@ -670,7 +707,7 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
                     break;
             }
             if (!isInputElementFocused()) {
-                var commandKeys = shortcuts_json_1.default.filter(function (shortcut) {
+                var commandKeys = shortcuts_json_1.default.reduce(function (a, b) { return a.concat(b.shortcuts); }, []).filter(function (shortcut) {
                     return shortcut.keys.length === shortcutkeys.length &&
                         shortcut.keys.every(function (key) { return shortcutkeys.includes(key); }) &&
                         type === shortcut.type;
@@ -2538,6 +2575,25 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var updateShowFps = function () {
         fpsElement.classList.toggle("hide", !showFPS.get());
     };
+    var initializeLanguage = function () {
+        _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
+            .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
+        _library_3.Library.UI.replaceChildren(keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
+            return [
+                {
+                    tag: "span",
+                    children: i.keyss
+                        .map(function (j) { return j.map(function (key) { return ({ tag: "kbd", text: key }); }); })
+                        .reduce(function (accumulator, item, i) {
+                        return __spreadArray(__spreadArray(__spreadArray([], accumulator, true), (0 < i ? [{ tag: "span", className: "separator", text: "/", }] : []), true), item, true);
+                    }, []),
+                },
+                { tag: "span", text: _library_3.Library.Locale.map(i.description), }
+            ];
+        })
+            .reduce(function (a, b) { return a.concat(b); }, []));
+        _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
+    };
     var updateLanguage = function () {
         _library_3.Library.Locale.setLocale(languageSelect.get());
         patternSelect.reloadOptions();
@@ -2547,16 +2603,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         cycleSpanSelect.reloadOptions();
         fuseFpsSelect.reloadOptions();
         languageSelect.reloadOptions();
-        _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-            .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
-        _library_3.Library.UI.replaceChildren(keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
-            return [
-                { tag: "span", children: i.keys.map(function (key) { return ({ tag: "kbd", text: key }); }) },
-                { tag: "span", text: _library_3.Library.Locale.map(i.description), }
-            ];
-        })
-            .reduce(function (a, b) { return a.concat(b); }, []));
-        _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
+        initializeLanguage();
     };
     //const playButton =
     new _library_3.Library.Control.Button({
@@ -2584,19 +2631,11 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         change: function () { return updateLanguage(); },
     });
     var fpsElement = _library_3.Library.UI.getElementById("div", "fps");
-    _library_3.Library.UI.replaceChildren(keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
-        return [
-            { tag: "span", children: i.keys.map(function (key) { return ({ tag: "kbd", text: key }); }) },
-            { tag: "span", text: _library_3.Library.Locale.map(i.description), }
-        ];
-    })
-        .reduce(function (a, b) { return a.concat(b); }, []));
     _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
         var text = _a[0], href = _a[1];
         return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
     }));
-    _library_3.Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
-    _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
+    //Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
     var updateFullscreenState = function (fullscreen) {
         if (_library_3.Library.UI.fullscreenEnabled) {
             if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.get()) {
@@ -2648,8 +2687,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     updateShowFps();
     _library_3.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
         .forEach(function (label) { return _library_3.Library.UI.showPickerOnLabel(label); });
-    _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-        .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
+    initializeLanguage();
     _library_3.Library.Shortcuts.setCommandMap({
         "nop": function () { },
         "toggleHideUI": function () {

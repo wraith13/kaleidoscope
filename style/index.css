@@ -590,6 +590,31 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
   margin: 2px;
   background-color: rgba(255, 255, 255, 0.15);
 }
+#screen-footer #supplementary-line #keyboard-shortcut span .separator {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #screen-footer #supplementary-line #keyboard-shortcut span .separator {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #screen-footer #supplementary-line #keyboard-shortcut span .separator {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#screen-footer #supplementary-line #keyboard-shortcut span .separator {
+  font-family: monospace;
+}
+#screen-footer #supplementary-line #keyboard-shortcut span .separator {
+  display: inline-block;
+  padding: 1px 4px;
+  margin: 2px;
+}
 @media (max-width: 760px) or (max-height: 780px) {
   #screen-footer #supplementary-line #keyboard-shortcut {
     visibility: hidden;

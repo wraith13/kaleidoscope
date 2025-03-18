@@ -114,6 +114,7 @@ declare module "script/library/ui" {
         };
         type ElementSource<T extends HtmlTag = any> = CreateElementArguments<T> | HTMLElementTagNameMap[T] | Text | string;
         interface ElementOptions {
+            className?: string;
             text?: string;
             attributes?: Attributes;
             children?: ElementSource[];
@@ -197,12 +198,13 @@ declare module "script/library/control" {
 declare module "script/library/shortcuts" {
     import shortcuts from "resource/shortcuts";
     export namespace Shortcuts {
-        type CommandKey = (typeof shortcuts)[number]["command"];
+        type Entry = (typeof shortcuts)[number]["shortcuts"][number];
+        type CommandKey = Entry["command"];
         type CommandMap = {
             [key in Shortcuts.CommandKey]-?: () => void;
         };
         const getDisplayList: () => {
-            keys: string[];
+            keyss: string[][];
             description: string;
         }[];
         const handleKeyEvent: (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) => void;
