@@ -25,7 +25,7 @@
         ]
     },
     {
-        "description": "Switch Pattern (Forward)",
+        "description": "Switch Pattern",
         "shortcuts": [
             {
                 "command": "switchPatternForward",
@@ -45,7 +45,7 @@
         ]
     },
     {
-        "description": "Switch Coloring (Forward)",
+        "description": "Switch Coloring",
         "shortcuts": [
             {
                 "command": "switchColoringForward",
@@ -65,7 +65,7 @@
         ]
     },
     {
-        "description": "Increase Canvas Size",
+        "description": "Scaling Canvas Size",
         "shortcuts": [
             {
                 "command": "increaseCanvasSize",
@@ -86,7 +86,7 @@
         ]
     },
     {
-        "description": "Increase Layer",
+        "description": "Increase / Decrease Layer",
         "shortcuts": [
             {
                 "command": "increaseLayer",
@@ -105,7 +105,7 @@
         ]
     },
     {
-        "description": "Speed Down",
+        "description": "Speed Down / Up",
         "shortcuts": [
             {
                 "command": "speedDown",

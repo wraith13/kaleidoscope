@@ -90,16 +90,11 @@ define("resource/lang.en", [], {
     "ago": "ago",
     "Hide UI": "Hide UI",
     "Play / Pause": "Play / Pause",
-    "Switch Pattern (Forward)": "Switch Pattern (Forward)",
-    "Switch Pattern (Backward)": "Switch Pattern (Backward)",
-    "Switch Coloring (Forward)": "Switch Coloring (Forward)",
-    "Switch Coloring (Backward)": "Switch Coloring (Backward)",
-    "Increase Canvas Size": "Increase Canvas Size",
-    "Decrease Canvas Size": "Decrease Canvas Size",
-    "Increase Layer": "Increase Layer",
-    "Decrease Layer": "Decrease Layer",
-    "Speed Down": "Speed Down",
-    "Speed Up": "Speed Up",
+    "Switch Pattern": "Switch Pattern",
+    "Switch Coloring": "Switch Coloring",
+    "Scaling Canvas Size": "Scaling Canvas Size",
+    "Increase / Decrease Layer": "Increase / Decrease Layer",
+    "Speed Down / Up": "Speed Down / Up",
     "FullScreen": "FullScreen",
     "Show FPS": "Show FPS"
 });
@@ -129,16 +124,11 @@ define("resource/lang.ja", [], {
     "ago": "前",
     "Hide UI": "UI 非表示",
     "Play / Pause": "再生 / 一時停止",
-    "Switch Pattern (Forward)": "パターン切り替え (順方向)",
-    "Switch Pattern (Backward)": "パターン切り替え (逆方向)",
-    "Switch Coloring (Forward)": "カラーリング切り替え (順方向)",
-    "Switch Coloring (Backward)": "カラーリング切り替え (逆方向)",
-    "Increase Canvas Size": "キャンバスサイズ拡大",
-    "Decrease Canvas Size": "キャンバスサイズ縮小",
-    "Increase Layer": "レイヤー増加",
-    "Decrease Layer": "レイヤー減少",
-    "Speed Down": "スピードダウン",
-    "Speed Up": "スピードアップ",
+    "Switch Pattern": "パターン切り替え",
+    "Switch Coloring": "カラーリング切り替え",
+    "Scaling Canvas Size": "キャンバスサイズ拡大縮小",
+    "Increase / Decrease Layer": "レイヤー増減",
+    "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
     "Show FPS": "FPS 表示"
 });
@@ -531,7 +521,7 @@ define("resource/shortcuts", [], [
         ]
     },
     {
-        "description": "Switch Pattern (Forward)",
+        "description": "Switch Pattern",
         "shortcuts": [
             {
                 "command": "switchPatternForward",
@@ -551,7 +541,7 @@ define("resource/shortcuts", [], [
         ]
     },
     {
-        "description": "Switch Coloring (Forward)",
+        "description": "Switch Coloring",
         "shortcuts": [
             {
                 "command": "switchColoringForward",
@@ -571,7 +561,7 @@ define("resource/shortcuts", [], [
         ]
     },
     {
-        "description": "Increase Canvas Size",
+        "description": "Scaling Canvas Size",
         "shortcuts": [
             {
                 "command": "increaseCanvasSize",
@@ -592,7 +582,7 @@ define("resource/shortcuts", [], [
         ]
     },
     {
-        "description": "Increase Layer",
+        "description": "Increase / Decrease Layer",
         "shortcuts": [
             {
                 "command": "increaseLayer",
@@ -611,7 +601,7 @@ define("resource/shortcuts", [], [
         ]
     },
     {
-        "description": "Speed Down",
+        "description": "Speed Down / Up",
         "shortcuts": [
             {
                 "command": "speedDown",
