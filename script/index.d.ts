@@ -259,6 +259,17 @@ declare module "script/tools/index" {
 }
 declare module "script/features/fps" {
     export namespace Fps {
+        export class OnlineStandardDeviation {
+            count: number;
+            mean: number;
+            m2: number;
+            reset: () => void;
+            update: (value: number) => void;
+            isValid: () => boolean;
+            getVariance: () => number;
+            getStandardDeviation: () => number;
+        }
+        export const standardDeviation: OnlineStandardDeviation;
         interface FpsHistoryEntry {
             fps: number;
             now: number;

@@ -1,5 +1,32 @@
 export namespace Fps
 {
+    export class OnlineStandardDeviation
+    {
+        count: number = 0;
+        mean: number = 0;
+        m2: number = 0;
+        public reset = () =>
+        {
+            this.count = 0;
+            this.mean = 0;
+            this.m2 = 0;
+        };
+    
+        public update = (value: number) =>
+        {
+            this.count += 1;
+            const delta = value - this.mean;
+            this.mean += delta / this.count;
+            const delta2 = value - this.mean;
+            this.m2 += delta * delta2;
+        }
+        public isValid = () => 1 < this.count;
+        public getVariance = () =>
+            this.isValid() ? this.m2 / (this.count - 1) : 0;
+        public getStandardDeviation = () =>
+            Math.sqrt(this.getVariance());
+    }
+    export const standardDeviation = new OnlineStandardDeviation();
     interface FpsHistoryEntry
     {
         fps: number;
@@ -27,6 +54,7 @@ export namespace Fps
         fpsHistory = [];
         currentMaxFps = currentNowFps = currentMinFps =
             makeInvalidFpsHistoryEntry();
+        standardDeviation.reset();
     };
     export const step = (now: number) =>
     {
@@ -41,6 +69,7 @@ export namespace Fps
             const timeSpan = Math.max(now - frameTimings[0], 0.001); // max for avoid 0 div
             const frameCount = frameTimings.length - 1;
             const fps = (frameCount * 1000) / timeSpan;
+            standardDeviation.update(fps);
             currentNowFps =
             {
                 fps,

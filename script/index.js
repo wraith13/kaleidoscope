@@ -317,11 +317,9 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
         };
         UI.appendChildren = function (parent, elements) {
             if ("append" in parent) {
-                console.log("\"append\" in parent", elements);
                 parent.append.apply(parent, elements.map(function (i) { return UI.createElement(i); }));
             }
             else {
-                console.log("not \"append\" in parent", elements);
                 elements.forEach(function (i) { return UI.appendChild(parent, i); });
             }
             return parent;
@@ -831,6 +829,36 @@ define("script/features/fps", ["require", "exports"], function (require, exports
     exports.Fps = void 0;
     var Fps;
     (function (Fps) {
+        var OnlineStandardDeviation = /** @class */ (function () {
+            function OnlineStandardDeviation() {
+                var _this = this;
+                this.count = 0;
+                this.mean = 0;
+                this.m2 = 0;
+                this.reset = function () {
+                    _this.count = 0;
+                    _this.mean = 0;
+                    _this.m2 = 0;
+                };
+                this.update = function (value) {
+                    _this.count += 1;
+                    var delta = value - _this.mean;
+                    _this.mean += delta / _this.count;
+                    var delta2 = value - _this.mean;
+                    _this.m2 += delta * delta2;
+                };
+                this.isValid = function () { return 1 < _this.count; };
+                this.getVariance = function () {
+                    return _this.isValid() ? _this.m2 / (_this.count - 1) : 0;
+                };
+                this.getStandardDeviation = function () {
+                    return Math.sqrt(_this.getVariance());
+                };
+            }
+            return OnlineStandardDeviation;
+        }());
+        Fps.OnlineStandardDeviation = OnlineStandardDeviation;
+        Fps.standardDeviation = new OnlineStandardDeviation();
         var fpsWindow = 1000;
         var frameTimings = [];
         var fpsHistory = [];
@@ -847,6 +875,7 @@ define("script/features/fps", ["require", "exports"], function (require, exports
             fpsHistory = [];
             Fps.currentMaxFps = Fps.currentNowFps = Fps.currentMinFps =
                 makeInvalidFpsHistoryEntry();
+            Fps.standardDeviation.reset();
         };
         Fps.step = function (now) {
             frameTimings.push(now);
@@ -858,6 +887,7 @@ define("script/features/fps", ["require", "exports"], function (require, exports
                 var timeSpan = Math.max(now - frameTimings[0], 0.001); // max for avoid 0 div
                 var frameCount = frameTimings.length - 1;
                 var fps = (frameCount * 1000) / timeSpan;
+                Fps.standardDeviation.update(fps);
                 Fps.currentNowFps =
                     {
                         fps: fps,
@@ -2533,6 +2563,11 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var pauseAnimation = function () {
         document.body.classList.toggle("immersive", false);
         updateFullscreenState(false);
+        console.log("fps", {
+            standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
+            mean: _features_1.Features.Fps.standardDeviation.mean,
+            count: _features_1.Features.Fps.standardDeviation.count,
+        });
     };
     var playOrPauseAnimation = function () {
         return isInAnimation() ? pauseAnimation() : playAnimation();

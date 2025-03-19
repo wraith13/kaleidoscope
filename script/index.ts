@@ -24,6 +24,15 @@ const pauseAnimation = () =>
 {
     document.body.classList.toggle("immersive", false);
     updateFullscreenState(false);
+    console.log
+    (
+        "fps",
+        {
+            standardDeviation: Features.Fps.standardDeviation.getStandardDeviation(),
+            mean: Features.Fps.standardDeviation.mean,
+            count: Features.Fps.standardDeviation.count,
+        }
+    );
 };
 const playOrPauseAnimation = () =>
     isInAnimation() ? pauseAnimation(): playAnimation();

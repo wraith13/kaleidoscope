@@ -166,12 +166,10 @@ export namespace UI
     {
         if ("append" in parent)
         {
-console.log("\"append\" in parent", elements);
             parent.append(...elements.map(i => createElement(i)));
         }
         else
         {
-console.log("not \"append\" in parent", elements);
             elements.forEach(i => appendChild(parent, i));
         }
         return parent;
