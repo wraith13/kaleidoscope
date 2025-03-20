@@ -16,7 +16,7 @@
         "description": "Play / Pause",
         "shortcuts": [
             {
-                "command": "playOrPause",
+                "command": "toggleAnimation",
                 "type": "onKeyDown",
                 "keys": [
                     " "
@@ -139,7 +139,7 @@
         "description": "Show FPS",
         "shortcuts": [
             {
-                "command": "toggleShowFPS",
+                "command": "toggleShowFps",
                 "type": "onKeyDown",
                 "keys": [
                     "S"

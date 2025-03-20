@@ -4,9 +4,11 @@
 
 ## Introduction
 
-Kaleidoscope Web Screen Saver is a web-based screen saver that provides mesmerizing kaleidoscope animations. This project allows users to create visually appealing animations with customizable patterns and colors. It works seamlessly on various devices, including PCs, smartphones, and tablets, and supports fullscreen mode.
+Kaleidoscope Web Screen Saver is a web-based screen saver that displays kaleidoscope animations. Users can customize patterns and colors to create simple yet visually engaging animations. It works on various devices, including PCs, smartphones, and tablets, and supports fullscreen mode.
 
-This software is designed to be easily hosted and shared using GitHub Pages. It can be used for personal relaxation, demonstrations, or simply to enjoy beautiful animations.
+By increasing the number of layers, users can create even more beautiful and intricate visuals. However, please note that higher layer counts may also increase the computational load, which could affect performance on less powerful devices.
+
+This software can be hosted and shared using GitHub Pages, making it easy to use for personal enjoyment or demonstrations.
 
 ## Feature
 
@@ -18,6 +20,7 @@ This software is designed to be easily hosted and shared using GitHub Pages. It 
 - Fullscreen Support
 - Multi-language Support: English, Japanese
 - Device Compatibility: PCs, Smartphones, Tablets
+- Keyboard Shortcuts Support for easier operation
 
 ## How to build
 

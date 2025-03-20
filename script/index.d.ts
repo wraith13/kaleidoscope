@@ -228,6 +228,7 @@ declare module "script/tools/timespan" {
 declare module "script/tools/math" {
     export namespace Math {
         const scale: (min: number, max: number) => (r: number) => number;
+        const sum: (numbers: number[]) => number;
     }
 }
 declare module "script/tools/random" {

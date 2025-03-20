@@ -22,25 +22,28 @@ const playAnimation = () =>
 };
 const pauseAnimation = () =>
 {
+    if (isInAnimation())
+    {
+        console.log
+        (
+            "📈 fps",
+            {
+                count: Features.Fps.standardDeviation.count,
+                mean: Features.Fps.standardDeviation.mean,
+                standardDeviation: Features.Fps.standardDeviation.getStandardDeviation(),
+            }
+        );
+    }
     document.body.classList.toggle("immersive", false);
     updateFullscreenState(false);
-    console.log
-    (
-        "fps",
-        {
-            standardDeviation: Features.Fps.standardDeviation.getStandardDeviation(),
-            mean: Features.Fps.standardDeviation.mean,
-            count: Features.Fps.standardDeviation.count,
-        }
-    );
 };
-const playOrPauseAnimation = () =>
+const toggleAnimation = () =>
     isInAnimation() ? pauseAnimation(): playAnimation();
 const updateFps = () =>
 {
-    if (showFPS.get())
+    if (showFps.get())
     {
-        fpsElement.innerText = Features.Fps.getText();
+        fpsDisplay.innerText = Features.Fps.getText();
     }
 }
 const update = (setter?: () => unknown) =>
@@ -59,10 +62,10 @@ const updateCanvasSize = () =>
 {
     const newCanvasSize = parseFloat(canvasSizeSelect.get());
     const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
-    const canvasMergin = (1 -newCanvasSizeRate) *100 /2;
+    const canvasMargin = (1 -newCanvasSizeRate) *100 /2;
     [ "top", "right", "bottom", "left", ].forEach
     (
-        i => canvas.style.setProperty(i, `${canvasMergin}%`)
+        i => canvas.style.setProperty(i, `${canvasMargin}%`)
     );
     updateDiagonalSize();
 };
@@ -71,7 +74,7 @@ const updateFuseFps = (): number => Features.Fps.fuseFps = parseFloat(fuseFpsSel
 const updateEasing = () => update(() => animator.setEasing(easingCheckbox.get()));
 const updateShowFps = () =>
 {
-    fpsElement.classList.toggle("hide", ! showFPS.get());
+    fpsDisplay.classList.toggle("hide", ! showFps.get());
 };
 const initializeLanguage = () =>
 {
@@ -130,7 +133,7 @@ new Library.Control.Button
     {
         event.stopPropagation();
         button.dom.blur();
-        playOrPauseAnimation();
+        toggleAnimation();
     }
 });
 const patternSelect = new Library.Control.Select
@@ -169,7 +172,7 @@ if ( ! Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement)
 {
     withFullscreen.dom.parentElement.style.setProperty("display", "none");
 }
-const showFPS = new Library.Control.Checkbox
+const showFps = new Library.Control.Checkbox
 (
     control.showFPS,
     { change: () => updateShowFps(), }
@@ -182,7 +185,7 @@ const languageSelect = new Library.Control.Select
         change: () => updateLanguage(),
     }
 );
-const fpsElement = Library.UI.getElementById("div", "fps");
+const fpsDisplay = Library.UI.getElementById("div", "fps");
 Library.UI.replaceChildren
 (
     Library.UI.querySelector("ul", "#powered-by ul"),
@@ -206,7 +209,7 @@ const updateFullscreenState = (fullscreen?: boolean) =>
         }
     }
 };
-const animation = (now: number) =>
+const loopAnimation = (now: number) =>
 {
     if (isInAnimation())
     {
@@ -219,7 +222,7 @@ const animation = (now: number) =>
         else
         {
             animator.step(now);
-            window.requestAnimationFrame(animation);
+            window.requestAnimationFrame(loopAnimation);
         }
     }
 };
@@ -230,7 +233,7 @@ const start = () => setTimeout
         now =>
         {
             animator.startStep(now);
-            animation(now);
+            loopAnimation(now);
         }
     ),
     config.startWait
@@ -248,17 +251,17 @@ topCoat.addEventListener
         }
     }
 );
-const mousemoveTimer = new Library.UI.ToggleClassForWhileTimer();
+const mouseMoveTimer = new Library.UI.ToggleClassForWhileTimer();
 screenBody.addEventListener
 (
     "mousemove",
     _event =>
     {
-        if (config.log.mousemove && ! mousemoveTimer.isOn())
+        if (config.log.mousemove && ! mouseMoveTimer.isOn())
         {
             console.log("🖱️ MouseMove:", event, screenBody);
         }
-        mousemoveTimer.start(document.body, "mousemove", 1000)
+        mouseMoveTimer.start(document.body, "mousemove", 1000)
     }
 );
 updatePattern();
@@ -283,7 +286,7 @@ Library.Shortcuts.setCommandMap
             keyboardShortcut.classList.toggle("show", false);
         }
     },
-    "playOrPause": () => playOrPauseAnimation(),
+    "toggleAnimation": () => toggleAnimation(),
     "switchPatternForward": () => patternSelect.switch(true),
     "switchPatternBackward": () => patternSelect.switch(false),
     "switchColoringForward": () => coloringSelect.switch(true),
@@ -302,9 +305,9 @@ Library.Shortcuts.setCommandMap
             updateFullscreenState();
         }
     },
-    "toggleShowFPS": () =>
+    "toggleShowFps": () =>
     {
-        showFPS.toggle();
+        showFps.toggle();
         updateShowFps();
     },
     "unknownKeyDown": () =>

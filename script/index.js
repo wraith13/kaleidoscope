@@ -79,9 +79,9 @@ define("resource/lang.en", [], {
     "show-fps-label": "Show FPS:",
     "language-label": "Language:",
     "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
-    "informationFuseFps": "⚠️ It will automatically stop when FPS(Max) falls below \"Fuse FPS\" to avoid crashing web browser or OS.",
-    "DELETEME.informationLayers": "The larger the \"Layers\", the more delicate the image can be enjoyed, but the load on the machine will also increase.",
-    "DELETEME.informationPattern": "\"Pattern\" is heavy on \"spots\" and light on \"lines\".",
+    "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
+    "DELETEME.informationLayers": "Higher \"Layers\" create more intricate visuals but increase system load.",
+    "DELETEME.informationPattern": "\"Spots\" patterns are more resource-intensive, while \"Lines\" are lighter.",
     "timeUnitMs": "ms",
     "timeUnitS": "s",
     "timeUnitM": "m",
@@ -510,7 +510,7 @@ define("resource/shortcuts", [], [
         "description": "Play / Pause",
         "shortcuts": [
             {
-                "command": "playOrPause",
+                "command": "toggleAnimation",
                 "type": "onKeyDown",
                 "keys": [
                     " "
@@ -633,7 +633,7 @@ define("resource/shortcuts", [], [
         "description": "Show FPS",
         "shortcuts": [
             {
-                "command": "toggleShowFPS",
+                "command": "toggleShowFps",
                 "type": "onKeyDown",
                 "keys": [
                     "S"
@@ -777,7 +777,12 @@ define("script/tools/math", ["require", "exports"], function (require, exports) 
     exports.Math = void 0;
     var Math;
     (function (Math) {
-        Math.scale = function (min, max) { return function (r) { return min + ((max - min) * r); }; };
+        Math.scale = function (min, max) {
+            return function (r) { return min + ((max - min) * r); };
+        };
+        Math.sum = function (numbers) {
+            return numbers.reduce(function (a, v) { return a + v; }, 0);
+        };
     })(Math || (exports.Math = Math = {}));
 });
 define("script/tools/random", ["require", "exports"], function (require, exports) {
@@ -859,7 +864,7 @@ define("script/features/fps", ["require", "exports"], function (require, exports
         }());
         Fps.OnlineStandardDeviation = OnlineStandardDeviation;
         Fps.standardDeviation = new OnlineStandardDeviation();
-        var fpsWindow = 1000;
+        var fpsWindow = 1000; // ms
         var frameTimings = [];
         var fpsHistory = [];
         var makeInvalidFpsHistoryEntry = function () {
@@ -894,7 +899,7 @@ define("script/features/fps", ["require", "exports"], function (require, exports
                         now: now,
                         text: makeFpsText(fps),
                     };
-                var expiredAt = now - 1000;
+                var expiredAt = now - fpsWindow;
                 while (0 < fpsHistory.length && fpsHistory[0].now < expiredAt) {
                     fpsHistory.shift();
                 }
@@ -2561,20 +2566,22 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         start();
     };
     var pauseAnimation = function () {
+        if (isInAnimation()) {
+            console.log("📈 fps", {
+                count: _features_1.Features.Fps.standardDeviation.count,
+                mean: _features_1.Features.Fps.standardDeviation.mean,
+                standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
+            });
+        }
         document.body.classList.toggle("immersive", false);
         updateFullscreenState(false);
-        console.log("fps", {
-            standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
-            mean: _features_1.Features.Fps.standardDeviation.mean,
-            count: _features_1.Features.Fps.standardDeviation.count,
-        });
     };
-    var playOrPauseAnimation = function () {
+    var toggleAnimation = function () {
         return isInAnimation() ? pauseAnimation() : playAnimation();
     };
     var updateFps = function () {
-        if (showFPS.get()) {
-            fpsElement.innerText = _features_1.Features.Fps.getText();
+        if (showFps.get()) {
+            fpsDisplay.innerText = _features_1.Features.Fps.getText();
         }
     };
     var update = function (setter) {
@@ -2590,15 +2597,15 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var updateCanvasSize = function () {
         var newCanvasSize = parseFloat(canvasSizeSelect.get());
         var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
-        var canvasMergin = (1 - newCanvasSizeRate) * 100 / 2;
-        ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMergin, "%")); });
+        var canvasMargin = (1 - newCanvasSizeRate) * 100 / 2;
+        ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMargin, "%")); });
         updateDiagonalSize();
     };
     var updateCycleSpan = function () { return update(function () { return animator.setCycleSpan(parseInt(cycleSpanSelect.get())); }); };
     var updateFuseFps = function () { return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get()); };
     var updateEasing = function () { return update(function () { return animator.setEasing(easingCheckbox.get()); }); };
     var updateShowFps = function () {
-        fpsElement.classList.toggle("hide", !showFPS.get());
+        fpsDisplay.classList.toggle("hide", !showFps.get());
     };
     var initializeLanguage = function () {
         _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
@@ -2636,7 +2643,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         click: function (event, button) {
             event.stopPropagation();
             button.dom.blur();
-            playOrPauseAnimation();
+            toggleAnimation();
         }
     });
     var patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
@@ -2650,12 +2657,12 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     if (!_library_3.Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement) {
         withFullscreen.dom.parentElement.style.setProperty("display", "none");
     }
-    var showFPS = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS, { change: function () { return updateShowFps(); }, });
+    var showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS, { change: function () { return updateShowFps(); }, });
     var languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
         makeLabel: function (i) { return "Auto" === i ? _library_3.Library.Locale.map("Auto") : _library_3.Library.Locale.map("lang-label", i); },
         change: function () { return updateLanguage(); },
     });
-    var fpsElement = _library_3.Library.UI.getElementById("div", "fps");
+    var fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
     _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
         var text = _a[0], href = _a[1];
         return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
@@ -2671,7 +2678,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             }
         }
     };
-    var animation = function (now) {
+    var loopAnimation = function (now) {
         if (isInAnimation()) {
             _features_1.Features.Fps.step(now);
             updateFps();
@@ -2680,13 +2687,13 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             }
             else {
                 animator.step(now);
-                window.requestAnimationFrame(animation);
+                window.requestAnimationFrame(loopAnimation);
             }
         }
     };
     var start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
         animator.startStep(now);
-        animation(now);
+        loopAnimation(now);
     }); }, config_json_4.default.startWait); };
     topCoat.addEventListener("click", function (event) {
         event.stopPropagation();
@@ -2695,12 +2702,12 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             pauseAnimation();
         }
     });
-    var mousemoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
+    var mouseMoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
     screenBody.addEventListener("mousemove", function (_event) {
-        if (config_json_4.default.log.mousemove && !mousemoveTimer.isOn()) {
+        if (config_json_4.default.log.mousemove && !mouseMoveTimer.isOn()) {
             console.log("🖱️ MouseMove:", event, screenBody);
         }
-        mousemoveTimer.start(document.body, "mousemove", 1000);
+        mouseMoveTimer.start(document.body, "mousemove", 1000);
     });
     updatePattern();
     updateColoring();
@@ -2721,7 +2728,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
                 keyboardShortcut.classList.toggle("show", false);
             }
         },
-        "playOrPause": function () { return playOrPauseAnimation(); },
+        "toggleAnimation": function () { return toggleAnimation(); },
         "switchPatternForward": function () { return patternSelect.switch(true); },
         "switchPatternBackward": function () { return patternSelect.switch(false); },
         "switchColoringForward": function () { return coloringSelect.switch(true); },
@@ -2738,8 +2745,8 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
                 updateFullscreenState();
             }
         },
-        "toggleShowFPS": function () {
-            showFPS.toggle();
+        "toggleShowFps": function () {
+            showFps.toggle();
             updateShowFps();
         },
         "unknownKeyDown": function () {
