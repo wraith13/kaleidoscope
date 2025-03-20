@@ -33,7 +33,7 @@ export namespace Fps
         now: number;
         text: string;
     }
-    const fpsWindow = 1000;
+    const fpsWindow = 1000; // ms
     let frameTimings: number[] = [];
     let fpsHistory: FpsHistoryEntry[] = [];
     export let currentMaxFps: FpsHistoryEntry;
@@ -76,7 +76,7 @@ export namespace Fps
                 now,
                 text: makeFpsText(fps),
             };
-            const expiredAt = now -1000;
+            const expiredAt = now -fpsWindow;
             while(0 < fpsHistory.length && fpsHistory[0].now < expiredAt)
             {
                 fpsHistory.shift();
