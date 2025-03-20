@@ -166,13 +166,13 @@ export namespace Animation
                     this.phiColoring.makeColor(mile +offset +1.0);
             }
         };
-        getForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color = this.getNextColorMaker("phi-colors");
-        getBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
+        makeForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color = this.getNextColorMaker("phi-colors");
+        makeBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
         {
             switch(true)
             {
             case 0 < mile:
-                return this.getForegroundColor(mile -1, offset, ix);
+                return this.makeForegroundColor(mile -1, offset, ix);
             case mile <= 0 && ix <= 0:
                 return this.phiColoring.makeColor(0.0);
             case mile <= 0 && 0 < ix:
@@ -204,8 +204,8 @@ export namespace Animation
                                 { },
                                 this.layers[ix -1]?.arguments ?? this.makeRandomArguments(),
                                 {
-                                    foregroundColor: this.getForegroundColor(i.mile, i.offset, ix),
-                                    backgroundColor: i.arguments?.foregroundColor ?? this.getBackgroundColor(i.mile, i.offset, ix),
+                                    foregroundColor: this.makeForegroundColor(i.mile, i.offset, ix),
+                                    backgroundColor: i.arguments?.foregroundColor ?? this.makeBackgroundColor(i.mile, i.offset, ix),
                                 }
                             );
                         }
@@ -220,7 +220,7 @@ export namespace Animation
         setPattern = (newPattern: typeof control.pattern.enum[number]) =>
             this.pattern = newPattern;
         setColoring = (coloring: typeof control.coloring.enum[number]) =>
-            this.getForegroundColor = this.getNextColorMaker(coloring);
+            this.makeForegroundColor = this.getNextColorMaker(coloring);
         setDiagonalSize = (newDiagonalSize: number) =>
         {
             const fixRate = newDiagonalSize /this.diagonalSize;
@@ -269,8 +269,8 @@ export namespace Animation
                 {
                     const result = Object.assign({ }, i);
                     const offset = ix /layerList.length;
-                    result.foregroundColor = this.getForegroundColor(oldMile, offset, ix);
-                    result.backgroundColor = this.getBackgroundColor(oldMile, offset, ix);
+                    result.foregroundColor = this.makeForegroundColor(oldMile, offset, ix);
+                    result.backgroundColor = this.makeBackgroundColor(oldMile, offset, ix);
                     return result;
                 }
                 return undefined;

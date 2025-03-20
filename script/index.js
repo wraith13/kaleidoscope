@@ -2410,11 +2410,11 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             };
                     }
                 };
-                this.getForegroundColor = this.getNextColorMaker("phi-colors");
-                this.getBackgroundColor = function (mile, offset, ix) {
+                this.makeForegroundColor = this.getNextColorMaker("phi-colors");
+                this.makeBackgroundColor = function (mile, offset, ix) {
                     switch (true) {
                         case 0 < mile:
-                            return _this.getForegroundColor(mile - 1, offset, ix);
+                            return _this.makeForegroundColor(mile - 1, offset, ix);
                         case mile <= 0 && ix <= 0:
                             return _this.phiColoring.makeColor(0.0);
                         case mile <= 0 && 0 < ix:
@@ -2436,8 +2436,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                                     step = _this.getStep(universalStep, i);
                                 }
                                 i.arguments = Object.assign({}, (_b = (_a = _this.layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : _this.makeRandomArguments(), {
-                                    foregroundColor: _this.getForegroundColor(i.mile, i.offset, ix),
-                                    backgroundColor: (_d = (_c = i.arguments) === null || _c === void 0 ? void 0 : _c.foregroundColor) !== null && _d !== void 0 ? _d : _this.getBackgroundColor(i.mile, i.offset, ix),
+                                    foregroundColor: _this.makeForegroundColor(i.mile, i.offset, ix),
+                                    backgroundColor: (_d = (_c = i.arguments) === null || _c === void 0 ? void 0 : _c.foregroundColor) !== null && _d !== void 0 ? _d : _this.makeBackgroundColor(i.mile, i.offset, ix),
                                 });
                             }
                             i.arguments.depth = _this.easing(step);
@@ -2452,7 +2452,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return _this.pattern = newPattern;
                 };
                 this.setColoring = function (coloring) {
-                    return _this.getForegroundColor = _this.getNextColorMaker(coloring);
+                    return _this.makeForegroundColor = _this.getNextColorMaker(coloring);
                 };
                 this.setDiagonalSize = function (newDiagonalSize) {
                     var fixRate = newDiagonalSize / _this.diagonalSize;
@@ -2495,8 +2495,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         if (undefined !== i) {
                             var result = Object.assign({}, i);
                             var offset = ix / layerList.length;
-                            result.foregroundColor = _this.getForegroundColor(oldMile, offset, ix);
-                            result.backgroundColor = _this.getBackgroundColor(oldMile, offset, ix);
+                            result.foregroundColor = _this.makeForegroundColor(oldMile, offset, ix);
+                            result.backgroundColor = _this.makeBackgroundColor(oldMile, offset, ix);
                             return result;
                         }
                         return undefined;

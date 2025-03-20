@@ -599,8 +599,8 @@ declare module "script/features/animation" {
             startStep: (now: number) => number;
             makeRandomArguments: () => FlounderStyle.Type.Arguments;
             getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
-            getForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
-            getBackgroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
+            makeForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
+            makeBackgroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
             getStep: (universalStep: number, layer: Layer) => number;
             step: (now: number) => void;
             update: () => void;
