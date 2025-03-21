@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Thu Mar 20 2025 23:18:49 GMT+0900 (日本標準時)
+    build at: Fri Mar 21 2025 08:34:23 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -206,8 +206,8 @@ body.immersive.mousemove #screen-body {
 }
 #screen-body #fps {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.5rem;
+  right: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
   transition: opacity 750ms, filter 750ms;
@@ -300,19 +300,19 @@ body:hide-ui #screen-body #fps::before {
   will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
 }
 
-.option-panel {
+#option-panel {
   transition: opacity 750ms, filter 750ms;
   font-size: 0.75rem;
   line-height: 0.75rem;
   font-weight: 400;
 }
-body.immersive .option-panel:not(.show) {
+body.immersive #option-panel:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.immersive .option-panel:not(.show)::before {
+body.immersive #option-panel:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -325,13 +325,13 @@ body.immersive .option-panel:not(.show)::before {
   transition: filter 750ms;
 }
 
-body.hide-ui .option-panel:not(.show) {
+body.hide-ui #option-panel:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.hide-ui .option-panel:not(.show)::before {
+body.hide-ui #option-panel:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -345,27 +345,27 @@ body.hide-ui .option-panel:not(.show)::before {
 }
 
 @media (min-width: 1024px) and (max-width: 1599px) {
-  .option-panel {
+  #option-panel {
     font-size: 0.9rem;
     line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  .option-panel {
+  #option-panel {
     font-size: 1rem;
     line-height: 1rem;
   }
 }
-.option-panel {
+#option-panel {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-.option-panel {
+#option-panel {
   position: absolute;
   z-index: 80;
   top: 3.25rem;
-  left: 1rem;
+  left: 0.5rem;
 }
-.option-panel label {
+#option-panel label {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
@@ -382,19 +382,19 @@ body.hide-ui .option-panel:not(.show)::before {
   flex-grow: 1;
 }
 @media (hover: hover) {
-  .option-panel label:hover {
+  #option-panel label:hover {
     background-color: rgba(32, 28, 38, 0.95);
   }
 }
-.option-panel label * {
+#option-panel label * {
   user-select: none;
   cursor: pointer;
 }
-.option-panel label input {
+#option-panel label input {
   margin: 0.5rem;
   padding: 0px;
 }
-.option-panel label select {
+#option-panel label select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -403,21 +403,21 @@ body.hide-ui .option-panel:not(.show)::before {
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  .option-panel label select {
+  #option-panel label select {
     font-size: 0.9rem;
     line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  .option-panel label select {
+  #option-panel label select {
     font-size: 1rem;
     line-height: 1rem;
   }
 }
-.option-panel label select {
+#option-panel label select {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-.option-panel label select {
+#option-panel label select {
   color: rgb(230, 237, 243);
   background-color: transparent;
   border: none;
@@ -426,9 +426,108 @@ body.hide-ui .option-panel:not(.show)::before {
   text-align: right;
   text-align-last: right;
 }
-.option-panel label select option {
+#option-panel label select option {
   background-color: rgb(32, 28, 38);
   text-align: right;
+}
+
+#benchmark-panel {
+  transition: opacity 750ms, filter 750ms;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+body.immersive #benchmark-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive #benchmark-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.hide-ui #benchmark-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.hide-ui #benchmark-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-panel {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-panel {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-panel {
+  position: absolute;
+  z-index: 80;
+  top: 3.25rem;
+  right: 0.5rem;
+}
+#benchmark-panel button {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1px;
+  background-color: rgba(32, 28, 38, 0.6);
+}
+#benchmark-panel button svg {
+  color: rgb(230, 237, 243);
+  fill: rgb(230, 237, 243);
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}
+#benchmark-panel button span {
+  line-height: 100%;
+}
+@media (hover: hover) {
+  #benchmark-panel button:hover {
+    background-color: rgba(32, 28, 38, 0.95);
+  }
+}
+#benchmark-panel button * {
+  user-select: none;
+  cursor: pointer;
 }
 
 #play-button {
@@ -595,7 +694,7 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 #screen-footer #supplementary-line #keyboard-shortcut {
-  margin: 1rem;
+  margin: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: grid;
@@ -736,7 +835,7 @@ body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show)::before {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 #screen-footer #supplementary-line #powered-by {
-  margin: 1rem;
+  margin: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: block;
@@ -830,8 +929,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Thu Mar 20 2025 23:18:49 GMT+0900 (日本標準時)",
-    tick: 1742480329867
+    at: "Fri Mar 21 2025 08:34:23 GMT+0900 (日本標準時)",
+    tick: 1742513663764
 };
 const evilCommonjsConfig =
 {
@@ -3824,7 +3923,7 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <div class="layer"></div>
     </div>
 </div>
-<div class="option-panel">
+<div id="option-panel">
     <label for="pattern">
         <span data-lang-key="pattern-label">Pattern:</span>
         <select id="pattern"></select>
@@ -3865,6 +3964,18 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <span data-lang-key="language-label">Language:</span>
         <select id="language"></select>
     </label>
+</div>
+<div id="benchmark-panel">
+<button id="run-benchmark">
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path d="M544,96C773.597,96 960,282.403 960,512C960,741.597 773.597,928 544,928C359.06,928 202.145,807.056 148.097,640L101.665,640C87.638,641.705 72.994,637.182 62.231,626.43L61.686,625.887C43.938,608.157 43.119,579.856 59.236,561.152C60.593,559.536 62.055,558.011 63.611,556.587L142.163,477.954C151.474,468.634 163.7,463.982 175.922,464L176.078,464C188.3,463.982 200.526,468.634 209.837,477.954L288.389,556.587C289.945,558.011 291.407,559.536 292.764,561.152C308.881,579.856 308.062,608.157 290.314,625.887L289.769,626.43C279.096,637.093 264.605,641.629 250.684,640.041C300.108,752.992 412.9,832 544,832C720.613,832 864,688.613 864,512C864,335.387 720.613,192 544,192C517.508,192 496,170.492 496,144C496,117.508 517.508,96 544,96ZM529.339,589.751C522.254,587.505 515.587,583.575 509.969,577.961L323.778,391.882C305.039,373.155 305.03,342.738 323.757,324C342.484,305.262 372.901,305.253 391.639,323.979L543.879,476.127L638.201,381.917C656.795,363.345 686.968,363.363 705.539,381.957L706.083,382.501C724.655,401.095 724.637,431.268 706.043,449.839L579.239,576.493C578.79,576.981 578.327,577.464 577.851,577.94C570.8,584.995 562.093,589.395 552.975,591.14L551.945,591.326C550.353,591.595 548.734,591.786 547.093,591.894L545.642,591.969L544.815,591.991L543.58,591.999L543.333,591.997C538.522,591.942 533.879,591.178 529.507,589.804L529.339,589.751Z"/>
+</svg>
+
+    <span data-lang-key="run-benchmark-label"></span>
+</button>
+<div id="run-benchmark-report"></div>
 </div>
 <button id="play-button">
     <div id="play-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
@@ -3977,6 +4088,7 @@ define("resource/lang.en", [], {
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
     "language-label": "Language:",
+    "run-benchmark-label": "Run Benchmark",
     "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
     "DELETEME.informationLayers": "Higher \"Layers\" create more intricate visuals but increase system load.",
@@ -4011,6 +4123,7 @@ define("resource/lang.ja", [], {
     "with-fullscreen-label": "フルスクリーン:",
     "show-fps-label": "FPS を表示:",
     "language-label": "言語:",
+    "run-benchmark-label": "ベンチマーク実行",
     "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
     "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",

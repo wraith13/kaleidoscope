@@ -76,8 +76,8 @@
         &
         {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 0.5rem;
+            right: 0.5rem;
             border-radius: 0.5rem;
             padding: 0.5rem 0.75rem;
             transition: opacity 750ms, filter 750ms;
@@ -118,7 +118,7 @@
         }
     }
 }
-.option-panel
+#option-panel
 {
     @include default-mode-element("fade");
     @include font();
@@ -127,7 +127,7 @@
         position: absolute;
         z-index: 80;
         top: 3.25rem;
-        left: 1.0rem;
+        left: 0.5rem;
         label
         {
             @include black-pop-panel-style();
@@ -175,6 +175,51 @@
                         text-align: right;
                     }
                 }
+            }
+        }
+    }
+}
+#benchmark-panel
+{
+    @include default-mode-element("fade");
+    @include font();
+    &
+    {
+        position: absolute;
+        z-index: 80;
+        top: 3.25rem;
+        right: 0.5rem;
+        button
+        {
+            @include flex();
+            @include black-pop-panel-style();
+            border-radius: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem 1.0rem;
+            margin-bottom: 1px;
+            background-color: black-color(0.6);
+            svg
+            {
+                @include svg-color($white-color);
+                width: 1.5rem;
+                height: 1.5rem;
+                margin-right: 0.5rem;
+            }
+            span
+            {
+                line-height: 100%;
+            }
+            @media (hover: hover)
+            {
+                &:hover
+                {
+                    background-color: $hover-black-color;
+                }
+            }
+            *
+            {
+                user-select: none;
+                cursor: pointer;
             }
         }
     }
@@ -249,7 +294,7 @@
             @include font();
             &
             {
-                margin: 1rem;
+                margin: 0.5rem;
                 border-radius: 0.5rem;
                 padding: 0.5rem 1.0rem;
                 display: grid;
@@ -306,7 +351,7 @@
             @include font();
             &
             {
-                margin: 1rem;
+                margin: 0.5rem;
                 border-radius: 0.5rem;
                 padding: 0.5rem 1.0rem;
                 display: block;

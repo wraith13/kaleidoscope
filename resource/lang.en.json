@@ -12,6 +12,7 @@
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
     "language-label": "Language:",
+    "run-benchmark-label": "Run Benchmark",
     "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
     "DELETEME.informationLayers": "Higher \"Layers\" create more intricate visuals but increase system load.",

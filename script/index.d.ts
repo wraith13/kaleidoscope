@@ -23,6 +23,7 @@ declare module "script/library/locale" {
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
                 "language-label": string;
+                "run-benchmark-label": string;
                 "DELETEME.warningText": string;
                 informationFuseFps: string;
                 "DELETEME.informationLayers": string;
@@ -57,6 +58,7 @@ declare module "script/library/locale" {
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
                 "language-label": string;
+                "run-benchmark-label": string;
                 "DELETEME.warningText": string;
                 informationFuseFps: string;
                 "DELETEME.informationLayers": string;
