@@ -61,13 +61,17 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
     </div>
 </div>
 <div id="option-panel">
-    <label for="pattern">
-        <span data-lang-key="pattern-label">Pattern:</span>
-        <select id="pattern"></select>
+    <label for="colorspace">
+        <span data-lang-key="colorspace-label">Color Space:</span>
+        <select id="colorspace"></select>
     </label>
     <label for="coloring">
         <span data-lang-key="coloring-label">Coloring:</span>
         <select id="coloring"></select>
+    </label>
+    <label for="pattern">
+        <span data-lang-key="pattern-label">Pattern:</span>
+        <select id="pattern"></select>
     </label>
     <label for="canvas-size">
         <span data-lang-key="canvas-size-label">Canvas Size:</span>

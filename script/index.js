@@ -68,8 +68,9 @@ define("resource/lang.en", [], {
     "lang-label": "English",
     "Auto": "Auto",
     "description": "Kaleidoscope Web Screen Saver",
-    "pattern-label": "Pattern:",
+    "colorspace-label": "Color space:",
     "coloring-label": "Coloring:",
+    "pattern-label": "Pattern:",
     "canvas-size-label": "Canvas Size:",
     "layers-label": "Layers:",
     "cycle-span-label": "Cycle Span:",
@@ -103,8 +104,9 @@ define("resource/lang.ja", [], {
     "lang-label": "日本語",
     "Auto": "自動",
     "description": "万華鏡 Web スクリーンセーバー",
-    "pattern-label": "パターン:",
+    "colorspace-label": "色空間:",
     "coloring-label": "カラーリング:",
+    "pattern-label": "パターン:",
     "canvas-size-label": "キャンバスサイズ:",
     "layers-label": "レイヤー数:",
     "cycle-span-label": "サイクルスパン:",
@@ -174,13 +176,13 @@ define("resource/config", [], {
     },
     "colors": {
         "monochrome": [
-            "black",
-            "white"
+            "#000000",
+            "#FFFFFF"
         ],
         "primaryColors": [
-            "red",
-            "green",
-            "blue"
+            "#FF0000",
+            "#00FF00",
+            "#0000FF"
         ],
         "phiColors": {
             "saturation": 0.8,
@@ -2138,14 +2140,14 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
 define("resource/control", [], {
-    "pattern": {
-        "id": "pattern",
+    "colorspace": {
+        "id": "colorspace",
         "enum": [
-            "lines",
-            "spots",
-            "multi"
+            "sRGB",
+            "Display P3",
+            "Rec. 2020"
         ],
-        "default": "lines"
+        "default": "sRGB"
     },
     "coloring": {
         "id": "coloring",
@@ -2155,6 +2157,15 @@ define("resource/control", [], {
             "phi-colors"
         ],
         "default": "phi-colors"
+    },
+    "pattern": {
+        "id": "pattern",
+        "enum": [
+            "lines",
+            "spots",
+            "multi"
+        ],
+        "default": "lines"
     },
     "canvasSize": {
         "id": "canvas-size",
@@ -2279,6 +2290,45 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
     config_json_3 = __importDefault(config_json_3);
     var Animation;
     (function (Animation) {
+        Animation.black = { r: 0, g: 0, b: 0, };
+        Animation.white = { r: 1, g: 1, b: 1, };
+        var PhiColoring = /** @class */ (function () {
+            function PhiColoring(hue, saturation, lightness, PhiHueUnit, RgbHueUnit) {
+                if (hue === void 0) { hue = Math.random(); }
+                if (saturation === void 0) { saturation = config_json_3.default.colors.phiColors.saturation; }
+                if (lightness === void 0) { lightness = config_json_3.default.colors.phiColors.lightness; }
+                if (PhiHueUnit === void 0) { PhiHueUnit = 1 / phi_colors_1.phiColors.phi; }
+                if (RgbHueUnit === void 0) { RgbHueUnit = 1 / 3; }
+                var _this = this;
+                this.hue = hue;
+                this.PhiHueUnit = PhiHueUnit;
+                this.RgbHueUnit = RgbHueUnit;
+                this.makeRgb = function (step) { return phi_colors_1.phiColors.clipRgb(phi_colors_1.phiColors.hslToRgb({
+                    h: PhiColoring.regulateH(((_this.RgbHueUnit * step)) % 1),
+                    s: _this.s,
+                    l: _this.l,
+                })); };
+                this.makePhiRgb = function (step) { return phi_colors_1.phiColors.clipRgb(phi_colors_1.phiColors.hslToRgb({
+                    h: PhiColoring.regulateH((_this.hue + (_this.PhiHueUnit * step)) % 1),
+                    s: _this.s,
+                    l: _this.l,
+                })); };
+                this.makeSrgbColor = function (rgb) {
+                    return phi_colors_1.phiColors.rgbForStyle(rgb);
+                };
+                this.makeColor = function (colorspace, rgb) {
+                    return phi_colors_1.phiColors.rgbForCssColor(colorspace, rgb);
+                };
+                //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
+                this.s = PhiColoring.regulateL(saturation);
+                this.l = PhiColoring.regulateL(lightness);
+            }
+            PhiColoring.regulateH = function (h) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
+            PhiColoring.regulateS = function (s) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
+            PhiColoring.regulateL = function (l) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
+            return PhiColoring;
+        }());
+        Animation.PhiColoring = PhiColoring;
         var Pattern;
         (function (Pattern) {
             var makeRandomSpotArguments = function (type, intervalSize) {
@@ -2351,32 +2401,6 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 return _tools_1.Tools.Random.select(getList(pattern))(intervalSize);
             };
         })(Pattern || (Pattern = {}));
-        var PhiColoring = /** @class */ (function () {
-            function PhiColoring(hue, saturation, lightness, hueUnit) {
-                if (hue === void 0) { hue = Math.random(); }
-                if (saturation === void 0) { saturation = config_json_3.default.colors.phiColors.saturation; }
-                if (lightness === void 0) { lightness = config_json_3.default.colors.phiColors.lightness; }
-                if (hueUnit === void 0) { hueUnit = 1 / phi_colors_1.phiColors.phi; }
-                var _this = this;
-                this.hue = hue;
-                this.hueUnit = hueUnit;
-                this.makeColor = function (step) {
-                    return phi_colors_1.phiColors.rgbForStyle(phi_colors_1.phiColors.clipRgb(phi_colors_1.phiColors.hslToRgb({
-                        h: PhiColoring.regulateH((_this.hue + (_this.hueUnit * step)) % 1),
-                        s: _this.s,
-                        l: _this.l,
-                    })));
-                };
-                //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
-                this.s = PhiColoring.regulateL(saturation);
-                this.l = PhiColoring.regulateL(lightness);
-            }
-            PhiColoring.regulateH = function (h) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
-            PhiColoring.regulateS = function (s) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
-            PhiColoring.regulateL = function (l) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
-            return PhiColoring;
-        }());
-        Animation.PhiColoring = PhiColoring;
         var Animator = /** @class */ (function () {
             function Animator(canvas, phiColoring) {
                 if (phiColoring === void 0) { phiColoring = new PhiColoring(); }
@@ -2390,6 +2414,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.cycleSpan = control_json_1.default.cycleSpan.default;
                 this.diagonalSize = 0;
                 this.getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = _this.canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = _this.canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
+                this.makeColor = this.phiColoring.makeSrgbColor;
                 this.easing = function (t) { return t; };
                 this.argumentHistory = [];
                 this.startStep = function (now) {
@@ -2407,31 +2432,37 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     switch (coloring) {
                         case "monochrome":
                             return function (mile, _offset, _ix) {
-                                return _tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.monochrome, mile + 1.0);
+                                //Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
+                                return _tools_1.Tools.Array.cycleSelect([Animation.black, Animation.white], mile + 1.0);
                             };
                         case "primary-colors":
-                            return function (mile, _offset, ix) {
-                                return _tools_1.Tools.Array.cycleSelect(config_json_3.default.colors.primaryColors, ix + mile + 1.0);
+                            // return (mile: number, _offset: number, ix: number) =>
+                            //     Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);
+                            return function (mile, offset, _ix) {
+                                return _this.phiColoring.makeRgb(mile + offset + 1.0);
                             };
                         case "phi-colors":
                         default:
                             return function (mile, offset, _ix) {
-                                return _this.phiColoring.makeColor(mile + offset + 1.0);
+                                return _this.phiColoring.makePhiRgb(mile + offset + 1.0);
                             };
                     }
                 };
-                this.makeForegroundColor = this.getNextColorMaker("phi-colors");
-                this.makeBackgroundColor = function (mile, offset, ix) {
+                this.makeForegroundRgb = this.getNextColorMaker("phi-colors");
+                this.makeBackgroundRgb = function (mile, offset, ix) {
                     switch (true) {
                         case 0 < mile:
-                            return _this.makeForegroundColor(mile - 1, offset, ix);
+                            return _this.makeForegroundRgb(mile - 1, offset, ix);
                         case mile <= 0 && ix <= 0:
-                            return _this.phiColoring.makeColor(0.0);
+                            return _this.phiColoring.makeRgb(0.0);
                         case mile <= 0 && 0 < ix:
                         default:
-                            return "black";
+                            return Animation.black;
                     }
                 };
+                this.makeForegroundColor = function (mile, offset, ix) { return _this.makeColor(_this.makeForegroundRgb(mile, offset, ix)); };
+                this.makeBackgroundColor = function (mile, offset, ix) { return _this.makeColor(_this.makeBackgroundRgb(mile, offset, ix)); };
+                this.isStarted = function () { return 0 < _this.startAt; };
                 this.getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
                 this.step = function (now) {
                     _this.offsetAt = now - _this.startAt;
@@ -2458,11 +2489,30 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.update = function () {
                     return _this.step(_this.startAt + _this.offsetAt);
                 };
-                this.setPattern = function (newPattern) {
-                    return _this.pattern = newPattern;
+                this.setColorspace = function (colorspace) {
+                    switch (colorspace) {
+                        case "Display P3":
+                            _this.makeColor = function (rgb) { return _this.phiColoring.makeColor("display-p3", rgb); };
+                            break;
+                        case "Rec. 2020":
+                            _this.makeColor = function (rgb) { return _this.phiColoring.makeColor("rec2020", rgb); };
+                            break;
+                        case "sRGB":
+                        default:
+                            //this.makeColor = (rgb: phiColors.Rgb) => this.phiColoring.makeColor("srgb", rgb);
+                            _this.makeColor = _this.phiColoring.makeSrgbColor;
+                            break;
+                    }
+                    if (!_this.isStarted()) {
+                        _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas)[0].style.setProperty("background-color", _this.makeColor(_this.phiColoring.makeRgb(0.0)));
+                        //console.log(colorspace, this.makeColor(this.phiColoring.makeRgb(0.0)));
+                    }
                 };
                 this.setColoring = function (coloring) {
-                    return _this.makeForegroundColor = _this.getNextColorMaker(coloring);
+                    return _this.makeForegroundRgb = _this.getNextColorMaker(coloring);
+                };
+                this.setPattern = function (newPattern) {
+                    return _this.pattern = newPattern;
                 };
                 this.setDiagonalSize = function (newDiagonalSize) {
                     var fixRate = newDiagonalSize / _this.diagonalSize;
@@ -2477,10 +2527,12 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return _this.setDiagonalSize(_this.getDiagonalSize());
                 };
                 this.setCycleSpan = function (newCycleSpan) {
-                    var fixRate = newCycleSpan / _this.cycleSpan;
-                    var now = performance.now();
-                    _this.offsetAt = _this.offsetAt * fixRate;
-                    _this.startStep(now);
+                    if (_this.isStarted()) {
+                        var fixRate = newCycleSpan / _this.cycleSpan;
+                        var now = performance.now();
+                        _this.offsetAt = _this.offsetAt * fixRate;
+                        _this.startStep(now);
+                    }
                     _this.cycleSpan = newCycleSpan;
                 };
                 this.setLayers = function (newLayers) {
@@ -2527,7 +2579,6 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             1 - (2 * Math.pow(1 - t, 2)); } :
                         function (t) { return t; };
                 };
-                _library_2.Library.UI.getElementsByClassName("div", "layer", this.canvas)[0].style.setProperty("background-color", this.phiColoring.makeColor(0.0));
             }
             ;
             return Animator;
@@ -2538,17 +2589,30 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
 define("script/features/benchmark", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Benchmark = void 0;
+    var Benchmark;
+    (function (Benchmark) {
+        Benchmark.measureScreenResolution = function () {
+            return ({
+                width: document.body.clientWidth,
+                height: document.body.clientHeight,
+                colorDepth: window.screen.colorDepth,
+            });
+        };
+    })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });
-define("script/features/index", ["require", "exports", "script/features/fps", "script/features/animation"], function (require, exports, ImportedFps, ImportedAnimation) {
+define("script/features/index", ["require", "exports", "script/features/fps", "script/features/animation", "script/features/benchmark"], function (require, exports, ImportedFps, ImportedAnimation, ImportedBenchmark) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Features = void 0;
     ImportedFps = __importStar(ImportedFps);
     ImportedAnimation = __importStar(ImportedAnimation);
+    ImportedBenchmark = __importStar(ImportedBenchmark);
     var Features;
     (function (Features) {
         Features.Fps = ImportedFps.Fps;
         Features.Animation = ImportedAnimation.Animation;
+        Features.Benchmark = ImportedBenchmark.Benchmark;
     })(Features || (exports.Features = Features = {}));
 });
 define("resource/powered-by", [], {
@@ -2605,8 +2669,9 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         }
     };
     var updateDiagonalSize = function () { return update(function () { return animator.updateDiagonalSize(); }); };
-    var updatePattern = function () { return update(function () { return animator.setPattern(patternSelect.get()); }); };
+    var updateColorspace = function () { return update(function () { return animator.setColorspace(colorspaceSelect.get()); }); };
     var updateColoring = function () { return update(function () { return animator.setColoring(coloringSelect.get()); }); };
+    var updatePattern = function () { return update(function () { return animator.setPattern(patternSelect.get()); }); };
     var updateLayers = function () { return update(function () { return animator.setLayers(parseInt(layersSelect.get())); }); };
     var setCanvasSize = function (size) {
         ["width", "height",].forEach(function (i) { return canvas.style.setProperty(i, size); });
@@ -2645,8 +2710,9 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     };
     var updateLanguage = function () {
         _library_3.Library.Locale.setLocale(languageSelect.get());
-        patternSelect.reloadOptions();
+        colorspaceSelect.reloadOptions();
         coloringSelect.reloadOptions();
+        patternSelect.reloadOptions();
         canvasSizeSelect.reloadOptions();
         layersSelect.reloadOptions();
         cycleSpanSelect.reloadOptions();
@@ -2672,8 +2738,9 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             runBenchmark();
         }
     });
-    var patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
+    var colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace, { change: function () { return updateColorspace(); }, });
     var coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring, { change: function () { return updateColoring(); }, });
+    var patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
     var canvasSizeSelect = new _library_3.Library.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); }, change: function () { return updateCanvasSize(); }, });
     var layersSelect = new _library_3.Library.Control.Select(control_json_2.default.layers, { change: function () { return updateLayers(); }, });
     var cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_2.Tools.Timespan.toDisplayString, change: function () { return updateCycleSpan(); }, });
@@ -2760,8 +2827,9 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         }
         mouseMoveTimer.start(document.body, "mousemove", 1000);
     });
-    updatePattern();
+    updateColorspace();
     updateColoring();
+    updatePattern();
     updateCanvasSize();
     updateEasing();
     updateLayers();
@@ -2780,10 +2848,10 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             }
         },
         "toggleAnimation": function () { return toggleAnimation(); },
-        "switchPatternForward": function () { return patternSelect.switch(true); },
-        "switchPatternBackward": function () { return patternSelect.switch(false); },
         "switchColoringForward": function () { return coloringSelect.switch(true); },
         "switchColoringBackward": function () { return coloringSelect.switch(false); },
+        "switchPatternForward": function () { return patternSelect.switch(true); },
+        "switchPatternBackward": function () { return patternSelect.switch(false); },
         "increaseCanvasSize": function () { return canvasSizeSelect.switch(true); },
         "decreaseCanvasSize": function () { return canvasSizeSelect.switch(false); },
         "increaseLayer": function () { return layersSelect.switch(true); },

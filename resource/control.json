@@ -1,12 +1,12 @@
 {
-    "pattern": {
-        "id": "pattern",
+    "colorspace": {
+        "id": "colorspace",
         "enum": [
-            "lines",
-            "spots",
-            "multi"
+            "sRGB",
+            "Display P3",
+            "Rec. 2020"
         ],
-        "default": "lines"
+        "default": "sRGB"
     },
     "coloring": {
         "id": "coloring",
@@ -16,6 +16,15 @@
             "phi-colors"
         ],
         "default": "phi-colors"
+    },
+    "pattern": {
+        "id": "pattern",
+        "enum": [
+            "lines",
+            "spots",
+            "multi"
+        ],
+        "default": "lines"
     },
     "canvasSize": {
         "id": "canvas-size",

@@ -13,8 +13,9 @@ declare module "script/library/locale" {
                 "lang-label": string;
                 Auto: string;
                 description: string;
-                "pattern-label": string;
+                "colorspace-label": string;
                 "coloring-label": string;
+                "pattern-label": string;
                 "canvas-size-label": string;
                 "layers-label": string;
                 "cycle-span-label": string;
@@ -48,8 +49,9 @@ declare module "script/library/locale" {
                 "lang-label": string;
                 Auto: string;
                 description: string;
-                "pattern-label": string;
+                "colorspace-label": string;
                 "coloring-label": string;
+                "pattern-label": string;
                 "canvas-size-label": string;
                 "layers-label": string;
                 "cycle-span-label": string;
@@ -569,18 +571,33 @@ declare module "flounder.style.js/index" {
 }
 declare module "script/features/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
+    import { phiColors } from "phi-colors";
     import control from "resource/control";
     export namespace Animation {
+        export const black: {
+            r: number;
+            g: number;
+            b: number;
+        };
+        export const white: {
+            r: number;
+            g: number;
+            b: number;
+        };
         export class PhiColoring {
             hue: number;
-            hueUnit: number;
+            PhiHueUnit: number;
+            RgbHueUnit: number;
             static regulateH: (h: number) => number;
             static regulateS: (s: number) => number;
             static regulateL: (l: number) => number;
-            constructor(hue?: number, saturation?: number, lightness?: number, hueUnit?: number);
+            constructor(hue?: number, saturation?: number, lightness?: number, PhiHueUnit?: number, RgbHueUnit?: number);
             s: number;
             l: number;
-            makeColor: (step: number) => FlounderStyle.Type.HexColor;
+            makeRgb: (step: number) => phiColors.Rgb;
+            makePhiRgb: (step: number) => phiColors.Rgb;
+            makeSrgbColor: (rgb: phiColors.Rgb) => FlounderStyle.Type.HexColor;
+            makeColor: (colorspace: string, rgb: phiColors.Rgb) => FlounderStyle.Type.Color;
         }
         interface Layer {
             layer: HTMLDivElement;
@@ -599,18 +616,31 @@ declare module "script/features/animation" {
             diagonalSize: number;
             constructor(canvas: HTMLDivElement, phiColoring?: PhiColoring);
             getDiagonalSize: () => number;
+            makeColor: (rgb: phiColors.Rgb) => FlounderStyle.Type.Color;
             easing: (t: number) => number;
             argumentHistory: FlounderStyle.Type.Arguments[];
             startStep: (now: number) => number;
             makeRandomArguments: () => FlounderStyle.Type.Arguments;
-            getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
+            getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => {
+                r: number;
+                g: number;
+                b: number;
+            };
+            makeForegroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb;
+            makeBackgroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb;
             makeForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
             makeBackgroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
+            isStarted: () => boolean;
             getStep: (universalStep: number, layer: Layer) => number;
             step: (now: number) => void;
             update: () => void;
+            setColorspace: (colorspace: (typeof control.colorspace.enum)[number]) => void;
+            setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => {
+                r: number;
+                g: number;
+                b: number;
+            };
             setPattern: (newPattern: (typeof control.pattern.enum)[number]) => string;
-            setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => FlounderStyle.Type.Color;
             setDiagonalSize: (newDiagonalSize: number) => void;
             updateDiagonalSize: () => void;
             setCycleSpan: (newCycleSpan: number) => void;
@@ -622,6 +652,27 @@ declare module "script/features/animation" {
 }
 declare module "script/features/benchmark" {
     export namespace Benchmark {
+        type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
+        interface Result {
+            screenResolution: MeasurementScore<{
+                width: number;
+                height: number;
+                colorDepth: number;
+            }>;
+            refreshRate: MeasurementScore<number>;
+            linesCalculationScore: MeasurementScore<number>;
+            spotCalculationScore: MeasurementScore<number>;
+            totalCalculationScore: MeasurementScore<number>;
+            linesRenderingScorePerPixel: MeasurementScore<number>;
+            spotsRenderingScorePerPixel: MeasurementScore<number>;
+            totalRenderingScore: MeasurementScore<number>;
+            totalScore: MeasurementScore<number>;
+        }
+        const measureScreenResolution: () => {
+            width: number;
+            height: number;
+            colorDepth: number;
+        };
     }
 }
 declare module "script/features/index" {

@@ -7,13 +7,13 @@
     },
     "colors": {
         "monochrome": [
-            "black",
-            "white"
+            "#000000",
+            "#FFFFFF"
         ],
         "primaryColors": [
-            "red",
-            "green",
-            "blue"
+            "#FF0000",
+            "#00FF00",
+            "#0000FF"
         ],
         "phiColors": {
             "saturation": 0.8,

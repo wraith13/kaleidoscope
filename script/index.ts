@@ -55,8 +55,9 @@ const update = (setter?: () => unknown) =>
     }
 };
 const updateDiagonalSize = () => update(() => animator.updateDiagonalSize());
-const updatePattern = (): unknown => update(() => animator.setPattern(patternSelect.get()));
+const updateColorspace = (): unknown => update(() => animator.setColorspace(colorspaceSelect.get()));
 const updateColoring = (): unknown => update(() => animator.setColoring(coloringSelect.get()));
+const updatePattern = (): unknown => update(() => animator.setPattern(patternSelect.get()));
 const updateLayers = (): void => update(() => animator.setLayers(parseInt(layersSelect.get())));
 const setCanvasSize = (size: string) =>
 {
@@ -120,8 +121,9 @@ const initializeLanguage = () =>
 const updateLanguage = () =>
 {
     Library.Locale.setLocale(languageSelect.get() as Library.Locale.Type | "Auto");
-    patternSelect.reloadOptions();
+    colorspaceSelect.reloadOptions();
     coloringSelect.reloadOptions();
+    patternSelect.reloadOptions();
     canvasSizeSelect.reloadOptions();
     layersSelect.reloadOptions();
     cycleSpanSelect.reloadOptions();
@@ -151,15 +153,20 @@ new Library.Control.Button
         runBenchmark();
     }
 });
-const patternSelect = new Library.Control.Select
+const colorspaceSelect = new Library.Control.Select
 (
-    control.pattern,
-    { change: () => updatePattern(), }
+    control.colorspace,
+    { change: () => updateColorspace(), }
 );
 const coloringSelect = new Library.Control.Select
 (
     control.coloring,
     { change: () => updateColoring(), }
+);
+const patternSelect = new Library.Control.Select
+(
+    control.pattern,
+    { change: () => updatePattern(), }
 );
 const canvasSizeSelect = new Library.Control.Select
 (
@@ -317,8 +324,9 @@ screenBody.addEventListener
         mouseMoveTimer.start(document.body, "mousemove", 1000)
     }
 );
-updatePattern();
+updateColorspace();
 updateColoring();
+updatePattern();
 updateCanvasSize();
 updateEasing();
 updateLayers();
@@ -340,10 +348,10 @@ Library.Shortcuts.setCommandMap
         }
     },
     "toggleAnimation": () => toggleAnimation(),
-    "switchPatternForward": () => patternSelect.switch(true),
-    "switchPatternBackward": () => patternSelect.switch(false),
     "switchColoringForward": () => coloringSelect.switch(true),
     "switchColoringBackward": () => coloringSelect.switch(false),
+    "switchPatternForward": () => patternSelect.switch(true),
+    "switchPatternBackward": () => patternSelect.switch(false),
     "increaseCanvasSize": () => canvasSizeSelect.switch(true),
     "decreaseCanvasSize": () => canvasSizeSelect.switch(false),
     "increaseLayer": () => layersSelect.switch(true),

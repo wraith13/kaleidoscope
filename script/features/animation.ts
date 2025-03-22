@@ -6,6 +6,52 @@ import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
 {
+    export const black = { r:0, g:0, b:0, };
+    export const white = { r:1, g:1, b:1, };
+    export class PhiColoring
+    {
+        public static regulateH = (h: number) => Tools.Math.scale(phiColors.HslHMin, phiColors.HslHMax)(h);
+        public static regulateS = (s: number) => Tools.Math.scale(phiColors.HslSMin, phiColors.HslSMax)(s);
+        public static regulateL = (l: number) => Tools.Math.scale(phiColors.HslLMin, phiColors.HslLMax)(l);
+        constructor
+        (
+            public hue = Math.random(),
+            saturation :number = config.colors.phiColors.saturation,
+            lightness :number = config.colors.phiColors.lightness,
+            public PhiHueUnit = 1 / phiColors.phi,
+            public RgbHueUnit = 1 / 3,
+        )
+        {
+            //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
+            this.s = PhiColoring.regulateL(saturation);
+            this.l = PhiColoring.regulateL(lightness);
+        }
+        //h: number;
+        s: number;
+        l: number;
+        makeRgb = (step: number) => phiColors.clipRgb
+        (
+            phiColors.hslToRgb
+            ({
+                h: PhiColoring.regulateH(((this.RgbHueUnit *step)) %1),
+                s: this.s,
+                l: this.l,
+            })
+        );
+        makePhiRgb = (step: number) => phiColors.clipRgb
+        (
+            phiColors.hslToRgb
+            ({
+                h: PhiColoring.regulateH((this.hue +(this.PhiHueUnit *step)) %1),
+                s: this.s,
+                l: this.l,
+            })
+        );
+        makeSrgbColor = (rgb: phiColors.Rgb) =>
+            <FlounderStyle.Type.HexColor>phiColors.rgbForStyle(rgb);
+        makeColor = (colorspace: string, rgb: phiColors.Rgb) =>
+            <FlounderStyle.Type.Color>phiColors.rgbForCssColor(colorspace, rgb);
+    }
     namespace Pattern
     {
         export type IntervalSize = Exclude<FlounderStyle.Type.Arguments["intervalSize"], undefined>;
@@ -73,40 +119,6 @@ export namespace Animation
         export const make = (pattern: typeof control.pattern.enum[number], intervalSize: IntervalSize) =>
             Tools.Random.select(getList(pattern))(intervalSize);
     }
-    export class PhiColoring
-    {
-        public static regulateH = (h: number) => Tools.Math.scale(phiColors.HslHMin, phiColors.HslHMax)(h);
-        public static regulateS = (s: number) => Tools.Math.scale(phiColors.HslSMin, phiColors.HslSMax)(s);
-        public static regulateL = (l: number) => Tools.Math.scale(phiColors.HslLMin, phiColors.HslLMax)(l);
-        constructor
-        (
-            public hue = Math.random(),
-            saturation :number = config.colors.phiColors.saturation,
-            lightness :number = config.colors.phiColors.lightness,
-            public hueUnit = 1 / phiColors.phi
-        )
-        {
-            //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
-            this.s = PhiColoring.regulateL(saturation);
-            this.l = PhiColoring.regulateL(lightness);
-        }
-        //h: number;
-        s: number;
-        l: number;
-        makeColor = (step: number) =>
-            <FlounderStyle.Type.HexColor>phiColors.rgbForStyle
-            (
-                phiColors.clipRgb
-                (
-                    phiColors.hslToRgb
-                    ({
-                        h: PhiColoring.regulateH((this.hue +(this.hueUnit *step)) %1),
-                        s: this.s,
-                        l: this.l,
-                    })
-                )
-            );
-    }
     interface Layer
     {
         layer: HTMLDivElement;
@@ -123,10 +135,9 @@ export namespace Animation
         cycleSpan = control.cycleSpan.default;
         diagonalSize = 0;
         constructor(public canvas: HTMLDivElement, public phiColoring: PhiColoring = new PhiColoring())
-        {
-            Library.UI.getElementsByClassName("div", "layer", this.canvas)[0].style.setProperty("background-color", this.phiColoring.makeColor(0.0));
-        };
+            { };
         getDiagonalSize = () => Math.sqrt(Math.pow(this.canvas.clientWidth ?? 0, 2) +Math.pow(this.canvas.clientHeight ?? 0, 2));
+        makeColor: (rgb: phiColors.Rgb) => FlounderStyle.Type.Color = this.phiColoring.makeSrgbColor;
         easing: (t: number) => number = t => t;
         argumentHistory: FlounderStyle.Type.Arguments[] = [];
         public startStep = (now: number) =>
@@ -156,30 +167,36 @@ export namespace Animation
             {
             case "monochrome":
                 return (mile: number, _offset: number, _ix: number) =>
-                    Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
+                    //Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
+                    Tools.Array.cycleSelect([ black, white ], mile +1.0);
             case "primary-colors":
-                return (mile: number, _offset: number, ix: number) =>
-                    Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);
+                // return (mile: number, _offset: number, ix: number) =>
+                //     Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);
+                return (mile: number, offset: number, _ix: number) =>
+                    this.phiColoring.makeRgb(mile +offset +1.0);
             case "phi-colors":
             default:
                 return (mile: number, offset: number, _ix: number) =>
-                    this.phiColoring.makeColor(mile +offset +1.0);
+                    this.phiColoring.makePhiRgb(mile +offset +1.0);
             }
         };
-        makeForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color = this.getNextColorMaker("phi-colors");
-        makeBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
+        makeForegroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb = this.getNextColorMaker("phi-colors");
+        makeBackgroundRgb = (mile: number, offset: number, ix: number): phiColors.Rgb =>
         {
             switch(true)
             {
             case 0 < mile:
-                return this.makeForegroundColor(mile -1, offset, ix);
+                return this.makeForegroundRgb(mile -1, offset, ix);
             case mile <= 0 && ix <= 0:
-                return this.phiColoring.makeColor(0.0);
+                return this.phiColoring.makeRgb(0.0);
             case mile <= 0 && 0 < ix:
             default:
-                return "black";
+                return black;
             }
         };
+        makeForegroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color => this.makeColor(this.makeForegroundRgb(mile, offset, ix));
+        makeBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color => this.makeColor(this.makeBackgroundRgb(mile, offset, ix));
+        isStarted = () => 0 < this.startAt;
         getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
         step = (now: number) =>
         {
@@ -217,10 +234,36 @@ export namespace Animation
         }
         update = () =>
             this.step(this.startAt +this.offsetAt);
+        setColorspace = (colorspace: typeof control.colorspace.enum[number]) =>
+        {
+            switch(colorspace)
+            {
+            case "Display P3":
+                this.makeColor = (rgb: phiColors.Rgb) => this.phiColoring.makeColor("display-p3", rgb);
+                break;
+            case "Rec. 2020":
+                this.makeColor = (rgb: phiColors.Rgb) => this.phiColoring.makeColor("rec2020", rgb);
+                break;
+            case "sRGB":
+            default:
+                //this.makeColor = (rgb: phiColors.Rgb) => this.phiColoring.makeColor("srgb", rgb);
+                this.makeColor = this.phiColoring.makeSrgbColor;
+                break;
+            }
+            if ( ! this.isStarted())
+            {
+                Library.UI.getElementsByClassName("div", "layer", this.canvas)[0].style.setProperty
+                (
+                    "background-color",
+                    this.makeColor(this.phiColoring.makeRgb(0.0))
+                );
+                //console.log(colorspace, this.makeColor(this.phiColoring.makeRgb(0.0)));
+            }
+        };
+        setColoring = (coloring: typeof control.coloring.enum[number]) =>
+            this.makeForegroundRgb = this.getNextColorMaker(coloring);
         setPattern = (newPattern: typeof control.pattern.enum[number]) =>
             this.pattern = newPattern;
-        setColoring = (coloring: typeof control.coloring.enum[number]) =>
-            this.makeForegroundColor = this.getNextColorMaker(coloring);
         setDiagonalSize = (newDiagonalSize: number) =>
         {
             const fixRate = newDiagonalSize /this.diagonalSize;
@@ -235,10 +278,13 @@ export namespace Animation
             this.setDiagonalSize(this.getDiagonalSize());
         setCycleSpan = (newCycleSpan: number) =>
         {
-            const fixRate = newCycleSpan /this.cycleSpan;
-            const now = performance.now();
-            this.offsetAt = this.offsetAt *fixRate;
-            this.startStep(now);
+            if (this.isStarted())
+            {
+                const fixRate = newCycleSpan /this.cycleSpan;
+                const now = performance.now();
+                this.offsetAt = this.offsetAt *fixRate;
+                this.startStep(now);
+            }
             this.cycleSpan = newCycleSpan;
         };
         setLayers = (newLayers: number) =>
