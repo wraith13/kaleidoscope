@@ -58,16 +58,20 @@ const updateDiagonalSize = () => update(() => animator.updateDiagonalSize());
 const updatePattern = (): unknown => update(() => animator.setPattern(patternSelect.get()));
 const updateColoring = (): unknown => update(() => animator.setColoring(coloringSelect.get()));
 const updateLayers = (): void => update(() => animator.setLayers(parseInt(layersSelect.get())));
+const setCanvasSize = (size: string) =>
+{
+    [ "width", "height", ].forEach
+    (
+        i => canvas.style.setProperty(i, size)
+    );
+    updateDiagonalSize();
+};
 const updateCanvasSize = () =>
 {
     const newCanvasSize = parseFloat(canvasSizeSelect.get());
     const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
-    const canvasMargin = (1 -newCanvasSizeRate) *100 /2;
-    [ "top", "right", "bottom", "left", ].forEach
-    (
-        i => canvas.style.setProperty(i, `${canvasMargin}%`)
-    );
-    updateDiagonalSize();
+    const canvasSize = newCanvasSizeRate *100.0;
+    setCanvasSize(`${canvasSize}%`);
 };
 const updateCycleSpan = (): void => update(() => animator.setCycleSpan(parseInt(cycleSpanSelect.get())));
 const updateFuseFps = (): number => Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get());
@@ -128,12 +132,23 @@ const updateLanguage = () =>
 //const playButton =
 new Library.Control.Button
 ({
-    id:"play-button",
+    id: "play-button",
     click: (event, button) =>
     {
         event.stopPropagation();
         button.dom.blur();
         toggleAnimation();
+    }
+});
+//const runBenchmarkButton =
+new Library.Control.Button
+({
+    id: "run-benchmark",
+    click: (event, button) =>
+    {
+        event.stopPropagation();
+        button.dom.blur();
+        runBenchmark();
     }
 });
 const patternSelect = new Library.Control.Select
@@ -238,6 +253,44 @@ const start = () => setTimeout
     ),
     config.startWait
 );
+const loopBenchmark = (now: number) =>
+{
+    if (isInAnimation())
+    {
+        Features.Fps.step(now);
+        updateFps();
+        if (Features.Fps.isUnderFuseFps())
+        {
+            pauseAnimation();
+        }
+        else
+        {
+            animator.step(now);
+            window.requestAnimationFrame(loopBenchmark);
+        }
+    }
+};
+const runBenchmark = () =>
+{
+    document.body.classList.toggle("immersive", true);
+    document.body.classList.toggle("mousemove", false);
+    keyboardShortcut.classList.toggle("show", false);
+    updateFullscreenState();
+    Features.Fps.reset();
+    updateFps();
+    setTimeout
+    (
+        () => window.requestAnimationFrame
+        (
+            now =>
+            {
+                animator.startStep(now);
+                loopBenchmark(now);
+            }
+        ),
+        config.startWait
+    );
+};
 topCoat.addEventListener
 (
     "click",

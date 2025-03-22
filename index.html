@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Fri Mar 21 2025 08:34:23 GMT+0900 (日本標準時)
+    build at: Fri Mar 21 2025 21:12:02 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -166,6 +166,10 @@ body.hide-ui #screen-header:not(.show) {
   right: 0px;
   bottom: 0px;
   left: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   background-color: black;
 }
@@ -177,106 +181,11 @@ body.immersive.mousemove #screen-body {
   cursor: pointer;
 }
 
-#screen-body #fps {
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.6);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 400;
-}
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #screen-body #fps {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #screen-body #fps {
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-}
-#screen-body #fps {
-  font-family: monospace;
-}
-#screen-body #fps {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  transition: opacity 750ms, filter 750ms;
-  text-align: right;
-  white-space: pre;
-  will-change: contents opacity filter;
-}
-#screen-body #fps.hide {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
-  filter: blur(1em);
-}
-#screen-body #fps.hide::before {
-  content: "";
-  position: absolute;
-  top: -1em;
-  left: -1em;
-  right: -1em;
-  bottom: -1em;
-  background: inherit;
-  filter: blur(1em);
-  z-index: -1;
-  transition: filter 750ms;
-}
-body:not(.immersive) #screen-body #fps {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
-  filter: blur(1em);
-}
-body:not(.immersive) #screen-body #fps::before {
-  content: "";
-  position: absolute;
-  top: -1em;
-  left: -1em;
-  right: -1em;
-  bottom: -1em;
-  background: inherit;
-  filter: blur(1em);
-  z-index: -1;
-  transition: filter 750ms;
-}
-
-body:hide-ui #screen-body #fps {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
-  filter: blur(1em);
-}
-body:hide-ui #screen-body #fps::before {
-  content: "";
-  position: absolute;
-  top: -1em;
-  left: -1em;
-  right: -1em;
-  bottom: -1em;
-  background: inherit;
-  filter: blur(1em);
-  z-index: -1;
-  transition: filter 750ms;
-}
-
 #screen-body #canvas {
+  display: block;
   margin: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+  padding: 0px;
+  border: 0;
   position: fixed;
   z-index: -100;
 }
@@ -431,6 +340,100 @@ body.hide-ui #option-panel:not(.show)::before {
   text-align: right;
 }
 
+#fps {
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #fps {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #fps {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#fps {
+  font-family: monospace;
+}
+#fps {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  transition: opacity 750ms, filter 750ms;
+  text-align: right;
+  white-space: pre;
+  will-change: contents opacity filter;
+}
+#fps.hide {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+#fps.hide::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+body:not(.immersive) #fps {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body:not(.immersive) #fps::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body:hide-ui #fps {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body:hide-ui #fps::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
 #benchmark-panel {
   transition: opacity 750ms, filter 750ms;
   font-size: 0.75rem;
@@ -492,7 +495,7 @@ body.hide-ui #benchmark-panel:not(.show)::before {
 }
 #benchmark-panel {
   position: absolute;
-  z-index: 80;
+  z-index: 75;
   top: 3.25rem;
   right: 0.5rem;
 }
@@ -528,6 +531,13 @@ body.hide-ui #benchmark-panel:not(.show)::before {
 #benchmark-panel button * {
   user-select: none;
   cursor: pointer;
+}
+@media (max-width: 300px) or (max-height: 300px) {
+  #benchmark-panel {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+  }
 }
 
 #play-button {
@@ -929,8 +939,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Fri Mar 21 2025 08:34:23 GMT+0900 (日本標準時)",
-    tick: 1742513663764
+    at: "Fri Mar 21 2025 21:12:02 GMT+0900 (日本標準時)",
+    tick: 1742559122817
 };
 const evilCommonjsConfig =
 {
@@ -3917,7 +3927,6 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <body>
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope/"><span>Kaleidoscope</a></div></h1>
 <div id="screen-body">
-    <div id="fps"></div>
     <div id="canvas">
         <div id="top-coat"></div>
         <div class="layer"></div>
@@ -3965,6 +3974,7 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <select id="language"></select>
     </label>
 </div>
+<div id="fps"></div>
 <div id="benchmark-panel">
 <button id="run-benchmark">
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -4414,13 +4424,21 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
             }
             return result;
         };
+        Control.eventLog = function (control, event, message) {
+            if ("id" in control.data) {
+                console.log(message, control.data.id, event, control);
+            }
+            else {
+                console.log(message, event, control);
+            }
+        };
         var Button = /** @class */ (function () {
             function Button(data) {
                 var _this = this;
                 this.data = data;
                 this.dom = Control.getDom(data);
                 this.dom.addEventListener("click", function (event) {
-                    console.log("👆 Button.Click:", event, _this);
+                    Control.eventLog(_this, event, "👆 Button.Click:");
                     _this.data.click(event, _this);
                 });
             }
@@ -4465,7 +4483,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 this.reloadOptions(this.data.default);
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
-                    console.log("👆 Select.Change:", event, _this);
+                    Control.eventLog(_this, event, "👆 Select.Change:");
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
@@ -4495,7 +4513,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 }
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
-                    console.log("👆 Checkbox.Change:", event, _this);
+                    Control.eventLog(_this, event, "👆 Checkbox.Change:");
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
@@ -6537,6 +6555,10 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
+define("script/features/benchmark", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
 define("script/features/index", ["require", "exports", "script/features/fps", "script/features/animation"], function (require, exports, ImportedFps, ImportedAnimation) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -6606,12 +6628,15 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var updatePattern = function () { return update(function () { return animator.setPattern(patternSelect.get()); }); };
     var updateColoring = function () { return update(function () { return animator.setColoring(coloringSelect.get()); }); };
     var updateLayers = function () { return update(function () { return animator.setLayers(parseInt(layersSelect.get())); }); };
+    var setCanvasSize = function (size) {
+        ["width", "height",].forEach(function (i) { return canvas.style.setProperty(i, size); });
+        updateDiagonalSize();
+    };
     var updateCanvasSize = function () {
         var newCanvasSize = parseFloat(canvasSizeSelect.get());
         var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
-        var canvasMargin = (1 - newCanvasSizeRate) * 100 / 2;
-        ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMargin, "%")); });
-        updateDiagonalSize();
+        var canvasSize = newCanvasSizeRate * 100.0;
+        setCanvasSize("".concat(canvasSize, "%"));
     };
     var updateCycleSpan = function () { return update(function () { return animator.setCycleSpan(parseInt(cycleSpanSelect.get())); }); };
     var updateFuseFps = function () { return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get()); };
@@ -6656,6 +6681,15 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             event.stopPropagation();
             button.dom.blur();
             toggleAnimation();
+        }
+    });
+    //const runBenchmarkButton =
+    new _library_3.Library.Control.Button({
+        id: "run-benchmark",
+        click: function (event, button) {
+            event.stopPropagation();
+            button.dom.blur();
+            runBenchmark();
         }
     });
     var patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
@@ -6707,6 +6741,31 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         animator.startStep(now);
         loopAnimation(now);
     }); }, config_json_4.default.startWait); };
+    var loopBenchmark = function (now) {
+        if (isInAnimation()) {
+            _features_1.Features.Fps.step(now);
+            updateFps();
+            if (_features_1.Features.Fps.isUnderFuseFps()) {
+                pauseAnimation();
+            }
+            else {
+                animator.step(now);
+                window.requestAnimationFrame(loopBenchmark);
+            }
+        }
+    };
+    var runBenchmark = function () {
+        document.body.classList.toggle("immersive", true);
+        document.body.classList.toggle("mousemove", false);
+        keyboardShortcut.classList.toggle("show", false);
+        updateFullscreenState();
+        _features_1.Features.Fps.reset();
+        updateFps();
+        setTimeout(function () { return window.requestAnimationFrame(function (now) {
+            animator.startStep(now);
+            loopBenchmark(now);
+        }); }, config_json_4.default.startWait);
+    };
     topCoat.addEventListener("click", function (event) {
         event.stopPropagation();
         if (event.target === event.currentTarget) {

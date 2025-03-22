@@ -140,6 +140,9 @@ declare module "script/library/control" {
         }
         type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
         const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
+        const eventLog: <T extends HTMLElement>(control: {
+            data: ArgumentsBase<T>;
+        }, event: Event, message: string) => void;
         interface ButtonArgumentsBase<T extends HTMLElement> {
             click: (event: Event, select: Button<T>) => unknown;
         }
@@ -617,12 +620,18 @@ declare module "script/features/animation" {
         export {};
     }
 }
+declare module "script/features/benchmark" {
+    export namespace Benchmark {
+    }
+}
 declare module "script/features/index" {
     import * as ImportedFps from "script/features/fps";
     import * as ImportedAnimation from "script/features/animation";
+    import * as ImportedBenchmark from "script/features/benchmark";
     export namespace Features {
         export import Fps = ImportedFps.Fps;
         export import Animation = ImportedAnimation.Animation;
+        export import Benchmark = ImportedBenchmark.Benchmark;
     }
 }
 declare module "script/index" { }

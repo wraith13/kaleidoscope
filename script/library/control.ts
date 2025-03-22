@@ -33,6 +33,17 @@ export namespace Control
         }
         return result;
     }
+    export const eventLog = <T extends HTMLElement>(control: { data: ArgumentsBase<T> }, event: Event, message: string) =>
+    {
+        if ("id" in control.data)
+        {
+            console.log(message, control.data.id, event, control);
+        }
+        else
+        {
+            console.log(message, event, control);
+        }
+    }
     export interface ButtonArgumentsBase<T extends HTMLElement>
     {
         click: (event: Event, select: Button<T>) => unknown;
@@ -49,7 +60,7 @@ export namespace Control
                 "click",
                 event =>
                 {
-                    console.log("👆 Button.Click:", event, this);
+                    eventLog(this, event, "👆 Button.Click:");
                     this.data.click(event, this);
                 }
             );
@@ -83,7 +94,7 @@ export namespace Control
             (
                 "change", event =>
                 {
-                    console.log("👆 Select.Change:", event, this);
+                    eventLog(this, event, "👆 Select.Change:");
                     this.options?.change?.(event, this);
                 }
             );
@@ -152,7 +163,7 @@ export namespace Control
                 "change",
                 event =>
                 {
-                    console.log("👆 Checkbox.Change:", event, this);
+                    eventLog(this, event, "👆 Checkbox.Change:");
                     this.options?.change?.(event, this);
                 }
             );

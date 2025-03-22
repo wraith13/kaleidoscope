@@ -404,13 +404,21 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
             }
             return result;
         };
+        Control.eventLog = function (control, event, message) {
+            if ("id" in control.data) {
+                console.log(message, control.data.id, event, control);
+            }
+            else {
+                console.log(message, event, control);
+            }
+        };
         var Button = /** @class */ (function () {
             function Button(data) {
                 var _this = this;
                 this.data = data;
                 this.dom = Control.getDom(data);
                 this.dom.addEventListener("click", function (event) {
-                    console.log("👆 Button.Click:", event, _this);
+                    Control.eventLog(_this, event, "👆 Button.Click:");
                     _this.data.click(event, _this);
                 });
             }
@@ -455,7 +463,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 this.reloadOptions(this.data.default);
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
-                    console.log("👆 Select.Change:", event, _this);
+                    Control.eventLog(_this, event, "👆 Select.Change:");
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
@@ -485,7 +493,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 }
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
-                    console.log("👆 Checkbox.Change:", event, _this);
+                    Control.eventLog(_this, event, "👆 Checkbox.Change:");
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
@@ -2527,6 +2535,10 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
+define("script/features/benchmark", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+});
 define("script/features/index", ["require", "exports", "script/features/fps", "script/features/animation"], function (require, exports, ImportedFps, ImportedAnimation) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -2596,12 +2608,15 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     var updatePattern = function () { return update(function () { return animator.setPattern(patternSelect.get()); }); };
     var updateColoring = function () { return update(function () { return animator.setColoring(coloringSelect.get()); }); };
     var updateLayers = function () { return update(function () { return animator.setLayers(parseInt(layersSelect.get())); }); };
+    var setCanvasSize = function (size) {
+        ["width", "height",].forEach(function (i) { return canvas.style.setProperty(i, size); });
+        updateDiagonalSize();
+    };
     var updateCanvasSize = function () {
         var newCanvasSize = parseFloat(canvasSizeSelect.get());
         var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
-        var canvasMargin = (1 - newCanvasSizeRate) * 100 / 2;
-        ["top", "right", "bottom", "left",].forEach(function (i) { return canvas.style.setProperty(i, "".concat(canvasMargin, "%")); });
-        updateDiagonalSize();
+        var canvasSize = newCanvasSizeRate * 100.0;
+        setCanvasSize("".concat(canvasSize, "%"));
     };
     var updateCycleSpan = function () { return update(function () { return animator.setCycleSpan(parseInt(cycleSpanSelect.get())); }); };
     var updateFuseFps = function () { return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get()); };
@@ -2646,6 +2661,15 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             event.stopPropagation();
             button.dom.blur();
             toggleAnimation();
+        }
+    });
+    //const runBenchmarkButton =
+    new _library_3.Library.Control.Button({
+        id: "run-benchmark",
+        click: function (event, button) {
+            event.stopPropagation();
+            button.dom.blur();
+            runBenchmark();
         }
     });
     var patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
@@ -2697,6 +2721,31 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         animator.startStep(now);
         loopAnimation(now);
     }); }, config_json_4.default.startWait); };
+    var loopBenchmark = function (now) {
+        if (isInAnimation()) {
+            _features_1.Features.Fps.step(now);
+            updateFps();
+            if (_features_1.Features.Fps.isUnderFuseFps()) {
+                pauseAnimation();
+            }
+            else {
+                animator.step(now);
+                window.requestAnimationFrame(loopBenchmark);
+            }
+        }
+    };
+    var runBenchmark = function () {
+        document.body.classList.toggle("immersive", true);
+        document.body.classList.toggle("mousemove", false);
+        keyboardShortcut.classList.toggle("show", false);
+        updateFullscreenState();
+        _features_1.Features.Fps.reset();
+        updateFps();
+        setTimeout(function () { return window.requestAnimationFrame(function (now) {
+            animator.startStep(now);
+            loopBenchmark(now);
+        }); }, config_json_4.default.startWait);
+    };
     topCoat.addEventListener("click", function (event) {
         event.stopPropagation();
         if (event.target === event.currentTarget) {

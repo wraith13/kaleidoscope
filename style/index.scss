@@ -57,7 +57,7 @@
 #screen-body
 {
     @include full-stretch-box();
-    //@include flex(column, center);
+    @include flex(column, center);
     position: absolute;
     background-color: $body-background-color;
     @at-root body.immersive:not(.mousemove) &
@@ -68,39 +68,9 @@
     {
         cursor: pointer;
     }
-    #fps
-    {
-        @include black-pop-panel-style();
-        @include flex(row, center);
-        @include monospace-font();
-        &
-        {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            border-radius: 0.5rem;
-            padding: 0.5rem 0.75rem;
-            transition: opacity 750ms, filter 750ms;
-            text-align: right;
-            white-space: pre;
-            will-change: contents opacity filter;
-            &.hide
-            {
-                @include mist-disperse-effect();
-            }
-            @at-root body:not(.immersive) &
-            {
-                @include mist-disperse-effect();
-            }
-            @at-root body:hide-ui &
-            {
-                @include mist-disperse-effect();
-            }
-        }
-    }
     #canvas
     {
-        @include full-stretch-box();
+        @include solid-box();
         position: fixed;
         z-index: -100;
         #top-coat
@@ -179,6 +149,36 @@
         }
     }
 }
+#fps
+{
+    @include black-pop-panel-style();
+    @include flex(row, center);
+    @include monospace-font();
+    &
+    {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        transition: opacity 750ms, filter 750ms;
+        text-align: right;
+        white-space: pre;
+        will-change: contents opacity filter;
+        &.hide
+        {
+            @include mist-disperse-effect();
+        }
+        @at-root body:not(.immersive) &
+        {
+            @include mist-disperse-effect();
+        }
+        @at-root body:hide-ui &
+        {
+            @include mist-disperse-effect();
+        }
+    }
+}
 #benchmark-panel
 {
     @include default-mode-element("fade");
@@ -186,7 +186,7 @@
     &
     {
         position: absolute;
-        z-index: 80;
+        z-index: 75;
         top: 3.25rem;
         right: 0.5rem;
         button
@@ -221,6 +221,12 @@
                 user-select: none;
                 cursor: pointer;
             }
+        }
+        @media (max-width: 300px) or (max-height: 300px)
+        {
+            visibility: hidden;
+            width: 0px;
+            height: 0px;
         }
     }
 }

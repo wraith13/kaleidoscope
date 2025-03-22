@@ -55,7 +55,6 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <body>
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="__REPOSITORY_URL_"><span>Kaleidoscope</a></div></h1>
 <div id="screen-body">
-    <div id="fps"></div>
     <div id="canvas">
         <div id="top-coat"></div>
         <div class="layer"></div>
@@ -103,6 +102,7 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <select id="language"></select>
     </label>
 </div>
+<div id="fps"></div>
 <div id="benchmark-panel">
 <button id="run-benchmark">
     __ELAPSED_ICON__
