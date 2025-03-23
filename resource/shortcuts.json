@@ -17,7 +17,7 @@
         "shortcuts": [
             {
                 "command": "toggleAnimation",
-                "type": "onKeyDown",
+                "type": "onKeyUp",
                 "keys": [
                     " "
                 ]
@@ -128,7 +128,7 @@
         "shortcuts": [
             {
                 "command": "toggleFullScreen",
-                "type": "onKeyDown",
+                "type": "onKeyUp",
                 "keys": [
                     "F"
                 ]

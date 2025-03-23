@@ -29,39 +29,31 @@ export namespace Shortcuts
         code === "Space" ? " ":
         key.length === 1 ? key.toUpperCase():
         key;
-    const pressedKeys: string[] = [];
-    export const handleKeyEvent = (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) =>
+    let pressedKeys: string[] = [];
+    const getShortcutKeys = (type: "onKeyDown" | "onKeyUp", normalizedKey: string) =>
     {
-        const normalizedKey = normalizeKey(event.key, event.code);
-        let shortcutkeys = pressedKeys.concat([]);
         switch(type)
         {
         case "onKeyDown":
             pressedKeys.push(normalizedKey);
-            shortcutkeys = pressedKeys;
-            break;
+            return pressedKeys;
         case "onKeyUp":
-            while(true)
-            {
-                const i = pressedKeys.indexOf(normalizedKey);
-                if (0 <= i)
-                {
-                    pressedKeys.splice(i, 1);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            break;
+            const result = [...pressedKeys];
+            pressedKeys = pressedKeys.filter(i => i !== normalizedKey);
+            return result;
         }
+    }
+    export const handleKeyEvent = (type: "onKeyDown" | "onKeyUp", event: KeyboardEvent, commandMap: CommandMap) =>
+    {
+        const normalizedKey = normalizeKey(event.key, event.code);
+        const shortcutKeys = getShortcutKeys(type, normalizedKey);
         if ( ! isInputElementFocused())
         {
             const commandKeys = shortcuts.reduce((a, b) => a.concat(b.shortcuts), [] as Entry[]).filter
             (
                 shortcut =>
-                    shortcut.keys.length === shortcutkeys.length &&
-                    shortcut.keys.every(key => shortcutkeys.includes(key)) &&
+                    shortcut.keys.length === shortcutKeys.length &&
+                    shortcut.keys.every(key => shortcutKeys.includes(key)) &&
                     type === shortcut.type
             )
             .map(i => i.command);

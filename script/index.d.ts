@@ -673,6 +673,8 @@ declare module "script/features/benchmark" {
             height: number;
             colorDepth: number;
         };
+        class Measure {
+        }
     }
 }
 declare module "script/features/index" {

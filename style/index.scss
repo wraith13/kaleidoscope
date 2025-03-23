@@ -88,6 +88,20 @@
         }
     }
 }
+body.benchmark #screen-body
+{
+    #canvas
+    {
+        display: none
+    }
+}
+body:not(.benchmark) #screen-body
+{
+    #benchmark-canvas
+    {
+        display: none
+    }
+}
 #option-panel
 {
     @include default-mode-element("fade");

@@ -1,6 +1,15 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -34,15 +43,6 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 define("script/library/type-guards", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -523,7 +523,7 @@ define("resource/shortcuts", [], [
         "shortcuts": [
             {
                 "command": "toggleAnimation",
-                "type": "onKeyDown",
+                "type": "onKeyUp",
                 "keys": [
                     " "
                 ]
@@ -634,7 +634,7 @@ define("resource/shortcuts", [], [
         "shortcuts": [
             {
                 "command": "toggleFullScreen",
-                "type": "onKeyDown",
+                "type": "onKeyUp",
                 "keys": [
                     "F"
                 ]
@@ -685,31 +685,25 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
                     key;
         };
         var pressedKeys = [];
-        Shortcuts.handleKeyEvent = function (type, event, commandMap) {
-            var _a;
-            var normalizedKey = normalizeKey(event.key, event.code);
-            var shortcutkeys = pressedKeys.concat([]);
+        var getShortcutKeys = function (type, normalizedKey) {
             switch (type) {
                 case "onKeyDown":
                     pressedKeys.push(normalizedKey);
-                    shortcutkeys = pressedKeys;
-                    break;
+                    return pressedKeys;
                 case "onKeyUp":
-                    while (true) {
-                        var i = pressedKeys.indexOf(normalizedKey);
-                        if (0 <= i) {
-                            pressedKeys.splice(i, 1);
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                    break;
+                    var result = __spreadArray([], pressedKeys, true);
+                    pressedKeys = pressedKeys.filter(function (i) { return i !== normalizedKey; });
+                    return result;
             }
+        };
+        Shortcuts.handleKeyEvent = function (type, event, commandMap) {
+            var _a;
+            var normalizedKey = normalizeKey(event.key, event.code);
+            var shortcutKeys = getShortcutKeys(type, normalizedKey);
             if (!isInputElementFocused()) {
                 var commandKeys = shortcuts_json_1.default.reduce(function (a, b) { return a.concat(b.shortcuts); }, []).filter(function (shortcut) {
-                    return shortcut.keys.length === shortcutkeys.length &&
-                        shortcut.keys.every(function (key) { return shortcutkeys.includes(key); }) &&
+                    return shortcut.keys.length === shortcutKeys.length &&
+                        shortcut.keys.every(function (key) { return shortcutKeys.includes(key); }) &&
                         type === shortcut.type;
                 })
                     .map(function (i) { return i.command; });
@@ -2499,8 +2493,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             break;
                         case "sRGB":
                         default:
-                            _this.makeColor = function (rgb) { return _this.phiColoring.makeColor("srgb", rgb); };
-                            //this.makeColor = this.phiColoring.makeSrgbColor;
+                            //this.makeColor = (rgb: phiColors.Rgb) => this.phiColoring.makeColor("srgb", rgb);
+                            _this.makeColor = _this.phiColoring.makeSrgbColor;
                             break;
                     }
                     if (!_this.isStarted()) {
@@ -2599,6 +2593,12 @@ define("script/features/benchmark", ["require", "exports"], function (require, e
                 colorDepth: window.screen.colorDepth,
             });
         };
+        var Measure = /** @class */ (function () {
+            function Measure() {
+            }
+            return Measure;
+        }());
+        Benchmark.Measure = Measure;
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });
 define("script/features/index", ["require", "exports", "script/features/fps", "script/features/animation", "script/features/benchmark"], function (require, exports, ImportedFps, ImportedAnimation, ImportedBenchmark) {

@@ -59,6 +59,10 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
         <div id="top-coat"></div>
         <div class="layer"></div>
     </div>
+    <div id="benchmark-canvas">
+        <div id="top-coat"></div>
+        <div class="layer"></div>
+    </div>
 </div>
 <div id="option-panel">
     <label for="colorspace">

@@ -158,6 +158,14 @@ body.immersive.mousemove #screen-body {
   will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
 }
 
+body.benchmark #screen-body #canvas {
+  display: none;
+}
+
+body:not(.benchmark) #screen-body #benchmark-canvas {
+  display: none;
+}
+
 #option-panel {
   transition: opacity 750ms, filter 750ms;
   font-size: 0.75rem;

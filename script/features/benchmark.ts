@@ -19,4 +19,8 @@ export namespace Benchmark
         height: document.body.clientHeight,
         colorDepth: window.screen.colorDepth,
     });
+    export class Measure
+    {
+        
+    }
 }
