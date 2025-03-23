@@ -6,8 +6,8 @@ import control from "@resource/control.json";
 import config from "@resource/config.json";
 export namespace Animation
 {
-    export const black = { r:0, g:0, b:0, };
-    export const white = { r:1, g:1, b:1, };
+    export const black = { r:0, g:0, b:0, } as const satisfies phiColors.Rgb;
+    export const white = { r:1, g:1, b:1, } as const satisfies phiColors.Rgb;
     export class PhiColoring
     {
         public static regulateH = (h: number) => Tools.Math.scale(phiColors.HslHMin, phiColors.HslHMax)(h);
@@ -161,14 +161,15 @@ export namespace Animation
             }
             return result;
         };
-        getNextColorMaker = (coloring: typeof control.coloring.enum[number]) =>
+        getNextColorMaker = (coloring: typeof control.coloring.enum[number]):
+            (mile: number, offset: number, _ix: number) => phiColors.Rgb =>
         {
             switch(coloring)
             {
             case "monochrome":
-                return (mile: number, _offset: number, _ix: number) =>
+                return (mile: number, _offset: number, _ix: number): phiColors.Rgb =>
                     //Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
-                    Tools.Array.cycleSelect([ black, white ], mile +1.0);
+                    Tools.Array.cycleSelect([ black, white ] as const, mile +1.0);
             case "primary-colors":
                 // return (mile: number, _offset: number, ix: number) =>
                 //     Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.primaryColors, ix +mile +1.0);

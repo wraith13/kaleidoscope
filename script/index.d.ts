@@ -246,7 +246,7 @@ declare module "script/tools/random" {
 }
 declare module "script/tools/array" {
     export namespace Array {
-        const cycleSelect: <T>(list: T[], ix: number) => T;
+        const cycleSelect: <T extends unknown[], Index extends number>(list: T, ix: Index) => T[Index] extends never ? undefined : T[Index];
         const joinable: <T>(value: T, condition?: boolean) => T[];
         const uniqueFilter: <T>(i: T, ix: number, list: T[]) => boolean;
     }
@@ -575,14 +575,14 @@ declare module "script/features/animation" {
     import control from "resource/control";
     export namespace Animation {
         export const black: {
-            r: number;
-            g: number;
-            b: number;
+            readonly r: 0;
+            readonly g: 0;
+            readonly b: 0;
         };
         export const white: {
-            r: number;
-            g: number;
-            b: number;
+            readonly r: 1;
+            readonly g: 1;
+            readonly b: 1;
         };
         export class PhiColoring {
             hue: number;
@@ -621,11 +621,7 @@ declare module "script/features/animation" {
             argumentHistory: FlounderStyle.Type.Arguments[];
             startStep: (now: number) => number;
             makeRandomArguments: () => FlounderStyle.Type.Arguments;
-            getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => {
-                r: number;
-                g: number;
-                b: number;
-            };
+            getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, offset: number, _ix: number) => phiColors.Rgb;
             makeForegroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb;
             makeBackgroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb;
             makeForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
@@ -635,11 +631,7 @@ declare module "script/features/animation" {
             step: (now: number) => void;
             update: () => void;
             setColorspace: (colorspace: (typeof control.colorspace.enum)[number]) => void;
-            setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, _offset: number, _ix: number) => {
-                r: number;
-                g: number;
-                b: number;
-            };
+            setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, offset: number, _ix: number) => phiColors.Rgb;
             setPattern: (newPattern: (typeof control.pattern.enum)[number]) => string;
             setDiagonalSize: (newDiagonalSize: number) => void;
             updateDiagonalSize: () => void;

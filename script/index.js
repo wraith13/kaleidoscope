@@ -807,7 +807,11 @@ define("script/tools/array", ["require", "exports", "script/library/type-guards"
     exports.Array = void 0;
     var Array;
     (function (Array) {
-        Array.cycleSelect = function (list, ix) { return list[ix % list.length]; };
+        Array.cycleSelect = function (list, ix) {
+            return 0 < list.length ?
+                list[((ix % list.length) + list.length) % list.length] :
+                undefined;
+        };
         Array.joinable = function (value, condition) {
             return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
         };
