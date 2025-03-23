@@ -68,7 +68,7 @@ define("resource/lang.en", [], {
     "lang-label": "English",
     "Auto": "Auto",
     "description": "Kaleidoscope Web Screen Saver",
-    "colorspace-label": "Color space:",
+    "colorspace-label": "Color Space:",
     "coloring-label": "Coloring:",
     "pattern-label": "Pattern:",
     "canvas-size-label": "Canvas Size:",
@@ -2163,7 +2163,7 @@ define("resource/control", [], {
         "enum": [
             "lines",
             "spots",
-            "multi"
+            "all"
         ],
         "default": "lines"
     },
@@ -2386,7 +2386,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             makeRandomTrispotArguments,
                             makeRandomTetraspotArguments,
                         ];
-                    case "multi":
+                    case "all":
                     default:
                         return [
                             makeRandomStripeArguments,
@@ -2499,8 +2499,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             break;
                         case "sRGB":
                         default:
-                            //this.makeColor = (rgb: phiColors.Rgb) => this.phiColoring.makeColor("srgb", rgb);
-                            _this.makeColor = _this.phiColoring.makeSrgbColor;
+                            _this.makeColor = function (rgb) { return _this.phiColoring.makeColor("srgb", rgb); };
+                            //this.makeColor = this.phiColoring.makeSrgbColor;
                             break;
                     }
                     if (!_this.isStarted()) {
