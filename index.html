@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Mar 23 2025 22:23:01 GMT+0900 (日本標準時)
+    build at: Mon Mar 24 2025 07:12:39 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -947,8 +947,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Mar 23 2025 22:23:01 GMT+0900 (日本標準時)",
-    tick: 1742736181745
+    at: "Mon Mar 24 2025 07:12:39 GMT+0900 (日本標準時)",
+    tick: 1742767959319
 };
 const evilCommonjsConfig =
 {
@@ -4833,6 +4833,9 @@ define("script/tools/math", ["require", "exports"], function (require, exports) 
         Math.sum = function (numbers) {
             return numbers.reduce(function (a, v) { return a + v; }, 0);
         };
+        Math.mod = function (n, m) {
+            return m === 0 ? n : ((n % m) + m) % m;
+        };
     })(Math || (exports.Math = Math = {}));
 });
 define("script/tools/random", ["require", "exports"], function (require, exports) {
@@ -4845,16 +4848,16 @@ define("script/tools/random", ["require", "exports"], function (require, exports
         Random.select = function (list) { return list[Random.makeInteger(list.length)]; };
     })(Random || (exports.Random = Random = {}));
 });
-define("script/tools/array", ["require", "exports", "script/library/type-guards"], function (require, exports, type_guards_2) {
+define("script/tools/array", ["require", "exports", "script/library/type-guards", "script/tools/math"], function (require, exports, type_guards_2, math_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Array = void 0;
     var Array;
     (function (Array) {
         Array.cycleSelect = function (list, ix) {
-            return 0 < list.length ?
-                list[((ix % list.length) + list.length) % list.length] :
-                undefined;
+            return (0 < list.length ?
+                list[math_1.Math.mod(ix, list.length)] :
+                undefined);
         };
         Array.joinable = function (value, condition) {
             return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];

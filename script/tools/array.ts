@@ -1,10 +1,11 @@
 import { TypeGuards } from "@library/type-guards";
+import { Math } from "./math";
 export namespace Array
 {
     export const cycleSelect = <T extends unknown[], Index extends number>(list: T, ix: Index) =>
         (
             0 < list.length ?
-                list[((ix %list.length) +list.length) %list.length]:
+                list[Math.mod(ix, list.length)]:
                 undefined
         ) as T[Index] extends never ? undefined: T[Index];
     export const joinable = <T>(value: T, condition?: boolean) =>

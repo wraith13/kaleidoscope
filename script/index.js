@@ -789,6 +789,9 @@ define("script/tools/math", ["require", "exports"], function (require, exports) 
         Math.sum = function (numbers) {
             return numbers.reduce(function (a, v) { return a + v; }, 0);
         };
+        Math.mod = function (n, m) {
+            return m === 0 ? n : ((n % m) + m) % m;
+        };
     })(Math || (exports.Math = Math = {}));
 });
 define("script/tools/random", ["require", "exports"], function (require, exports) {
@@ -801,16 +804,16 @@ define("script/tools/random", ["require", "exports"], function (require, exports
         Random.select = function (list) { return list[Random.makeInteger(list.length)]; };
     })(Random || (exports.Random = Random = {}));
 });
-define("script/tools/array", ["require", "exports", "script/library/type-guards"], function (require, exports, type_guards_2) {
+define("script/tools/array", ["require", "exports", "script/library/type-guards", "script/tools/math"], function (require, exports, type_guards_2, math_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Array = void 0;
     var Array;
     (function (Array) {
         Array.cycleSelect = function (list, ix) {
-            return 0 < list.length ?
-                list[((ix % list.length) + list.length) % list.length] :
-                undefined;
+            return (0 < list.length ?
+                list[math_1.Math.mod(ix, list.length)] :
+                undefined);
         };
         Array.joinable = function (value, condition) {
             return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
