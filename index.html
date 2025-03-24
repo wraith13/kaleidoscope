@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Mar 24 2025 07:12:39 GMT+0900 (日本標準時)
+    build at: Mon Mar 24 2025 19:56:41 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -188,15 +188,6 @@ body.immersive.mousemove #screen-body {
   border: 0;
   position: fixed;
   z-index: -100;
-}
-#screen-body #canvas #top-coat {
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
-  z-index: 10;
 }
 #screen-body #canvas .layer {
   margin: 0px;
@@ -947,8 +938,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Mon Mar 24 2025 07:12:39 GMT+0900 (日本標準時)",
-    tick: 1742767959319
+    at: "Mon Mar 24 2025 19:56:41 GMT+0900 (日本標準時)",
+    tick: 1742813801042
 };
 const evilCommonjsConfig =
 {
@@ -3944,11 +3935,9 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope/"><span>Kaleidoscope</a></div></h1>
 <div id="screen-body">
     <div id="canvas">
-        <div id="top-coat"></div>
         <div class="layer"></div>
     </div>
     <div id="benchmark-canvas">
-        <div id="top-coat"></div>
         <div class="layer"></div>
     </div>
 </div>
@@ -6681,7 +6670,6 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
     var canvas = _library_3.Library.UI.getElementById("div", "canvas");
-    var topCoat = _library_3.Library.UI.getElementById("div", "top-coat");
     var keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
     var animator = new _features_1.Features.Animation.Animator(canvas);
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
@@ -6864,12 +6852,10 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             loopBenchmark(now);
         }); }, config_json_4.default.startWait);
     };
-    topCoat.addEventListener("click", function (event) {
+    canvas.addEventListener("click", function (event) {
         event.stopPropagation();
-        if (event.target === event.currentTarget) {
-            console.log("👆 topCoat.Click:", event, topCoat);
-            pauseAnimation();
-        }
+        console.log("👆 canvas.Click:", event, canvas);
+        pauseAnimation();
     });
     var mouseMoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
     screenBody.addEventListener("mousemove", function (_event) {

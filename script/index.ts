@@ -6,7 +6,6 @@ import config from "@resource/config.json";
 import poweredBy from "@resource/powered-by.json";
 const screenBody = Library.UI.getElementById("div", "screen-body");
 const canvas = Library.UI.getElementById("div", "canvas");
-const topCoat = Library.UI.getElementById("div", "top-coat");
 const keyboardShortcut = Library.UI.getElementById("div", "keyboard-shortcut");
 const animator = new Features.Animation.Animator(canvas);
 const isInAnimation = () => document.body.classList.contains("immersive");
@@ -298,17 +297,14 @@ const runBenchmark = () =>
         config.startWait
     );
 };
-topCoat.addEventListener
+canvas.addEventListener
 (
     "click",
     event =>
     {
         event.stopPropagation();
-        if (event.target === event.currentTarget)
-        {
-            console.log("👆 topCoat.Click:", event, topCoat);
-            pauseAnimation();
-        }
+        console.log("👆 canvas.Click: pauseAnimation", event, canvas);
+        pauseAnimation();
     }
 );
 const mouseMoveTimer = new Library.UI.ToggleClassForWhileTimer();

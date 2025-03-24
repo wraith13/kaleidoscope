@@ -138,15 +138,6 @@ body.immersive.mousemove #screen-body {
   position: fixed;
   z-index: -100;
 }
-#screen-body #canvas #top-coat {
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  position: fixed;
-  z-index: 10;
-}
 #screen-body #canvas .layer {
   margin: 0px;
   top: 0px;

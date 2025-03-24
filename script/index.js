@@ -2637,7 +2637,6 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
     var canvas = _library_3.Library.UI.getElementById("div", "canvas");
-    var topCoat = _library_3.Library.UI.getElementById("div", "top-coat");
     var keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
     var animator = new _features_1.Features.Animation.Animator(canvas);
     var isInAnimation = function () { return document.body.classList.contains("immersive"); };
@@ -2820,12 +2819,10 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             loopBenchmark(now);
         }); }, config_json_4.default.startWait);
     };
-    topCoat.addEventListener("click", function (event) {
+    canvas.addEventListener("click", function (event) {
         event.stopPropagation();
-        if (event.target === event.currentTarget) {
-            console.log("👆 topCoat.Click:", event, topCoat);
-            pauseAnimation();
-        }
+        console.log("👆 canvas.Click:", event, canvas);
+        pauseAnimation();
     });
     var mouseMoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
     screenBody.addEventListener("mousemove", function (_event) {

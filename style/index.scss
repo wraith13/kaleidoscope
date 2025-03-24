@@ -73,12 +73,6 @@
         @include solid-box();
         position: fixed;
         z-index: -100;
-        #top-coat
-        {
-            @include full-stretch-box();
-            position: fixed;
-            z-index: 10;
-        }
         .layer
         {
             @include full-stretch-box();
