@@ -130,15 +130,16 @@ body.immersive.mousemove #screen-body {
   cursor: pointer;
 }
 
-#screen-body #canvas {
+#screen-body #canvas, #screen-body #benchmark-canvas {
   display: block;
   margin: 0px;
   padding: 0px;
   border: 0;
   position: fixed;
   z-index: -100;
+  transition: opacity 750ms, filter 750ms;
 }
-#screen-body #canvas .layer {
+#screen-body #canvas .layer, #screen-body #benchmark-canvas .layer {
   margin: 0px;
   top: 0px;
   right: 0px;
@@ -148,13 +149,50 @@ body.immersive.mousemove #screen-body {
   mix-blend-mode: difference;
   will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
 }
+#screen-body #benchmark-canvas {
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
 
 body.benchmark #screen-body #canvas {
-  display: none;
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.benchmark #screen-body #canvas::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 body:not(.benchmark) #screen-body #benchmark-canvas {
-  display: none;
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body:not(.benchmark) #screen-body #benchmark-canvas::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 #option-panel {

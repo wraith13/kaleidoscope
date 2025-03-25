@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Mar 24 2025 19:56:41 GMT+0900 (日本標準時)
+    build at: Tue Mar 25 2025 07:47:18 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -181,15 +181,16 @@ body.immersive.mousemove #screen-body {
   cursor: pointer;
 }
 
-#screen-body #canvas {
+#screen-body #canvas, #screen-body #benchmark-canvas {
   display: block;
   margin: 0px;
   padding: 0px;
   border: 0;
   position: fixed;
   z-index: -100;
+  transition: opacity 750ms, filter 750ms;
 }
-#screen-body #canvas .layer {
+#screen-body #canvas .layer, #screen-body #benchmark-canvas .layer {
   margin: 0px;
   top: 0px;
   right: 0px;
@@ -199,13 +200,50 @@ body.immersive.mousemove #screen-body {
   mix-blend-mode: difference;
   will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
 }
+#screen-body #benchmark-canvas {
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
 
 body.benchmark #screen-body #canvas {
-  display: none;
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.benchmark #screen-body #canvas::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 body:not(.benchmark) #screen-body #benchmark-canvas {
-  display: none;
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body:not(.benchmark) #screen-body #benchmark-canvas::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
 }
 
 #option-panel {
@@ -938,8 +976,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Mon Mar 24 2025 19:56:41 GMT+0900 (日本標準時)",
-    tick: 1742813801042
+    at: "Tue Mar 25 2025 07:47:18 GMT+0900 (日本標準時)",
+    tick: 1742856438363
 };
 const evilCommonjsConfig =
 {
@@ -6670,15 +6708,28 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
     var canvas = _library_3.Library.UI.getElementById("div", "canvas");
+    var benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
     var keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
     var animator = new _features_1.Features.Animation.Animator(canvas);
-    var isInAnimation = function () { return document.body.classList.contains("immersive"); };
-    var playAnimation = function () {
+    var isInMode = function (mode) {
+        return document.body.classList.contains("immersive") && document.body.classList.contains(mode);
+    };
+    var intoMode = function (mode) {
         document.body.classList.toggle("immersive", true);
+        document.body.classList.toggle(mode, true);
         document.body.classList.toggle("mousemove", false);
         keyboardShortcut.classList.toggle("show", false);
         updateFullscreenState();
         _features_1.Features.Fps.reset();
+    };
+    var exitMode = function (mode) {
+        document.body.classList.toggle("immersive", false);
+        document.body.classList.toggle(mode, false);
+        updateFullscreenState(false);
+    };
+    var isInAnimation = function () { return isInMode("animation"); };
+    var playAnimation = function () {
+        intoMode("animation");
         updateFps();
         start();
     };
@@ -6690,11 +6741,20 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
                 standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
             });
         }
-        document.body.classList.toggle("immersive", false);
-        updateFullscreenState(false);
+        exitMode("animation");
     };
     var toggleAnimation = function () {
-        return isInAnimation() ? pauseAnimation() : playAnimation();
+        switch (true) {
+            case isInAnimation():
+                pauseAnimation();
+                break;
+            case isInBenchmark():
+                stopBenchmark();
+                break;
+            default:
+                playAnimation();
+                break;
+        }
     };
     var updateFps = function () {
         if (showFps.get()) {
@@ -6832,7 +6892,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             _features_1.Features.Fps.step(now);
             updateFps();
             if (_features_1.Features.Fps.isUnderFuseFps()) {
-                pauseAnimation();
+                stopBenchmark();
             }
             else {
                 animator.step(now);
@@ -6840,22 +6900,34 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             }
         }
     };
+    var isInBenchmark = function () { return isInMode("benchmark"); };
     var runBenchmark = function () {
-        document.body.classList.toggle("immersive", true);
-        document.body.classList.toggle("mousemove", false);
-        keyboardShortcut.classList.toggle("show", false);
-        updateFullscreenState();
-        _features_1.Features.Fps.reset();
+        intoMode("benchmark");
         updateFps();
         setTimeout(function () { return window.requestAnimationFrame(function (now) {
             animator.startStep(now);
             loopBenchmark(now);
         }); }, config_json_4.default.startWait);
     };
+    var stopBenchmark = function () {
+        if (isInBenchmark()) {
+            console.log("📈 fps", {
+                count: _features_1.Features.Fps.standardDeviation.count,
+                mean: _features_1.Features.Fps.standardDeviation.mean,
+                standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
+            });
+        }
+        exitMode("benchmark");
+    };
     canvas.addEventListener("click", function (event) {
         event.stopPropagation();
-        console.log("👆 canvas.Click:", event, canvas);
+        console.log("👆 canvas.Click: pauseAnimation", event, canvas);
         pauseAnimation();
+    });
+    benchmarkCanvas.addEventListener("click", function (event) {
+        event.stopPropagation();
+        console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, benchmarkCanvas);
+        stopBenchmark();
     });
     var mouseMoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
     screenBody.addEventListener("mousemove", function (_event) {

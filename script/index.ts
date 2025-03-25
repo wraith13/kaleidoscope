@@ -6,16 +6,30 @@ import config from "@resource/config.json";
 import poweredBy from "@resource/powered-by.json";
 const screenBody = Library.UI.getElementById("div", "screen-body");
 const canvas = Library.UI.getElementById("div", "canvas");
+const benchmarkCanvas = Library.UI.getElementById("div", "benchmark-canvas");
 const keyboardShortcut = Library.UI.getElementById("div", "keyboard-shortcut");
 const animator = new Features.Animation.Animator(canvas);
-const isInAnimation = () => document.body.classList.contains("immersive");
-const playAnimation = () =>
+const isInMode = (mode: string) =>
+    document.body.classList.contains("immersive") && document.body.classList.contains(mode);
+const intoMode = (mode: string) =>
 {
     document.body.classList.toggle("immersive", true);
+    document.body.classList.toggle(mode, true);
     document.body.classList.toggle("mousemove", false);
     keyboardShortcut.classList.toggle("show", false);
     updateFullscreenState();
     Features.Fps.reset();
+}
+const exitMode = (mode: string) =>
+{
+    document.body.classList.toggle("immersive", false);
+    document.body.classList.toggle(mode, false);
+    updateFullscreenState(false);
+};
+const isInAnimation = () => isInMode("animation");
+const playAnimation = () =>
+{
+    intoMode("animation");
     updateFps();
     start();
 };
@@ -33,11 +47,23 @@ const pauseAnimation = () =>
             }
         );
     }
-    document.body.classList.toggle("immersive", false);
-    updateFullscreenState(false);
+    exitMode("animation");
 };
 const toggleAnimation = () =>
-    isInAnimation() ? pauseAnimation(): playAnimation();
+{
+    switch(true)
+    {
+    case isInAnimation():
+        pauseAnimation();
+        break;
+    case isInBenchmark():
+        stopBenchmark();
+        break;
+    default:
+        playAnimation();
+        break;
+    }
+}
 const updateFps = () =>
 {
     if (showFps.get())
@@ -267,7 +293,7 @@ const loopBenchmark = (now: number) =>
         updateFps();
         if (Features.Fps.isUnderFuseFps())
         {
-            pauseAnimation();
+            stopBenchmark();
         }
         else
         {
@@ -276,13 +302,10 @@ const loopBenchmark = (now: number) =>
         }
     }
 };
+const isInBenchmark = () => isInMode("benchmark");
 const runBenchmark = () =>
 {
-    document.body.classList.toggle("immersive", true);
-    document.body.classList.toggle("mousemove", false);
-    keyboardShortcut.classList.toggle("show", false);
-    updateFullscreenState();
-    Features.Fps.reset();
+    intoMode("benchmark");
     updateFps();
     setTimeout
     (
@@ -297,6 +320,22 @@ const runBenchmark = () =>
         config.startWait
     );
 };
+const stopBenchmark = () =>
+{
+    if (isInBenchmark())
+    {
+        console.log
+        (
+            "📈 fps",
+            {
+                count: Features.Fps.standardDeviation.count,
+                mean: Features.Fps.standardDeviation.mean,
+                standardDeviation: Features.Fps.standardDeviation.getStandardDeviation(),
+            }
+        );
+    }
+    exitMode("benchmark");
+};
 canvas.addEventListener
 (
     "click",
@@ -305,6 +344,16 @@ canvas.addEventListener
         event.stopPropagation();
         console.log("👆 canvas.Click: pauseAnimation", event, canvas);
         pauseAnimation();
+    }
+);
+benchmarkCanvas.addEventListener
+(
+    "click",
+    event =>
+    {
+        event.stopPropagation();
+        console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, benchmarkCanvas);
+        stopBenchmark();
     }
 );
 const mouseMoveTimer = new Library.UI.ToggleClassForWhileTimer();

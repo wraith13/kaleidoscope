@@ -68,11 +68,12 @@
     {
         cursor: pointer;
     }
-    #canvas
+    #canvas, #benchmark-canvas
     {
         @include solid-box();
         position: fixed;
         z-index: -100;
+        transition: opacity 750ms, filter 750ms;
         .layer
         {
             @include full-stretch-box();
@@ -81,19 +82,23 @@
             will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
         }
     }
+    #benchmark-canvas
+    {
+        @include full-stretch-box();
+    }
 }
 body.benchmark #screen-body
 {
     #canvas
     {
-        display: none
+        @include mist-disperse-effect();
     }
 }
 body:not(.benchmark) #screen-body
 {
     #benchmark-canvas
     {
-        display: none
+        @include mist-disperse-effect();
     }
 }
 #option-panel

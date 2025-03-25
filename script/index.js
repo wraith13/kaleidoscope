@@ -2637,15 +2637,28 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
     var canvas = _library_3.Library.UI.getElementById("div", "canvas");
+    var benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
     var keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
     var animator = new _features_1.Features.Animation.Animator(canvas);
-    var isInAnimation = function () { return document.body.classList.contains("immersive"); };
-    var playAnimation = function () {
+    var isInMode = function (mode) {
+        return document.body.classList.contains("immersive") && document.body.classList.contains(mode);
+    };
+    var intoMode = function (mode) {
         document.body.classList.toggle("immersive", true);
+        document.body.classList.toggle(mode, true);
         document.body.classList.toggle("mousemove", false);
         keyboardShortcut.classList.toggle("show", false);
         updateFullscreenState();
         _features_1.Features.Fps.reset();
+    };
+    var exitMode = function (mode) {
+        document.body.classList.toggle("immersive", false);
+        document.body.classList.toggle(mode, false);
+        updateFullscreenState(false);
+    };
+    var isInAnimation = function () { return isInMode("animation"); };
+    var playAnimation = function () {
+        intoMode("animation");
         updateFps();
         start();
     };
@@ -2657,11 +2670,20 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
                 standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
             });
         }
-        document.body.classList.toggle("immersive", false);
-        updateFullscreenState(false);
+        exitMode("animation");
     };
     var toggleAnimation = function () {
-        return isInAnimation() ? pauseAnimation() : playAnimation();
+        switch (true) {
+            case isInAnimation():
+                pauseAnimation();
+                break;
+            case isInBenchmark():
+                stopBenchmark();
+                break;
+            default:
+                playAnimation();
+                break;
+        }
     };
     var updateFps = function () {
         if (showFps.get()) {
@@ -2799,7 +2821,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             _features_1.Features.Fps.step(now);
             updateFps();
             if (_features_1.Features.Fps.isUnderFuseFps()) {
-                pauseAnimation();
+                stopBenchmark();
             }
             else {
                 animator.step(now);
@@ -2807,22 +2829,34 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
             }
         }
     };
+    var isInBenchmark = function () { return isInMode("benchmark"); };
     var runBenchmark = function () {
-        document.body.classList.toggle("immersive", true);
-        document.body.classList.toggle("mousemove", false);
-        keyboardShortcut.classList.toggle("show", false);
-        updateFullscreenState();
-        _features_1.Features.Fps.reset();
+        intoMode("benchmark");
         updateFps();
         setTimeout(function () { return window.requestAnimationFrame(function (now) {
             animator.startStep(now);
             loopBenchmark(now);
         }); }, config_json_4.default.startWait);
     };
+    var stopBenchmark = function () {
+        if (isInBenchmark()) {
+            console.log("📈 fps", {
+                count: _features_1.Features.Fps.standardDeviation.count,
+                mean: _features_1.Features.Fps.standardDeviation.mean,
+                standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
+            });
+        }
+        exitMode("benchmark");
+    };
     canvas.addEventListener("click", function (event) {
         event.stopPropagation();
-        console.log("👆 canvas.Click:", event, canvas);
+        console.log("👆 canvas.Click: pauseAnimation", event, canvas);
         pauseAnimation();
+    });
+    benchmarkCanvas.addEventListener("click", function (event) {
+        event.stopPropagation();
+        console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, benchmarkCanvas);
+        stopBenchmark();
     });
     var mouseMoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
     screenBody.addEventListener("mousemove", function (_event) {
