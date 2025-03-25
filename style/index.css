@@ -109,6 +109,38 @@ body.hide-ui #screen-header:not(.show) {
   }
 }
 
+#benchmark-progress-bar {
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: center;
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.8);
+  gap: 0.25rem;
+  padding: 0.25rem;
+  position: fixed;
+  z-index: 100;
+}
+#benchmark-progress-bar .progress-block {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: 0;
+  flex-grow: 1;
+  height: 0.5rem;
+}
+#benchmark-progress-bar .progress-block.on {
+  background-color: rgba(68, 221, 136, 0.4);
+}
+#benchmark-progress-bar .progress-block:not(.on) {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
 #screen-body {
   margin: 0px;
   top: 0px;
@@ -157,13 +189,13 @@ body.immersive.mousemove #screen-body {
   left: 0px;
 }
 
-body.benchmark #screen-body #canvas {
+body.benchmark #canvas {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.benchmark #screen-body #canvas::before {
+body.benchmark #canvas::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -176,13 +208,15 @@ body.benchmark #screen-body #canvas::before {
   transition: filter 750ms;
 }
 
-body:not(.benchmark) #screen-body #benchmark-canvas {
+body:not(.benchmark) #benchmark-progress-bar,
+body:not(.benchmark) #benchmark-canvas {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body:not(.benchmark) #screen-body #benchmark-canvas::before {
+body:not(.benchmark) #benchmark-progress-bar::before,
+body:not(.benchmark) #benchmark-canvas::before {
   content: "";
   position: absolute;
   top: -1em;

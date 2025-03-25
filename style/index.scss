@@ -54,6 +54,30 @@
         }
     }
 }
+#benchmark-progress-bar
+{
+    @include top-stretch-box();
+    @include flex(row, stretch);
+    @include black-line-panel-style();
+    gap: 0.25rem;
+    padding: 0.25rem;
+    position: fixed;
+    z-index: 100;
+    .progress-block
+    {
+        @include solid-box();
+        flex-grow: 1;
+        height: 0.5rem;
+        &.on
+        {
+            background-color: #44DD8866;
+        }
+        &:not(.on)
+        {
+            background-color: #00000066;
+        }
+    }
+}
 #screen-body
 {
     @include full-stretch-box();
@@ -87,15 +111,16 @@
         @include full-stretch-box();
     }
 }
-body.benchmark #screen-body
+body.benchmark
 {
     #canvas
     {
         @include mist-disperse-effect();
     }
 }
-body:not(.benchmark) #screen-body
+body:not(.benchmark)
 {
+    #benchmark-progress-bar,
     #benchmark-canvas
     {
         @include mist-disperse-effect();

@@ -6,6 +6,7 @@ import config from "@resource/config.json";
 import poweredBy from "@resource/powered-by.json";
 const screenBody = Library.UI.getElementById("div", "screen-body");
 const canvas = Library.UI.getElementById("div", "canvas");
+const benchmarkProgressBar = Library.UI.getElementById("div", "benchmark-progress-bar");
 const benchmarkCanvas = Library.UI.getElementById("div", "benchmark-canvas");
 const keyboardShortcut = Library.UI.getElementById("div", "keyboard-shortcut");
 const animator = new Features.Animation.Animator(canvas);
@@ -303,9 +304,29 @@ const loopBenchmark = (now: number) =>
     }
 };
 const isInBenchmark = () => isInMode("benchmark");
+const updateBenchmarkProgressBar = (progress: number, total: number) =>
+{
+    const oldProgressBlockList = Array.from(benchmarkProgressBar.children);
+    if (oldProgressBlockList.length < total)
+    {
+        for (let i = oldProgressBlockList.length; i < total; ++i)
+        {
+            Library.UI.appendChild(benchmarkProgressBar, { tag: "div", className: "progress-block", });
+        }
+    }
+    else
+    {
+        for (let i = total; i < oldProgressBlockList.length; ++i)
+        {
+            benchmarkProgressBar.removeChild(oldProgressBlockList[i]);
+        }
+    }
+    Array.from(benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
+}
 const runBenchmark = () =>
 {
     intoMode("benchmark");
+    updateBenchmarkProgressBar(2, 10);
     updateFps();
     setTimeout
     (

@@ -2637,6 +2637,7 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
     var canvas = _library_3.Library.UI.getElementById("div", "canvas");
+    var benchmarkProgressBar = _library_3.Library.UI.getElementById("div", "benchmark-progress-bar");
     var benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
     var keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
     var animator = new _features_1.Features.Animation.Animator(canvas);
@@ -2830,8 +2831,23 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         }
     };
     var isInBenchmark = function () { return isInMode("benchmark"); };
+    var updateBenchmarkProgressBar = function (progress, total) {
+        var oldProgressBlockList = Array.from(benchmarkProgressBar.children);
+        if (oldProgressBlockList.length < total) {
+            for (var i = oldProgressBlockList.length; i < total; ++i) {
+                _library_3.Library.UI.appendChild(benchmarkProgressBar, { tag: "div", className: "progress-block", });
+            }
+        }
+        else {
+            for (var i = total; i < oldProgressBlockList.length; ++i) {
+                benchmarkProgressBar.removeChild(oldProgressBlockList[i]);
+            }
+        }
+        Array.from(benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
+    };
     var runBenchmark = function () {
         intoMode("benchmark");
+        updateBenchmarkProgressBar(2, 10);
         updateFps();
         setTimeout(function () { return window.requestAnimationFrame(function (now) {
             animator.startStep(now);
