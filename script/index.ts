@@ -242,7 +242,6 @@ Library.UI.replaceChildren
         ([ text, href, ]) => ({ tag: "li", children: [ Library.UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
     )
 );
-//Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
 const updateFullscreenState = (fullscreen?: boolean) =>
 {
     if (Library.UI.fullscreenEnabled)
@@ -313,6 +312,10 @@ const runBenchmark = () =>
     intoMode("benchmark");
     setBenchmarkProgressBarSize(7);
     setBenchmarkProgressBarProgress(1);
+    if (Library.UI.fullscreenEnabled)
+    {
+        Library.UI.requestFullscreen(document.body);
+    }
     updateFps();
     setTimeout
     (

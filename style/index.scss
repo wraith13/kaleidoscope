@@ -95,9 +95,9 @@
     #canvas, #benchmark-canvas
     {
         @include solid-box();
+        @include mist-disperse-effect-transition();
         position: fixed;
         z-index: -100;
-        transition: opacity 750ms, filter 750ms;
         .layer
         {
             @include full-stretch-box();

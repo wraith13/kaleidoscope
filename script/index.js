@@ -2788,7 +2788,6 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         var text = _a[0], href = _a[1];
         return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
     }));
-    //Library.UI.getElementsByClassName("div", "layer")[0].style.setProperty("background-color", animator.phiColoring.makeColor(0.0));
     var updateFullscreenState = function (fullscreen) {
         if (_library_3.Library.UI.fullscreenEnabled) {
             if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.get()) {
@@ -2840,6 +2839,9 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         intoMode("benchmark");
         setBenchmarkProgressBarSize(7);
         setBenchmarkProgressBarProgress(1);
+        if (_library_3.Library.UI.fullscreenEnabled) {
+            _library_3.Library.UI.requestFullscreen(document.body);
+        }
         updateFps();
         setTimeout(function () { return window.requestAnimationFrame(function (now) {
             animator.startStep(now);
