@@ -179,6 +179,18 @@ export namespace UI
         removeAllChildren(parent);
         return appendChildren(parent, elements);
     };
+    export const cullOrBreed = <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: ElementSource<T>, size: number): ParentT =>
+    {
+        while(size < parent.children.length)
+        {
+            parent.removeChild(parent.lastChild as Node);
+        }
+        while(parent.children.length < size)
+        {
+            appendChild(parent, element);
+        }
+        return parent;
+    };
     export const getElementsByClassName = <T extends HtmlTag>(tag: T, className: string, parent?: Element): HTMLElementTagNameMap[T][] =>
     {
         const result = <HTMLElementTagNameMap[T][]><unknown>Array.from((parent ?? document).getElementsByClassName(className));

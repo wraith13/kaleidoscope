@@ -304,29 +304,15 @@ const loopBenchmark = (now: number) =>
     }
 };
 const isInBenchmark = () => isInMode("benchmark");
-const updateBenchmarkProgressBar = (progress: number, total: number) =>
-{
-    const oldProgressBlockList = Array.from(benchmarkProgressBar.children);
-    if (oldProgressBlockList.length < total)
-    {
-        for (let i = oldProgressBlockList.length; i < total; ++i)
-        {
-            Library.UI.appendChild(benchmarkProgressBar, { tag: "div", className: "progress-block", });
-        }
-    }
-    else
-    {
-        for (let i = total; i < oldProgressBlockList.length; ++i)
-        {
-            benchmarkProgressBar.removeChild(oldProgressBlockList[i]);
-        }
-    }
+const setBenchmarkProgressBarSize = (size: number) =>
+    Library.UI.cullOrBreed(benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
+const setBenchmarkProgressBarProgress = (progress: number) =>
     Array.from(benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
-}
 const runBenchmark = () =>
 {
     intoMode("benchmark");
-    updateBenchmarkProgressBar(2, 10);
+    setBenchmarkProgressBarSize(7);
+    setBenchmarkProgressBarProgress(1);
     updateFps();
     setTimeout
     (

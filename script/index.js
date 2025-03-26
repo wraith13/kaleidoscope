@@ -332,6 +332,15 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
             UI.removeAllChildren(parent);
             return UI.appendChildren(parent, elements);
         };
+        UI.cullOrBreed = function (parent, element, size) {
+            while (size < parent.children.length) {
+                parent.removeChild(parent.lastChild);
+            }
+            while (parent.children.length < size) {
+                UI.appendChild(parent, element);
+            }
+            return parent;
+        };
         UI.getElementsByClassName = function (tag, className, parent) {
             var result = Array.from((parent !== null && parent !== void 0 ? parent : document).getElementsByClassName(className));
             result.forEach(function (i) {
@@ -2538,17 +2547,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 };
                 this.setLayers = function (newLayers) {
                     var _a, _b, _c;
-                    var oldLayerList = _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas);
-                    if (oldLayerList.length < newLayers) {
-                        for (var i = oldLayerList.length; i < newLayers; ++i) {
-                            _this.canvas.appendChild(_library_2.Library.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
-                        }
-                    }
-                    else {
-                        for (var i = newLayers; i < oldLayerList.length; ++i) {
-                            _this.canvas.removeChild(oldLayerList[i]);
-                        }
-                    }
+                    _library_2.Library.UI.cullOrBreed(_this.canvas, { tag: "div", attributes: { class: "layer", }, }, newLayers);
                     var layerList = _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas);
                     var newArguments = (_a = _this.layers[0]) === null || _a === void 0 ? void 0 : _a.arguments;
                     var oldArguments = _this.argumentHistory[_this.argumentHistory.length - 2];
@@ -2831,23 +2830,16 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         }
     };
     var isInBenchmark = function () { return isInMode("benchmark"); };
-    var updateBenchmarkProgressBar = function (progress, total) {
-        var oldProgressBlockList = Array.from(benchmarkProgressBar.children);
-        if (oldProgressBlockList.length < total) {
-            for (var i = oldProgressBlockList.length; i < total; ++i) {
-                _library_3.Library.UI.appendChild(benchmarkProgressBar, { tag: "div", className: "progress-block", });
-            }
-        }
-        else {
-            for (var i = total; i < oldProgressBlockList.length; ++i) {
-                benchmarkProgressBar.removeChild(oldProgressBlockList[i]);
-            }
-        }
-        Array.from(benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
+    var setBenchmarkProgressBarSize = function (size) {
+        return _library_3.Library.UI.cullOrBreed(benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
+    };
+    var setBenchmarkProgressBarProgress = function (progress) {
+        return Array.from(benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
     };
     var runBenchmark = function () {
         intoMode("benchmark");
-        updateBenchmarkProgressBar(2, 10);
+        setBenchmarkProgressBarSize(7);
+        setBenchmarkProgressBarProgress(1);
         updateFps();
         setTimeout(function () { return window.requestAnimationFrame(function (now) {
             animator.startStep(now);

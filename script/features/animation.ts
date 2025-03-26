@@ -290,15 +290,7 @@ export namespace Animation
         };
         setLayers = (newLayers: number) =>
         {
-            const oldLayerList = Library.UI.getElementsByClassName("div", "layer", this.canvas);
-            for (let i = oldLayerList.length; i < newLayers; ++i)
-            {
-                this.canvas.appendChild(Library.UI.createElement({ tag: "div", attributes: { class: "layer", }, }));
-            }
-            for (let i = newLayers; i < oldLayerList.length; ++i)
-            {
-                this.canvas.removeChild(oldLayerList[i]);
-            }
+            Library.UI.cullOrBreed(this.canvas, { tag: "div", attributes: { class: "layer", }, }, newLayers);
             const layerList = Library.UI.getElementsByClassName("div", "layer", this.canvas);
             const newArguments = this.layers[0]?.arguments;
             const oldArguments = this.argumentHistory[this.argumentHistory.length -2];

@@ -126,6 +126,7 @@ declare module "script/library/ui" {
         const replaceChild: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: ElementSource<T>) => ParentT;
         const appendChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: ElementSource<T>[]) => ParentT;
         const replaceChildren: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, elements: ElementSource<T>[]) => ParentT;
+        const cullOrBreed: <ParentT extends HTMLElement, T extends HtmlTag>(parent: ParentT, element: ElementSource<T>, size: number) => ParentT;
         const getElementsByClassName: <T extends HtmlTag>(tag: T, className: string, parent?: Element) => HTMLElementTagNameMap[T][];
         const querySelectorAllWithFallback: <T extends HtmlTag>(tag: T, selectorss: string[], parent?: Element) => HTMLElementTagNameMap[T][];
         const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];
