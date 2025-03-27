@@ -2839,9 +2839,10 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         intoMode("benchmark");
         setBenchmarkProgressBarSize(7);
         setBenchmarkProgressBarProgress(1);
-        if (_library_3.Library.UI.fullscreenEnabled) {
-            _library_3.Library.UI.requestFullscreen(document.body);
-        }
+        // if (Library.UI.fullscreenEnabled)
+        // {
+        //     Library.UI.requestFullscreen(document.body);
+        // }
         updateFps();
         setTimeout(function () { return window.requestAnimationFrame(function (now) {
             animator.startStep(now);

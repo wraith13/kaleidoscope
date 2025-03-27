@@ -312,10 +312,10 @@ const runBenchmark = () =>
     intoMode("benchmark");
     setBenchmarkProgressBarSize(7);
     setBenchmarkProgressBarProgress(1);
-    if (Library.UI.fullscreenEnabled)
-    {
-        Library.UI.requestFullscreen(document.body);
-    }
+    // if (Library.UI.fullscreenEnabled)
+    // {
+    //     Library.UI.requestFullscreen(document.body);
+    // }
     updateFps();
     setTimeout
     (

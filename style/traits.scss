@@ -4,18 +4,17 @@
 {
     @each $mode in $modes
     {
-        $use-not: string.index($mode, ".not(") == 1;
-        $mode-name: if($use-not, string.slice($mode, 6, -2), $mode);
-        @if $use-not
+        $is-body: string.index($mode, "body.") == 1 or string.index($mode, "body:") == 1;
+        @if $is-body
         {
-            @at-root body:not(.#{$mode-name}) &:not(.show)
+            @at-root #{$mode} &:not(.show)
             {
                 @content;
             }
         }
         @else
         {
-            @at-root body.#{$mode-name} &:not(.show)
+            #{$mode}:not(.show)
             {
                 @content;
             }
@@ -44,21 +43,6 @@
     @include apply-transition-effect($modes...)
     {
         @include mist-disperse-effect();
-    }
-}
-@mixin default-mode-element($transition)
-{
-    @if "slide-up" == $transition
-    {
-        @include slide-up-transition("immersive", "hide-ui");
-    }
-    @if "slide-down" == $transition
-    {
-        @include slide-down-transition("immersive", "hide-ui");
-    }
-    @if "fade" == $transition
-    {
-        @include fade-transition("immersive", "hide-ui");
     }
 }
 @mixin flex($flex-direction: row, $justify-content: start, $align-items: center)

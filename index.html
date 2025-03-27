@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Wed Mar 26 2025 20:46:11 GMT+0900 (日本標準時)
+    build at: Thu Mar 27 2025 06:47:39 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -172,11 +172,16 @@ body.hide-ui #screen-header:not(.show) {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
+  transition: transform 500ms;
   gap: 0.25rem;
   padding: 0.25rem;
   position: fixed;
   z-index: 100;
 }
+body:not(.benchmark) #benchmark-progress-bar:not(.show) {
+  transform: translate(0px, -100%);
+}
+
 #benchmark-progress-bar .progress-block {
   display: block;
   margin: 0px;
@@ -218,7 +223,6 @@ body.immersive.mousemove #screen-body {
   margin: 0px;
   padding: 0px;
   border: 0;
-  transition: opacity 750ms, filter 750ms;
   position: fixed;
   z-index: -100;
 }
@@ -232,21 +236,16 @@ body.immersive.mousemove #screen-body {
   mix-blend-mode: difference;
   will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
 }
-#screen-body #benchmark-canvas {
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+#screen-body #canvas {
+  transition: opacity 750ms, filter 750ms;
 }
-
-body.benchmark #canvas {
+body.benchmark #screen-body #canvas:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.benchmark #canvas::before {
+body.benchmark #screen-body #canvas:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -259,15 +258,21 @@ body.benchmark #canvas::before {
   transition: filter 750ms;
 }
 
-body:not(.benchmark) #benchmark-progress-bar,
-body:not(.benchmark) #benchmark-canvas {
+#screen-body #benchmark-canvas {
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  transition: opacity 750ms, filter 750ms;
+}
+body:not(.benchmark) #screen-body #benchmark-canvas:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body:not(.benchmark) #benchmark-progress-bar::before,
-body:not(.benchmark) #benchmark-canvas::before {
+body:not(.benchmark) #screen-body #benchmark-canvas:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -444,36 +449,18 @@ body.hide-ui #option-panel:not(.show)::before {
   right: 0.5rem;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
-  transition: opacity 750ms, filter 750ms;
   text-align: right;
   white-space: pre;
   will-change: contents opacity filter;
+  transition: opacity 750ms, filter 750ms;
 }
-#fps.hide {
+body:not(.immersive) #fps:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-#fps.hide::before {
-  content: "";
-  position: absolute;
-  top: -1em;
-  left: -1em;
-  right: -1em;
-  bottom: -1em;
-  background: inherit;
-  filter: blur(1em);
-  z-index: -1;
-  transition: filter 750ms;
-}
-body:not(.immersive) #fps {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
-  filter: blur(1em);
-}
-body:not(.immersive) #fps::before {
+body:not(.immersive) #fps:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -486,13 +473,13 @@ body:not(.immersive) #fps::before {
   transition: filter 750ms;
 }
 
-body:hide-ui #fps {
+#fps.hide:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body:hide-ui #fps::before {
+#fps.hide:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -1010,8 +997,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Wed Mar 26 2025 20:46:11 GMT+0900 (日本標準時)",
-    tick: 1742989571330
+    at: "Thu Mar 27 2025 06:47:39 GMT+0900 (日本標準時)",
+    tick: 1743025659636
 };
 const evilCommonjsConfig =
 {
@@ -6945,9 +6932,10 @@ define("script/index", ["require", "exports", "script/library/index", "script/to
         intoMode("benchmark");
         setBenchmarkProgressBarSize(7);
         setBenchmarkProgressBarProgress(1);
-        if (_library_3.Library.UI.fullscreenEnabled) {
-            _library_3.Library.UI.requestFullscreen(document.body);
-        }
+        // if (Library.UI.fullscreenEnabled)
+        // {
+        //     Library.UI.requestFullscreen(document.body);
+        // }
         updateFps();
         setTimeout(function () { return window.requestAnimationFrame(function (now) {
             animator.startStep(now);
