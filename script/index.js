@@ -2330,7 +2330,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return phi_colors_1.phiColors.rgbForCssColor(colorspace, rgb);
                 };
                 //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
-                this.s = PhiColoring.regulateL(saturation);
+                this.s = PhiColoring.regulateS(saturation);
                 this.l = PhiColoring.regulateL(lightness);
             }
             PhiColoring.regulateH = function (h) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
@@ -2464,14 +2464,18 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         case 0 < mile:
                             return _this.makeForegroundRgb(mile - 1, offset, ix);
                         case mile <= 0 && ix <= 0:
-                            return _this.phiColoring.makeRgb(0.0);
+                            return _this.phiColoring.makePhiRgb(0.0);
                         case mile <= 0 && 0 < ix:
                         default:
                             return Animation.black;
                     }
                 };
-                this.makeForegroundColor = function (mile, offset, ix) { return _this.makeColor(_this.makeForegroundRgb(mile, offset, ix)); };
-                this.makeBackgroundColor = function (mile, offset, ix) { return _this.makeColor(_this.makeBackgroundRgb(mile, offset, ix)); };
+                this.makeForegroundColor = function (mile, offset, ix) {
+                    return _this.makeColor(_this.makeForegroundRgb(mile, offset, ix));
+                };
+                this.makeBackgroundColor = function (mile, offset, ix) {
+                    return _this.makeColor(_this.makeBackgroundRgb(mile, offset, ix));
+                };
                 this.isStarted = function () { return 0 < _this.startAt; };
                 this.getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
                 this.step = function (now) {
@@ -2514,8 +2518,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             break;
                     }
                     if (!_this.isStarted()) {
-                        _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas)[0].style.setProperty("background-color", _this.makeColor(_this.phiColoring.makeRgb(0.0)));
-                        //console.log(colorspace, this.makeColor(this.phiColoring.makeRgb(0.0)));
+                        _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas)[0].style.setProperty("background-color", _this.makeColor(_this.phiColoring.makePhiRgb(0.0)));
+                        //console.log(colorspace, this.makeColor(this.phiColoring.makePhiRgb(0.0)));
                     }
                 };
                 this.setColoring = function (coloring) {

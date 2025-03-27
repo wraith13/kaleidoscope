@@ -23,7 +23,7 @@ export namespace Animation
         )
         {
             //this.h = rate(phiColors.HslHMin, phiColors.HslHMax)((hue);
-            this.s = PhiColoring.regulateL(saturation);
+            this.s = PhiColoring.regulateS(saturation);
             this.l = PhiColoring.regulateL(lightness);
         }
         //h: number;
@@ -94,26 +94,26 @@ export namespace Animation
         {
             switch(pattern)
             {
-                case "lines":
-                    return [
-                        makeRandomStripeArguments,
-                        makeRandomDilineArguments,
-                        makeRandomTrilineArguments,
-                    ];
-                case "spots":
-                    return [
-                        makeRandomTrispotArguments,
-                        makeRandomTetraspotArguments,
-                    ];
-                case "all":
-                default:
-                    return [
-                        makeRandomStripeArguments,
-                        makeRandomDilineArguments,
-                        makeRandomTrilineArguments,
-                        makeRandomTrispotArguments,
-                        makeRandomTetraspotArguments,
-                    ];
+            case "lines":
+                return [
+                    makeRandomStripeArguments,
+                    makeRandomDilineArguments,
+                    makeRandomTrilineArguments,
+                ];
+            case "spots":
+                return [
+                    makeRandomTrispotArguments,
+                    makeRandomTetraspotArguments,
+                ];
+            case "all":
+            default:
+                return [
+                    makeRandomStripeArguments,
+                    makeRandomDilineArguments,
+                    makeRandomTrilineArguments,
+                    makeRandomTrispotArguments,
+                    makeRandomTetraspotArguments,
+                ];
             }
         };
         export const make = (pattern: typeof control.pattern.enum[number], intervalSize: IntervalSize) =>
@@ -181,7 +181,8 @@ export namespace Animation
                     this.phiColoring.makePhiRgb(mile +offset +1.0);
             }
         };
-        makeForegroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb = this.getNextColorMaker("phi-colors");
+        makeForegroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb =
+            this.getNextColorMaker("phi-colors");
         makeBackgroundRgb = (mile: number, offset: number, ix: number): phiColors.Rgb =>
         {
             switch(true)
@@ -189,14 +190,16 @@ export namespace Animation
             case 0 < mile:
                 return this.makeForegroundRgb(mile -1, offset, ix);
             case mile <= 0 && ix <= 0:
-                return this.phiColoring.makeRgb(0.0);
+                return this.phiColoring.makePhiRgb(0.0);
             case mile <= 0 && 0 < ix:
             default:
                 return black;
             }
         };
-        makeForegroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color => this.makeColor(this.makeForegroundRgb(mile, offset, ix));
-        makeBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color => this.makeColor(this.makeBackgroundRgb(mile, offset, ix));
+        makeForegroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
+            this.makeColor(this.makeForegroundRgb(mile, offset, ix));
+        makeBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
+            this.makeColor(this.makeBackgroundRgb(mile, offset, ix));
         isStarted = () => 0 < this.startAt;
         getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
         step = (now: number) =>
@@ -256,9 +259,9 @@ export namespace Animation
                 Library.UI.getElementsByClassName("div", "layer", this.canvas)[0].style.setProperty
                 (
                     "background-color",
-                    this.makeColor(this.phiColoring.makeRgb(0.0))
+                    this.makeColor(this.phiColoring.makePhiRgb(0.0))
                 );
-                //console.log(colorspace, this.makeColor(this.phiColoring.makeRgb(0.0)));
+                //console.log(colorspace, this.makeColor(this.phiColoring.makePhiRgb(0.0)));
             }
         };
         setColoring = (coloring: typeof control.coloring.enum[number]) =>
