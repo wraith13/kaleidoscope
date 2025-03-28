@@ -4,7 +4,7 @@
 {
     @each $mode in $modes
     {
-        $is-body: string.index($mode, "body.") == 1 or string.index($mode, "body:") == 1;
+        $is-body: 1 == string.index($mode, "body.") or 1 == string.index($mode, "body:");
         @if $is-body
         {
             @at-root #{$mode} &:not(.show)
@@ -39,10 +39,26 @@
 }
 @mixin fade-transition($modes...)
 {
-    @include mist-disperse-effect-transition();
+    transition: opacity 750ms, filter 750ms;
     @include apply-transition-effect($modes...)
     {
-        @include mist-disperse-effect();
+        opacity: 0;
+        cursor: none;
+        pointer-events: none;
+        filter: blur(1.0em);
+        &::before
+        {
+            content: "";
+            position: absolute;
+            top: -1em;
+            left: -1em;
+            right: -1em;
+            bottom: -1em;
+            background: inherit;
+            filter: blur(1.0em);
+            z-index: -1;
+            transition: filter 750ms;
+        }
     }
 }
 @mixin flex($flex-direction: row, $justify-content: start, $align-items: center)
@@ -134,30 +150,6 @@
     &
     {
         font-family: $monospace-font;
-    }
-}
-@mixin mist-disperse-effect-transition()
-{
-    transition: opacity 750ms, filter 750ms;
-}
-@mixin mist-disperse-effect()
-{
-    opacity: 0;
-    cursor: none;
-    pointer-events: none;
-    filter: blur(1.0em);
-    &::before
-    {
-        content: "";
-        position: absolute;
-        top: -1em;
-        left: -1em;
-        right: -1em;
-        bottom: -1em;
-        background: inherit;
-        filter: blur(1.0em);
-        z-index: -1;
-        transition: filter 750ms;
     }
 }
 @mixin svg-color($color)

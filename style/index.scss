@@ -249,21 +249,25 @@
 #play-button
 {
     @include black-pop-panel-style();
-    border-style: solid;
-    border-width: 1px;
-    border-color: white-color(0.7);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
-    transition: opacity 750ms, filter 750ms;
-    width: 11rem;
-    height: 11rem;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 30vw;
-    max-height: 30vw;
-    z-index: 50;
+    @include fade-transition("body.immersive:not(.mousemove)", "body.hide-ui");
+    &
+    {
+        border-style: solid;
+        border-width: 1px;
+        border-color: white-color(0.7);
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        transition: opacity 750ms, filter 750ms;
+        width: 11rem;
+        height: 11rem;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 30vw;
+        max-height: 30vw;
+        z-index: 50;
+    }
     svg
     {
         @include svg-color(white-color(0.7));
@@ -281,14 +285,6 @@
         {
             @include svg-color($white-color);
         }
-    }
-    @at-root body.immersive:not(.mousemove) &
-    {
-        @include mist-disperse-effect();
-    }
-    @at-root body.hide-ui &
-    {
-        @include mist-disperse-effect();
     }
     @at-root body.immersive & #play-icon
     {
