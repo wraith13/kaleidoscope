@@ -5,78 +5,53 @@ import control from "@resource/control.json";
 import poweredBy from "@resource/powered-by.json";
 export namespace UI
 {
-    export const screenBody = Library.UI.getElementById("div", "screen-body");
-    export const canvas = Library.UI.getElementById("div", "canvas");
-    export const benchmarkProgressBar = Library.UI.getElementById("div", "benchmark-progress-bar");
-    export const benchmarkCanvas = Library.UI.getElementById("div", "benchmark-canvas");
-    export const keyboardShortcut = Library.UI.getElementById("div", "keyboard-shortcut");
+    export const screenBody =
+        Library.UI.getElementById("div", "screen-body");
+    export const canvas =
+        Library.UI.getElementById("div", "canvas");
+    export const benchmarkProgressBar =
+        Library.UI.getElementById("div", "benchmark-progress-bar");
+    export const benchmarkCanvas =
+        Library.UI.getElementById("div", "benchmark-canvas");
+    export const keyboardShortcut =
+        Library.UI.getElementById("div", "keyboard-shortcut");
     export const playButton =
-    new Library.Control.Button
-    ({
-        id: "play-button",
-    });
+        new Library.Control.Button({ id: "play-button", });
     export const runBenchmarkButton =
-    new Library.Control.Button
-    ({
-        id: "run-benchmark",
-    });
-    export const colorspaceSelect = new Library.Control.Select
-    (
-        control.colorspace,
-    );
-    export const coloringSelect = new Library.Control.Select
-    (
-        control.coloring,
-    );
-    export const patternSelect = new Library.Control.Select
-    (
-        control.pattern,
-    );
-    export const canvasSizeSelect = new Library.Control.Select
-    (
-        control.canvasSize,
-        { makeLabel: i => `${i} %` }
-    );
-    export const layersSelect = new Library.Control.Select
-    (
-        control.layers,
-    );
-    export const cycleSpanSelect = new Library.Control.Select
-    (
-        control.cycleSpan,
-        { makeLabel: Tools.Timespan.toDisplayString }
-    );
-    export const fuseFpsSelect = new Library.Control.Select
-    (
-        control.fuseFps,
-    );
-    export const easingCheckbox = new Library.Control.Checkbox(control.easing);
-    export const withFullscreen = new Library.Control.Checkbox(control.withFullscreen);
-    if ( ! Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement)
-    {
-        withFullscreen.dom.parentElement.style.setProperty("display", "none");
-    }
-    export const showFps = new Library.Control.Checkbox
-    (
-        control.showFPS,
-    );
-    export const languageSelect = new Library.Control.Select
-    (
-        control.language,
-        {
-            makeLabel: i => "Auto" === i ? Library.Locale.map("Auto"): Library.Locale.map("lang-label", i as Library.Locale.Type),
-            change: () => updateLanguage(),
-        }
-    );
-    export const fpsDisplay = Library.UI.getElementById("div", "fps");
-    Library.UI.replaceChildren
-    (
-        Library.UI.querySelector("ul", "#powered-by ul"),
-        Object.entries(poweredBy).map
+        new Library.Control.Button({ id: "run-benchmark", });
+    export const colorspaceSelect =
+        new Library.Control.Select(control.colorspace);
+    export const coloringSelect =
+        new Library.Control.Select(control.coloring);
+    export const patternSelect =
+        new Library.Control.Select(control.pattern);
+    export const canvasSizeSelect =
+        new Library.Control.Select(control.canvasSize, { makeLabel: i => `${i} %` });
+    export const layersSelect =
+        new Library.Control.Select(control.layers);
+    export const cycleSpanSelect =
+        new Library.Control.Select(control.cycleSpan, { makeLabel: Tools.Timespan.toDisplayString });
+    export const fuseFpsSelect =
+        new Library.Control.Select(control.fuseFps);
+    export const easingCheckbox =
+        new Library.Control.Checkbox(control.easing);
+    export const withFullscreen =
+        new Library.Control.Checkbox(control.withFullscreen);
+    export const showFps =
+        new Library.Control.Checkbox(control.showFPS);
+    export const languageSelect =
+        new Library.Control.Select
         (
-            ([ text, href, ]) => ({ tag: "li", children: [ Library.UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
-        )
-    );
+            control.language,
+            {
+                makeLabel: i => "Auto" === i ?
+                    Library.Locale.map("Auto"):
+                    Library.Locale.map("lang-label", i as Library.Locale.Type),
+                change: () => updateLanguage(),
+            }
+        );
+    export const fpsDisplay =
+        Library.UI.getElementById("div", "fps");
     export const initializeLanguage = () =>
     {
         Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
@@ -127,4 +102,20 @@ export namespace UI
         UI.languageSelect.reloadOptions();
         initializeLanguage();
     }
+    export const initialize = () =>
+    {
+        if ( ! Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement)
+        {
+            withFullscreen.dom.parentElement.style.setProperty("display", "none");
+        }
+        Library.UI.replaceChildren
+        (
+            Library.UI.querySelector("ul", "#powered-by ul"),
+            Object.entries(poweredBy).map
+            (
+                ([ text, href, ]) => ({ tag: "li", children: [ Library.UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
+            )
+        );
+        initializeLanguage();
+    };
 }

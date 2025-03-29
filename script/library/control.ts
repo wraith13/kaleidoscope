@@ -65,6 +65,8 @@ export namespace Control
                 }
             );
         }
+        setClick = (click: (event: Event, select: Button<T>) => unknown) =>
+            this.data.click = click;
     }
     export interface SelectArgumentsBase<T>
     {
@@ -99,6 +101,8 @@ export namespace Control
                 }
             );
         }
+        setChange = (change: (event: Event | null, select: Select<T>) => unknown) =>
+            this.options = { ...this.options, change };
         reloadOptions = (value?: T) =>
         {
             const oldValue = value ?? (this.get() as T);
@@ -168,6 +172,8 @@ export namespace Control
                 }
             );
         }
+        setChange = (change: (event: Event | null, checked: Checkbox) => unknown) =>
+            this.options = { ...this.options, change };
         toggle = (checked?: boolean, preventOnChange?: "preventOnChange") =>
         {
             this.dom.checked = checked ?? ! this.get();

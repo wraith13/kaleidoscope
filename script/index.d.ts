@@ -154,6 +154,7 @@ declare module "script/library/control" {
             data: ButtonArguments<T>;
             dom: T;
             constructor(data: ButtonArguments<T>);
+            setClick: (click: (event: Event, select: Button<T>) => unknown) => (event: Event, select: Button<T>) => unknown;
         }
         interface SelectArgumentsBase<T> {
             enum: T[];
@@ -171,6 +172,11 @@ declare module "script/library/control" {
             options?: SelectOptions<T> | undefined;
             dom: HTMLSelectElement;
             constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
+            setChange: (change: (event: Event | null, select: Select<T>) => unknown) => {
+                change: (event: Event | null, select: Select<T>) => unknown;
+                makeLabel?: ((value: T) => string) | undefined;
+                preventOnChangeWhenNew?: boolean;
+            };
             reloadOptions: (value?: T) => void;
             switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") => void;
             get: () => string;
@@ -188,6 +194,10 @@ declare module "script/library/control" {
             options?: CheckboxOptions | undefined;
             dom: HTMLInputElement;
             constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
+            setChange: (change: (event: Event | null, checked: Checkbox) => unknown) => {
+                change: (event: Event | null, checked: Checkbox) => unknown;
+                preventOnChangeWhenNew?: boolean;
+            };
             toggle: (checked?: boolean, preventOnChange?: "preventOnChange") => void;
             get: () => boolean;
         }
@@ -705,6 +715,7 @@ declare module "script/ui" {
         const fpsDisplay: HTMLDivElement;
         const initializeLanguage: () => void;
         const updateLanguage: () => void;
+        const initialize: () => void;
     }
 }
 declare module "script/controller/base" {
@@ -737,6 +748,7 @@ declare module "script/controller/animation" {
         const updateFuseFps: () => number;
         const updateEasing: () => void;
         const updateShowFps: () => void;
+        const initialize: () => void;
     }
 }
 declare module "script/controller/benchmark" {
@@ -762,6 +774,7 @@ declare module "script/controller/index" {
 declare module "script/events" {
     export namespace Events {
         const toggleAnimation: () => void;
+        const initialize: () => void;
     }
 }
 declare module "script/index" { }

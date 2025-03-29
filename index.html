@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Fri Mar 28 2025 22:41:01 GMT+0900 (日本標準時)
+    build at: Sat Mar 29 2025 14:51:51 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -997,11 +997,112 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 /*# sourceMappingURL=index.css.map */
 
 </style>
+</head>
+<body>
+<h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope/"><span>Kaleidoscope</a></div></h1>
+<div id="benchmark-progress-bar"></div>
+<div id="screen-body">
+    <div id="canvas">
+        <div class="layer"></div>
+    </div>
+    <div id="benchmark-canvas">
+        <div class="layer"></div>
+    </div>
+</div>
+<div id="option-panel">
+    <label for="colorspace">
+        <span data-lang-key="colorspace-label">Color Space:</span>
+        <select id="colorspace"></select>
+    </label>
+    <label for="coloring">
+        <span data-lang-key="coloring-label">Coloring:</span>
+        <select id="coloring"></select>
+    </label>
+    <label for="pattern">
+        <span data-lang-key="pattern-label">Pattern:</span>
+        <select id="pattern"></select>
+    </label>
+    <label for="canvas-size">
+        <span data-lang-key="canvas-size-label">Canvas Size:</span>
+        <select id="canvas-size"></select>
+    </label>
+    <label for="layers">
+        <span data-lang-key="layers-label">Layers:</span>
+        <select id="layers"></select>
+    </label>
+    <label for="cycle-span">
+        <span data-lang-key="cycle-span-label">Cycle Span:</span>
+        <select id="cycle-span"></select>
+    </label>
+    <label for="fuse-fps">
+        <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
+        <select id="fuse-fps"></select>
+    </label>
+    <label for="easing">
+        <span data-lang-key="easing-label">Easing:</span>
+        <input id="easing" type="checkbox">
+    </label>
+    <label for="with-fullscreen">
+        <span data-lang-key="with-fullscreen-label">FullScreen:</span>
+        <input id="with-fullscreen" type="checkbox">
+    </label>
+    <label for="show-fps">
+        <span data-lang-key="show-fps-label">Show FPS:</span>
+        <input id="show-fps" type="checkbox">
+    </label>
+    <label for="language">
+        <span data-lang-key="language-label">Language:</span>
+        <select id="language"></select>
+    </label>
+</div>
+<div id="fps"></div>
+<div id="benchmark-panel">
+<button id="run-benchmark">
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path d="M544,96C773.597,96 960,282.403 960,512C960,741.597 773.597,928 544,928C359.06,928 202.145,807.056 148.097,640L101.665,640C87.638,641.705 72.994,637.182 62.231,626.43L61.686,625.887C43.938,608.157 43.119,579.856 59.236,561.152C60.593,559.536 62.055,558.011 63.611,556.587L142.163,477.954C151.474,468.634 163.7,463.982 175.922,464L176.078,464C188.3,463.982 200.526,468.634 209.837,477.954L288.389,556.587C289.945,558.011 291.407,559.536 292.764,561.152C308.881,579.856 308.062,608.157 290.314,625.887L289.769,626.43C279.096,637.093 264.605,641.629 250.684,640.041C300.108,752.992 412.9,832 544,832C720.613,832 864,688.613 864,512C864,335.387 720.613,192 544,192C517.508,192 496,170.492 496,144C496,117.508 517.508,96 544,96ZM529.339,589.751C522.254,587.505 515.587,583.575 509.969,577.961L323.778,391.882C305.039,373.155 305.03,342.738 323.757,324C342.484,305.262 372.901,305.253 391.639,323.979L543.879,476.127L638.201,381.917C656.795,363.345 686.968,363.363 705.539,381.957L706.083,382.501C724.655,401.095 724.637,431.268 706.043,449.839L579.239,576.493C578.79,576.981 578.327,577.464 577.851,577.94C570.8,584.995 562.093,589.395 552.975,591.14L551.945,591.326C550.353,591.595 548.734,591.786 547.093,591.894L545.642,591.969L544.815,591.991L543.58,591.999L543.333,591.997C538.522,591.942 533.879,591.178 529.507,589.804L529.339,589.751Z"/>
+</svg>
+
+    <span data-lang-key="run-benchmark-label"></span>
+</button>
+<div id="run-benchmark-report"></div>
+</div>
+<button id="play-button">
+    <div id="play-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-20.52,-0.152764)">
+        <path d="M277.128,192.306L277.129,192C277.294,169.198 295.857,150.737 318.698,150.737C326.626,150.737 334.038,152.961 340.345,156.819L893.467,476.149L893.46,476.161C906.034,483.312 914.523,496.833 914.523,512.321C914.523,529.423 904.173,544.126 889.4,550.504L340.335,867.492C339.741,867.855 339.138,868.203 338.526,868.537L336.016,869.985L335.929,869.834C330.678,872.232 324.842,873.568 318.697,873.568C295.755,873.568 277.128,854.942 277.128,832L277.128,192.306Z"/>
+    </g>
+</svg>
+</div><div id="pause-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1.17021,0,0,1.125,-75.5745,-64)">
+        <path d="M444,291.176L444,732.824C444,752.238 428.847,768 410.183,768L289.817,768C271.153,768 256,752.238 256,732.824L256,291.176C256,271.762 271.153,256 289.817,256L410.183,256C428.847,256 444,271.762 444,291.176ZM748.218,291.176L748.218,732.824C748.218,752.238 733.065,768 714.401,768L594.035,768C575.371,768 560.218,752.238 560.218,732.824L560.218,291.176C560.218,271.762 575.371,256 594.035,256L714.401,256C733.065,256 748.218,271.762 748.218,291.176Z"/>
+    </g>
+</svg>
+</div>
+</button>
+<div id="screen-footer">
+    <div id="supplementary-line">
+        <div id="keyboard-shortcut">
+        </div>
+        <div id="powered-by">
+            <span class="title">powered by</span>
+            <ul></ul>
+        </div>
+    </div>
+    <div id="information-line">
+        <div id="information">
+            <ul id="information-list">
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
 <script type="text/javascript">
 const build =
 {
-    at: "Fri Mar 28 2025 22:41:01 GMT+0900 (日本標準時)",
-    tick: 1743169261766
+    at: "Sat Mar 29 2025 14:51:51 GMT+0900 (日本標準時)",
+    tick: 1743227511153
 };
 const evilCommonjsConfig =
 {
@@ -1361,8 +1462,6 @@ var _this = this;
     window.module = evil.module;
 })();
 //# sourceMappingURL=evil-commonjs/index.js.map
-</script>
-<script type="text/javascript">
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -2559,8 +2658,6 @@ define("index", ["require", "exports", "generated/type"], function (require, exp
     })(EvilTimer || (exports.EvilTimer = EvilTimer = {}));
 });
 //# sourceMappingURL=evil-timer.js/index.js.map
-</script>
-<script type="text/javascript">
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -3766,8 +3863,6 @@ define("index", ["require", "exports", "generated/type", "config"], function (re
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
 //# sourceMappingURL=flounder.style.js/index.js.map
-</script>
-<script type="text/javascript">
 module.readyToCapture("https://wraith13.github.io/phi-colors/library/source/index.js");
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -3991,111 +4086,19 @@ var phiColors;
 })(phiColors = exports.phiColors || (exports.phiColors = {}));
 //# sourceMappingURL=phi-colors/library/source/index.js.map
 module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", ["phi-colors"]);
-</script>
-</head>
-<body>
-<h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope/"><span>Kaleidoscope</a></div></h1>
-<div id="benchmark-progress-bar"></div>
-<div id="screen-body">
-    <div id="canvas">
-        <div class="layer"></div>
-    </div>
-    <div id="benchmark-canvas">
-        <div class="layer"></div>
-    </div>
-</div>
-<div id="option-panel">
-    <label for="colorspace">
-        <span data-lang-key="colorspace-label">Color Space:</span>
-        <select id="colorspace"></select>
-    </label>
-    <label for="coloring">
-        <span data-lang-key="coloring-label">Coloring:</span>
-        <select id="coloring"></select>
-    </label>
-    <label for="pattern">
-        <span data-lang-key="pattern-label">Pattern:</span>
-        <select id="pattern"></select>
-    </label>
-    <label for="canvas-size">
-        <span data-lang-key="canvas-size-label">Canvas Size:</span>
-        <select id="canvas-size"></select>
-    </label>
-    <label for="layers">
-        <span data-lang-key="layers-label">Layers:</span>
-        <select id="layers"></select>
-    </label>
-    <label for="cycle-span">
-        <span data-lang-key="cycle-span-label">Cycle Span:</span>
-        <select id="cycle-span"></select>
-    </label>
-    <label for="fuse-fps">
-        <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
-        <select id="fuse-fps"></select>
-    </label>
-    <label for="easing">
-        <span data-lang-key="easing-label">Easing:</span>
-        <input id="easing" type="checkbox">
-    </label>
-    <label for="with-fullscreen">
-        <span data-lang-key="with-fullscreen-label">FullScreen:</span>
-        <input id="with-fullscreen" type="checkbox">
-    </label>
-    <label for="show-fps">
-        <span data-lang-key="show-fps-label">Show FPS:</span>
-        <input id="show-fps" type="checkbox">
-    </label>
-    <label for="language">
-        <span data-lang-key="language-label">Language:</span>
-        <select id="language"></select>
-    </label>
-</div>
-<div id="fps"></div>
-<div id="benchmark-panel">
-<button id="run-benchmark">
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <path d="M544,96C773.597,96 960,282.403 960,512C960,741.597 773.597,928 544,928C359.06,928 202.145,807.056 148.097,640L101.665,640C87.638,641.705 72.994,637.182 62.231,626.43L61.686,625.887C43.938,608.157 43.119,579.856 59.236,561.152C60.593,559.536 62.055,558.011 63.611,556.587L142.163,477.954C151.474,468.634 163.7,463.982 175.922,464L176.078,464C188.3,463.982 200.526,468.634 209.837,477.954L288.389,556.587C289.945,558.011 291.407,559.536 292.764,561.152C308.881,579.856 308.062,608.157 290.314,625.887L289.769,626.43C279.096,637.093 264.605,641.629 250.684,640.041C300.108,752.992 412.9,832 544,832C720.613,832 864,688.613 864,512C864,335.387 720.613,192 544,192C517.508,192 496,170.492 496,144C496,117.508 517.508,96 544,96ZM529.339,589.751C522.254,587.505 515.587,583.575 509.969,577.961L323.778,391.882C305.039,373.155 305.03,342.738 323.757,324C342.484,305.262 372.901,305.253 391.639,323.979L543.879,476.127L638.201,381.917C656.795,363.345 686.968,363.363 705.539,381.957L706.083,382.501C724.655,401.095 724.637,431.268 706.043,449.839L579.239,576.493C578.79,576.981 578.327,577.464 577.851,577.94C570.8,584.995 562.093,589.395 552.975,591.14L551.945,591.326C550.353,591.595 548.734,591.786 547.093,591.894L545.642,591.969L544.815,591.991L543.58,591.999L543.333,591.997C538.522,591.942 533.879,591.178 529.507,589.804L529.339,589.751Z"/>
-</svg>
-
-    <span data-lang-key="run-benchmark-label"></span>
-</button>
-<div id="run-benchmark-report"></div>
-</div>
-<button id="play-button">
-    <div id="play-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1,0,0,1,-20.52,-0.152764)">
-        <path d="M277.128,192.306L277.129,192C277.294,169.198 295.857,150.737 318.698,150.737C326.626,150.737 334.038,152.961 340.345,156.819L893.467,476.149L893.46,476.161C906.034,483.312 914.523,496.833 914.523,512.321C914.523,529.423 904.173,544.126 889.4,550.504L340.335,867.492C339.741,867.855 339.138,868.203 338.526,868.537L336.016,869.985L335.929,869.834C330.678,872.232 324.842,873.568 318.697,873.568C295.755,873.568 277.128,854.942 277.128,832L277.128,192.306Z"/>
-    </g>
-</svg>
-</div><div id="pause-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1.17021,0,0,1.125,-75.5745,-64)">
-        <path d="M444,291.176L444,732.824C444,752.238 428.847,768 410.183,768L289.817,768C271.153,768 256,752.238 256,732.824L256,291.176C256,271.762 271.153,256 289.817,256L410.183,256C428.847,256 444,271.762 444,291.176ZM748.218,291.176L748.218,732.824C748.218,752.238 733.065,768 714.401,768L594.035,768C575.371,768 560.218,752.238 560.218,732.824L560.218,291.176C560.218,271.762 575.371,256 594.035,256L714.401,256C733.065,256 748.218,271.762 748.218,291.176Z"/>
-    </g>
-</svg>
-</div>
-</button>
-<div id="screen-footer">
-    <div id="supplementary-line">
-        <div id="keyboard-shortcut">
-        </div>
-        <div id="powered-by">
-            <span class="title">powered by</span>
-            <ul></ul>
-        </div>
-    </div>
-    <div id="information-line">
-        <div id="information">
-            <ul id="information-list">
-            </ul>
-        </div>
-    </div>
-</div>
-</body>
-<script type="text/javascript">
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
@@ -4139,17 +4142,6 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 define("script/library/type-guards", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -4534,6 +4526,9 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
             function Button(data) {
                 var _this = this;
                 this.data = data;
+                this.setClick = function (click) {
+                    return _this.data.click = click;
+                };
                 this.dom = Control.getDom(data);
                 this.dom.addEventListener("click", function (event) {
                     var _a, _b;
@@ -4550,6 +4545,9 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 var _this = this;
                 this.data = data;
                 this.options = options;
+                this.setChange = function (change) {
+                    return _this.options = __assign(__assign({}, _this.options), { change: change });
+                };
                 this.reloadOptions = function (value) {
                     var oldValue = value !== null && value !== void 0 ? value : _this.get();
                     ui_1.UI.replaceChildren(_this.dom, _this.data.enum.map(function (i) { var _a, _b, _c; return makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i)); }));
@@ -4595,6 +4593,9 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 var _a;
                 this.data = data;
                 this.options = options;
+                this.setChange = function (change) {
+                    return _this.options = __assign(__assign({}, _this.options), { change: change });
+                };
                 this.toggle = function (checked, preventOnChange) {
                     var _a, _b;
                     _this.dom.checked = checked !== null && checked !== void 0 ? checked : !_this.get();
@@ -6754,12 +6755,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkProgressBar = _library_3.Library.UI.getElementById("div", "benchmark-progress-bar");
         UI.benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
-        UI.playButton = new _library_3.Library.Control.Button({
-            id: "play-button",
-        });
-        UI.runBenchmarkButton = new _library_3.Library.Control.Button({
-            id: "run-benchmark",
-        });
+        UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
+        UI.runBenchmarkButton = new _library_3.Library.Control.Button({ id: "run-benchmark", });
         UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
         UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
         UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern);
@@ -6769,19 +6766,14 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
-        if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
-            UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
-        }
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
         UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
-            makeLabel: function (i) { return "Auto" === i ? _library_3.Library.Locale.map("Auto") : _library_3.Library.Locale.map("lang-label", i); },
+            makeLabel: function (i) { return "Auto" === i ?
+                _library_3.Library.Locale.map("Auto") :
+                _library_3.Library.Locale.map("lang-label", i); },
             change: function () { return UI.updateLanguage(); },
         });
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
-        _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
-            var text = _a[0], href = _a[1];
-            return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
-        }));
         UI.initializeLanguage = function () {
             _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
                 .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
@@ -6811,6 +6803,16 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             UI.cycleSpanSelect.reloadOptions();
             UI.fuseFpsSelect.reloadOptions();
             UI.languageSelect.reloadOptions();
+            UI.initializeLanguage();
+        };
+        UI.initialize = function () {
+            if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
+                UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
+            }
+            _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
+                var text = _a[0], href = _a[1];
+                return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
+            }));
             UI.initializeLanguage();
         };
     })(UI || (exports.UI = UI = {}));
@@ -6937,6 +6939,17 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         Animation.updateShowFps = function () {
             ui_3.UI.fpsDisplay.classList.toggle("hide", !ui_3.UI.showFps.get());
         };
+        Animation.initialize = function () {
+            Animation.updateColorspace();
+            Animation.updateColoring();
+            Animation.updatePattern();
+            Animation.updateCanvasSize();
+            Animation.updateEasing();
+            Animation.updateLayers();
+            Animation.updateCycleSpan();
+            Animation.updateFuseFps();
+            Animation.updateShowFps();
+        };
     })(Animation || (exports.Animation = Animation = {}));
 });
 define("script/controller/benchmark", ["require", "exports", "script/library/index", "script/features/index", "script/controller/base", "script/controller/animation", "script/ui", "resource/config"], function (require, exports, _library_5, _features_3, base_2, animation_1, ui_4, config_json_6) {
@@ -7006,10 +7019,11 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         Controller.Benchmark = ImportedBenchmark.Benchmark;
     })(Controller || (exports.Controller = Controller = {}));
 });
-define("script/events", ["require", "exports", "script/controller/index", "script/ui"], function (require, exports, _controller_1, ui_5) {
+define("script/events", ["require", "exports", "script/library/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _controller_1, ui_5, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
+    config_json_7 = __importDefault(config_json_7);
     var Events;
     (function (Events) {
         Events.toggleAnimation = function () {
@@ -7025,103 +7039,91 @@ define("script/events", ["require", "exports", "script/controller/index", "scrip
                     break;
             }
         };
-        ui_5.UI.playButton.data.click = function (event, button) {
-            event.stopPropagation();
-            button.dom.blur();
-            Events.toggleAnimation();
+        Events.initialize = function () {
+            ui_5.UI.playButton.data.click = function (event, button) {
+                event.stopPropagation();
+                button.dom.blur();
+                Events.toggleAnimation();
+            };
+            ui_5.UI.runBenchmarkButton.data.click = function (event, button) {
+                event.stopPropagation();
+                button.dom.blur();
+                _controller_1.Controller.Benchmark.runBenchmark();
+            };
+            ui_5.UI.colorspaceSelect.setChange(_controller_1.Controller.Animation.updateColorspace);
+            ui_5.UI.coloringSelect.setChange(_controller_1.Controller.Animation.updateColoring);
+            ui_5.UI.patternSelect.setChange(_controller_1.Controller.Animation.updatePattern);
+            ui_5.UI.canvasSizeSelect.setChange(_controller_1.Controller.Animation.updateCanvasSize);
+            ui_5.UI.layersSelect.setChange(_controller_1.Controller.Animation.updateLayers);
+            ui_5.UI.cycleSpanSelect.setChange(_controller_1.Controller.Animation.updateCycleSpan);
+            ui_5.UI.fuseFpsSelect.setChange(_controller_1.Controller.Animation.updateFuseFps);
+            // UI.easingCheckbox.setChange(Controller.Animation.updateEasing);
+            // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
+            ui_5.UI.showFps.setChange(_controller_1.Controller.Animation.updateShowFps);
+            ui_5.UI.canvas.addEventListener("click", function (event) {
+                event.stopPropagation();
+                console.log("👆 canvas.Click: pauseAnimation", event, ui_5.UI.canvas);
+                _controller_1.Controller.Animation.pauseAnimation();
+            });
+            ui_5.UI.benchmarkCanvas.addEventListener("click", function (event) {
+                event.stopPropagation();
+                console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_5.UI.benchmarkCanvas);
+                _controller_1.Controller.Benchmark.stopBenchmark();
+            });
+            var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            ui_5.UI.screenBody.addEventListener("mousemove", function (_event) {
+                if (config_json_7.default.log.mousemove && !mouseMoveTimer.isOn()) {
+                    console.log("🖱️ MouseMove:", event, ui_5.UI.screenBody);
+                }
+                mouseMoveTimer.start(document.body, "mousemove", 1000);
+            });
+            _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+                .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
+            _library_6.Library.Shortcuts.setCommandMap({
+                "nop": function () { },
+                "toggleHideUI": function () {
+                    document.body.classList.toggle("hide-ui");
+                    if (document.body.classList.contains("hide-ui")) {
+                        ui_5.UI.keyboardShortcut.classList.toggle("show", false);
+                    }
+                },
+                "toggleAnimation": function () { return Events.toggleAnimation(); },
+                "switchColoringForward": function () { return ui_5.UI.coloringSelect.switch(true); },
+                "switchColoringBackward": function () { return ui_5.UI.coloringSelect.switch(false); },
+                "switchPatternForward": function () { return ui_5.UI.patternSelect.switch(true); },
+                "switchPatternBackward": function () { return ui_5.UI.patternSelect.switch(false); },
+                "increaseCanvasSize": function () { return ui_5.UI.canvasSizeSelect.switch(true); },
+                "decreaseCanvasSize": function () { return ui_5.UI.canvasSizeSelect.switch(false); },
+                "increaseLayer": function () { return ui_5.UI.layersSelect.switch(true); },
+                "decreaseLayer": function () { return ui_5.UI.layersSelect.switch(false); },
+                "speedDown": function () { return ui_5.UI.cycleSpanSelect.switch(true); },
+                "speedUp": function () { return ui_5.UI.cycleSpanSelect.switch(false); },
+                "toggleFullScreen": function () {
+                    ui_5.UI.withFullscreen.toggle();
+                    if (_controller_1.Controller.Animation.isInAnimation()) {
+                        _controller_1.Controller.Base.updateFullscreenState();
+                    }
+                },
+                "toggleShowFps": function () {
+                    ui_5.UI.showFps.toggle();
+                    _controller_1.Controller.Animation.updateShowFps();
+                },
+                "unknownKeyDown": function () {
+                    showShortcutsTimer.start(ui_5.UI.keyboardShortcut, "show", 3000);
+                }
+            });
+            var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            window.addEventListener("resize", function () { return _controller_1.Controller.Animation.updateDiagonalSize(); });
         };
-        ui_5.UI.runBenchmarkButton.data.click = function (event, button) {
-            event.stopPropagation();
-            button.dom.blur();
-            _controller_1.Controller.Benchmark.runBenchmark();
-        };
-        ui_5.UI.colorspaceSelect.options = __assign(__assign({}, ui_5.UI.colorspaceSelect.options), { change: function () { return _controller_1.Controller.Animation.updateColorspace(); } });
-        ui_5.UI.coloringSelect.options = __assign(__assign({}, ui_5.UI.coloringSelect.options), { change: function () { return _controller_1.Controller.Animation.updateColoring(); } });
-        ui_5.UI.patternSelect.options = __assign(__assign({}, ui_5.UI.patternSelect.options), { change: function () { return _controller_1.Controller.Animation.updatePattern(); } });
-        ui_5.UI.canvasSizeSelect.options = __assign(__assign({}, ui_5.UI.canvasSizeSelect.options), { change: function () { return _controller_1.Controller.Animation.updateCanvasSize(); } });
-        ui_5.UI.layersSelect.options = __assign(__assign({}, ui_5.UI.layersSelect.options), { change: function () { return _controller_1.Controller.Animation.updateLayers(); } });
-        ui_5.UI.cycleSpanSelect.options = __assign(__assign({}, ui_5.UI.cycleSpanSelect.options), { change: function () { return _controller_1.Controller.Animation.updateCycleSpan(); } });
-        ui_5.UI.fuseFpsSelect.options = __assign(__assign({}, ui_5.UI.fuseFpsSelect.options), { change: function () { return _controller_1.Controller.Animation.updateFuseFps(); } });
-        // UI.easingCheckbox.options = {
-        //     ...UI.easingCheckbox.options,
-        //     change: () => Controller.Animation.updateEasing()
-        // };
-        // UI.withFullscreen.options = {
-        //     ...UI.withFullscreen.options,
-        //     change: () => Controller.Animation.updateWithFullscreen()
-        // };
-        ui_5.UI.showFps.options = __assign(__assign({}, ui_5.UI.showFps.options), { change: function () { return _controller_1.Controller.Animation.updateShowFps(); } });
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/controller/base", "script/controller/animation", "script/controller/benchmark", "resource/config", "script/ui", "script/events"], function (require, exports, _library_6, _tools_3, base_3, animation_2, benchmark_1, config_json_7, ui_6, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/controller/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_3, _controller_2, ui_6, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    config_json_7 = __importDefault(config_json_7);
-    ui_6.UI.canvas.addEventListener("click", function (event) {
-        event.stopPropagation();
-        console.log("👆 canvas.Click: pauseAnimation", event, ui_6.UI.canvas);
-        animation_2.Animation.pauseAnimation();
-    });
-    ui_6.UI.benchmarkCanvas.addEventListener("click", function (event) {
-        event.stopPropagation();
-        console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_6.UI.benchmarkCanvas);
-        benchmark_1.Benchmark.stopBenchmark();
-    });
-    var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
-    ui_6.UI.screenBody.addEventListener("mousemove", function (_event) {
-        if (config_json_7.default.log.mousemove && !mouseMoveTimer.isOn()) {
-            console.log("🖱️ MouseMove:", event, ui_6.UI.screenBody);
-        }
-        mouseMoveTimer.start(document.body, "mousemove", 1000);
-    });
-    animation_2.Animation.updateColorspace();
-    animation_2.Animation.updateColoring();
-    animation_2.Animation.updatePattern();
-    animation_2.Animation.updateCanvasSize();
-    animation_2.Animation.updateEasing();
-    animation_2.Animation.updateLayers();
-    animation_2.Animation.updateCycleSpan();
-    animation_2.Animation.updateFuseFps();
-    animation_2.Animation.updateShowFps();
-    ui_6.UI.initializeLanguage();
-    _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-        .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
-    _library_6.Library.Shortcuts.setCommandMap({
-        "nop": function () { },
-        "toggleHideUI": function () {
-            document.body.classList.toggle("hide-ui");
-            if (document.body.classList.contains("hide-ui")) {
-                ui_6.UI.keyboardShortcut.classList.toggle("show", false);
-            }
-        },
-        "toggleAnimation": function () { return events_1.Events.toggleAnimation(); },
-        "switchColoringForward": function () { return ui_6.UI.coloringSelect.switch(true); },
-        "switchColoringBackward": function () { return ui_6.UI.coloringSelect.switch(false); },
-        "switchPatternForward": function () { return ui_6.UI.patternSelect.switch(true); },
-        "switchPatternBackward": function () { return ui_6.UI.patternSelect.switch(false); },
-        "increaseCanvasSize": function () { return ui_6.UI.canvasSizeSelect.switch(true); },
-        "decreaseCanvasSize": function () { return ui_6.UI.canvasSizeSelect.switch(false); },
-        "increaseLayer": function () { return ui_6.UI.layersSelect.switch(true); },
-        "decreaseLayer": function () { return ui_6.UI.layersSelect.switch(false); },
-        "speedDown": function () { return ui_6.UI.cycleSpanSelect.switch(true); },
-        "speedUp": function () { return ui_6.UI.cycleSpanSelect.switch(false); },
-        "toggleFullScreen": function () {
-            ui_6.UI.withFullscreen.toggle();
-            if (animation_2.Animation.isInAnimation()) {
-                base_3.Base.updateFullscreenState();
-            }
-        },
-        "toggleShowFps": function () {
-            ui_6.UI.showFps.toggle();
-            animation_2.Animation.updateShowFps();
-        },
-        "unknownKeyDown": function () {
-            showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
-        }
-    });
-    var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
-    window.addEventListener("resize", function () { return animation_2.Animation.updateDiagonalSize(); });
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_6.Library.Locale.map("ago"), " )"));
+    events_1.Events.initialize();
+    ui_6.UI.initialize();
+    _controller_2.Controller.Animation.initialize();
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=script/index.js.map
 </script>

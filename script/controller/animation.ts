@@ -115,4 +115,16 @@ export namespace Animation
     {
         UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
     };
+    export const initialize = () =>
+    {
+        updateColorspace();
+        updateColoring();
+        updatePattern();
+        updateCanvasSize();
+        updateEasing();
+        updateLayers();
+        updateCycleSpan();
+        updateFuseFps();
+        updateShowFps();
+    };
 }

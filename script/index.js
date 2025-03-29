@@ -1,6 +1,17 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -43,17 +54,6 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 define("script/library/type-guards", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -438,6 +438,9 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
             function Button(data) {
                 var _this = this;
                 this.data = data;
+                this.setClick = function (click) {
+                    return _this.data.click = click;
+                };
                 this.dom = Control.getDom(data);
                 this.dom.addEventListener("click", function (event) {
                     var _a, _b;
@@ -454,6 +457,9 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 var _this = this;
                 this.data = data;
                 this.options = options;
+                this.setChange = function (change) {
+                    return _this.options = __assign(__assign({}, _this.options), { change: change });
+                };
                 this.reloadOptions = function (value) {
                     var oldValue = value !== null && value !== void 0 ? value : _this.get();
                     ui_1.UI.replaceChildren(_this.dom, _this.data.enum.map(function (i) { var _a, _b, _c; return makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i)); }));
@@ -499,6 +505,9 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 var _a;
                 this.data = data;
                 this.options = options;
+                this.setChange = function (change) {
+                    return _this.options = __assign(__assign({}, _this.options), { change: change });
+                };
                 this.toggle = function (checked, preventOnChange) {
                     var _a, _b;
                     _this.dom.checked = checked !== null && checked !== void 0 ? checked : !_this.get();
@@ -2658,12 +2667,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkProgressBar = _library_3.Library.UI.getElementById("div", "benchmark-progress-bar");
         UI.benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
-        UI.playButton = new _library_3.Library.Control.Button({
-            id: "play-button",
-        });
-        UI.runBenchmarkButton = new _library_3.Library.Control.Button({
-            id: "run-benchmark",
-        });
+        UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
+        UI.runBenchmarkButton = new _library_3.Library.Control.Button({ id: "run-benchmark", });
         UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
         UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
         UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern);
@@ -2673,19 +2678,14 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
-        if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
-            UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
-        }
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
         UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
-            makeLabel: function (i) { return "Auto" === i ? _library_3.Library.Locale.map("Auto") : _library_3.Library.Locale.map("lang-label", i); },
+            makeLabel: function (i) { return "Auto" === i ?
+                _library_3.Library.Locale.map("Auto") :
+                _library_3.Library.Locale.map("lang-label", i); },
             change: function () { return UI.updateLanguage(); },
         });
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
-        _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
-            var text = _a[0], href = _a[1];
-            return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
-        }));
         UI.initializeLanguage = function () {
             _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
                 .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
@@ -2715,6 +2715,16 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             UI.cycleSpanSelect.reloadOptions();
             UI.fuseFpsSelect.reloadOptions();
             UI.languageSelect.reloadOptions();
+            UI.initializeLanguage();
+        };
+        UI.initialize = function () {
+            if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
+                UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
+            }
+            _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
+                var text = _a[0], href = _a[1];
+                return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
+            }));
             UI.initializeLanguage();
         };
     })(UI || (exports.UI = UI = {}));
@@ -2841,6 +2851,17 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         Animation.updateShowFps = function () {
             ui_3.UI.fpsDisplay.classList.toggle("hide", !ui_3.UI.showFps.get());
         };
+        Animation.initialize = function () {
+            Animation.updateColorspace();
+            Animation.updateColoring();
+            Animation.updatePattern();
+            Animation.updateCanvasSize();
+            Animation.updateEasing();
+            Animation.updateLayers();
+            Animation.updateCycleSpan();
+            Animation.updateFuseFps();
+            Animation.updateShowFps();
+        };
     })(Animation || (exports.Animation = Animation = {}));
 });
 define("script/controller/benchmark", ["require", "exports", "script/library/index", "script/features/index", "script/controller/base", "script/controller/animation", "script/ui", "resource/config"], function (require, exports, _library_5, _features_3, base_2, animation_1, ui_4, config_json_6) {
@@ -2910,10 +2931,11 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         Controller.Benchmark = ImportedBenchmark.Benchmark;
     })(Controller || (exports.Controller = Controller = {}));
 });
-define("script/events", ["require", "exports", "script/controller/index", "script/ui"], function (require, exports, _controller_1, ui_5) {
+define("script/events", ["require", "exports", "script/library/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _controller_1, ui_5, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
+    config_json_7 = __importDefault(config_json_7);
     var Events;
     (function (Events) {
         Events.toggleAnimation = function () {
@@ -2929,102 +2951,90 @@ define("script/events", ["require", "exports", "script/controller/index", "scrip
                     break;
             }
         };
-        ui_5.UI.playButton.data.click = function (event, button) {
-            event.stopPropagation();
-            button.dom.blur();
-            Events.toggleAnimation();
+        Events.initialize = function () {
+            ui_5.UI.playButton.data.click = function (event, button) {
+                event.stopPropagation();
+                button.dom.blur();
+                Events.toggleAnimation();
+            };
+            ui_5.UI.runBenchmarkButton.data.click = function (event, button) {
+                event.stopPropagation();
+                button.dom.blur();
+                _controller_1.Controller.Benchmark.runBenchmark();
+            };
+            ui_5.UI.colorspaceSelect.setChange(_controller_1.Controller.Animation.updateColorspace);
+            ui_5.UI.coloringSelect.setChange(_controller_1.Controller.Animation.updateColoring);
+            ui_5.UI.patternSelect.setChange(_controller_1.Controller.Animation.updatePattern);
+            ui_5.UI.canvasSizeSelect.setChange(_controller_1.Controller.Animation.updateCanvasSize);
+            ui_5.UI.layersSelect.setChange(_controller_1.Controller.Animation.updateLayers);
+            ui_5.UI.cycleSpanSelect.setChange(_controller_1.Controller.Animation.updateCycleSpan);
+            ui_5.UI.fuseFpsSelect.setChange(_controller_1.Controller.Animation.updateFuseFps);
+            // UI.easingCheckbox.setChange(Controller.Animation.updateEasing);
+            // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
+            ui_5.UI.showFps.setChange(_controller_1.Controller.Animation.updateShowFps);
+            ui_5.UI.canvas.addEventListener("click", function (event) {
+                event.stopPropagation();
+                console.log("👆 canvas.Click: pauseAnimation", event, ui_5.UI.canvas);
+                _controller_1.Controller.Animation.pauseAnimation();
+            });
+            ui_5.UI.benchmarkCanvas.addEventListener("click", function (event) {
+                event.stopPropagation();
+                console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_5.UI.benchmarkCanvas);
+                _controller_1.Controller.Benchmark.stopBenchmark();
+            });
+            var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            ui_5.UI.screenBody.addEventListener("mousemove", function (_event) {
+                if (config_json_7.default.log.mousemove && !mouseMoveTimer.isOn()) {
+                    console.log("🖱️ MouseMove:", event, ui_5.UI.screenBody);
+                }
+                mouseMoveTimer.start(document.body, "mousemove", 1000);
+            });
+            _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+                .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
+            _library_6.Library.Shortcuts.setCommandMap({
+                "nop": function () { },
+                "toggleHideUI": function () {
+                    document.body.classList.toggle("hide-ui");
+                    if (document.body.classList.contains("hide-ui")) {
+                        ui_5.UI.keyboardShortcut.classList.toggle("show", false);
+                    }
+                },
+                "toggleAnimation": function () { return Events.toggleAnimation(); },
+                "switchColoringForward": function () { return ui_5.UI.coloringSelect.switch(true); },
+                "switchColoringBackward": function () { return ui_5.UI.coloringSelect.switch(false); },
+                "switchPatternForward": function () { return ui_5.UI.patternSelect.switch(true); },
+                "switchPatternBackward": function () { return ui_5.UI.patternSelect.switch(false); },
+                "increaseCanvasSize": function () { return ui_5.UI.canvasSizeSelect.switch(true); },
+                "decreaseCanvasSize": function () { return ui_5.UI.canvasSizeSelect.switch(false); },
+                "increaseLayer": function () { return ui_5.UI.layersSelect.switch(true); },
+                "decreaseLayer": function () { return ui_5.UI.layersSelect.switch(false); },
+                "speedDown": function () { return ui_5.UI.cycleSpanSelect.switch(true); },
+                "speedUp": function () { return ui_5.UI.cycleSpanSelect.switch(false); },
+                "toggleFullScreen": function () {
+                    ui_5.UI.withFullscreen.toggle();
+                    if (_controller_1.Controller.Animation.isInAnimation()) {
+                        _controller_1.Controller.Base.updateFullscreenState();
+                    }
+                },
+                "toggleShowFps": function () {
+                    ui_5.UI.showFps.toggle();
+                    _controller_1.Controller.Animation.updateShowFps();
+                },
+                "unknownKeyDown": function () {
+                    showShortcutsTimer.start(ui_5.UI.keyboardShortcut, "show", 3000);
+                }
+            });
+            var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            window.addEventListener("resize", function () { return _controller_1.Controller.Animation.updateDiagonalSize(); });
         };
-        ui_5.UI.runBenchmarkButton.data.click = function (event, button) {
-            event.stopPropagation();
-            button.dom.blur();
-            _controller_1.Controller.Benchmark.runBenchmark();
-        };
-        ui_5.UI.colorspaceSelect.options = __assign(__assign({}, ui_5.UI.colorspaceSelect.options), { change: function () { return _controller_1.Controller.Animation.updateColorspace(); } });
-        ui_5.UI.coloringSelect.options = __assign(__assign({}, ui_5.UI.coloringSelect.options), { change: function () { return _controller_1.Controller.Animation.updateColoring(); } });
-        ui_5.UI.patternSelect.options = __assign(__assign({}, ui_5.UI.patternSelect.options), { change: function () { return _controller_1.Controller.Animation.updatePattern(); } });
-        ui_5.UI.canvasSizeSelect.options = __assign(__assign({}, ui_5.UI.canvasSizeSelect.options), { change: function () { return _controller_1.Controller.Animation.updateCanvasSize(); } });
-        ui_5.UI.layersSelect.options = __assign(__assign({}, ui_5.UI.layersSelect.options), { change: function () { return _controller_1.Controller.Animation.updateLayers(); } });
-        ui_5.UI.cycleSpanSelect.options = __assign(__assign({}, ui_5.UI.cycleSpanSelect.options), { change: function () { return _controller_1.Controller.Animation.updateCycleSpan(); } });
-        ui_5.UI.fuseFpsSelect.options = __assign(__assign({}, ui_5.UI.fuseFpsSelect.options), { change: function () { return _controller_1.Controller.Animation.updateFuseFps(); } });
-        // UI.easingCheckbox.options = {
-        //     ...UI.easingCheckbox.options,
-        //     change: () => Controller.Animation.updateEasing()
-        // };
-        // UI.withFullscreen.options = {
-        //     ...UI.withFullscreen.options,
-        //     change: () => Controller.Animation.updateWithFullscreen()
-        // };
-        ui_5.UI.showFps.options = __assign(__assign({}, ui_5.UI.showFps.options), { change: function () { return _controller_1.Controller.Animation.updateShowFps(); } });
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/controller/base", "script/controller/animation", "script/controller/benchmark", "resource/config", "script/ui", "script/events"], function (require, exports, _library_6, _tools_3, base_3, animation_2, benchmark_1, config_json_7, ui_6, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/controller/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_3, _controller_2, ui_6, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    config_json_7 = __importDefault(config_json_7);
-    ui_6.UI.canvas.addEventListener("click", function (event) {
-        event.stopPropagation();
-        console.log("👆 canvas.Click: pauseAnimation", event, ui_6.UI.canvas);
-        animation_2.Animation.pauseAnimation();
-    });
-    ui_6.UI.benchmarkCanvas.addEventListener("click", function (event) {
-        event.stopPropagation();
-        console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_6.UI.benchmarkCanvas);
-        benchmark_1.Benchmark.stopBenchmark();
-    });
-    var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
-    ui_6.UI.screenBody.addEventListener("mousemove", function (_event) {
-        if (config_json_7.default.log.mousemove && !mouseMoveTimer.isOn()) {
-            console.log("🖱️ MouseMove:", event, ui_6.UI.screenBody);
-        }
-        mouseMoveTimer.start(document.body, "mousemove", 1000);
-    });
-    animation_2.Animation.updateColorspace();
-    animation_2.Animation.updateColoring();
-    animation_2.Animation.updatePattern();
-    animation_2.Animation.updateCanvasSize();
-    animation_2.Animation.updateEasing();
-    animation_2.Animation.updateLayers();
-    animation_2.Animation.updateCycleSpan();
-    animation_2.Animation.updateFuseFps();
-    animation_2.Animation.updateShowFps();
-    ui_6.UI.initializeLanguage();
-    _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-        .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
-    _library_6.Library.Shortcuts.setCommandMap({
-        "nop": function () { },
-        "toggleHideUI": function () {
-            document.body.classList.toggle("hide-ui");
-            if (document.body.classList.contains("hide-ui")) {
-                ui_6.UI.keyboardShortcut.classList.toggle("show", false);
-            }
-        },
-        "toggleAnimation": function () { return events_1.Events.toggleAnimation(); },
-        "switchColoringForward": function () { return ui_6.UI.coloringSelect.switch(true); },
-        "switchColoringBackward": function () { return ui_6.UI.coloringSelect.switch(false); },
-        "switchPatternForward": function () { return ui_6.UI.patternSelect.switch(true); },
-        "switchPatternBackward": function () { return ui_6.UI.patternSelect.switch(false); },
-        "increaseCanvasSize": function () { return ui_6.UI.canvasSizeSelect.switch(true); },
-        "decreaseCanvasSize": function () { return ui_6.UI.canvasSizeSelect.switch(false); },
-        "increaseLayer": function () { return ui_6.UI.layersSelect.switch(true); },
-        "decreaseLayer": function () { return ui_6.UI.layersSelect.switch(false); },
-        "speedDown": function () { return ui_6.UI.cycleSpanSelect.switch(true); },
-        "speedUp": function () { return ui_6.UI.cycleSpanSelect.switch(false); },
-        "toggleFullScreen": function () {
-            ui_6.UI.withFullscreen.toggle();
-            if (animation_2.Animation.isInAnimation()) {
-                base_3.Base.updateFullscreenState();
-            }
-        },
-        "toggleShowFps": function () {
-            ui_6.UI.showFps.toggle();
-            animation_2.Animation.updateShowFps();
-        },
-        "unknownKeyDown": function () {
-            showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
-        }
-    });
-    var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
-    window.addEventListener("resize", function () { return animation_2.Animation.updateDiagonalSize(); });
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_6.Library.Locale.map("ago"), " )"));
+    events_1.Events.initialize();
+    ui_6.UI.initialize();
+    _controller_2.Controller.Animation.initialize();
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

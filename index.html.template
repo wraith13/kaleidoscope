@@ -28,29 +28,6 @@ __LICENSE__-->
 <style>
 __STYLE__
 </style>
-<script type="text/javascript">
-const build =
-{
-    at: "__BUILD_TIMESTAMP__",
-    tick: __BUILD_TIMESTAMP_TICK__
-};
-const evilCommonjsConfig =
-__EVIL_COMMONJS_CONFIG__; // "./resource/evil-commonjs.config.json"
-const evilTimerConfig =
-__EVIL_TIMER_CONFIG__; // "./resource/evil-timer.js.config.json"
-__EVIL_COMMONJS__
-</script>
-<script type="text/javascript">
-__EVIL_TIMER__
-</script>
-<script type="text/javascript">
-__FLOUNDER_STYLE_JS__
-</script>
-<script type="text/javascript">
-module.readyToCapture("https://wraith13.github.io/phi-colors/library/source/index.js");
-__PHI_COLORS__
-module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", ["phi-colors"]);
-</script>
 </head>
 <body>
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="__REPOSITORY_URL_"><span>Kaleidoscope</a></div></h1>
@@ -138,6 +115,21 @@ module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", 
 </div>
 </body>
 <script type="text/javascript">
+const build =
+{
+    at: "__BUILD_TIMESTAMP__",
+    tick: __BUILD_TIMESTAMP_TICK__
+};
+const evilCommonjsConfig =
+__EVIL_COMMONJS_CONFIG__; // "./resource/evil-commonjs.config.json"
+const evilTimerConfig =
+__EVIL_TIMER_CONFIG__; // "./resource/evil-timer.js.config.json"
+__EVIL_COMMONJS__
+__EVIL_TIMER__
+__FLOUNDER_STYLE_JS__
+module.readyToCapture("https://wraith13.github.io/phi-colors/library/source/index.js");
+__PHI_COLORS__
+module.capture("https://wraith13.github.io/phi-colors/library/source/index.js", ["phi-colors"]);
 __SCRIPT__
 </script>
 </html>
