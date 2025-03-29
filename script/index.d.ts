@@ -147,7 +147,7 @@ declare module "script/library/control" {
             data: ArgumentsBase<T>;
         }, event: Event, message: string) => void;
         interface ButtonArgumentsBase<T extends HTMLElement> {
-            click: (event: Event, select: Button<T>) => unknown;
+            click?: (event: Event, select: Button<T>) => unknown;
         }
         type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
         class Button<T extends HTMLElement> {
@@ -679,6 +679,89 @@ declare module "script/features/index" {
         export import Fps = ImportedFps.Fps;
         export import Animation = ImportedAnimation.Animation;
         export import Benchmark = ImportedBenchmark.Benchmark;
+    }
+}
+declare module "script/ui" {
+    import { Library } from "script/library/index";
+    export namespace UI {
+        const screenBody: HTMLDivElement;
+        const canvas: HTMLDivElement;
+        const benchmarkProgressBar: HTMLDivElement;
+        const benchmarkCanvas: HTMLDivElement;
+        const keyboardShortcut: HTMLDivElement;
+        const playButton: Library.Control.Button<HTMLElement>;
+        const runBenchmarkButton: Library.Control.Button<HTMLElement>;
+        const colorspaceSelect: Library.Control.Select<string>;
+        const coloringSelect: Library.Control.Select<string>;
+        const patternSelect: Library.Control.Select<string>;
+        const canvasSizeSelect: Library.Control.Select<number>;
+        const layersSelect: Library.Control.Select<number>;
+        const cycleSpanSelect: Library.Control.Select<number>;
+        const fuseFpsSelect: Library.Control.Select<number>;
+        const easingCheckbox: Library.Control.Checkbox;
+        const withFullscreen: Library.Control.Checkbox;
+        const showFps: Library.Control.Checkbox;
+        const languageSelect: Library.Control.Select<string>;
+        const fpsDisplay: HTMLDivElement;
+        const initializeLanguage: () => void;
+        const updateLanguage: () => void;
+    }
+}
+declare module "script/controller/base" {
+    export namespace Base {
+        const isInMode: (mode: string) => boolean;
+        const intoMode: (mode: string) => void;
+        const exitMode: (mode: string) => void;
+        const updateFullscreenState: (fullscreen?: boolean) => void;
+    }
+}
+declare module "script/controller/animation" {
+    import { Features } from "script/features/index";
+    export namespace Animation {
+        const animator: Features.Animation.Animator;
+        const isInAnimation: () => boolean;
+        const playAnimation: () => void;
+        const pauseAnimation: () => void;
+        const loopAnimation: (now: number) => void;
+        const start: () => number;
+        const updateFps: () => void;
+        const update: (setter?: () => unknown) => void;
+        const updateDiagonalSize: () => void;
+        const updateColorspace: () => unknown;
+        const updateColoring: () => unknown;
+        const updatePattern: () => unknown;
+        const updateLayers: () => void;
+        const setCanvasSize: (size: string) => void;
+        const updateCanvasSize: () => void;
+        const updateCycleSpan: () => void;
+        const updateFuseFps: () => number;
+        const updateEasing: () => void;
+        const updateShowFps: () => void;
+    }
+}
+declare module "script/controller/benchmark" {
+    export namespace Benchmark {
+        const loopBenchmark: (now: number) => void;
+        const isInBenchmark: () => boolean;
+        const setBenchmarkProgressBarSize: (size: number) => HTMLDivElement;
+        const setBenchmarkProgressBarProgress: (progress: number) => void;
+        const runBenchmark: () => void;
+        const stopBenchmark: () => void;
+    }
+}
+declare module "script/controller/index" {
+    import * as ImportedBase from "script/controller/base";
+    import * as ImportedAnimation from "script/controller/animation";
+    import * as ImportedBenchmark from "script/controller/benchmark";
+    export namespace Controller {
+        export import Base = ImportedBase.Base;
+        export import Animation = ImportedAnimation.Animation;
+        export import Benchmark = ImportedBenchmark.Benchmark;
+    }
+}
+declare module "script/events" {
+    export namespace Events {
+        const toggleAnimation: () => void;
     }
 }
 declare module "script/index" { }

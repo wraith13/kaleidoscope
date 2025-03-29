@@ -46,7 +46,7 @@ export namespace Control
     }
     export interface ButtonArgumentsBase<T extends HTMLElement>
     {
-        click: (event: Event, select: Button<T>) => unknown;
+        click?: (event: Event, select: Button<T>) => unknown;
     }
     export type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
     export class Button<T extends HTMLElement>
@@ -61,7 +61,7 @@ export namespace Control
                 event =>
                 {
                     eventLog(this, event, "👆 Button.Click:");
-                    this.data.click(event, this);
+                    this.data.click?.(event, this);
                 }
             );
         }

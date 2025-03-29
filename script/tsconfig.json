@@ -39,6 +39,8 @@
             "@tools/*": [ "./tools/*" ],
             "@features": [ "./features" ],
             "@features/*": [ "./features/*" ],
+            "@controller": [ "./controller" ],
+            "@controller/*": [ "./controller/*" ],
             "@script/*": [ "../script/*" ],
             "flounder.style.js": [ "../flounder.style.js" ],
             "phi-colors": [ "../phi-colors/library/source" ]

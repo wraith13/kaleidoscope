@@ -43,6 +43,17 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 define("script/library/type-guards", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -429,8 +440,9 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 this.data = data;
                 this.dom = Control.getDom(data);
                 this.dom.addEventListener("click", function (event) {
+                    var _a, _b;
                     Control.eventLog(_this, event, "👆 Button.Click:");
-                    _this.data.click(event, _this);
+                    (_b = (_a = _this.data).click) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
             return Button;
@@ -2632,301 +2644,387 @@ define("resource/powered-by", [], {
     "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
     "phi-colors": "https://github.com/wraith13/phi-colors"
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/features/index", "resource/control", "resource/config", "resource/powered-by"], function (require, exports, _library_3, _tools_2, _features_1, control_json_2, config_json_4, powered_by_json_1) {
+define("script/ui", ["require", "exports", "script/library/index", "script/tools/index", "resource/config", "resource/control", "resource/powered-by"], function (require, exports, _library_3, _tools_2, config_json_4, control_json_2, powered_by_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    control_json_2 = __importDefault(control_json_2);
+    exports.UI = void 0;
     config_json_4 = __importDefault(config_json_4);
+    control_json_2 = __importDefault(control_json_2);
     powered_by_json_1 = __importDefault(powered_by_json_1);
-    var screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
-    var canvas = _library_3.Library.UI.getElementById("div", "canvas");
-    var benchmarkProgressBar = _library_3.Library.UI.getElementById("div", "benchmark-progress-bar");
-    var benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
-    var keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
-    var animator = new _features_1.Features.Animation.Animator(canvas);
-    var isInMode = function (mode) {
-        return document.body.classList.contains("immersive") && document.body.classList.contains(mode);
-    };
-    var intoMode = function (mode) {
-        document.body.classList.toggle("immersive", true);
-        document.body.classList.toggle(mode, true);
-        document.body.classList.toggle("mousemove", false);
-        keyboardShortcut.classList.toggle("show", false);
-        updateFullscreenState();
-        _features_1.Features.Fps.reset();
-    };
-    var exitMode = function (mode) {
-        document.body.classList.toggle("immersive", false);
-        document.body.classList.toggle(mode, false);
-        updateFullscreenState(false);
-    };
-    var isInAnimation = function () { return isInMode("animation"); };
-    var playAnimation = function () {
-        intoMode("animation");
-        updateFps();
-        start();
-    };
-    var pauseAnimation = function () {
-        if (isInAnimation()) {
-            console.log("📈 fps", {
-                count: _features_1.Features.Fps.standardDeviation.count,
-                mean: _features_1.Features.Fps.standardDeviation.mean,
-                standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
-            });
+    var UI;
+    (function (UI) {
+        UI.screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
+        UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
+        UI.benchmarkProgressBar = _library_3.Library.UI.getElementById("div", "benchmark-progress-bar");
+        UI.benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
+        UI.keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
+        UI.playButton = new _library_3.Library.Control.Button({
+            id: "play-button",
+        });
+        UI.runBenchmarkButton = new _library_3.Library.Control.Button({
+            id: "run-benchmark",
+        });
+        UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
+        UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
+        UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern);
+        UI.canvasSizeSelect = new _library_3.Library.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); } });
+        UI.layersSelect = new _library_3.Library.Control.Select(control_json_2.default.layers);
+        UI.cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_2.Tools.Timespan.toDisplayString });
+        UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
+        UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
+        UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
+        if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
+            UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
         }
-        exitMode("animation");
-    };
-    var toggleAnimation = function () {
-        switch (true) {
-            case isInAnimation():
-                pauseAnimation();
-                break;
-            case isInBenchmark():
-                stopBenchmark();
-                break;
-            default:
-                playAnimation();
-                break;
-        }
-    };
-    var updateFps = function () {
-        if (showFps.get()) {
-            fpsDisplay.innerText = _features_1.Features.Fps.getText();
-        }
-    };
-    var update = function (setter) {
-        setter === null || setter === void 0 ? void 0 : setter();
-        if (!isInAnimation()) {
-            animator.update();
-        }
-    };
-    var updateDiagonalSize = function () { return update(function () { return animator.updateDiagonalSize(); }); };
-    var updateColorspace = function () { return update(function () { return animator.setColorspace(colorspaceSelect.get()); }); };
-    var updateColoring = function () { return update(function () { return animator.setColoring(coloringSelect.get()); }); };
-    var updatePattern = function () { return update(function () { return animator.setPattern(patternSelect.get()); }); };
-    var updateLayers = function () { return update(function () { return animator.setLayers(parseInt(layersSelect.get())); }); };
-    var setCanvasSize = function (size) {
-        ["width", "height",].forEach(function (i) { return canvas.style.setProperty(i, size); });
-        updateDiagonalSize();
-    };
-    var updateCanvasSize = function () {
-        var newCanvasSize = parseFloat(canvasSizeSelect.get());
-        var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
-        var canvasSize = newCanvasSizeRate * 100.0;
-        setCanvasSize("".concat(canvasSize, "%"));
-    };
-    var updateCycleSpan = function () { return update(function () { return animator.setCycleSpan(parseInt(cycleSpanSelect.get())); }); };
-    var updateFuseFps = function () { return _features_1.Features.Fps.fuseFps = parseFloat(fuseFpsSelect.get()); };
-    var updateEasing = function () { return update(function () { return animator.setEasing(easingCheckbox.get()); }); };
-    var updateShowFps = function () {
-        fpsDisplay.classList.toggle("hide", !showFps.get());
-    };
-    var initializeLanguage = function () {
-        _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-            .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
-        _library_3.Library.UI.replaceChildren(keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
-            return [
-                {
-                    tag: "span",
-                    children: i.keyss
-                        .map(function (j) { return j.map(function (key) { return ({ tag: "kbd", text: key }); }); })
-                        .reduce(function (accumulator, item, i) {
-                        return __spreadArray(__spreadArray(__spreadArray([], accumulator, true), (0 < i ? [{ tag: "span", className: "separator", text: "/", }] : []), true), item, true);
-                    }, []),
-                },
-                { tag: "span", text: _library_3.Library.Locale.map(i.description), }
-            ];
-        })
-            .reduce(function (a, b) { return a.concat(b); }, []));
-        _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
-    };
-    var updateLanguage = function () {
-        _library_3.Library.Locale.setLocale(languageSelect.get());
-        colorspaceSelect.reloadOptions();
-        coloringSelect.reloadOptions();
-        patternSelect.reloadOptions();
-        canvasSizeSelect.reloadOptions();
-        layersSelect.reloadOptions();
-        cycleSpanSelect.reloadOptions();
-        fuseFpsSelect.reloadOptions();
-        languageSelect.reloadOptions();
-        initializeLanguage();
-    };
-    //const playButton =
-    new _library_3.Library.Control.Button({
-        id: "play-button",
-        click: function (event, button) {
-            event.stopPropagation();
-            button.dom.blur();
-            toggleAnimation();
-        }
-    });
-    //const runBenchmarkButton =
-    new _library_3.Library.Control.Button({
-        id: "run-benchmark",
-        click: function (event, button) {
-            event.stopPropagation();
-            button.dom.blur();
-            runBenchmark();
-        }
-    });
-    var colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace, { change: function () { return updateColorspace(); }, });
-    var coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring, { change: function () { return updateColoring(); }, });
-    var patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { change: function () { return updatePattern(); }, });
-    var canvasSizeSelect = new _library_3.Library.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); }, change: function () { return updateCanvasSize(); }, });
-    var layersSelect = new _library_3.Library.Control.Select(control_json_2.default.layers, { change: function () { return updateLayers(); }, });
-    var cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_2.Tools.Timespan.toDisplayString, change: function () { return updateCycleSpan(); }, });
-    var fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps, { change: function () { return updateFuseFps(); }, });
-    var easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
-    var withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
-    if (!_library_3.Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement) {
-        withFullscreen.dom.parentElement.style.setProperty("display", "none");
-    }
-    var showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS, { change: function () { return updateShowFps(); }, });
-    var languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
-        makeLabel: function (i) { return "Auto" === i ? _library_3.Library.Locale.map("Auto") : _library_3.Library.Locale.map("lang-label", i); },
-        change: function () { return updateLanguage(); },
-    });
-    var fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
-    _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
-        var text = _a[0], href = _a[1];
-        return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
-    }));
-    var updateFullscreenState = function (fullscreen) {
-        if (_library_3.Library.UI.fullscreenEnabled) {
-            if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : withFullscreen.get()) {
-                _library_3.Library.UI.requestFullscreen(document.body);
+        UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
+        UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
+            makeLabel: function (i) { return "Auto" === i ? _library_3.Library.Locale.map("Auto") : _library_3.Library.Locale.map("lang-label", i); },
+            change: function () { return UI.updateLanguage(); },
+        });
+        UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
+        _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
+            var text = _a[0], href = _a[1];
+            return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
+        }));
+        UI.initializeLanguage = function () {
+            _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
+                .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
+            _library_3.Library.UI.replaceChildren(UI.keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
+                return [
+                    {
+                        tag: "span",
+                        children: i.keyss
+                            .map(function (j) { return j.map(function (key) { return ({ tag: "kbd", text: key }); }); })
+                            .reduce(function (accumulator, item, i) {
+                            return __spreadArray(__spreadArray(__spreadArray([], accumulator, true), (0 < i ? [{ tag: "span", className: "separator", text: "/", }] : []), true), item, true);
+                        }, []),
+                    },
+                    { tag: "span", text: _library_3.Library.Locale.map(i.description), }
+                ];
+            })
+                .reduce(function (a, b) { return a.concat(b); }, []));
+            _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
+        };
+        UI.updateLanguage = function () {
+            _library_3.Library.Locale.setLocale(UI.languageSelect.get());
+            UI.colorspaceSelect.reloadOptions();
+            UI.coloringSelect.reloadOptions();
+            UI.patternSelect.reloadOptions();
+            UI.canvasSizeSelect.reloadOptions();
+            UI.layersSelect.reloadOptions();
+            UI.cycleSpanSelect.reloadOptions();
+            UI.fuseFpsSelect.reloadOptions();
+            UI.languageSelect.reloadOptions();
+            UI.initializeLanguage();
+        };
+    })(UI || (exports.UI = UI = {}));
+});
+define("script/controller/base", ["require", "exports", "script/library/index", "script/features/index", "script/ui"], function (require, exports, _library_4, _features_1, ui_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Base = void 0;
+    var Base;
+    (function (Base) {
+        Base.isInMode = function (mode) {
+            return document.body.classList.contains("immersive") && document.body.classList.contains(mode);
+        };
+        Base.intoMode = function (mode) {
+            document.body.classList.toggle("immersive", true);
+            document.body.classList.toggle(mode, true);
+            document.body.classList.toggle("mousemove", false);
+            ui_2.UI.keyboardShortcut.classList.toggle("show", false);
+            Base.updateFullscreenState();
+            _features_1.Features.Fps.reset();
+        };
+        Base.exitMode = function (mode) {
+            document.body.classList.toggle("immersive", false);
+            document.body.classList.toggle(mode, false);
+            Base.updateFullscreenState(false);
+        };
+        Base.updateFullscreenState = function (fullscreen) {
+            if (_library_4.Library.UI.fullscreenEnabled) {
+                if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : ui_2.UI.withFullscreen.get()) {
+                    _library_4.Library.UI.requestFullscreen(document.body);
+                }
+                else {
+                    _library_4.Library.UI.exitFullscreen();
+                }
             }
-            else {
-                _library_3.Library.UI.exitFullscreen();
+        };
+    })(Base || (exports.Base = Base = {}));
+});
+define("script/controller/animation", ["require", "exports", "script/features/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_2, base_1, ui_3, config_json_5) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Animation = void 0;
+    config_json_5 = __importDefault(config_json_5);
+    var Animation;
+    (function (Animation) {
+        Animation.animator = new _features_2.Features.Animation.Animator(ui_3.UI.canvas);
+        Animation.isInAnimation = function () { return base_1.Base.isInMode("animation"); };
+        Animation.playAnimation = function () {
+            base_1.Base.intoMode("animation");
+            Animation.updateFps();
+            Animation.start();
+        };
+        Animation.pauseAnimation = function () {
+            if (Animation.isInAnimation()) {
+                console.log("📈 fps", {
+                    count: _features_2.Features.Fps.standardDeviation.count,
+                    mean: _features_2.Features.Fps.standardDeviation.mean,
+                    standardDeviation: _features_2.Features.Fps.standardDeviation.getStandardDeviation(),
+                });
             }
-        }
-    };
-    var loopAnimation = function (now) {
-        if (isInAnimation()) {
-            _features_1.Features.Fps.step(now);
-            updateFps();
-            if (_features_1.Features.Fps.isUnderFuseFps()) {
-                pauseAnimation();
+            base_1.Base.exitMode("animation");
+        };
+        Animation.loopAnimation = function (now) {
+            if (Animation.isInAnimation()) {
+                _features_2.Features.Fps.step(now);
+                Animation.updateFps();
+                if (_features_2.Features.Fps.isUnderFuseFps()) {
+                    Animation.pauseAnimation();
+                }
+                else {
+                    Animation.animator.step(now);
+                    window.requestAnimationFrame(Animation.loopAnimation);
+                }
             }
-            else {
-                animator.step(now);
-                window.requestAnimationFrame(loopAnimation);
-            }
-        }
-    };
-    var start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
-        animator.startStep(now);
-        loopAnimation(now);
-    }); }, config_json_4.default.startWait); };
-    var loopBenchmark = function (now) {
-        if (isInAnimation()) {
-            _features_1.Features.Fps.step(now);
-            updateFps();
-            if (_features_1.Features.Fps.isUnderFuseFps()) {
-                stopBenchmark();
-            }
-            else {
-                animator.step(now);
-                window.requestAnimationFrame(loopBenchmark);
-            }
-        }
-    };
-    var isInBenchmark = function () { return isInMode("benchmark"); };
-    var setBenchmarkProgressBarSize = function (size) {
-        return _library_3.Library.UI.cullOrBreed(benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
-    };
-    var setBenchmarkProgressBarProgress = function (progress) {
-        return Array.from(benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
-    };
-    var runBenchmark = function () {
-        intoMode("benchmark");
-        setBenchmarkProgressBarSize(7);
-        setBenchmarkProgressBarProgress(1);
-        // if (Library.UI.fullscreenEnabled)
+        };
+        Animation.start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
+            Animation.animator.startStep(now);
+            Animation.loopAnimation(now);
+        }); }, config_json_5.default.startWait); };
+        // export const toggleAnimation = () =>
         // {
-        //     Library.UI.requestFullscreen(document.body);
+        //     switch(true)
+        //     {
+        //     case isInAnimation():
+        //         pauseAnimation();
+        //         break;
+        //     // case Benchmark.isInBenchmark():
+        //     //     Benchmark.stopBenchmark();
+        //     //     break;
+        //     default:
+        //         playAnimation();
+        //         break;
+        //     }
         // }
-        updateFps();
-        setTimeout(function () { return window.requestAnimationFrame(function (now) {
-            animator.startStep(now);
-            loopBenchmark(now);
-        }); }, config_json_4.default.startWait);
-    };
-    var stopBenchmark = function () {
-        if (isInBenchmark()) {
-            console.log("📈 fps", {
-                count: _features_1.Features.Fps.standardDeviation.count,
-                mean: _features_1.Features.Fps.standardDeviation.mean,
-                standardDeviation: _features_1.Features.Fps.standardDeviation.getStandardDeviation(),
-            });
-        }
-        exitMode("benchmark");
-    };
-    canvas.addEventListener("click", function (event) {
+        Animation.updateFps = function () {
+            if (ui_3.UI.showFps.get()) {
+                ui_3.UI.fpsDisplay.innerText = _features_2.Features.Fps.getText();
+            }
+        };
+        Animation.update = function (setter) {
+            setter === null || setter === void 0 ? void 0 : setter();
+            if (!Animation.isInAnimation()) {
+                Animation.animator.update();
+            }
+        };
+        Animation.updateDiagonalSize = function () { return Animation.update(function () { return Animation.animator.updateDiagonalSize(); }); };
+        Animation.updateColorspace = function () { return Animation.update(function () { return Animation.animator.setColorspace(ui_3.UI.colorspaceSelect.get()); }); };
+        Animation.updateColoring = function () { return Animation.update(function () { return Animation.animator.setColoring(ui_3.UI.coloringSelect.get()); }); };
+        Animation.updatePattern = function () { return Animation.update(function () { return Animation.animator.setPattern(ui_3.UI.patternSelect.get()); }); };
+        Animation.updateLayers = function () { return Animation.update(function () { return Animation.animator.setLayers(parseInt(ui_3.UI.layersSelect.get())); }); };
+        Animation.setCanvasSize = function (size) {
+            ["width", "height",].forEach(function (i) { return ui_3.UI.canvas.style.setProperty(i, size); });
+            Animation.updateDiagonalSize();
+        };
+        Animation.updateCanvasSize = function () {
+            var newCanvasSize = parseFloat(ui_3.UI.canvasSizeSelect.get());
+            var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
+            var canvasSize = newCanvasSizeRate * 100.0;
+            Animation.setCanvasSize("".concat(canvasSize, "%"));
+        };
+        Animation.updateCycleSpan = function () { return Animation.update(function () { return Animation.animator.setCycleSpan(parseInt(ui_3.UI.cycleSpanSelect.get())); }); };
+        Animation.updateFuseFps = function () { return _features_2.Features.Fps.fuseFps = parseFloat(ui_3.UI.fuseFpsSelect.get()); };
+        Animation.updateEasing = function () { return Animation.update(function () { return Animation.animator.setEasing(ui_3.UI.easingCheckbox.get()); }); };
+        Animation.updateShowFps = function () {
+            ui_3.UI.fpsDisplay.classList.toggle("hide", !ui_3.UI.showFps.get());
+        };
+    })(Animation || (exports.Animation = Animation = {}));
+});
+define("script/controller/benchmark", ["require", "exports", "script/library/index", "script/features/index", "script/controller/base", "script/controller/animation", "script/ui", "resource/config"], function (require, exports, _library_5, _features_3, base_2, animation_1, ui_4, config_json_6) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Benchmark = void 0;
+    config_json_6 = __importDefault(config_json_6);
+    var Benchmark;
+    (function (Benchmark) {
+        Benchmark.loopBenchmark = function (now) {
+            if (animation_1.Animation.isInAnimation()) {
+                _features_3.Features.Fps.step(now);
+                ui_4.UI.showFps.get();
+                if (_features_3.Features.Fps.isUnderFuseFps()) {
+                    Benchmark.stopBenchmark();
+                }
+                else {
+                    animation_1.Animation.animator.step(now);
+                    window.requestAnimationFrame(Benchmark.loopBenchmark);
+                }
+            }
+        };
+        Benchmark.isInBenchmark = function () { return base_2.Base.isInMode("benchmark"); };
+        Benchmark.setBenchmarkProgressBarSize = function (size) {
+            return _library_5.Library.UI.cullOrBreed(ui_4.UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
+        };
+        Benchmark.setBenchmarkProgressBarProgress = function (progress) {
+            return Array.from(ui_4.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
+        };
+        Benchmark.runBenchmark = function () {
+            base_2.Base.intoMode("benchmark");
+            Benchmark.setBenchmarkProgressBarSize(7);
+            Benchmark.setBenchmarkProgressBarProgress(1);
+            // if (Library.UI.fullscreenEnabled)
+            // {
+            //     Library.UI.requestFullscreen(document.body);
+            // }
+            ui_4.UI.showFps.get();
+            setTimeout(function () { return window.requestAnimationFrame(function (now) {
+                animation_1.Animation.animator.startStep(now);
+                Benchmark.loopBenchmark(now);
+            }); }, config_json_6.default.startWait);
+        };
+        Benchmark.stopBenchmark = function () {
+            if (Benchmark.isInBenchmark()) {
+                console.log("📈 fps", {
+                    count: _features_3.Features.Fps.standardDeviation.count,
+                    mean: _features_3.Features.Fps.standardDeviation.mean,
+                    standardDeviation: _features_3.Features.Fps.standardDeviation.getStandardDeviation(),
+                });
+            }
+            base_2.Base.exitMode("benchmark");
+        };
+    })(Benchmark || (exports.Benchmark = Benchmark = {}));
+});
+define("script/controller/index", ["require", "exports", "script/controller/base", "script/controller/animation", "script/controller/benchmark"], function (require, exports, ImportedBase, ImportedAnimation, ImportedBenchmark) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Controller = void 0;
+    ImportedBase = __importStar(ImportedBase);
+    ImportedAnimation = __importStar(ImportedAnimation);
+    ImportedBenchmark = __importStar(ImportedBenchmark);
+    var Controller;
+    (function (Controller) {
+        Controller.Base = ImportedBase.Base;
+        Controller.Animation = ImportedAnimation.Animation;
+        Controller.Benchmark = ImportedBenchmark.Benchmark;
+    })(Controller || (exports.Controller = Controller = {}));
+});
+define("script/events", ["require", "exports", "script/controller/index", "script/ui"], function (require, exports, _controller_1, ui_5) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Events = void 0;
+    var Events;
+    (function (Events) {
+        Events.toggleAnimation = function () {
+            switch (true) {
+                case _controller_1.Controller.Animation.isInAnimation():
+                    _controller_1.Controller.Animation.pauseAnimation();
+                    break;
+                case _controller_1.Controller.Benchmark.isInBenchmark():
+                    _controller_1.Controller.Benchmark.stopBenchmark();
+                    break;
+                default:
+                    _controller_1.Controller.Animation.playAnimation();
+                    break;
+            }
+        };
+        ui_5.UI.playButton.data.click = function (event, button) {
+            event.stopPropagation();
+            button.dom.blur();
+            Events.toggleAnimation();
+        };
+        ui_5.UI.runBenchmarkButton.data.click = function (event, button) {
+            event.stopPropagation();
+            button.dom.blur();
+            _controller_1.Controller.Benchmark.runBenchmark();
+        };
+        ui_5.UI.colorspaceSelect.options = __assign(__assign({}, ui_5.UI.colorspaceSelect.options), { change: function () { return _controller_1.Controller.Animation.updateColorspace(); } });
+        ui_5.UI.coloringSelect.options = __assign(__assign({}, ui_5.UI.coloringSelect.options), { change: function () { return _controller_1.Controller.Animation.updateColoring(); } });
+        ui_5.UI.patternSelect.options = __assign(__assign({}, ui_5.UI.patternSelect.options), { change: function () { return _controller_1.Controller.Animation.updatePattern(); } });
+        ui_5.UI.canvasSizeSelect.options = __assign(__assign({}, ui_5.UI.canvasSizeSelect.options), { change: function () { return _controller_1.Controller.Animation.updateCanvasSize(); } });
+        ui_5.UI.layersSelect.options = __assign(__assign({}, ui_5.UI.layersSelect.options), { change: function () { return _controller_1.Controller.Animation.updateLayers(); } });
+        ui_5.UI.cycleSpanSelect.options = __assign(__assign({}, ui_5.UI.cycleSpanSelect.options), { change: function () { return _controller_1.Controller.Animation.updateCycleSpan(); } });
+        ui_5.UI.fuseFpsSelect.options = __assign(__assign({}, ui_5.UI.fuseFpsSelect.options), { change: function () { return _controller_1.Controller.Animation.updateFuseFps(); } });
+        // UI.easingCheckbox.options = {
+        //     ...UI.easingCheckbox.options,
+        //     change: () => Controller.Animation.updateEasing()
+        // };
+        // UI.withFullscreen.options = {
+        //     ...UI.withFullscreen.options,
+        //     change: () => Controller.Animation.updateWithFullscreen()
+        // };
+        ui_5.UI.showFps.options = __assign(__assign({}, ui_5.UI.showFps.options), { change: function () { return _controller_1.Controller.Animation.updateShowFps(); } });
+    })(Events || (exports.Events = Events = {}));
+});
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/controller/base", "script/controller/animation", "script/controller/benchmark", "resource/config", "script/ui", "script/events"], function (require, exports, _library_6, _tools_3, base_3, animation_2, benchmark_1, config_json_7, ui_6, events_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    config_json_7 = __importDefault(config_json_7);
+    ui_6.UI.canvas.addEventListener("click", function (event) {
         event.stopPropagation();
-        console.log("👆 canvas.Click: pauseAnimation", event, canvas);
-        pauseAnimation();
+        console.log("👆 canvas.Click: pauseAnimation", event, ui_6.UI.canvas);
+        animation_2.Animation.pauseAnimation();
     });
-    benchmarkCanvas.addEventListener("click", function (event) {
+    ui_6.UI.benchmarkCanvas.addEventListener("click", function (event) {
         event.stopPropagation();
-        console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, benchmarkCanvas);
-        stopBenchmark();
+        console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_6.UI.benchmarkCanvas);
+        benchmark_1.Benchmark.stopBenchmark();
     });
-    var mouseMoveTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
-    screenBody.addEventListener("mousemove", function (_event) {
-        if (config_json_4.default.log.mousemove && !mouseMoveTimer.isOn()) {
-            console.log("🖱️ MouseMove:", event, screenBody);
+    var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+    ui_6.UI.screenBody.addEventListener("mousemove", function (_event) {
+        if (config_json_7.default.log.mousemove && !mouseMoveTimer.isOn()) {
+            console.log("🖱️ MouseMove:", event, ui_6.UI.screenBody);
         }
         mouseMoveTimer.start(document.body, "mousemove", 1000);
     });
-    updateColorspace();
-    updateColoring();
-    updatePattern();
-    updateCanvasSize();
-    updateEasing();
-    updateLayers();
-    updateCycleSpan();
-    updateFuseFps();
-    updateShowFps();
-    _library_3.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-        .forEach(function (label) { return _library_3.Library.UI.showPickerOnLabel(label); });
-    initializeLanguage();
-    _library_3.Library.Shortcuts.setCommandMap({
+    animation_2.Animation.updateColorspace();
+    animation_2.Animation.updateColoring();
+    animation_2.Animation.updatePattern();
+    animation_2.Animation.updateCanvasSize();
+    animation_2.Animation.updateEasing();
+    animation_2.Animation.updateLayers();
+    animation_2.Animation.updateCycleSpan();
+    animation_2.Animation.updateFuseFps();
+    animation_2.Animation.updateShowFps();
+    ui_6.UI.initializeLanguage();
+    _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+        .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
+    _library_6.Library.Shortcuts.setCommandMap({
         "nop": function () { },
         "toggleHideUI": function () {
             document.body.classList.toggle("hide-ui");
             if (document.body.classList.contains("hide-ui")) {
-                keyboardShortcut.classList.toggle("show", false);
+                ui_6.UI.keyboardShortcut.classList.toggle("show", false);
             }
         },
-        "toggleAnimation": function () { return toggleAnimation(); },
-        "switchColoringForward": function () { return coloringSelect.switch(true); },
-        "switchColoringBackward": function () { return coloringSelect.switch(false); },
-        "switchPatternForward": function () { return patternSelect.switch(true); },
-        "switchPatternBackward": function () { return patternSelect.switch(false); },
-        "increaseCanvasSize": function () { return canvasSizeSelect.switch(true); },
-        "decreaseCanvasSize": function () { return canvasSizeSelect.switch(false); },
-        "increaseLayer": function () { return layersSelect.switch(true); },
-        "decreaseLayer": function () { return layersSelect.switch(false); },
-        "speedDown": function () { return cycleSpanSelect.switch(true); },
-        "speedUp": function () { return cycleSpanSelect.switch(false); },
+        "toggleAnimation": function () { return events_1.Events.toggleAnimation(); },
+        "switchColoringForward": function () { return ui_6.UI.coloringSelect.switch(true); },
+        "switchColoringBackward": function () { return ui_6.UI.coloringSelect.switch(false); },
+        "switchPatternForward": function () { return ui_6.UI.patternSelect.switch(true); },
+        "switchPatternBackward": function () { return ui_6.UI.patternSelect.switch(false); },
+        "increaseCanvasSize": function () { return ui_6.UI.canvasSizeSelect.switch(true); },
+        "decreaseCanvasSize": function () { return ui_6.UI.canvasSizeSelect.switch(false); },
+        "increaseLayer": function () { return ui_6.UI.layersSelect.switch(true); },
+        "decreaseLayer": function () { return ui_6.UI.layersSelect.switch(false); },
+        "speedDown": function () { return ui_6.UI.cycleSpanSelect.switch(true); },
+        "speedUp": function () { return ui_6.UI.cycleSpanSelect.switch(false); },
         "toggleFullScreen": function () {
-            withFullscreen.toggle();
-            if (isInAnimation()) {
-                updateFullscreenState();
+            ui_6.UI.withFullscreen.toggle();
+            if (animation_2.Animation.isInAnimation()) {
+                base_3.Base.updateFullscreenState();
             }
         },
         "toggleShowFps": function () {
-            showFps.toggle();
-            updateShowFps();
+            ui_6.UI.showFps.toggle();
+            animation_2.Animation.updateShowFps();
         },
         "unknownKeyDown": function () {
-            showShortcutsTimer.start(keyboardShortcut, "show", 3000);
+            showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
         }
     });
-    var showShortcutsTimer = new _library_3.Library.UI.ToggleClassForWhileTimer();
-    window.addEventListener("resize", function () { return updateDiagonalSize(); });
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_2.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_3.Library.Locale.map("ago"), " )"));
+    var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+    window.addEventListener("resize", function () { return animation_2.Animation.updateDiagonalSize(); });
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_6.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map
