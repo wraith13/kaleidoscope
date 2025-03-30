@@ -713,7 +713,6 @@ declare module "script/ui" {
         const showFps: Library.Control.Checkbox;
         const languageSelect: Library.Control.Select<string>;
         const fpsDisplay: HTMLDivElement;
-        const initializeLanguage: () => void;
         const updateLanguage: () => void;
         const initialize: () => void;
     }
@@ -747,7 +746,7 @@ declare module "script/controller/animation" {
         const updateCycleSpan: () => void;
         const updateFuseFps: () => number;
         const updateEasing: () => void;
-        const updateShowFps: () => void;
+        const updateShowFps: () => boolean;
         const initialize: () => void;
     }
 }
@@ -769,11 +768,11 @@ declare module "script/controller/index" {
         export import Base = ImportedBase.Base;
         export import Animation = ImportedAnimation.Animation;
         export import Benchmark = ImportedBenchmark.Benchmark;
+        const toggleAnimation: () => void;
     }
 }
 declare module "script/events" {
     export namespace Events {
-        const toggleAnimation: () => void;
         const initialize: () => void;
     }
 }

@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat Mar 29 2025 14:51:51 GMT+0900 (日本標準時)
+    build at: Sun Mar 30 2025 10:47:07 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1101,8 +1101,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sat Mar 29 2025 14:51:51 GMT+0900 (日本標準時)",
-    tick: 1743227511153
+    at: "Sun Mar 30 2025 10:47:07 GMT+0900 (日本標準時)",
+    tick: 1743299227041
 };
 const evilCommonjsConfig =
 {
@@ -6774,7 +6774,16 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             change: function () { return UI.updateLanguage(); },
         });
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
-        UI.initializeLanguage = function () {
+        UI.updateLanguage = function () {
+            _library_3.Library.Locale.setLocale(UI.languageSelect.get());
+            UI.colorspaceSelect.reloadOptions();
+            UI.coloringSelect.reloadOptions();
+            UI.patternSelect.reloadOptions();
+            UI.canvasSizeSelect.reloadOptions();
+            UI.layersSelect.reloadOptions();
+            UI.cycleSpanSelect.reloadOptions();
+            UI.fuseFpsSelect.reloadOptions();
+            UI.languageSelect.reloadOptions();
             _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
                 .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
             _library_3.Library.UI.replaceChildren(UI.keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
@@ -6793,18 +6802,6 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
                 .reduce(function (a, b) { return a.concat(b); }, []));
             _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
         };
-        UI.updateLanguage = function () {
-            _library_3.Library.Locale.setLocale(UI.languageSelect.get());
-            UI.colorspaceSelect.reloadOptions();
-            UI.coloringSelect.reloadOptions();
-            UI.patternSelect.reloadOptions();
-            UI.canvasSizeSelect.reloadOptions();
-            UI.layersSelect.reloadOptions();
-            UI.cycleSpanSelect.reloadOptions();
-            UI.fuseFpsSelect.reloadOptions();
-            UI.languageSelect.reloadOptions();
-            UI.initializeLanguage();
-        };
         UI.initialize = function () {
             if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
                 UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
@@ -6813,7 +6810,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
                 var text = _a[0], href = _a[1];
                 return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
             }));
-            UI.initializeLanguage();
+            UI.updateLanguage();
         };
     })(UI || (exports.UI = UI = {}));
 });
@@ -6859,7 +6856,9 @@ define("script/controller/animation", ["require", "exports", "script/features/in
     var Animation;
     (function (Animation) {
         Animation.animator = new _features_2.Features.Animation.Animator(ui_3.UI.canvas);
-        Animation.isInAnimation = function () { return base_1.Base.isInMode("animation"); };
+        Animation.isInAnimation = function () {
+            return base_1.Base.isInMode("animation");
+        };
         Animation.playAnimation = function () {
             base_1.Base.intoMode("animation");
             Animation.updateFps();
@@ -6892,21 +6891,6 @@ define("script/controller/animation", ["require", "exports", "script/features/in
             Animation.animator.startStep(now);
             Animation.loopAnimation(now);
         }); }, config_json_5.default.startWait); };
-        // export const toggleAnimation = () =>
-        // {
-        //     switch(true)
-        //     {
-        //     case isInAnimation():
-        //         pauseAnimation();
-        //         break;
-        //     // case Benchmark.isInBenchmark():
-        //     //     Benchmark.stopBenchmark();
-        //     //     break;
-        //     default:
-        //         playAnimation();
-        //         break;
-        //     }
-        // }
         Animation.updateFps = function () {
             if (ui_3.UI.showFps.get()) {
                 ui_3.UI.fpsDisplay.innerText = _features_2.Features.Fps.getText();
@@ -6918,11 +6902,21 @@ define("script/controller/animation", ["require", "exports", "script/features/in
                 Animation.animator.update();
             }
         };
-        Animation.updateDiagonalSize = function () { return Animation.update(function () { return Animation.animator.updateDiagonalSize(); }); };
-        Animation.updateColorspace = function () { return Animation.update(function () { return Animation.animator.setColorspace(ui_3.UI.colorspaceSelect.get()); }); };
-        Animation.updateColoring = function () { return Animation.update(function () { return Animation.animator.setColoring(ui_3.UI.coloringSelect.get()); }); };
-        Animation.updatePattern = function () { return Animation.update(function () { return Animation.animator.setPattern(ui_3.UI.patternSelect.get()); }); };
-        Animation.updateLayers = function () { return Animation.update(function () { return Animation.animator.setLayers(parseInt(ui_3.UI.layersSelect.get())); }); };
+        Animation.updateDiagonalSize = function () {
+            return Animation.update(function () { return Animation.animator.updateDiagonalSize(); });
+        };
+        Animation.updateColorspace = function () {
+            return Animation.update(function () { return Animation.animator.setColorspace(ui_3.UI.colorspaceSelect.get()); });
+        };
+        Animation.updateColoring = function () {
+            return Animation.update(function () { return Animation.animator.setColoring(ui_3.UI.coloringSelect.get()); });
+        };
+        Animation.updatePattern = function () {
+            return Animation.update(function () { return Animation.animator.setPattern(ui_3.UI.patternSelect.get()); });
+        };
+        Animation.updateLayers = function () {
+            return Animation.update(function () { return Animation.animator.setLayers(parseInt(ui_3.UI.layersSelect.get())); });
+        };
         Animation.setCanvasSize = function (size) {
             ["width", "height",].forEach(function (i) { return ui_3.UI.canvas.style.setProperty(i, size); });
             Animation.updateDiagonalSize();
@@ -6933,11 +6927,17 @@ define("script/controller/animation", ["require", "exports", "script/features/in
             var canvasSize = newCanvasSizeRate * 100.0;
             Animation.setCanvasSize("".concat(canvasSize, "%"));
         };
-        Animation.updateCycleSpan = function () { return Animation.update(function () { return Animation.animator.setCycleSpan(parseInt(ui_3.UI.cycleSpanSelect.get())); }); };
-        Animation.updateFuseFps = function () { return _features_2.Features.Fps.fuseFps = parseFloat(ui_3.UI.fuseFpsSelect.get()); };
-        Animation.updateEasing = function () { return Animation.update(function () { return Animation.animator.setEasing(ui_3.UI.easingCheckbox.get()); }); };
+        Animation.updateCycleSpan = function () {
+            return Animation.update(function () { return Animation.animator.setCycleSpan(parseInt(ui_3.UI.cycleSpanSelect.get())); });
+        };
+        Animation.updateFuseFps = function () {
+            return _features_2.Features.Fps.fuseFps = parseFloat(ui_3.UI.fuseFpsSelect.get());
+        };
+        Animation.updateEasing = function () {
+            return Animation.update(function () { return Animation.animator.setEasing(ui_3.UI.easingCheckbox.get()); });
+        };
         Animation.updateShowFps = function () {
-            ui_3.UI.fpsDisplay.classList.toggle("hide", !ui_3.UI.showFps.get());
+            return ui_3.UI.fpsDisplay.classList.toggle("hide", !ui_3.UI.showFps.get());
         };
         Animation.initialize = function () {
             Animation.updateColorspace();
@@ -6972,7 +6972,9 @@ define("script/controller/benchmark", ["require", "exports", "script/library/ind
                 }
             }
         };
-        Benchmark.isInBenchmark = function () { return base_2.Base.isInMode("benchmark"); };
+        Benchmark.isInBenchmark = function () {
+            return base_2.Base.isInMode("benchmark");
+        };
         Benchmark.setBenchmarkProgressBarSize = function (size) {
             return _library_5.Library.UI.cullOrBreed(ui_4.UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
         };
@@ -7017,6 +7019,19 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         Controller.Base = ImportedBase.Base;
         Controller.Animation = ImportedAnimation.Animation;
         Controller.Benchmark = ImportedBenchmark.Benchmark;
+        Controller.toggleAnimation = function () {
+            switch (true) {
+                case Controller.Animation.isInAnimation():
+                    Controller.Animation.pauseAnimation();
+                    break;
+                case Controller.Benchmark.isInBenchmark():
+                    Controller.Benchmark.stopBenchmark();
+                    break;
+                default:
+                    Controller.Animation.playAnimation();
+                    break;
+            }
+        };
     })(Controller || (exports.Controller = Controller = {}));
 });
 define("script/events", ["require", "exports", "script/library/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _controller_1, ui_5, config_json_7) {
@@ -7026,24 +7041,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/c
     config_json_7 = __importDefault(config_json_7);
     var Events;
     (function (Events) {
-        Events.toggleAnimation = function () {
-            switch (true) {
-                case _controller_1.Controller.Animation.isInAnimation():
-                    _controller_1.Controller.Animation.pauseAnimation();
-                    break;
-                case _controller_1.Controller.Benchmark.isInBenchmark():
-                    _controller_1.Controller.Benchmark.stopBenchmark();
-                    break;
-                default:
-                    _controller_1.Controller.Animation.playAnimation();
-                    break;
-            }
-        };
         Events.initialize = function () {
             ui_5.UI.playButton.data.click = function (event, button) {
                 event.stopPropagation();
                 button.dom.blur();
-                Events.toggleAnimation();
+                _controller_1.Controller.toggleAnimation();
             };
             ui_5.UI.runBenchmarkButton.data.click = function (event, button) {
                 event.stopPropagation();
@@ -7087,7 +7089,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/c
                         ui_5.UI.keyboardShortcut.classList.toggle("show", false);
                     }
                 },
-                "toggleAnimation": function () { return Events.toggleAnimation(); },
+                "toggleAnimation": function () { return _controller_1.Controller.toggleAnimation(); },
                 "switchColoringForward": function () { return ui_5.UI.coloringSelect.switch(true); },
                 "switchColoringBackward": function () { return ui_5.UI.coloringSelect.switch(false); },
                 "switchPatternForward": function () { return ui_5.UI.patternSelect.switch(true); },

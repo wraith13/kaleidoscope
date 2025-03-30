@@ -5,28 +5,13 @@ import { UI } from "./ui";
 import config from "@resource/config.json";
 export namespace Events
 {
-    export const toggleAnimation = () =>
-    {
-        switch(true)
-        {
-        case Controller.Animation.isInAnimation():
-            Controller.Animation.pauseAnimation();
-            break;
-        case Controller.Benchmark.isInBenchmark():
-            Controller.Benchmark.stopBenchmark();
-            break;
-        default:
-            Controller.Animation.playAnimation();
-            break;
-        }
-    }
     export const initialize = () =>
     {
         UI.playButton.data.click = (event, button) =>
         {
             event.stopPropagation();
             button.dom.blur();
-            toggleAnimation();
+            Controller.toggleAnimation();
         };
         UI.runBenchmarkButton.data.click = (event, button) =>
         {
@@ -90,7 +75,7 @@ export namespace Events
                     UI.keyboardShortcut.classList.toggle("show", false);
                 }
             },
-            "toggleAnimation": () => Events.toggleAnimation(),
+            "toggleAnimation": () => Controller.toggleAnimation(),
             "switchColoringForward": () => UI.coloringSelect.switch(true),
             "switchColoringBackward": () => UI.coloringSelect.switch(false),
             "switchPatternForward": () => UI.patternSelect.switch(true),

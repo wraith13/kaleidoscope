@@ -6,7 +6,8 @@ import config from "@resource/config.json";
 export namespace Animation
 {
     export const animator = new Features.Animation.Animator(UI.canvas);
-    export const isInAnimation = () => Base.isInMode("animation");
+    export const isInAnimation = () =>
+        Base.isInMode("animation");
     export const playAnimation = () =>
     {
         Base.intoMode("animation");
@@ -58,21 +59,6 @@ export namespace Animation
         ),
         config.startWait
     );
-    // export const toggleAnimation = () =>
-    // {
-    //     switch(true)
-    //     {
-    //     case isInAnimation():
-    //         pauseAnimation();
-    //         break;
-    //     // case Benchmark.isInBenchmark():
-    //     //     Benchmark.stopBenchmark();
-    //     //     break;
-    //     default:
-    //         playAnimation();
-    //         break;
-    //     }
-    // }
     export const updateFps = () =>
     {
         if (UI.showFps.get())
@@ -88,11 +74,16 @@ export namespace Animation
             animator.update();
         }
     };
-    export const updateDiagonalSize = () => update(() => animator.updateDiagonalSize());
-    export const updateColorspace = (): unknown => update(() => animator.setColorspace(UI.colorspaceSelect.get()));
-    export const updateColoring = (): unknown => update(() => animator.setColoring(UI.coloringSelect.get()));
-    export const updatePattern = (): unknown => update(() => animator.setPattern(UI.patternSelect.get()));
-    export const updateLayers = (): void => update(() => animator.setLayers(parseInt(UI.layersSelect.get())));
+    export const updateDiagonalSize = () =>
+        update(() => animator.updateDiagonalSize());
+    export const updateColorspace = (): unknown =>
+        update(() => animator.setColorspace(UI.colorspaceSelect.get()));
+    export const updateColoring = (): unknown =>
+        update(() => animator.setColoring(UI.coloringSelect.get()));
+    export const updatePattern = (): unknown =>
+        update(() => animator.setPattern(UI.patternSelect.get()));
+    export const updateLayers = (): void =>
+        update(() => animator.setLayers(parseInt(UI.layersSelect.get())));
     export const setCanvasSize = (size: string) =>
     {
         [ "width", "height", ].forEach
@@ -108,13 +99,14 @@ export namespace Animation
         const canvasSize = newCanvasSizeRate *100.0;
         setCanvasSize(`${canvasSize}%`);
     };
-    export const updateCycleSpan = (): void => update(() => animator.setCycleSpan(parseInt(UI.cycleSpanSelect.get())));
-    export const updateFuseFps = (): number => Features.Fps.fuseFps = parseFloat(UI.fuseFpsSelect.get());
-    export const updateEasing = () => update(() => animator.setEasing(UI.easingCheckbox.get()));
+    export const updateCycleSpan = (): void =>
+        update(() => animator.setCycleSpan(parseInt(UI.cycleSpanSelect.get())));
+    export const updateFuseFps = (): number =>
+        Features.Fps.fuseFps = parseFloat(UI.fuseFpsSelect.get());
+    export const updateEasing = () =>
+        update(() => animator.setEasing(UI.easingCheckbox.get()));
     export const updateShowFps = () =>
-    {
         UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
-    };
     export const initialize = () =>
     {
         updateColorspace();

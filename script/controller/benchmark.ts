@@ -23,7 +23,8 @@ export namespace Benchmark
             }
         }
     };
-    export const isInBenchmark = () => Base.isInMode("benchmark");
+    export const isInBenchmark = () =>
+        Base.isInMode("benchmark");
     export const setBenchmarkProgressBarSize = (size: number) =>
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
     export const setBenchmarkProgressBarProgress = (progress: number) =>

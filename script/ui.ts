@@ -52,8 +52,17 @@ export namespace UI
         );
     export const fpsDisplay =
         Library.UI.getElementById("div", "fps");
-    export const initializeLanguage = () =>
+    export const updateLanguage = () =>
     {
+        Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Type | "Auto");
+        UI.colorspaceSelect.reloadOptions();
+        UI.coloringSelect.reloadOptions();
+        UI.patternSelect.reloadOptions();
+        UI.canvasSizeSelect.reloadOptions();
+        UI.layersSelect.reloadOptions();
+        UI.cycleSpanSelect.reloadOptions();
+        UI.fuseFpsSelect.reloadOptions();
+        UI.languageSelect.reloadOptions();
         Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
             .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.KeyType));
         Library.UI.replaceChildren
@@ -88,19 +97,6 @@ export namespace UI
             Library.UI.getElementById("ul", "information-list"),
             config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.KeyType>i), }))
         );
-    };
-    export const updateLanguage = () =>
-    {
-        Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Type | "Auto");
-        UI.colorspaceSelect.reloadOptions();
-        UI.coloringSelect.reloadOptions();
-        UI.patternSelect.reloadOptions();
-        UI.canvasSizeSelect.reloadOptions();
-        UI.layersSelect.reloadOptions();
-        UI.cycleSpanSelect.reloadOptions();
-        UI.fuseFpsSelect.reloadOptions();
-        UI.languageSelect.reloadOptions();
-        initializeLanguage();
     }
     export const initialize = () =>
     {
@@ -116,6 +112,6 @@ export namespace UI
                 ([ text, href, ]) => ({ tag: "li", children: [ Library.UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
             )
         );
-        initializeLanguage();
+        updateLanguage();
     };
 }
