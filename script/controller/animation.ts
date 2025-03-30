@@ -1,6 +1,5 @@
 import { Features } from "@features";
 import { Base } from "./base";
-//import { Benchmark } from "./benchmark";
 import { UI } from "../ui";
 import config from "@resource/config.json";
 export namespace Animation
@@ -66,57 +65,4 @@ export namespace Animation
             UI.fpsDisplay.innerText = Features.Fps.getText();
         }
     }
-    export const update = (setter?: () => unknown) =>
-    {
-        setter?.();
-        if ( ! isInAnimation())
-        {
-            animator.update();
-        }
-    };
-    export const updateDiagonalSize = () =>
-        update(() => animator.updateDiagonalSize());
-    export const updateColorspace = (): unknown =>
-        update(() => animator.setColorspace(UI.colorspaceSelect.get()));
-    export const updateColoring = (): unknown =>
-        update(() => animator.setColoring(UI.coloringSelect.get()));
-    export const updatePattern = (): unknown =>
-        update(() => animator.setPattern(UI.patternSelect.get()));
-    export const updateLayers = (): void =>
-        update(() => animator.setLayers(parseInt(UI.layersSelect.get())));
-    export const setCanvasSize = (size: string) =>
-    {
-        [ "width", "height", ].forEach
-        (
-            i => UI.canvas.style.setProperty(i, size)
-        );
-        updateDiagonalSize();
-    };
-    export const updateCanvasSize = () =>
-    {
-        const newCanvasSize = parseFloat(UI.canvasSizeSelect.get());
-        const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
-        const canvasSize = newCanvasSizeRate *100.0;
-        setCanvasSize(`${canvasSize}%`);
-    };
-    export const updateCycleSpan = (): void =>
-        update(() => animator.setCycleSpan(parseInt(UI.cycleSpanSelect.get())));
-    export const updateFuseFps = (): number =>
-        Features.Fps.fuseFps = parseFloat(UI.fuseFpsSelect.get());
-    export const updateEasing = () =>
-        update(() => animator.setEasing(UI.easingCheckbox.get()));
-    export const updateShowFps = () =>
-        UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
-    export const initialize = () =>
-    {
-        updateColorspace();
-        updateColoring();
-        updatePattern();
-        updateCanvasSize();
-        updateEasing();
-        updateLayers();
-        updateCycleSpan();
-        updateFuseFps();
-        updateShowFps();
-    };
 }

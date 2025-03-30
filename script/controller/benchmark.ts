@@ -6,9 +6,10 @@ import { UI } from "../ui";
 import config from "@resource/config.json";
 export namespace Benchmark
 {
+    export const benchmark = new Features.Benchmark.Measure(UI.benchmarkCanvas);
     export const loopBenchmark = (now: number) =>
     {
-        if (Animation.isInAnimation())
+        if (isInBenchmark())
         {
             Features.Fps.step(now);
             UI.showFps.get();
@@ -18,7 +19,7 @@ export namespace Benchmark
             }
             else
             {
-                Animation.animator.step(now);
+                benchmark.step(now);
                 window.requestAnimationFrame(loopBenchmark);
             }
         }

@@ -1,11 +1,9 @@
 import { Library } from "@library";
 import { Tools } from "@tools";
-import { Controller } from "@controller";
 import { UI } from "./ui";
 import { Events } from "./events";
-Events.initialize();
 UI.initialize();
-Controller.Animation.initialize();
+Events.initialize();
 interface BuildInformation
 {
     at: string;

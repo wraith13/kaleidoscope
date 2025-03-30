@@ -1,7 +1,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Mar 30 2025 10:47:07 GMT+0900 (日本標準時)
+    build at: Sun Mar 30 2025 16:11:01 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1101,8 +1101,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Mar 30 2025 10:47:07 GMT+0900 (日本標準時)",
-    tick: 1743299227041
+    at: "Sun Mar 30 2025 16:11:01 GMT+0900 (日本標準時)",
+    tick: 1743318661522
 };
 const evilCommonjsConfig =
 {
@@ -4529,6 +4529,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 this.setClick = function (click) {
                     return _this.data.click = click;
                 };
+                this.fire = function () { var _a, _b; return (_b = (_a = _this.data).click) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
                 this.dom = Control.getDom(data);
                 this.dom.addEventListener("click", function (event) {
                     var _a, _b;
@@ -4554,7 +4555,6 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                     _this.switch(oldValue, Control.preventOnChange);
                 };
                 this.switch = function (valueOrDirection, preventOnChange) {
-                    var _a, _b;
                     if ("boolean" === typeof valueOrDirection) {
                         var options = Array.from(_this.dom.getElementsByTagName("option"));
                         var optionValues = options.map(function (i) { return i.value; });
@@ -4569,10 +4569,11 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                         _this.dom.value = "".concat(valueOrDirection);
                     }
                     if (undefined === preventOnChange) {
-                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
+                        _this.fire();
                     }
                 };
                 this.get = function () { return _this.dom.value; };
+                this.fire = function () { var _a, _b; return (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
                 this.dom = Control.getDom(data);
                 if (!(this.dom instanceof HTMLSelectElement)) {
                     console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
@@ -4604,6 +4605,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                     }
                 };
                 this.get = function () { return _this.dom.checked; };
+                this.fire = function () { var _a, _b; return (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
                 this.dom = Control.getDom(data);
                 if (!(this.dom instanceof HTMLInputElement) || "checkbox" !== this.dom.type.toLowerCase()) {
                     console.error("🦋 FIXME: Contorl.Checkbox.InvalidDom", data, this.dom);
@@ -4958,6 +4960,229 @@ define("script/tools/index", ["require", "exports", "script/tools/number", "scri
         Tools.Random = ImportedRandom.Random;
         Tools.Array = ImportedArray.Array;
     })(Tools || (exports.Tools = Tools = {}));
+});
+define("resource/control", [], {
+    "colorspace": {
+        "id": "colorspace",
+        "enum": [
+            "sRGB",
+            "Display P3",
+            "Rec. 2020"
+        ],
+        "default": "sRGB"
+    },
+    "coloring": {
+        "id": "coloring",
+        "enum": [
+            "monochrome",
+            "primary-colors",
+            "phi-colors"
+        ],
+        "default": "phi-colors"
+    },
+    "pattern": {
+        "id": "pattern",
+        "enum": [
+            "lines",
+            "spots",
+            "all"
+        ],
+        "default": "lines"
+    },
+    "canvasSize": {
+        "id": "canvas-size",
+        "enum": [
+            100,
+            75,
+            50,
+            30,
+            25,
+            20,
+            15,
+            10,
+            5,
+            3,
+            2,
+            1
+        ],
+        "default": 100
+    },
+    "layers": {
+        "id": "layers",
+        "enum": [
+            97,
+            89,
+            83,
+            79,
+            73,
+            71,
+            67,
+            61,
+            59,
+            53,
+            47,
+            43,
+            41,
+            37,
+            31,
+            29,
+            23,
+            19,
+            17,
+            13,
+            11,
+            7,
+            5,
+            3,
+            2,
+            1
+        ],
+        "default": 17
+    },
+    "cycleSpan": {
+        "id": "cycle-span",
+        "enum": [
+            3600000,
+            1800000,
+            900000,
+            750000,
+            600000,
+            450000,
+            300000,
+            180000,
+            90000,
+            60000,
+            45000,
+            30000,
+            18000,
+            12500,
+            10000,
+            7500,
+            5000,
+            4000,
+            3000,
+            2500,
+            2000,
+            1500,
+            1000
+        ],
+        "default": 5000
+    },
+    "fuseFps": {
+        "id": "fuse-fps",
+        "enum": [
+            25,
+            20,
+            15,
+            12.5,
+            10,
+            7.5,
+            5,
+            3
+        ],
+        "default": 7.5
+    },
+    "easing": {
+        "id": "easing",
+        "default": true
+    },
+    "withFullscreen": {
+        "id": "with-fullscreen",
+        "default": false
+    },
+    "showFPS": {
+        "id": "show-fps",
+        "default": false
+    },
+    "language": {
+        "id": "language",
+        "enum": [
+            "Auto",
+            "en",
+            "ja"
+        ],
+        "default": "Auto"
+    }
+});
+define("resource/powered-by", [], {
+    "build.js": "https://github.com/wraith13/build.js",
+    "evil-commonjs": "https://github.com/wraith13/evil-commonjs",
+    "evil-timer.js": "https://github.com/wraith13/evil-timer.js",
+    "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
+    "phi-colors": "https://github.com/wraith13/phi-colors"
+});
+define("script/ui", ["require", "exports", "script/library/index", "script/tools/index", "resource/config", "resource/control", "resource/powered-by"], function (require, exports, _library_2, _tools_1, config_json_2, control_json_1, powered_by_json_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.UI = void 0;
+    config_json_2 = __importDefault(config_json_2);
+    control_json_1 = __importDefault(control_json_1);
+    powered_by_json_1 = __importDefault(powered_by_json_1);
+    var UI;
+    (function (UI) {
+        UI.screenBody = _library_2.Library.UI.getElementById("div", "screen-body");
+        UI.canvas = _library_2.Library.UI.getElementById("div", "canvas");
+        UI.benchmarkProgressBar = _library_2.Library.UI.getElementById("div", "benchmark-progress-bar");
+        UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
+        UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
+        UI.playButton = new _library_2.Library.Control.Button({ id: "play-button", });
+        UI.runBenchmarkButton = new _library_2.Library.Control.Button({ id: "run-benchmark", });
+        UI.colorspaceSelect = new _library_2.Library.Control.Select(control_json_1.default.colorspace);
+        UI.coloringSelect = new _library_2.Library.Control.Select(control_json_1.default.coloring);
+        UI.patternSelect = new _library_2.Library.Control.Select(control_json_1.default.pattern);
+        UI.canvasSizeSelect = new _library_2.Library.Control.Select(control_json_1.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); } });
+        UI.layersSelect = new _library_2.Library.Control.Select(control_json_1.default.layers);
+        UI.cycleSpanSelect = new _library_2.Library.Control.Select(control_json_1.default.cycleSpan, { makeLabel: _tools_1.Tools.Timespan.toDisplayString });
+        UI.fuseFpsSelect = new _library_2.Library.Control.Select(control_json_1.default.fuseFps);
+        UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);
+        UI.withFullscreen = new _library_2.Library.Control.Checkbox(control_json_1.default.withFullscreen);
+        UI.showFps = new _library_2.Library.Control.Checkbox(control_json_1.default.showFPS);
+        UI.languageSelect = new _library_2.Library.Control.Select(control_json_1.default.language, {
+            makeLabel: function (i) { return "Auto" === i ?
+                _library_2.Library.Locale.map("Auto") :
+                _library_2.Library.Locale.map("lang-label", i); },
+            change: function () { return UI.updateLanguage(); },
+        });
+        UI.fpsDisplay = _library_2.Library.UI.getElementById("div", "fps");
+        UI.updateLanguage = function () {
+            _library_2.Library.Locale.setLocale(UI.languageSelect.get());
+            UI.colorspaceSelect.reloadOptions();
+            UI.coloringSelect.reloadOptions();
+            UI.patternSelect.reloadOptions();
+            UI.canvasSizeSelect.reloadOptions();
+            UI.layersSelect.reloadOptions();
+            UI.cycleSpanSelect.reloadOptions();
+            UI.fuseFpsSelect.reloadOptions();
+            UI.languageSelect.reloadOptions();
+            _library_2.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
+                .forEach(function (i) { return i.innerText = _library_2.Library.Locale.map(i.getAttribute("data-lang-key")); });
+            _library_2.Library.UI.replaceChildren(UI.keyboardShortcut, _library_2.Library.Shortcuts.getDisplayList().map(function (i) {
+                return [
+                    {
+                        tag: "span",
+                        children: i.keyss
+                            .map(function (j) { return j.map(function (key) { return ({ tag: "kbd", text: key }); }); })
+                            .reduce(function (accumulator, item, i) {
+                            return __spreadArray(__spreadArray(__spreadArray([], accumulator, true), (0 < i ? [{ tag: "span", className: "separator", text: "/", }] : []), true), item, true);
+                        }, []),
+                    },
+                    { tag: "span", text: _library_2.Library.Locale.map(i.description), }
+                ];
+            })
+                .reduce(function (a, b) { return a.concat(b); }, []));
+            _library_2.Library.UI.replaceChildren(_library_2.Library.UI.getElementById("ul", "information-list"), config_json_2.default.informations.map(function (i) { return ({ tag: "li", text: _library_2.Library.Locale.map(i), }); }));
+        };
+        UI.initialize = function () {
+            if (!_library_2.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
+                UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
+            }
+            _library_2.Library.UI.replaceChildren(_library_2.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
+                var text = _a[0], href = _a[1];
+                return ({ tag: "li", children: [_library_2.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
+            }));
+            UI.updateLanguage();
+        };
+    })(UI || (exports.UI = UI = {}));
 });
 define("script/features/fps", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -5758,11 +5983,11 @@ define("flounder.style.js/config", [], {
     "defaultBlur": 0.0,
     "defaultMaximumFractionDigits": 4
 });
-define("flounder.style.js/index", ["require", "exports", "flounder.style.js/generated/type", "flounder.style.js/config"], function (require, exports, type_1, config_json_2) {
+define("flounder.style.js/index", ["require", "exports", "flounder.style.js/generated/type", "flounder.style.js/config"], function (require, exports, type_1, config_json_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.FlounderStyle = exports.EvilType = void 0;
-    config_json_2 = __importDefault(config_json_2);
+    config_json_3 = __importDefault(config_json_3);
     Object.defineProperty(exports, "EvilType", { enumerable: true, get: function () { return type_1.EvilType; } });
     var FlounderStyle;
     (function (FlounderStyle) {
@@ -5883,8 +6108,8 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
             return FlounderStyle.getActualLayoutAngle(data) + FlounderStyle.getAngleOffsetByDepth(data);
         };
         FlounderStyle.getBackgroundColor = function (data) { var _a; return (_a = data.backgroundColor) !== null && _a !== void 0 ? _a : "transparent"; };
-        FlounderStyle.getIntervalSize = function (data) { var _a; return (_a = data.intervalSize) !== null && _a !== void 0 ? _a : config_json_2.default.defaultSpotIntervalSize; };
-        FlounderStyle.getBlur = function (data) { var _a; return (_a = data.blur) !== null && _a !== void 0 ? _a : config_json_2.default.defaultBlur; };
+        FlounderStyle.getIntervalSize = function (data) { var _a; return (_a = data.intervalSize) !== null && _a !== void 0 ? _a : config_json_3.default.defaultSpotIntervalSize; };
+        FlounderStyle.getBlur = function (data) { var _a; return (_a = data.blur) !== null && _a !== void 0 ? _a : config_json_3.default.defaultBlur; };
         FlounderStyle.getActualReverseRate = function (data) {
             return "number" === typeof data.reverseRate ? data.reverseRate :
                 ("auto" === data.reverseRate && "trispot" === FlounderStyle.getPatternType(data)) ? triPatternHalfRadiusSpotArea :
@@ -5899,7 +6124,7 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
                 "-auto" === data.reverseRate ? "auto" :
                     data.reverseRate;
         };
-        var numberToString = function (data, value) { var _a; return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: (_a = data.maximumFractionDigits) !== null && _a !== void 0 ? _a : config_json_2.default.defaultMaximumFractionDigits, }); };
+        var numberToString = function (data, value) { var _a; return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: (_a = data.maximumFractionDigits) !== null && _a !== void 0 ? _a : config_json_3.default.defaultMaximumFractionDigits, }); };
         var makeResult = function (_a) {
             var _b = _a.backgroundColor, backgroundColor = _b === void 0 ? undefined : _b, _c = _a.backgroundImage, backgroundImage = _c === void 0 ? undefined : _c, _d = _a.backgroundSize, backgroundSize = _d === void 0 ? undefined : _d, _e = _a.backgroundPosition, backgroundPosition = _e === void 0 ? undefined : _e;
             return ({
@@ -6258,155 +6483,12 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
         };
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
-define("resource/control", [], {
-    "colorspace": {
-        "id": "colorspace",
-        "enum": [
-            "sRGB",
-            "Display P3",
-            "Rec. 2020"
-        ],
-        "default": "sRGB"
-    },
-    "coloring": {
-        "id": "coloring",
-        "enum": [
-            "monochrome",
-            "primary-colors",
-            "phi-colors"
-        ],
-        "default": "phi-colors"
-    },
-    "pattern": {
-        "id": "pattern",
-        "enum": [
-            "lines",
-            "spots",
-            "all"
-        ],
-        "default": "lines"
-    },
-    "canvasSize": {
-        "id": "canvas-size",
-        "enum": [
-            100,
-            75,
-            50,
-            30,
-            25,
-            20,
-            15,
-            10,
-            5,
-            3,
-            2,
-            1
-        ],
-        "default": 100
-    },
-    "layers": {
-        "id": "layers",
-        "enum": [
-            97,
-            89,
-            83,
-            79,
-            73,
-            71,
-            67,
-            61,
-            59,
-            53,
-            47,
-            43,
-            41,
-            37,
-            31,
-            29,
-            23,
-            19,
-            17,
-            13,
-            11,
-            7,
-            5,
-            3,
-            2,
-            1
-        ],
-        "default": 17
-    },
-    "cycleSpan": {
-        "id": "cycle-span",
-        "enum": [
-            3600000,
-            1800000,
-            900000,
-            750000,
-            600000,
-            450000,
-            300000,
-            180000,
-            90000,
-            60000,
-            45000,
-            30000,
-            18000,
-            12500,
-            10000,
-            7500,
-            5000,
-            4000,
-            3000,
-            2500,
-            2000,
-            1500,
-            1000
-        ],
-        "default": 5000
-    },
-    "fuseFps": {
-        "id": "fuse-fps",
-        "enum": [
-            25,
-            20,
-            15,
-            12.5,
-            10,
-            7.5,
-            5,
-            3
-        ],
-        "default": 7.5
-    },
-    "easing": {
-        "id": "easing",
-        "default": true
-    },
-    "withFullscreen": {
-        "id": "with-fullscreen",
-        "default": false
-    },
-    "showFPS": {
-        "id": "show-fps",
-        "default": false
-    },
-    "language": {
-        "id": "language",
-        "enum": [
-            "Auto",
-            "en",
-            "ja"
-        ],
-        "default": "Auto"
-    }
-});
-define("script/features/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_2, _tools_1, control_json_1, config_json_3) {
+define("script/features/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_3, _tools_2, control_json_2, config_json_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
-    control_json_1 = __importDefault(control_json_1);
-    config_json_3 = __importDefault(config_json_3);
+    control_json_2 = __importDefault(control_json_2);
+    config_json_4 = __importDefault(config_json_4);
     var Animation;
     (function (Animation) {
         Animation.black = { r: 0, g: 0, b: 0, };
@@ -6414,8 +6496,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         var PhiColoring = /** @class */ (function () {
             function PhiColoring(hue, saturation, lightness, PhiHueUnit, RgbHueUnit) {
                 if (hue === void 0) { hue = Math.random(); }
-                if (saturation === void 0) { saturation = config_json_3.default.colors.phiColors.saturation; }
-                if (lightness === void 0) { lightness = config_json_3.default.colors.phiColors.lightness; }
+                if (saturation === void 0) { saturation = config_json_4.default.colors.phiColors.saturation; }
+                if (lightness === void 0) { lightness = config_json_4.default.colors.phiColors.lightness; }
                 if (PhiHueUnit === void 0) { PhiHueUnit = 1 / phi_colors_1.phiColors.phi; }
                 if (RgbHueUnit === void 0) { RgbHueUnit = 1 / 3; }
                 var _this = this;
@@ -6442,9 +6524,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.s = PhiColoring.regulateS(saturation);
                 this.l = PhiColoring.regulateL(lightness);
             }
-            PhiColoring.regulateH = function (h) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
-            PhiColoring.regulateS = function (s) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
-            PhiColoring.regulateL = function (l) { return _tools_1.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
+            PhiColoring.regulateH = function (h) { return _tools_2.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
+            PhiColoring.regulateS = function (s) { return _tools_2.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
+            PhiColoring.regulateL = function (l) { return _tools_2.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
             return PhiColoring;
         }());
         Animation.PhiColoring = PhiColoring;
@@ -6453,14 +6535,14 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
             var makeRandomSpotArguments = function (type, intervalSize) {
                 return ({
                     type: type,
-                    layoutAngle: _tools_1.Tools.Random.select(["regular", "alternative",]),
+                    layoutAngle: _tools_2.Tools.Random.select(["regular", "alternative",]),
                     foregroundColor: "forestgreen",
                     backgroundColor: "blanchedalmond",
                     intervalSize: intervalSize,
                     depth: 0.0,
-                    maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / 4,]),
-                    reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
-                    maximumFractionDigits: config_json_3.default.maximumFractionDigits,
+                    maxPatternSize: _tools_2.Tools.Random.select([undefined, intervalSize / 4,]),
+                    reverseRate: _tools_2.Tools.Random.select([undefined, 0.0,]),
+                    maximumFractionDigits: config_json_4.default.maximumFractionDigits,
                 });
             };
             var makeRandomTrispotArguments = function (intervalSize) {
@@ -6477,10 +6559,10 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     backgroundColor: "blanchedalmond",
                     intervalSize: intervalSize,
                     depth: 0.0,
-                    maxPatternSize: _tools_1.Tools.Random.select([undefined, intervalSize / (2 + _tools_1.Tools.Random.makeInteger(9)),]),
-                    reverseRate: _tools_1.Tools.Random.select([undefined, 0.0,]),
-                    anglePerDepth: _tools_1.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
-                    maximumFractionDigits: config_json_3.default.maximumFractionDigits,
+                    maxPatternSize: _tools_2.Tools.Random.select([undefined, intervalSize / (2 + _tools_2.Tools.Random.makeInteger(9)),]),
+                    reverseRate: _tools_2.Tools.Random.select([undefined, 0.0,]),
+                    anglePerDepth: _tools_2.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
+                    maximumFractionDigits: config_json_4.default.maximumFractionDigits,
                 });
             };
             var makeRandomStripeArguments = function (intervalSize) {
@@ -6517,7 +6599,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 }
             };
             Pattern.make = function (pattern, intervalSize) {
-                return _tools_1.Tools.Random.select(getList(pattern))(intervalSize);
+                return _tools_2.Tools.Random.select(getList(pattern))(intervalSize);
             };
         })(Pattern || (Pattern = {}));
         var Animator = /** @class */ (function () {
@@ -6527,10 +6609,10 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.canvas = canvas;
                 this.phiColoring = phiColoring;
                 this.layers = [];
-                this.pattern = control_json_1.default.pattern.default;
+                this.pattern = control_json_2.default.pattern.default;
                 this.startAt = 0;
                 this.offsetAt = 0;
-                this.cycleSpan = control_json_1.default.cycleSpan.default;
+                this.cycleSpan = control_json_2.default.cycleSpan.default;
                 this.diagonalSize = 0;
                 this.getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = _this.canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = _this.canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
                 this.makeColor = this.phiColoring.makeSrgbColor;
@@ -6540,7 +6622,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return _this.startAt = now - _this.offsetAt;
                 };
                 this.makeRandomArguments = function () {
-                    var result = Pattern.make(_this.pattern, _tools_1.Tools.Math.scale(_this.diagonalSize * config_json_3.default.intervalSize.minRate, _this.diagonalSize * config_json_3.default.intervalSize.maxRate)(Math.random()));
+                    var result = Pattern.make(_this.pattern, _tools_2.Tools.Math.scale(_this.diagonalSize * config_json_4.default.intervalSize.minRate, _this.diagonalSize * config_json_4.default.intervalSize.maxRate)(Math.random()));
                     _this.argumentHistory.push(result);
                     if (3 <= _this.argumentHistory.length) {
                         _this.argumentHistory.shift();
@@ -6552,7 +6634,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         case "monochrome":
                             return function (mile, _offset, _ix) {
                                 //Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
-                                return _tools_1.Tools.Array.cycleSelect([Animation.black, Animation.white], mile + 1.0);
+                                return _tools_2.Tools.Array.cycleSelect([Animation.black, Animation.white], mile + 1.0);
                             };
                         case "primary-colors":
                             // return (mile: number, _offset: number, ix: number) =>
@@ -6627,7 +6709,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             break;
                     }
                     if (!_this.isStarted()) {
-                        _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas)[0].style.setProperty("background-color", _this.makeColor(_this.phiColoring.makePhiRgb(0.0)));
+                        _library_3.Library.UI.getElementsByClassName("div", "layer", _this.canvas)[0].style.setProperty("background-color", _this.makeColor(_this.phiColoring.makePhiRgb(0.0)));
                         //console.log(colorspace, this.makeColor(this.phiColoring.makePhiRgb(0.0)));
                     }
                 };
@@ -6643,8 +6725,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     var list = _this.layers
                         .map(function (i) { return i.arguments; })
                         .concat(_this.argumentHistory);
-                    list.filter(_library_2.Library.TypeGuards.has("intervalSize")).forEach(function (i) { return i.intervalSize *= fixRate; });
-                    list.filter(_library_2.Library.TypeGuards.has("maxPatternSize")).forEach(function (i) { return i.maxPatternSize *= fixRate; });
+                    list.filter(_library_3.Library.TypeGuards.has("intervalSize")).forEach(function (i) { return i.intervalSize *= fixRate; });
+                    list.filter(_library_3.Library.TypeGuards.has("maxPatternSize")).forEach(function (i) { return i.maxPatternSize *= fixRate; });
                 };
                 this.updateDiagonalSize = function () {
                     return _this.setDiagonalSize(_this.getDiagonalSize());
@@ -6660,8 +6742,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 };
                 this.setLayers = function (newLayers) {
                     var _a, _b, _c;
-                    _library_2.Library.UI.cullOrBreed(_this.canvas, { tag: "div", attributes: { class: "layer", }, }, newLayers);
-                    var layerList = _library_2.Library.UI.getElementsByClassName("div", "layer", _this.canvas);
+                    _library_3.Library.UI.cullOrBreed(_this.canvas, { tag: "div", attributes: { class: "layer", }, }, newLayers);
+                    var layerList = _library_3.Library.UI.getElementsByClassName("div", "layer", _this.canvas);
                     var newArguments = (_a = _this.layers[0]) === null || _a === void 0 ? void 0 : _a.arguments;
                     var oldArguments = _this.argumentHistory[_this.argumentHistory.length - 2];
                     var newMile = (_c = (_b = _this.layers[0]) === null || _b === void 0 ? void 0 : _b.mile) !== null && _c !== void 0 ? _c : 0;
@@ -6713,8 +6795,12 @@ define("script/features/benchmark", ["require", "exports"], function (require, e
             });
         };
         var Measure = /** @class */ (function () {
-            function Measure() {
+            function Measure(canvas) {
+                this.canvas = canvas;
+                this.step = function (_now) {
+                };
             }
+            ;
             return Measure;
         }());
         Benchmark.Measure = Measure;
@@ -6733,86 +6819,6 @@ define("script/features/index", ["require", "exports", "script/features/fps", "s
         Features.Animation = ImportedAnimation.Animation;
         Features.Benchmark = ImportedBenchmark.Benchmark;
     })(Features || (exports.Features = Features = {}));
-});
-define("resource/powered-by", [], {
-    "build.js": "https://github.com/wraith13/build.js",
-    "evil-commonjs": "https://github.com/wraith13/evil-commonjs",
-    "evil-timer.js": "https://github.com/wraith13/evil-timer.js",
-    "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
-    "phi-colors": "https://github.com/wraith13/phi-colors"
-});
-define("script/ui", ["require", "exports", "script/library/index", "script/tools/index", "resource/config", "resource/control", "resource/powered-by"], function (require, exports, _library_3, _tools_2, config_json_4, control_json_2, powered_by_json_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.UI = void 0;
-    config_json_4 = __importDefault(config_json_4);
-    control_json_2 = __importDefault(control_json_2);
-    powered_by_json_1 = __importDefault(powered_by_json_1);
-    var UI;
-    (function (UI) {
-        UI.screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
-        UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
-        UI.benchmarkProgressBar = _library_3.Library.UI.getElementById("div", "benchmark-progress-bar");
-        UI.benchmarkCanvas = _library_3.Library.UI.getElementById("div", "benchmark-canvas");
-        UI.keyboardShortcut = _library_3.Library.UI.getElementById("div", "keyboard-shortcut");
-        UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
-        UI.runBenchmarkButton = new _library_3.Library.Control.Button({ id: "run-benchmark", });
-        UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
-        UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
-        UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern);
-        UI.canvasSizeSelect = new _library_3.Library.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); } });
-        UI.layersSelect = new _library_3.Library.Control.Select(control_json_2.default.layers);
-        UI.cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_2.Tools.Timespan.toDisplayString });
-        UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
-        UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
-        UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
-        UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
-        UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
-            makeLabel: function (i) { return "Auto" === i ?
-                _library_3.Library.Locale.map("Auto") :
-                _library_3.Library.Locale.map("lang-label", i); },
-            change: function () { return UI.updateLanguage(); },
-        });
-        UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
-        UI.updateLanguage = function () {
-            _library_3.Library.Locale.setLocale(UI.languageSelect.get());
-            UI.colorspaceSelect.reloadOptions();
-            UI.coloringSelect.reloadOptions();
-            UI.patternSelect.reloadOptions();
-            UI.canvasSizeSelect.reloadOptions();
-            UI.layersSelect.reloadOptions();
-            UI.cycleSpanSelect.reloadOptions();
-            UI.fuseFpsSelect.reloadOptions();
-            UI.languageSelect.reloadOptions();
-            _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-                .forEach(function (i) { return i.innerText = _library_3.Library.Locale.map(i.getAttribute("data-lang-key")); });
-            _library_3.Library.UI.replaceChildren(UI.keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
-                return [
-                    {
-                        tag: "span",
-                        children: i.keyss
-                            .map(function (j) { return j.map(function (key) { return ({ tag: "kbd", text: key }); }); })
-                            .reduce(function (accumulator, item, i) {
-                            return __spreadArray(__spreadArray(__spreadArray([], accumulator, true), (0 < i ? [{ tag: "span", className: "separator", text: "/", }] : []), true), item, true);
-                        }, []),
-                    },
-                    { tag: "span", text: _library_3.Library.Locale.map(i.description), }
-                ];
-            })
-                .reduce(function (a, b) { return a.concat(b); }, []));
-            _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
-        };
-        UI.initialize = function () {
-            if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
-                UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
-            }
-            _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
-                var text = _a[0], href = _a[1];
-                return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
-            }));
-            UI.updateLanguage();
-        };
-    })(UI || (exports.UI = UI = {}));
 });
 define("script/controller/base", ["require", "exports", "script/library/index", "script/features/index", "script/ui"], function (require, exports, _library_4, _features_1, ui_2) {
     "use strict";
@@ -6896,60 +6902,6 @@ define("script/controller/animation", ["require", "exports", "script/features/in
                 ui_3.UI.fpsDisplay.innerText = _features_2.Features.Fps.getText();
             }
         };
-        Animation.update = function (setter) {
-            setter === null || setter === void 0 ? void 0 : setter();
-            if (!Animation.isInAnimation()) {
-                Animation.animator.update();
-            }
-        };
-        Animation.updateDiagonalSize = function () {
-            return Animation.update(function () { return Animation.animator.updateDiagonalSize(); });
-        };
-        Animation.updateColorspace = function () {
-            return Animation.update(function () { return Animation.animator.setColorspace(ui_3.UI.colorspaceSelect.get()); });
-        };
-        Animation.updateColoring = function () {
-            return Animation.update(function () { return Animation.animator.setColoring(ui_3.UI.coloringSelect.get()); });
-        };
-        Animation.updatePattern = function () {
-            return Animation.update(function () { return Animation.animator.setPattern(ui_3.UI.patternSelect.get()); });
-        };
-        Animation.updateLayers = function () {
-            return Animation.update(function () { return Animation.animator.setLayers(parseInt(ui_3.UI.layersSelect.get())); });
-        };
-        Animation.setCanvasSize = function (size) {
-            ["width", "height",].forEach(function (i) { return ui_3.UI.canvas.style.setProperty(i, size); });
-            Animation.updateDiagonalSize();
-        };
-        Animation.updateCanvasSize = function () {
-            var newCanvasSize = parseFloat(ui_3.UI.canvasSizeSelect.get());
-            var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
-            var canvasSize = newCanvasSizeRate * 100.0;
-            Animation.setCanvasSize("".concat(canvasSize, "%"));
-        };
-        Animation.updateCycleSpan = function () {
-            return Animation.update(function () { return Animation.animator.setCycleSpan(parseInt(ui_3.UI.cycleSpanSelect.get())); });
-        };
-        Animation.updateFuseFps = function () {
-            return _features_2.Features.Fps.fuseFps = parseFloat(ui_3.UI.fuseFpsSelect.get());
-        };
-        Animation.updateEasing = function () {
-            return Animation.update(function () { return Animation.animator.setEasing(ui_3.UI.easingCheckbox.get()); });
-        };
-        Animation.updateShowFps = function () {
-            return ui_3.UI.fpsDisplay.classList.toggle("hide", !ui_3.UI.showFps.get());
-        };
-        Animation.initialize = function () {
-            Animation.updateColorspace();
-            Animation.updateColoring();
-            Animation.updatePattern();
-            Animation.updateCanvasSize();
-            Animation.updateEasing();
-            Animation.updateLayers();
-            Animation.updateCycleSpan();
-            Animation.updateFuseFps();
-            Animation.updateShowFps();
-        };
     })(Animation || (exports.Animation = Animation = {}));
 });
 define("script/controller/benchmark", ["require", "exports", "script/library/index", "script/features/index", "script/controller/base", "script/controller/animation", "script/ui", "resource/config"], function (require, exports, _library_5, _features_3, base_2, animation_1, ui_4, config_json_6) {
@@ -6959,15 +6911,16 @@ define("script/controller/benchmark", ["require", "exports", "script/library/ind
     config_json_6 = __importDefault(config_json_6);
     var Benchmark;
     (function (Benchmark) {
+        Benchmark.benchmark = new _features_3.Features.Benchmark.Measure(ui_4.UI.benchmarkCanvas);
         Benchmark.loopBenchmark = function (now) {
-            if (animation_1.Animation.isInAnimation()) {
+            if (Benchmark.isInBenchmark()) {
                 _features_3.Features.Fps.step(now);
                 ui_4.UI.showFps.get();
                 if (_features_3.Features.Fps.isUnderFuseFps()) {
                     Benchmark.stopBenchmark();
                 }
                 else {
-                    animation_1.Animation.animator.step(now);
+                    Benchmark.benchmark.step(now);
                     window.requestAnimationFrame(Benchmark.loopBenchmark);
                 }
             }
@@ -7034,34 +6987,77 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         };
     })(Controller || (exports.Controller = Controller = {}));
 });
-define("script/events", ["require", "exports", "script/library/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _controller_1, ui_5, config_json_7) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _features_4, _controller_1, ui_5, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
     config_json_7 = __importDefault(config_json_7);
     var Events;
     (function (Events) {
+        var update = function (setter) {
+            setter === null || setter === void 0 ? void 0 : setter();
+            if (!_controller_1.Controller.Animation.isInAnimation()) {
+                _controller_1.Controller.Animation.animator.update();
+            }
+        };
+        var updateDiagonalSize = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.updateDiagonalSize(); });
+        };
+        var updateColorspace = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.setColorspace(ui_5.UI.colorspaceSelect.get()); });
+        };
+        var updateColoring = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.setColoring(ui_5.UI.coloringSelect.get()); });
+        };
+        var updatePattern = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.setPattern(ui_5.UI.patternSelect.get()); });
+        };
+        var updateLayers = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.setLayers(parseInt(ui_5.UI.layersSelect.get())); });
+        };
+        var setCanvasSize = function (size) {
+            ["width", "height",].forEach(function (i) { return ui_5.UI.canvas.style.setProperty(i, size); });
+            updateDiagonalSize();
+        };
+        var updateCanvasSize = function () {
+            var newCanvasSize = parseFloat(ui_5.UI.canvasSizeSelect.get());
+            var newCanvasSizeRate = Math.sqrt(newCanvasSize / 100.0);
+            var canvasSize = newCanvasSizeRate * 100.0;
+            setCanvasSize("".concat(canvasSize, "%"));
+        };
+        var updateCycleSpan = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.setCycleSpan(parseInt(ui_5.UI.cycleSpanSelect.get())); });
+        };
+        var updateFuseFps = function () {
+            return _features_4.Features.Fps.fuseFps = parseFloat(ui_5.UI.fuseFpsSelect.get());
+        };
+        var updateEasing = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.setEasing(ui_5.UI.easingCheckbox.get()); });
+        };
+        var updateShowFps = function () {
+            return ui_5.UI.fpsDisplay.classList.toggle("hide", !ui_5.UI.showFps.get());
+        };
         Events.initialize = function () {
             ui_5.UI.playButton.data.click = function (event, button) {
-                event.stopPropagation();
+                event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
                 _controller_1.Controller.toggleAnimation();
             };
             ui_5.UI.runBenchmarkButton.data.click = function (event, button) {
-                event.stopPropagation();
+                event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
                 _controller_1.Controller.Benchmark.runBenchmark();
             };
-            ui_5.UI.colorspaceSelect.setChange(_controller_1.Controller.Animation.updateColorspace);
-            ui_5.UI.coloringSelect.setChange(_controller_1.Controller.Animation.updateColoring);
-            ui_5.UI.patternSelect.setChange(_controller_1.Controller.Animation.updatePattern);
-            ui_5.UI.canvasSizeSelect.setChange(_controller_1.Controller.Animation.updateCanvasSize);
-            ui_5.UI.layersSelect.setChange(_controller_1.Controller.Animation.updateLayers);
-            ui_5.UI.cycleSpanSelect.setChange(_controller_1.Controller.Animation.updateCycleSpan);
-            ui_5.UI.fuseFpsSelect.setChange(_controller_1.Controller.Animation.updateFuseFps);
-            // UI.easingCheckbox.setChange(Controller.Animation.updateEasing);
+            ui_5.UI.colorspaceSelect.setChange(updateColorspace);
+            ui_5.UI.coloringSelect.setChange(updateColoring);
+            ui_5.UI.patternSelect.setChange(updatePattern);
+            ui_5.UI.canvasSizeSelect.setChange(updateCanvasSize);
+            ui_5.UI.layersSelect.setChange(updateLayers);
+            ui_5.UI.cycleSpanSelect.setChange(updateCycleSpan);
+            ui_5.UI.fuseFpsSelect.setChange(updateFuseFps);
+            ui_5.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
-            ui_5.UI.showFps.setChange(_controller_1.Controller.Animation.updateShowFps);
+            ui_5.UI.showFps.setChange(updateShowFps);
             ui_5.UI.canvas.addEventListener("click", function (event) {
                 event.stopPropagation();
                 console.log("👆 canvas.Click: pauseAnimation", event, ui_5.UI.canvas);
@@ -7108,23 +7104,34 @@ define("script/events", ["require", "exports", "script/library/index", "script/c
                 },
                 "toggleShowFps": function () {
                     ui_5.UI.showFps.toggle();
-                    _controller_1.Controller.Animation.updateShowFps();
+                    updateShowFps();
                 },
                 "unknownKeyDown": function () {
                     showShortcutsTimer.start(ui_5.UI.keyboardShortcut, "show", 3000);
                 }
             });
             var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
-            window.addEventListener("resize", function () { return _controller_1.Controller.Animation.updateDiagonalSize(); });
+            window.addEventListener("resize", function () { return updateDiagonalSize(); });
+            [
+                ui_5.UI.colorspaceSelect,
+                ui_5.UI.coloringSelect,
+                ui_5.UI.patternSelect,
+                ui_5.UI.canvasSizeSelect,
+                ui_5.UI.layersSelect,
+                ui_5.UI.cycleSpanSelect,
+                ui_5.UI.fuseFpsSelect,
+                ui_5.UI.easingCheckbox,
+                // UI.withFullscreen,
+                ui_5.UI.showFps,
+            ].forEach(function (i) { return i.fire(); });
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/controller/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_3, _controller_2, ui_6, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_3, ui_6, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    events_1.Events.initialize();
     ui_6.UI.initialize();
-    _controller_2.Controller.Animation.initialize();
+    events_1.Events.initialize();
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=script/index.js.map

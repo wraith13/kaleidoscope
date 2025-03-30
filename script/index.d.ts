@@ -147,14 +147,15 @@ declare module "script/library/control" {
             data: ArgumentsBase<T>;
         }, event: Event, message: string) => void;
         interface ButtonArgumentsBase<T extends HTMLElement> {
-            click?: (event: Event, select: Button<T>) => unknown;
+            click?: (event: Event | null, select: Button<T>) => unknown;
         }
         type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
         class Button<T extends HTMLElement> {
             data: ButtonArguments<T>;
             dom: T;
             constructor(data: ButtonArguments<T>);
-            setClick: (click: (event: Event, select: Button<T>) => unknown) => (event: Event, select: Button<T>) => unknown;
+            setClick: (click: (event: Event | null, select: Button<T>) => unknown) => (event: Event | null, select: Button<T>) => unknown;
+            fire: () => unknown;
         }
         interface SelectArgumentsBase<T> {
             enum: T[];
@@ -180,6 +181,7 @@ declare module "script/library/control" {
             reloadOptions: (value?: T) => void;
             switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") => void;
             get: () => string;
+            fire: () => unknown;
         }
         interface CheckboxArgumentsBase {
             default?: boolean;
@@ -200,6 +202,7 @@ declare module "script/library/control" {
             };
             toggle: (checked?: boolean, preventOnChange?: "preventOnChange") => void;
             get: () => boolean;
+            fire: () => unknown;
         }
     }
 }
@@ -275,6 +278,32 @@ declare module "script/tools/index" {
         export import Math = ImportedMath.Math;
         export import Random = ImportedRandom.Random;
         export import Array = ImportedArray.Array;
+    }
+}
+declare module "script/ui" {
+    import { Library } from "script/library/index";
+    export namespace UI {
+        const screenBody: HTMLDivElement;
+        const canvas: HTMLDivElement;
+        const benchmarkProgressBar: HTMLDivElement;
+        const benchmarkCanvas: HTMLDivElement;
+        const keyboardShortcut: HTMLDivElement;
+        const playButton: Library.Control.Button<HTMLElement>;
+        const runBenchmarkButton: Library.Control.Button<HTMLElement>;
+        const colorspaceSelect: Library.Control.Select<string>;
+        const coloringSelect: Library.Control.Select<string>;
+        const patternSelect: Library.Control.Select<string>;
+        const canvasSizeSelect: Library.Control.Select<number>;
+        const layersSelect: Library.Control.Select<number>;
+        const cycleSpanSelect: Library.Control.Select<number>;
+        const fuseFpsSelect: Library.Control.Select<number>;
+        const easingCheckbox: Library.Control.Checkbox;
+        const withFullscreen: Library.Control.Checkbox;
+        const showFps: Library.Control.Checkbox;
+        const languageSelect: Library.Control.Select<string>;
+        const fpsDisplay: HTMLDivElement;
+        const updateLanguage: () => void;
+        const initialize: () => void;
     }
 }
 declare module "script/features/fps" {
@@ -678,6 +707,9 @@ declare module "script/features/benchmark" {
             colorDepth: number;
         };
         class Measure {
+            canvas: HTMLDivElement;
+            constructor(canvas: HTMLDivElement);
+            step: (_now: number) => void;
         }
     }
 }
@@ -689,32 +721,6 @@ declare module "script/features/index" {
         export import Fps = ImportedFps.Fps;
         export import Animation = ImportedAnimation.Animation;
         export import Benchmark = ImportedBenchmark.Benchmark;
-    }
-}
-declare module "script/ui" {
-    import { Library } from "script/library/index";
-    export namespace UI {
-        const screenBody: HTMLDivElement;
-        const canvas: HTMLDivElement;
-        const benchmarkProgressBar: HTMLDivElement;
-        const benchmarkCanvas: HTMLDivElement;
-        const keyboardShortcut: HTMLDivElement;
-        const playButton: Library.Control.Button<HTMLElement>;
-        const runBenchmarkButton: Library.Control.Button<HTMLElement>;
-        const colorspaceSelect: Library.Control.Select<string>;
-        const coloringSelect: Library.Control.Select<string>;
-        const patternSelect: Library.Control.Select<string>;
-        const canvasSizeSelect: Library.Control.Select<number>;
-        const layersSelect: Library.Control.Select<number>;
-        const cycleSpanSelect: Library.Control.Select<number>;
-        const fuseFpsSelect: Library.Control.Select<number>;
-        const easingCheckbox: Library.Control.Checkbox;
-        const withFullscreen: Library.Control.Checkbox;
-        const showFps: Library.Control.Checkbox;
-        const languageSelect: Library.Control.Select<string>;
-        const fpsDisplay: HTMLDivElement;
-        const updateLanguage: () => void;
-        const initialize: () => void;
     }
 }
 declare module "script/controller/base" {
@@ -735,23 +741,12 @@ declare module "script/controller/animation" {
         const loopAnimation: (now: number) => void;
         const start: () => number;
         const updateFps: () => void;
-        const update: (setter?: () => unknown) => void;
-        const updateDiagonalSize: () => void;
-        const updateColorspace: () => unknown;
-        const updateColoring: () => unknown;
-        const updatePattern: () => unknown;
-        const updateLayers: () => void;
-        const setCanvasSize: (size: string) => void;
-        const updateCanvasSize: () => void;
-        const updateCycleSpan: () => void;
-        const updateFuseFps: () => number;
-        const updateEasing: () => void;
-        const updateShowFps: () => boolean;
-        const initialize: () => void;
     }
 }
 declare module "script/controller/benchmark" {
+    import { Features } from "script/features/index";
     export namespace Benchmark {
+        const benchmark: Features.Benchmark.Measure;
         const loopBenchmark: (now: number) => void;
         const isInBenchmark: () => boolean;
         const setBenchmarkProgressBarSize: (size: number) => HTMLDivElement;

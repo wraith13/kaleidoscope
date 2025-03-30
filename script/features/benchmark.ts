@@ -21,6 +21,10 @@ export namespace Benchmark
     });
     export class Measure
     {
-        
+        constructor(public canvas: HTMLDivElement)
+            { };
+        step = (_now: number) =>
+        {
+        };
     }
 }

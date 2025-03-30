@@ -1,34 +1,75 @@
 import { Library } from "@library";
-//import { Tools } from "@tools";
+import { Features } from "@features";
 import { Controller } from "@controller";
 import { UI } from "./ui";
 import config from "@resource/config.json";
 export namespace Events
 {
+    const update = (setter?: () => unknown) =>
+    {
+        setter?.();
+        if ( ! Controller.Animation.isInAnimation())
+        {
+            Controller.Animation.animator.update();
+        }
+    };
+    const updateDiagonalSize = () =>
+        update(() => Controller.Animation.animator.updateDiagonalSize());
+    const updateColorspace = (): unknown =>
+        update(() => Controller.Animation.animator.setColorspace(UI.colorspaceSelect.get()));
+    const updateColoring = (): unknown =>
+        update(() => Controller.Animation.animator.setColoring(UI.coloringSelect.get()));
+    const updatePattern = (): unknown =>
+        update(() => Controller.Animation.animator.setPattern(UI.patternSelect.get()));
+    const updateLayers = (): void =>
+        update(() => Controller.Animation.animator.setLayers(parseInt(UI.layersSelect.get())));
+    const setCanvasSize = (size: string) =>
+    {
+        [ "width", "height", ].forEach
+        (
+            i => UI.canvas.style.setProperty(i, size)
+        );
+        updateDiagonalSize();
+    };
+    const updateCanvasSize = () =>
+    {
+        const newCanvasSize = parseFloat(UI.canvasSizeSelect.get());
+        const newCanvasSizeRate = Math.sqrt(newCanvasSize /100.0);
+        const canvasSize = newCanvasSizeRate *100.0;
+        setCanvasSize(`${canvasSize}%`);
+    };
+    const updateCycleSpan = (): void =>
+        update(() => Controller.Animation.animator.setCycleSpan(parseInt(UI.cycleSpanSelect.get())));
+    const updateFuseFps = (): number =>
+        Features.Fps.fuseFps = parseFloat(UI.fuseFpsSelect.get());
+    const updateEasing = () =>
+        update(() => Controller.Animation.animator.setEasing(UI.easingCheckbox.get()));
+    const updateShowFps = () =>
+        UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
     export const initialize = () =>
     {
         UI.playButton.data.click = (event, button) =>
         {
-            event.stopPropagation();
+            event?.stopPropagation();
             button.dom.blur();
             Controller.toggleAnimation();
         };
         UI.runBenchmarkButton.data.click = (event, button) =>
         {
-            event.stopPropagation();
+            event?.stopPropagation();
             button.dom.blur();
             Controller.Benchmark.runBenchmark();
         };
-        UI.colorspaceSelect.setChange(Controller.Animation.updateColorspace);
-        UI.coloringSelect.setChange(Controller.Animation.updateColoring);
-        UI.patternSelect.setChange(Controller.Animation.updatePattern);
-        UI.canvasSizeSelect.setChange(Controller.Animation.updateCanvasSize);
-        UI.layersSelect.setChange(Controller.Animation.updateLayers);
-        UI.cycleSpanSelect.setChange(Controller.Animation.updateCycleSpan);
-        UI.fuseFpsSelect.setChange(Controller.Animation.updateFuseFps);
-        // UI.easingCheckbox.setChange(Controller.Animation.updateEasing);
+        UI.colorspaceSelect.setChange(updateColorspace);
+        UI.coloringSelect.setChange(updateColoring);
+        UI.patternSelect.setChange(updatePattern);
+        UI.canvasSizeSelect.setChange(updateCanvasSize);
+        UI.layersSelect.setChange(updateLayers);
+        UI.cycleSpanSelect.setChange(updateCycleSpan);
+        UI.fuseFpsSelect.setChange(updateFuseFps);
+        UI.easingCheckbox.setChange(updateEasing);
         // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
-        UI.showFps.setChange(Controller.Animation.updateShowFps);
+        UI.showFps.setChange(updateShowFps);
         UI.canvas.addEventListener
         (
             "click",
@@ -97,7 +138,7 @@ export namespace Events
             "toggleShowFps": () =>
             {
                 UI.showFps.toggle();
-                Controller.Animation.updateShowFps();
+                updateShowFps();
             },
             "unknownKeyDown": () =>
             {
@@ -105,6 +146,18 @@ export namespace Events
             }
         });
         const showShortcutsTimer = new Library.UI.ToggleClassForWhileTimer();
-        window.addEventListener("resize", () => Controller.Animation.updateDiagonalSize());
+        window.addEventListener("resize", () => updateDiagonalSize());
+        [
+            UI.colorspaceSelect,
+            UI.coloringSelect,
+            UI.patternSelect,
+            UI.canvasSizeSelect,
+            UI.layersSelect,
+            UI.cycleSpanSelect,
+            UI.fuseFpsSelect,
+            UI.easingCheckbox,
+            // UI.withFullscreen,
+            UI.showFps,
+        ].forEach(i => i.fire())
     };
 }

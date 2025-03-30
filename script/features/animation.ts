@@ -235,7 +235,7 @@ export namespace Animation
                     }
                 }
             );
-        }
+        };
         update = () =>
             this.step(this.startAt +this.offsetAt);
         setColorspace = (colorspace: typeof control.colorspace.enum[number]) =>

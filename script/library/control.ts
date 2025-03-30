@@ -46,7 +46,7 @@ export namespace Control
     }
     export interface ButtonArgumentsBase<T extends HTMLElement>
     {
-        click?: (event: Event, select: Button<T>) => unknown;
+        click?: (event: Event | null, select: Button<T>) => unknown;
     }
     export type ButtonArguments<T extends HTMLElement = HTMLButtonElement> = ArgumentsBase<T> & ButtonArgumentsBase<T>;
     export class Button<T extends HTMLElement>
@@ -65,8 +65,9 @@ export namespace Control
                 }
             );
         }
-        setClick = (click: (event: Event, select: Button<T>) => unknown) =>
+        setClick = (click: (event: Event | null, select: Button<T>) => unknown) =>
             this.data.click = click;
+        fire = () => this.data.click?.(null, this);
     }
     export interface SelectArgumentsBase<T>
     {
@@ -133,10 +134,11 @@ export namespace Control
             }
             if (undefined === preventOnChange)
             {
-                this.options?.change?.(null, this);
+                this.fire();
             }
         };
         get = () => this.dom.value;
+        fire = () => this.options?.change?.(null, this);
     }
     export interface CheckboxArgumentsBase
     {
@@ -183,5 +185,6 @@ export namespace Control
             }
         };
         get = () => this.dom.checked;
+        fire = () => this.options?.change?.(null, this);
     }
 }
