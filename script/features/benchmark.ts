@@ -15,7 +15,19 @@ export namespace Benchmark
         totalRenderingScore: MeasurementScore<number>; // (linesRenderingScorePerPixel + spotsRenderingScorePerPixel) /2
         totalScore: MeasurementScore<number>; // totalCalculationScore + totalRenderingScore
     }
-    export const measureScreenResolution = () =>
+    export const getUnmeasuredReslult = (): Result =>
+    ({
+        screenResolution: "Unmeasured",
+        refreshRate: "Unmeasured",
+        linesCalculationScore: "Unmeasured",
+        spotCalculationScore: "Unmeasured",
+        totalCalculationScore: "Unmeasured",
+        linesRenderingScorePerPixel: "Unmeasured",
+        spotsRenderingScorePerPixel: "Unmeasured",
+        totalRenderingScore: "Unmeasured",
+        totalScore: "Unmeasured",
+    });
+export const measureScreenResolution = () =>
     ({
         width: document.body.clientWidth,
         height: document.body.clientHeight,
@@ -25,18 +37,54 @@ export namespace Benchmark
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
     const setProgressBarProgress = (progress: number) =>
         Array.from(UI.benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
+    export interface MeasurePhaseBase
+    {
+        start: (measure: Measure, now: number) => void;
+        step: (measure: Measure, now: number) => void;
+    }
+    export class screenResolutionMeasurePhase implements MeasurePhaseBase
+    {
+        start = (_measure: Measure, _now: number) =>
+        {
+        };
+        step = (measure: Measure, _now: number) =>
+        {
+            measure.result.screenResolution = measureScreenResolution();
+            measure.next();
+        };
+    }
     export class Measure
     {
+        result: Result = getUnmeasuredReslult();
         phase: number = 0;
+        currentPhase: MeasurePhaseBase | null = null;
+        phases: MeasurePhaseBase[] =
+        [
+            new screenResolutionMeasurePhase(),
+        ];
         constructor(public canvas: HTMLDivElement)
             { };
         start = () =>
         {
-            setProgressBarSize(7);
+            setProgressBarSize(this.phases.length);
             setProgressBarProgress(this.phase = 0);
+            this.currentPhase = null;
+            this.result = getUnmeasuredReslult();
         };
-        step = (_now: number) =>
+        step = (now: number) =>
         {
+            if (this.currentPhase !== this.phases[this.phase])
+            {
+                this.currentPhase = this.phases[this.phase];
+                this.currentPhase.start(this, now);
+            }
+            this.phases[this.phase].step(this, now);
         };
+        next = () =>
+        {
+            setProgressBarProgress(++this.phase);
+        };
+        isEnd = () =>
+            this.phases.length <= this.phase;
     }
 }

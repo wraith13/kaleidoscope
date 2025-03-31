@@ -2699,6 +2699,19 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
     exports.Benchmark = void 0;
     var Benchmark;
     (function (Benchmark) {
+        Benchmark.getUnmeasuredReslult = function () {
+            return ({
+                screenResolution: "Unmeasured",
+                refreshRate: "Unmeasured",
+                linesCalculationScore: "Unmeasured",
+                spotCalculationScore: "Unmeasured",
+                totalCalculationScore: "Unmeasured",
+                linesRenderingScorePerPixel: "Unmeasured",
+                spotsRenderingScorePerPixel: "Unmeasured",
+                totalRenderingScore: "Unmeasured",
+                totalScore: "Unmeasured",
+            });
+        };
         Benchmark.measureScreenResolution = function () {
             return ({
                 width: document.body.clientWidth,
@@ -2706,20 +2719,52 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 colorDepth: window.screen.colorDepth,
             });
         };
-        var setBenchmarkProgressBarSize = function (size) {
+        var setProgressBarSize = function (size) {
             return _library_4.Library.UI.cullOrBreed(ui_2.UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
         };
-        var setBenchmarkProgressBarProgress = function (progress) {
+        var setProgressBarProgress = function (progress) {
             return Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
         };
+        var screenResolutionMeasurePhase = /** @class */ (function () {
+            function screenResolutionMeasurePhase() {
+                this.start = function (_measure, _now) {
+                };
+                this.step = function (measure, _now) {
+                    measure.result.screenResolution = Benchmark.measureScreenResolution();
+                    measure.next();
+                };
+            }
+            return screenResolutionMeasurePhase;
+        }());
+        Benchmark.screenResolutionMeasurePhase = screenResolutionMeasurePhase;
         var Measure = /** @class */ (function () {
             function Measure(canvas) {
+                var _this = this;
                 this.canvas = canvas;
+                this.result = Benchmark.getUnmeasuredReslult();
+                this.phase = 0;
+                this.currentPhase = null;
+                this.phases = [
+                    new screenResolutionMeasurePhase(),
+                ];
                 this.start = function () {
-                    setBenchmarkProgressBarSize(7);
-                    setBenchmarkProgressBarProgress(1);
+                    setProgressBarSize(_this.phases.length);
+                    setProgressBarProgress(_this.phase = 0);
+                    _this.currentPhase = null;
+                    _this.result = Benchmark.getUnmeasuredReslult();
                 };
-                this.step = function (_now) {
+                this.step = function (now) {
+                    if (_this.currentPhase !== _this.phases[_this.phase]) {
+                        _this.currentPhase = _this.phases[_this.phase];
+                        _this.currentPhase.start(_this, now);
+                    }
+                    _this.phases[_this.phase].step(_this, now);
+                };
+                this.next = function () {
+                    setProgressBarProgress(++_this.phase);
+                };
+                this.isEnd = function () {
+                    return _this.phases.length <= _this.phase;
                 };
             }
             ;
@@ -2843,7 +2888,14 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 }
                 else {
                     Benchmark.benchmark.step(now);
-                    window.requestAnimationFrame(Benchmark.loopBenchmark);
+                    if (Benchmark.benchmark.isEnd()) {
+                        Benchmark.stopBenchmark();
+                        // 🚧 showResult();
+                        console.log("📈 benchmark", Benchmark.benchmark.result);
+                    }
+                    else {
+                        window.requestAnimationFrame(Benchmark.loopBenchmark);
+                    }
                 }
             }
         };
@@ -2853,6 +2905,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.runBenchmark = function () {
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
+            // 🚧
             // if (Library.UI.fullscreenEnabled)
             // {
             //     Library.UI.requestFullscreen(document.body);

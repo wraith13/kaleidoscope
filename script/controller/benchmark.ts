@@ -19,7 +19,16 @@ export namespace Benchmark
             else
             {
                 benchmark.step(now);
-                window.requestAnimationFrame(loopBenchmark);
+                if (benchmark.isEnd())
+                {
+                    stopBenchmark();
+                    // 🚧 showResult();
+                    console.log("📈 benchmark", benchmark.result);
+                }
+                else
+                {
+                    window.requestAnimationFrame(loopBenchmark);
+                }
             }
         }
     };
@@ -29,6 +38,7 @@ export namespace Benchmark
     {
         Base.intoMode("benchmark");
         benchmark.start();
+        // 🚧
         // if (Library.UI.fullscreenEnabled)
         // {
         //     Library.UI.requestFullscreen(document.body);

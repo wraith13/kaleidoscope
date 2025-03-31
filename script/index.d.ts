@@ -701,16 +701,31 @@ declare module "script/features/benchmark" {
             totalRenderingScore: MeasurementScore<number>;
             totalScore: MeasurementScore<number>;
         }
+        const getUnmeasuredReslult: () => Result;
         const measureScreenResolution: () => {
             width: number;
             height: number;
             colorDepth: number;
         };
+        interface MeasurePhaseBase {
+            start: (measure: Measure, now: number) => void;
+            step: (measure: Measure, now: number) => void;
+        }
+        class screenResolutionMeasurePhase implements MeasurePhaseBase {
+            start: (_measure: Measure, _now: number) => void;
+            step: (measure: Measure, _now: number) => void;
+        }
         class Measure {
             canvas: HTMLDivElement;
+            result: Result;
+            phase: number;
+            currentPhase: MeasurePhaseBase | null;
+            phases: MeasurePhaseBase[];
             constructor(canvas: HTMLDivElement);
             start: () => void;
-            step: (_now: number) => void;
+            step: (now: number) => void;
+            next: () => void;
+            isEnd: () => boolean;
         }
     }
 }
