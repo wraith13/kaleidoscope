@@ -2693,7 +2693,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/features/benchmark", ["require", "exports", "script/library/index", "script/ui"], function (require, exports, _library_4, ui_2) {
+define("script/features/benchmark", ["require", "exports", "script/library/index", "script/ui", "script/features/fps"], function (require, exports, _library_4, ui_2, fps_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
@@ -2737,6 +2737,29 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
             return screenResolutionMeasurePhase;
         }());
         Benchmark.screenResolutionMeasurePhase = screenResolutionMeasurePhase;
+        var RefreshRateMeasurePhase = /** @class */ (function () {
+            function RefreshRateMeasurePhase() {
+                var _this = this;
+                this.startAt = 0;
+                this.fpsTotal = 0;
+                this.fpsCount = 0;
+                this.start = function (_measure, now) {
+                    _this.startAt = now;
+                    _this.fpsTotal = 0;
+                    _this.fpsCount = 0;
+                };
+                this.step = function (measure, now) {
+                    _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
+                    ++_this.fpsCount;
+                    if (_this.startAt + 3000 <= now) {
+                        measure.result.refreshRate = _this.fpsTotal / _this.fpsCount;
+                        measure.next();
+                    }
+                };
+            }
+            return RefreshRateMeasurePhase;
+        }());
+        Benchmark.RefreshRateMeasurePhase = RefreshRateMeasurePhase;
         var Measure = /** @class */ (function () {
             function Measure(canvas) {
                 var _this = this;
@@ -2746,6 +2769,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.currentPhase = null;
                 this.phases = [
                     new screenResolutionMeasurePhase(),
+                    new RefreshRateMeasurePhase(),
                 ];
                 this.start = function () {
                     setProgressBarSize(_this.phases.length);

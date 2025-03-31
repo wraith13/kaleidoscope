@@ -1,5 +1,6 @@
 import { Library } from "@library";
 import { UI } from "../ui";
+import { Fps } from "./fps";
 export namespace Benchmark
 {
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
@@ -53,6 +54,28 @@ export const measureScreenResolution = () =>
             measure.next();
         };
     }
+    export class RefreshRateMeasurePhase implements MeasurePhaseBase
+    {
+        startAt = 0;
+        fpsTotal: number = 0;
+        fpsCount: number = 0;
+        start = (_measure: Measure, now: number) =>
+        {
+            this.startAt = now;
+            this.fpsTotal = 0;
+            this.fpsCount = 0;
+        };
+        step = (measure: Measure, now: number) =>
+        {
+            this.fpsTotal += Fps.currentNowFps.fps;
+            ++this.fpsCount;
+            if (this.startAt + 3000 <= now)
+            {
+                measure.result.refreshRate = this.fpsTotal / this.fpsCount;
+                measure.next();
+            }
+        };
+    }
     export class Measure
     {
         result: Result = getUnmeasuredReslult();
@@ -61,6 +84,7 @@ export const measureScreenResolution = () =>
         phases: MeasurePhaseBase[] =
         [
             new screenResolutionMeasurePhase(),
+            new RefreshRateMeasurePhase(),
         ];
         constructor(public canvas: HTMLDivElement)
             { };

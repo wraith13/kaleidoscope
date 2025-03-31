@@ -715,6 +715,13 @@ declare module "script/features/benchmark" {
             start: (_measure: Measure, _now: number) => void;
             step: (measure: Measure, _now: number) => void;
         }
+        class RefreshRateMeasurePhase implements MeasurePhaseBase {
+            startAt: number;
+            fpsTotal: number;
+            fpsCount: number;
+            start: (_measure: Measure, now: number) => void;
+            step: (measure: Measure, now: number) => void;
+        }
         class Measure {
             canvas: HTMLDivElement;
             result: Result;
