@@ -1,3 +1,5 @@
+import { Library } from "@library";
+import { UI } from "../ui";
 export namespace Benchmark
 {
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
@@ -19,10 +21,20 @@ export namespace Benchmark
         height: document.body.clientHeight,
         colorDepth: window.screen.colorDepth,
     });
+    const setProgressBarSize = (size: number) =>
+        Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
+    const setProgressBarProgress = (progress: number) =>
+        Array.from(UI.benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
     export class Measure
     {
+        phase: number = 0;
         constructor(public canvas: HTMLDivElement)
             { };
+        start = () =>
+        {
+            setProgressBarSize(7);
+            setProgressBarProgress(this.phase = 0);
+        };
         step = (_now: number) =>
         {
         };

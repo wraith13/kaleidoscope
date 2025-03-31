@@ -709,6 +709,7 @@ declare module "script/features/benchmark" {
         class Measure {
             canvas: HTMLDivElement;
             constructor(canvas: HTMLDivElement);
+            start: () => void;
             step: (_now: number) => void;
         }
     }
@@ -749,8 +750,6 @@ declare module "script/controller/benchmark" {
         const benchmark: Features.Benchmark.Measure;
         const loopBenchmark: (now: number) => void;
         const isInBenchmark: () => boolean;
-        const setBenchmarkProgressBarSize: (size: number) => HTMLDivElement;
-        const setBenchmarkProgressBarProgress: (progress: number) => void;
         const runBenchmark: () => void;
         const stopBenchmark: () => void;
     }

@@ -1,4 +1,3 @@
-import { Library } from "@library";
 import { Features } from "@features";
 import { Base } from "./base";
 import { Animation } from "./animation";
@@ -26,15 +25,10 @@ export namespace Benchmark
     };
     export const isInBenchmark = () =>
         Base.isInMode("benchmark");
-    export const setBenchmarkProgressBarSize = (size: number) =>
-        Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
-    export const setBenchmarkProgressBarProgress = (progress: number) =>
-        Array.from(UI.benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
     export const runBenchmark = () =>
     {
         Base.intoMode("benchmark");
-        setBenchmarkProgressBarSize(7);
-        setBenchmarkProgressBarProgress(1);
+        benchmark.start();
         // if (Library.UI.fullscreenEnabled)
         // {
         //     Library.UI.requestFullscreen(document.body);
