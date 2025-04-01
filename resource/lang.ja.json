@@ -33,5 +33,9 @@
     "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
     "Show FPS": "FPS 表示",
-    "benchmarking-in-progress": "ベンチマーク計測中"
+    "benchmarking-in-progress": "ベンチマーク計測中",
+    "benchmark-phase-preparation": "準備",
+    "benchmark-phase-screen-resolution": "画面解像度",
+    "benchmark-phase-refresh-rate": "リフレッシュレート",
+    "benchmark-phase-finished": "完了"
 }

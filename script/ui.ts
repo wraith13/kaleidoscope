@@ -15,6 +15,8 @@ export namespace UI
         Library.UI.getElementById("div", "benchmark-canvas");
     export const keyboardShortcut =
         Library.UI.getElementById("div", "keyboard-shortcut");
+    export const benchmarkPhase =
+        Library.UI.getElementById("span", "benchmark-phase");
     export const playButton =
         new Library.Control.Button({ id: "play-button", });
     export const runBenchmarkButton =
@@ -46,7 +48,7 @@ export namespace UI
             {
                 makeLabel: i => "Auto" === i ?
                     Library.Locale.map("Auto"):
-                    Library.Locale.map("lang-label", i as Library.Locale.Type),
+                    Library.Locale.map("lang-label", i as Library.Locale.Language),
                 change: () => updateLanguage(),
             }
         );
@@ -54,7 +56,7 @@ export namespace UI
         Library.UI.getElementById("div", "fps");
     export const updateLanguage = () =>
     {
-        Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Type | "Auto");
+        Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Language | "Auto");
         UI.colorspaceSelect.reloadOptions();
         UI.coloringSelect.reloadOptions();
         UI.patternSelect.reloadOptions();
@@ -64,7 +66,7 @@ export namespace UI
         UI.fuseFpsSelect.reloadOptions();
         UI.languageSelect.reloadOptions();
         Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
-            .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.KeyType));
+            .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.Label));
         Library.UI.replaceChildren
         (
             UI.keyboardShortcut,
@@ -87,7 +89,7 @@ export namespace UI
                                 [] as Library.UI.ElementSource[]
                             ),
                     } as const,
-                    { tag: "span", text: Library.Locale.map(i.description as Library.Locale.KeyType), } as const
+                    { tag: "span", text: Library.Locale.map(i.description as Library.Locale.Label), } as const
                 ]
             )
             .reduce((a, b) => a.concat(b), [])
@@ -95,7 +97,7 @@ export namespace UI
         Library.UI.replaceChildren
         (
             Library.UI.getElementById("ul", "information-list"),
-            config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.KeyType>i), }))
+            config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.Label>i), }))
         );
     }
     export const initialize = () =>

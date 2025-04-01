@@ -445,4 +445,20 @@
     {
         @include font();
     }
+    #benchmark-phase
+    {
+        @include font();
+        &::before
+        {
+            @include font();
+            &
+            {
+                content: ": ";
+            }
+        }
+        @media (max-width: 480px)
+        {
+            display: none;
+        }
+    }
 }

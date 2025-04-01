@@ -985,5 +985,53 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 #benchmark-status #benchmark-message {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
+#benchmark-status #benchmark-phase {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-status #benchmark-phase {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-status #benchmark-phase {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-status #benchmark-phase {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-status #benchmark-phase::before {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-status #benchmark-phase::before {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-status #benchmark-phase::before {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-status #benchmark-phase::before {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-status #benchmark-phase::before {
+  content: ": ";
+}
+@media (max-width: 480px) {
+  #benchmark-status #benchmark-phase {
+    display: none;
+  }
+}
 
 /*# sourceMappingURL=index.css.map */

@@ -28,7 +28,7 @@ export namespace Benchmark
         totalRenderingScore: "Unmeasured",
         totalScore: "Unmeasured",
     });
-export const measureScreenResolution = () =>
+    export const measureScreenResolution = () =>
     ({
         width: document.body.clientWidth,
         height: document.body.clientHeight,
@@ -37,28 +37,36 @@ export const measureScreenResolution = () =>
     const setProgressBarSize = (size: number) =>
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
     const setProgressBarProgress = (progress: number) =>
+    {
         Array.from(UI.benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
+        UI.benchmarkPhase.textContent = Library.Locale.map(phases[progress]?.name ?? "benchmark-phase-finished");
+    }
     export interface MeasurePhaseBase
     {
+        name: Library.Locale.Label;
         start: (measure: Measure, now: number) => void;
         step: (measure: Measure, now: number) => void;
     }
     export class screenResolutionMeasurePhase implements MeasurePhaseBase
     {
-        start = (_measure: Measure, _now: number) =>
+        name = "benchmark-phase-screen-resolution" as const;
+        start = (_measure: Measure, now: number) =>
         {
+            this.startAt = now;
         };
-        step = (measure: Measure, _now: number) =>
+        step = (measure: Measure, now: number) =>
         {
-            measure.result.screenResolution = measureScreenResolution();
-            measure.next();
+            if (this.startAt +1000 <= now)
+            {
+                measure.result.screenResolution = measureScreenResolution();
+                measure.next();
+            }
         };
+        startAt = 0;
     }
     export class RefreshRateMeasurePhase implements MeasurePhaseBase
     {
-        startAt = 0;
-        fpsTotal: number = 0;
-        fpsCount: number = 0;
+        name = "benchmark-phase-refresh-rate" as const;
         start = (_measure: Measure, now: number) =>
         {
             this.startAt = now;
@@ -69,46 +77,49 @@ export const measureScreenResolution = () =>
         {
             this.fpsTotal += Fps.currentNowFps.fps;
             ++this.fpsCount;
-            if (this.startAt + 3000 <= now)
+            if (this.startAt + 2500 <= now)
             {
                 measure.result.refreshRate = this.fpsTotal / this.fpsCount;
                 measure.next();
             }
         };
+        startAt = 0;
+        fpsTotal: number = 0;
+        fpsCount: number = 0;
     }
+    const phases: MeasurePhaseBase[] =
+    [
+        new screenResolutionMeasurePhase(),
+        new RefreshRateMeasurePhase(),
+    ];
     export class Measure
     {
         result: Result = getUnmeasuredReslult();
         phase: number = 0;
         currentPhase: MeasurePhaseBase | null = null;
-        phases: MeasurePhaseBase[] =
-        [
-            new screenResolutionMeasurePhase(),
-            new RefreshRateMeasurePhase(),
-        ];
         constructor(public canvas: HTMLDivElement)
             { };
         start = () =>
         {
-            setProgressBarSize(this.phases.length);
+            setProgressBarSize(phases.length);
             setProgressBarProgress(this.phase = 0);
             this.currentPhase = null;
             this.result = getUnmeasuredReslult();
         };
         step = (now: number) =>
         {
-            if (this.currentPhase !== this.phases[this.phase])
+            if (this.currentPhase !== phases[this.phase])
             {
-                this.currentPhase = this.phases[this.phase];
+                this.currentPhase = phases[this.phase];
                 this.currentPhase.start(this, now);
             }
-            this.phases[this.phase].step(this, now);
+            phases[this.phase].step(this, now);
         };
         next = () =>
         {
             setProgressBarProgress(++this.phase);
         };
         isEnd = () =>
-            this.phases.length <= this.phase;
+            phases.length <= this.phase;
     }
 }

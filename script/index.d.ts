@@ -44,7 +44,11 @@ declare module "script/library/locale" {
                 "Speed Down / Up": string;
                 FullScreen: string;
                 "Show FPS": string;
+                "benchmark-phase-preparation": string;
                 "benchmarking-in-progress": string;
+                "benchmark-phase-screen-resolution": string;
+                "benchmark-phase-refresh-rate": string;
+                "benchmark-phase-finished": string;
             };
             ja: {
                 "lang-label": string;
@@ -82,13 +86,17 @@ declare module "script/library/locale" {
                 FullScreen: string;
                 "Show FPS": string;
                 "benchmarking-in-progress": string;
+                "benchmark-phase-preparation": string;
+                "benchmark-phase-screen-resolution": string;
+                "benchmark-phase-refresh-rate": string;
+                "benchmark-phase-finished": string;
             };
         };
-        type KeyType = keyof typeof localeEn & keyof typeof localeJa;
-        type Type = keyof typeof master;
+        type Label = keyof typeof localeEn & keyof typeof localeJa;
+        type Language = keyof typeof master;
         const getLocale: () => "ja" | "en";
-        const setLocale: (locale?: Type | "Auto") => void;
-        const map: (key: KeyType, l?: Type) => string;
+        const setLocale: (locale?: Language | "Auto") => void;
+        const map: (key: Label, l?: Language) => string;
     }
 }
 declare module "script/library/ui" {
@@ -290,6 +298,7 @@ declare module "script/ui" {
         const benchmarkProgressBar: HTMLDivElement;
         const benchmarkCanvas: HTMLDivElement;
         const keyboardShortcut: HTMLDivElement;
+        const benchmarkPhase: HTMLSpanElement;
         const playButton: Library.Control.Button<HTMLElement>;
         const runBenchmarkButton: Library.Control.Button<HTMLElement>;
         const colorspaceSelect: Library.Control.Select<string>;
@@ -686,6 +695,7 @@ declare module "script/features/animation" {
     }
 }
 declare module "script/features/benchmark" {
+    import { Library } from "script/library/index";
     export namespace Benchmark {
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
         interface Result {
@@ -710,26 +720,29 @@ declare module "script/features/benchmark" {
             colorDepth: number;
         };
         interface MeasurePhaseBase {
+            name: Library.Locale.Label;
             start: (measure: Measure, now: number) => void;
             step: (measure: Measure, now: number) => void;
         }
         class screenResolutionMeasurePhase implements MeasurePhaseBase {
-            start: (_measure: Measure, _now: number) => void;
-            step: (measure: Measure, _now: number) => void;
+            name: "benchmark-phase-screen-resolution";
+            start: (_measure: Measure, now: number) => void;
+            step: (measure: Measure, now: number) => void;
+            startAt: number;
         }
         class RefreshRateMeasurePhase implements MeasurePhaseBase {
+            name: "benchmark-phase-refresh-rate";
+            start: (_measure: Measure, now: number) => void;
+            step: (measure: Measure, now: number) => void;
             startAt: number;
             fpsTotal: number;
             fpsCount: number;
-            start: (_measure: Measure, now: number) => void;
-            step: (measure: Measure, now: number) => void;
         }
         class Measure {
             canvas: HTMLDivElement;
             result: Result;
             phase: number;
             currentPhase: MeasurePhaseBase | null;
-            phases: MeasurePhaseBase[];
             constructor(canvas: HTMLDivElement);
             start: () => void;
             step: (now: number) => void;

@@ -1,4 +1,5 @@
 import { Features } from "@features";
+import { Library } from "@library";
 import { Base } from "./base";
 import { Animation } from "./animation";
 import { UI } from "../ui";
@@ -44,6 +45,7 @@ export namespace Benchmark
         //     Library.UI.requestFullscreen(document.body);
         // }
         UI.showFps.get();
+        UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-preparation");
         setTimeout
         (
             () => window.requestAnimationFrame

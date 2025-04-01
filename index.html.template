@@ -115,6 +115,7 @@ __STYLE__
 </div>
 <div id="benchmark-status">
     <span id="benchmark-message" data-lang-key="benchmarking-in-progress"></span>
+    <span id="benchmark-phase">xxx</span>
 </div>
 </body>
 <script type="text/javascript">

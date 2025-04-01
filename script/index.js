@@ -110,7 +110,11 @@ define("resource/lang.en", [], {
     "Speed Down / Up": "Speed Down / Up",
     "FullScreen": "FullScreen",
     "Show FPS": "Show FPS",
-    "benchmarking-in-progress": "Benchmarking in progress"
+    "benchmark-phase-preparation": "Preparation",
+    "benchmarking-in-progress": "Benchmarking in progress",
+    "benchmark-phase-screen-resolution": "Screen Resolution",
+    "benchmark-phase-refresh-rate": "Refresh Rate",
+    "benchmark-phase-finished": "Finished"
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -147,7 +151,11 @@ define("resource/lang.ja", [], {
     "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
     "Show FPS": "FPS 表示",
-    "benchmarking-in-progress": "ベンチマーク計測中"
+    "benchmarking-in-progress": "ベンチマーク計測中",
+    "benchmark-phase-preparation": "準備",
+    "benchmark-phase-screen-resolution": "画面解像度",
+    "benchmark-phase-refresh-rate": "リフレッシュレート",
+    "benchmark-phase-finished": "完了"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -1039,6 +1047,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkProgressBar = _library_2.Library.UI.getElementById("div", "benchmark-progress-bar");
         UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
+        UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
         UI.playButton = new _library_2.Library.Control.Button({ id: "play-button", });
         UI.runBenchmarkButton = new _library_2.Library.Control.Button({ id: "run-benchmark", });
         UI.colorspaceSelect = new _library_2.Library.Control.Select(control_json_1.default.colorspace);
@@ -2725,16 +2734,24 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
             return _library_4.Library.UI.cullOrBreed(ui_2.UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
         };
         var setProgressBarProgress = function (progress) {
-            return Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
+            var _a, _b;
+            Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
+            ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map((_b = (_a = phases[progress]) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : "benchmark-phase-finished");
         };
         var screenResolutionMeasurePhase = /** @class */ (function () {
             function screenResolutionMeasurePhase() {
-                this.start = function (_measure, _now) {
+                var _this = this;
+                this.name = "benchmark-phase-screen-resolution";
+                this.start = function (_measure, now) {
+                    _this.startAt = now;
                 };
-                this.step = function (measure, _now) {
-                    measure.result.screenResolution = Benchmark.measureScreenResolution();
-                    measure.next();
+                this.step = function (measure, now) {
+                    if (_this.startAt + 1000 <= now) {
+                        measure.result.screenResolution = Benchmark.measureScreenResolution();
+                        measure.next();
+                    }
                 };
+                this.startAt = 0;
             }
             return screenResolutionMeasurePhase;
         }());
@@ -2742,9 +2759,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
         var RefreshRateMeasurePhase = /** @class */ (function () {
             function RefreshRateMeasurePhase() {
                 var _this = this;
-                this.startAt = 0;
-                this.fpsTotal = 0;
-                this.fpsCount = 0;
+                this.name = "benchmark-phase-refresh-rate";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     _this.fpsTotal = 0;
@@ -2753,15 +2768,22 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.step = function (measure, now) {
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
-                    if (_this.startAt + 3000 <= now) {
+                    if (_this.startAt + 2500 <= now) {
                         measure.result.refreshRate = _this.fpsTotal / _this.fpsCount;
                         measure.next();
                     }
                 };
+                this.startAt = 0;
+                this.fpsTotal = 0;
+                this.fpsCount = 0;
             }
             return RefreshRateMeasurePhase;
         }());
         Benchmark.RefreshRateMeasurePhase = RefreshRateMeasurePhase;
+        var phases = [
+            new screenResolutionMeasurePhase(),
+            new RefreshRateMeasurePhase(),
+        ];
         var Measure = /** @class */ (function () {
             function Measure(canvas) {
                 var _this = this;
@@ -2769,28 +2791,24 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.result = Benchmark.getUnmeasuredReslult();
                 this.phase = 0;
                 this.currentPhase = null;
-                this.phases = [
-                    new screenResolutionMeasurePhase(),
-                    new RefreshRateMeasurePhase(),
-                ];
                 this.start = function () {
-                    setProgressBarSize(_this.phases.length);
+                    setProgressBarSize(phases.length);
                     setProgressBarProgress(_this.phase = 0);
                     _this.currentPhase = null;
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
                 this.step = function (now) {
-                    if (_this.currentPhase !== _this.phases[_this.phase]) {
-                        _this.currentPhase = _this.phases[_this.phase];
+                    if (_this.currentPhase !== phases[_this.phase]) {
+                        _this.currentPhase = phases[_this.phase];
                         _this.currentPhase.start(_this, now);
                     }
-                    _this.phases[_this.phase].step(_this, now);
+                    phases[_this.phase].step(_this, now);
                 };
                 this.next = function () {
                     setProgressBarProgress(++_this.phase);
                 };
                 this.isEnd = function () {
-                    return _this.phases.length <= _this.phase;
+                    return phases.length <= _this.phase;
                 };
             }
             ;
@@ -2897,7 +2915,7 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         };
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/controller/base", "script/controller/animation", "script/ui", "resource/config"], function (require, exports, _features_3, base_2, animation_1, ui_5, config_json_6) {
+define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/controller/animation", "script/ui", "resource/config"], function (require, exports, _features_3, _library_6, base_2, animation_1, ui_5, config_json_6) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
@@ -2937,6 +2955,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             //     Library.UI.requestFullscreen(document.body);
             // }
             ui_5.UI.showFps.get();
+            ui_5.UI.benchmarkPhase.textContent = _library_6.Library.Locale.map("benchmark-phase-preparation");
             setTimeout(function () { return window.requestAnimationFrame(function (now) {
                 animation_1.Animation.animator.startStep(now);
                 Benchmark.loopBenchmark(now);
@@ -2981,7 +3000,7 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         };
     })(Controller || (exports.Controller = Controller = {}));
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _features_4, _controller_1, ui_6, config_json_7) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_7, _features_4, _controller_1, ui_6, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
@@ -3062,16 +3081,16 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_6.UI.benchmarkCanvas);
                 _controller_1.Controller.Benchmark.stopBenchmark();
             });
-            var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            var mouseMoveTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
             ui_6.UI.screenBody.addEventListener("mousemove", function (_event) {
                 if (config_json_7.default.log.mousemove && !mouseMoveTimer.isOn()) {
                     console.log("🖱️ MouseMove:", event, ui_6.UI.screenBody);
                 }
                 mouseMoveTimer.start(document.body, "mousemove", 1000);
             });
-            _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-                .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
-            _library_6.Library.Shortcuts.setCommandMap({
+            _library_7.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+                .forEach(function (label) { return _library_7.Library.UI.showPickerOnLabel(label); });
+            _library_7.Library.Shortcuts.setCommandMap({
                 "nop": function () { },
                 "toggleHideUI": function () {
                     document.body.classList.toggle("hide-ui");
@@ -3104,7 +3123,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
                 }
             });
-            var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            var showShortcutsTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
             window.addEventListener("resize", function () { return updateDiagonalSize(); });
             [
                 ui_6.UI.colorspaceSelect,
@@ -3121,11 +3140,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_3, ui_7, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_8, _tools_3, ui_7, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     ui_7.UI.initialize();
     events_1.Events.initialize();
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_8.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map
