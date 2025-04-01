@@ -113,6 +113,9 @@ __STYLE__
         </div>
     </div>
 </div>
+<div id="benchmark-status">
+    <span id="benchmark-message" data-lang-key="benchmarking-in-progress"></span>
+</div>
 </body>
 <script type="text/javascript">
 const build =

@@ -32,5 +32,6 @@
     "Increase / Decrease Layer": "レイヤー増減",
     "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
-    "Show FPS": "FPS 表示"
+    "Show FPS": "FPS 表示",
+    "benchmarking-in-progress": "ベンチマーク計測中"
 }

@@ -44,6 +44,7 @@ declare module "script/library/locale" {
                 "Speed Down / Up": string;
                 FullScreen: string;
                 "Show FPS": string;
+                "benchmarking-in-progress": string;
             };
             ja: {
                 "lang-label": string;
@@ -80,6 +81,7 @@ declare module "script/library/locale" {
                 "Speed Down / Up": string;
                 FullScreen: string;
                 "Show FPS": string;
+                "benchmarking-in-progress": string;
             };
         };
         type KeyType = keyof typeof localeEn & keyof typeof localeJa;

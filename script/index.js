@@ -109,7 +109,8 @@ define("resource/lang.en", [], {
     "Increase / Decrease Layer": "Increase / Decrease Layer",
     "Speed Down / Up": "Speed Down / Up",
     "FullScreen": "FullScreen",
-    "Show FPS": "Show FPS"
+    "Show FPS": "Show FPS",
+    "benchmarking-in-progress": "Benchmarking in progress"
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -145,7 +146,8 @@ define("resource/lang.ja", [], {
     "Increase / Decrease Layer": "レイヤー増減",
     "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
-    "Show FPS": "FPS 表示"
+    "Show FPS": "FPS 表示",
+    "benchmarking-in-progress": "ベンチマーク計測中"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";

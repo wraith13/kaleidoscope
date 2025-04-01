@@ -431,3 +431,18 @@
         }
     }
 }
+#benchmark-status
+{
+    @include bottom-stretch-box();
+    @include flex(row, center);
+    @include black-line-panel-style();
+    @include slide-down-transition("body:not(.benchmark)");
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+    padding: 1.0rem;
+    #benchmark-message
+    {
+        @include font();
+    }
+}
