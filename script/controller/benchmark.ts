@@ -1,7 +1,5 @@
 import { Features } from "@features";
-import { Library } from "@library";
 import { Base } from "./base";
-import { Animation } from "./animation";
 import { UI } from "../ui";
 import config from "@resource/config.json";
 export namespace Benchmark
@@ -13,23 +11,23 @@ export namespace Benchmark
         {
             Features.Fps.step(now);
             UI.showFps.get();
-            if (Features.Fps.isUnderFuseFps())
+            benchmark.step(now);
+            if (benchmark.isEnd())
             {
-                stopBenchmark();
+                benchmark.end();
+                setTimeout
+                (
+                    () =>
+                    {
+                        stopBenchmark();
+                        // 🚧 showResult();
+                    },
+                    config.benchmark.endWait
+                );
             }
             else
             {
-                benchmark.step(now);
-                if (benchmark.isEnd())
-                {
-                    stopBenchmark();
-                    // 🚧 showResult();
-                    console.log("📈 benchmark", benchmark.result);
-                }
-                else
-                {
-                    window.requestAnimationFrame(loopBenchmark);
-                }
+                window.requestAnimationFrame(loopBenchmark);
             }
         }
     };
@@ -45,18 +43,17 @@ export namespace Benchmark
         //     Library.UI.requestFullscreen(document.body);
         // }
         UI.showFps.get();
-        UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-preparation");
         setTimeout
         (
-            () => window.requestAnimationFrame
+            () =>
+            window.requestAnimationFrame
             (
                 now =>
                 {
-                    Animation.animator.startStep(now);
                     loopBenchmark(now);
                 }
             ),
-            config.startWait
+            config.benchmark.startWait
         );
     };
     export const stopBenchmark = () =>

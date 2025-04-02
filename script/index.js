@@ -223,7 +223,13 @@ define("resource/config", [], {
         "informationPattern"
     ],
     "maximumFractionDigits": 2,
-    "startWait": 750
+    "startWait": 750,
+    "benchmark": {
+        "startWait": 1500,
+        "screenResolutionWait": 500,
+        "refreshRateWait": 1500,
+        "endWait": 750
+    }
 });
 define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
     "use strict";
@@ -2704,10 +2710,11 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/features/benchmark", ["require", "exports", "script/library/index", "script/ui", "script/features/fps"], function (require, exports, _library_4, ui_2, fps_1) {
+define("script/features/benchmark", ["require", "exports", "script/library/index", "script/ui", "script/features/fps", "resource/config"], function (require, exports, _library_4, ui_2, fps_1, config_json_5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
+    config_json_5 = __importDefault(config_json_5);
     var Benchmark;
     (function (Benchmark) {
         Benchmark.getUnmeasuredReslult = function () {
@@ -2734,9 +2741,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
             return _library_4.Library.UI.cullOrBreed(ui_2.UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
         };
         var setProgressBarProgress = function (progress) {
-            var _a, _b;
-            Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
-            ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map((_b = (_a = phases[progress]) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : "benchmark-phase-finished");
+            return Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
         };
         var screenResolutionMeasurePhase = /** @class */ (function () {
             function screenResolutionMeasurePhase() {
@@ -2746,7 +2751,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                     _this.startAt = now;
                 };
                 this.step = function (measure, now) {
-                    if (_this.startAt + 1000 <= now) {
+                    if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
                         measure.result.screenResolution = Benchmark.measureScreenResolution();
                         measure.next();
                     }
@@ -2768,7 +2773,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.step = function (measure, now) {
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
-                    if (_this.startAt + 2500 <= now) {
+                    if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
                         measure.result.refreshRate = _this.fpsTotal / _this.fpsCount;
                         measure.next();
                     }
@@ -2794,13 +2799,16 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.start = function () {
                     setProgressBarSize(phases.length);
                     setProgressBarProgress(_this.phase = 0);
+                    ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-preparation");
                     _this.currentPhase = null;
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
                 this.step = function (now) {
+                    var _a, _b, _c;
                     if (_this.currentPhase !== phases[_this.phase]) {
                         _this.currentPhase = phases[_this.phase];
-                        _this.currentPhase.start(_this, now);
+                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map((_b = (_a = _this.currentPhase) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : "benchmark-phase-finished");
+                        (_c = _this.currentPhase) === null || _c === void 0 ? void 0 : _c.start(_this, now);
                     }
                     phases[_this.phase].step(_this, now);
                 };
@@ -2809,6 +2817,10 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 };
                 this.isEnd = function () {
                     return phases.length <= _this.phase;
+                };
+                this.end = function () {
+                    ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
+                    console.log("📈 benchmark", _this.result);
                 };
             }
             ;
@@ -2865,11 +2877,11 @@ define("script/controller/base", ["require", "exports", "script/library/index", 
         };
     })(Base || (exports.Base = Base = {}));
 });
-define("script/controller/animation", ["require", "exports", "script/features/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_2, base_1, ui_4, config_json_5) {
+define("script/controller/animation", ["require", "exports", "script/features/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_2, base_1, ui_4, config_json_6) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
-    config_json_5 = __importDefault(config_json_5);
+    config_json_6 = __importDefault(config_json_6);
     var Animation;
     (function (Animation) {
         Animation.animator = new _features_2.Features.Animation.Animator(ui_4.UI.canvas);
@@ -2907,7 +2919,7 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         Animation.start = function () { return setTimeout(function () { return window.requestAnimationFrame(function (now) {
             Animation.animator.startStep(now);
             Animation.loopAnimation(now);
-        }); }, config_json_5.default.startWait); };
+        }); }, config_json_6.default.startWait); };
         Animation.updateFps = function () {
             if (ui_4.UI.showFps.get()) {
                 ui_4.UI.fpsDisplay.innerText = _features_2.Features.Fps.getText();
@@ -2915,11 +2927,11 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         };
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/controller/animation", "script/ui", "resource/config"], function (require, exports, _features_3, _library_6, base_2, animation_1, ui_5, config_json_6) {
+define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_3, base_2, ui_5, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
-    config_json_6 = __importDefault(config_json_6);
+    config_json_7 = __importDefault(config_json_7);
     var Benchmark;
     (function (Benchmark) {
         Benchmark.benchmark = new _features_3.Features.Benchmark.Measure(ui_5.UI.benchmarkCanvas);
@@ -2927,19 +2939,16 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             if (Benchmark.isInBenchmark()) {
                 _features_3.Features.Fps.step(now);
                 ui_5.UI.showFps.get();
-                if (_features_3.Features.Fps.isUnderFuseFps()) {
-                    Benchmark.stopBenchmark();
-                }
-                else {
-                    Benchmark.benchmark.step(now);
-                    if (Benchmark.benchmark.isEnd()) {
+                Benchmark.benchmark.step(now);
+                if (Benchmark.benchmark.isEnd()) {
+                    Benchmark.benchmark.end();
+                    setTimeout(function () {
                         Benchmark.stopBenchmark();
                         // 🚧 showResult();
-                        console.log("📈 benchmark", Benchmark.benchmark.result);
-                    }
-                    else {
-                        window.requestAnimationFrame(Benchmark.loopBenchmark);
-                    }
+                    }, config_json_7.default.benchmark.endWait);
+                }
+                else {
+                    window.requestAnimationFrame(Benchmark.loopBenchmark);
                 }
             }
         };
@@ -2955,11 +2964,11 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             //     Library.UI.requestFullscreen(document.body);
             // }
             ui_5.UI.showFps.get();
-            ui_5.UI.benchmarkPhase.textContent = _library_6.Library.Locale.map("benchmark-phase-preparation");
-            setTimeout(function () { return window.requestAnimationFrame(function (now) {
-                animation_1.Animation.animator.startStep(now);
-                Benchmark.loopBenchmark(now);
-            }); }, config_json_6.default.startWait);
+            setTimeout(function () {
+                return window.requestAnimationFrame(function (now) {
+                    Benchmark.loopBenchmark(now);
+                });
+            }, config_json_7.default.benchmark.startWait);
         };
         Benchmark.stopBenchmark = function () {
             if (Benchmark.isInBenchmark()) {
@@ -3000,11 +3009,11 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         };
     })(Controller || (exports.Controller = Controller = {}));
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_7, _features_4, _controller_1, ui_6, config_json_7) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _features_4, _controller_1, ui_6, config_json_8) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
-    config_json_7 = __importDefault(config_json_7);
+    config_json_8 = __importDefault(config_json_8);
     var Events;
     (function (Events) {
         var update = function (setter) {
@@ -3081,16 +3090,16 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_6.UI.benchmarkCanvas);
                 _controller_1.Controller.Benchmark.stopBenchmark();
             });
-            var mouseMoveTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
+            var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
             ui_6.UI.screenBody.addEventListener("mousemove", function (_event) {
-                if (config_json_7.default.log.mousemove && !mouseMoveTimer.isOn()) {
+                if (config_json_8.default.log.mousemove && !mouseMoveTimer.isOn()) {
                     console.log("🖱️ MouseMove:", event, ui_6.UI.screenBody);
                 }
                 mouseMoveTimer.start(document.body, "mousemove", 1000);
             });
-            _library_7.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-                .forEach(function (label) { return _library_7.Library.UI.showPickerOnLabel(label); });
-            _library_7.Library.Shortcuts.setCommandMap({
+            _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+                .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
+            _library_6.Library.Shortcuts.setCommandMap({
                 "nop": function () { },
                 "toggleHideUI": function () {
                     document.body.classList.toggle("hide-ui");
@@ -3123,7 +3132,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
                 }
             });
-            var showShortcutsTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
+            var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
             window.addEventListener("resize", function () { return updateDiagonalSize(); });
             [
                 ui_6.UI.colorspaceSelect,
@@ -3140,11 +3149,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_8, _tools_3, ui_7, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_3, ui_7, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     ui_7.UI.initialize();
     events_1.Events.initialize();
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_8.Library.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

@@ -10,16 +10,6 @@
     color: inherit;
     outline: 0;
     vertical-align: baseline;
-    content-visibility: auto;
-    contain-intrinsic-size: auto 0px;
-}
-@supports (not (content-visibility: auto)) or (not (contain-intrinsic-size: auto 0px))
-{
-    *
-    {
-        contain: content;
-        min-height: 1px;
-    }
 }
 body
 {

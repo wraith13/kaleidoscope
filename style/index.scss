@@ -97,7 +97,6 @@
     {
         @include solid-box();
         position: fixed;
-        z-index: -100;
         .layer
         {
             @include full-stretch-box();

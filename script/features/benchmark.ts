@@ -1,6 +1,7 @@
 import { Library } from "@library";
 import { UI } from "../ui";
 import { Fps } from "./fps";
+import config from "@resource/config.json";
 export namespace Benchmark
 {
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
@@ -37,10 +38,7 @@ export namespace Benchmark
     const setProgressBarSize = (size: number) =>
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
     const setProgressBarProgress = (progress: number) =>
-    {
         Array.from(UI.benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
-        UI.benchmarkPhase.textContent = Library.Locale.map(phases[progress]?.name ?? "benchmark-phase-finished");
-    }
     export interface MeasurePhaseBase
     {
         name: Library.Locale.Label;
@@ -56,7 +54,7 @@ export namespace Benchmark
         };
         step = (measure: Measure, now: number) =>
         {
-            if (this.startAt +1000 <= now)
+            if (this.startAt +config.benchmark.screenResolutionWait <= now)
             {
                 measure.result.screenResolution = measureScreenResolution();
                 measure.next();
@@ -77,7 +75,7 @@ export namespace Benchmark
         {
             this.fpsTotal += Fps.currentNowFps.fps;
             ++this.fpsCount;
-            if (this.startAt + 2500 <= now)
+            if (this.startAt + config.benchmark.refreshRateWait <= now)
             {
                 measure.result.refreshRate = this.fpsTotal / this.fpsCount;
                 measure.next();
@@ -103,6 +101,7 @@ export namespace Benchmark
         {
             setProgressBarSize(phases.length);
             setProgressBarProgress(this.phase = 0);
+            UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-preparation");
             this.currentPhase = null;
             this.result = getUnmeasuredReslult();
         };
@@ -111,7 +110,8 @@ export namespace Benchmark
             if (this.currentPhase !== phases[this.phase])
             {
                 this.currentPhase = phases[this.phase];
-                this.currentPhase.start(this, now);
+                UI.benchmarkPhase.textContent = Library.Locale.map(this.currentPhase?.name ?? "benchmark-phase-finished");
+                this.currentPhase?.start(this, now);
             }
             phases[this.phase].step(this, now);
         };
@@ -121,5 +121,10 @@ export namespace Benchmark
         };
         isEnd = () =>
             phases.length <= this.phase;
+        end = () =>
+        {
+            UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-finished");
+            console.log("📈 benchmark", this.result);
+        }
     }
 }

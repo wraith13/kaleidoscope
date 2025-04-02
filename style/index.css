@@ -8,16 +8,8 @@
   color: inherit;
   outline: 0;
   vertical-align: baseline;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 0px;
 }
 
-@supports (not (content-visibility: auto)) or (not (contain-intrinsic-size: auto 0px)) {
-  * {
-    contain: content;
-    min-height: 1px;
-  }
-}
 body {
   margin: 0px;
   padding: 0px;
@@ -173,7 +165,6 @@ body.immersive.mousemove #screen-body {
   padding: 0px;
   border: 0;
   position: fixed;
-  z-index: -100;
 }
 #screen-body #canvas .layer, #screen-body #benchmark-canvas .layer {
   margin: 0px;

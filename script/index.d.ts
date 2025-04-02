@@ -748,6 +748,7 @@ declare module "script/features/benchmark" {
             step: (now: number) => void;
             next: () => void;
             isEnd: () => boolean;
+            end: () => void;
         }
     }
 }
