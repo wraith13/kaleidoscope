@@ -4,7 +4,7 @@ import { UI } from "../ui";
 import config from "@resource/config.json";
 export namespace Benchmark
 {
-    export const benchmark = new Features.Benchmark.Measure(UI.benchmarkCanvas);
+    export const benchmark = new Features.Benchmark.Measurement(UI.benchmarkCanvas);
     export const loopBenchmark = (now: number) =>
     {
         if (isInBenchmark())

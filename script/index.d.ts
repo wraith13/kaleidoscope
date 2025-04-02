@@ -48,6 +48,8 @@ declare module "script/library/locale" {
                 "benchmarking-in-progress": string;
                 "benchmark-phase-screen-resolution": string;
                 "benchmark-phase-refresh-rate": string;
+                "benchmark-phase-calculation-score": string;
+                "benchmark-phase-rendering-score": string;
                 "benchmark-phase-finished": string;
             };
             ja: {
@@ -89,6 +91,8 @@ declare module "script/library/locale" {
                 "benchmark-phase-preparation": string;
                 "benchmark-phase-screen-resolution": string;
                 "benchmark-phase-refresh-rate": string;
+                "benchmark-phase-calculation-score": string;
+                "benchmark-phase-rendering-score": string;
                 "benchmark-phase-finished": string;
             };
         };
@@ -696,7 +700,9 @@ declare module "script/features/animation" {
 }
 declare module "script/features/benchmark" {
     import { Library } from "script/library/index";
+    import { Animation } from "script/features/animation";
     export namespace Benchmark {
+        const animator: Animation.Animator;
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
         interface Result {
             screenResolution: MeasurementScore<{
@@ -719,30 +725,36 @@ declare module "script/features/benchmark" {
             height: number;
             colorDepth: number;
         };
-        interface MeasurePhaseBase {
+        interface MeasurementPhaseBase {
             name: Library.Locale.Label;
-            start: (measure: Measure, now: number) => void;
-            step: (measure: Measure, now: number) => void;
+            start: (measure: Measurement, now: number) => void;
+            step: (measure: Measurement, now: number) => void;
         }
-        class screenResolutionMeasurePhase implements MeasurePhaseBase {
+        class ScreenResolutionMeasurementPhase implements MeasurementPhaseBase {
             name: "benchmark-phase-screen-resolution";
-            start: (_measure: Measure, now: number) => void;
-            step: (measure: Measure, now: number) => void;
+            start: (_measure: Measurement, now: number) => void;
+            step: (measure: Measurement, now: number) => void;
             startAt: number;
         }
-        class RefreshRateMeasurePhase implements MeasurePhaseBase {
+        class RefreshRateMeasurementPhase implements MeasurementPhaseBase {
             name: "benchmark-phase-refresh-rate";
-            start: (_measure: Measure, now: number) => void;
-            step: (measure: Measure, now: number) => void;
+            start: (_measure: Measurement, now: number) => void;
+            step: (measure: Measurement, now: number) => void;
             startAt: number;
             fpsTotal: number;
             fpsCount: number;
         }
-        class Measure {
+        class CalculationScoreMeasurementPhase implements MeasurementPhaseBase {
+            name: "benchmark-phase-calculation-score";
+            start: (_measure: Measurement, now: number) => void;
+            step: (measure: Measurement, now: number) => void;
+            startAt: number;
+        }
+        class Measurement {
             canvas: HTMLDivElement;
             result: Result;
             phase: number;
-            currentPhase: MeasurePhaseBase | null;
+            currentPhase: MeasurementPhaseBase | null;
             constructor(canvas: HTMLDivElement);
             start: () => void;
             step: (now: number) => void;
@@ -785,7 +797,7 @@ declare module "script/controller/animation" {
 declare module "script/controller/benchmark" {
     import { Features } from "script/features/index";
     export namespace Benchmark {
-        const benchmark: Features.Benchmark.Measure;
+        const benchmark: Features.Benchmark.Measurement;
         const loopBenchmark: (now: number) => void;
         const isInBenchmark: () => boolean;
         const runBenchmark: () => void;

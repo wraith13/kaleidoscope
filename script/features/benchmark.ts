@@ -1,9 +1,11 @@
 import { Library } from "@library";
 import { UI } from "../ui";
 import { Fps } from "./fps";
+import { Animation } from "./animation";
 import config from "@resource/config.json";
 export namespace Benchmark
 {
+    export const animator = new Animation.Animator(UI.canvas);
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
     export interface Result
     {
@@ -39,20 +41,20 @@ export namespace Benchmark
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
     const setProgressBarProgress = (progress: number) =>
         Array.from(UI.benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
-    export interface MeasurePhaseBase
+    export interface MeasurementPhaseBase
     {
         name: Library.Locale.Label;
-        start: (measure: Measure, now: number) => void;
-        step: (measure: Measure, now: number) => void;
+        start: (measure: Measurement, now: number) => void;
+        step: (measure: Measurement, now: number) => void;
     }
-    export class screenResolutionMeasurePhase implements MeasurePhaseBase
+    export class ScreenResolutionMeasurementPhase implements MeasurementPhaseBase
     {
         name = "benchmark-phase-screen-resolution" as const;
-        start = (_measure: Measure, now: number) =>
+        start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
         };
-        step = (measure: Measure, now: number) =>
+        step = (measure: Measurement, now: number) =>
         {
             if (this.startAt +config.benchmark.screenResolutionWait <= now)
             {
@@ -62,16 +64,16 @@ export namespace Benchmark
         };
         startAt = 0;
     }
-    export class RefreshRateMeasurePhase implements MeasurePhaseBase
+    export class RefreshRateMeasurementPhase implements MeasurementPhaseBase
     {
         name = "benchmark-phase-refresh-rate" as const;
-        start = (_measure: Measure, now: number) =>
+        start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
             this.fpsTotal = 0;
             this.fpsCount = 0;
         };
-        step = (measure: Measure, now: number) =>
+        step = (measure: Measurement, now: number) =>
         {
             this.fpsTotal += Fps.currentNowFps.fps;
             ++this.fpsCount;
@@ -85,16 +87,33 @@ export namespace Benchmark
         fpsTotal: number = 0;
         fpsCount: number = 0;
     }
-    const phases: MeasurePhaseBase[] =
+    export class CalculationScoreMeasurementPhase implements MeasurementPhaseBase
+    {
+        name = "benchmark-phase-calculation-score" as const;
+        start = (_measure: Measurement, now: number) =>
+        {
+            this.startAt = now;
+        };
+        step = (measure: Measurement, now: number) =>
+        {
+            if (this.startAt + 1000 <= now)
+            {
+                measure.next();
+            }
+        };
+        startAt = 0;
+    }
+    const phases: MeasurementPhaseBase[] =
     [
-        new screenResolutionMeasurePhase(),
-        new RefreshRateMeasurePhase(),
+        new ScreenResolutionMeasurementPhase(),
+        new RefreshRateMeasurementPhase(),
+        new CalculationScoreMeasurementPhase(),
     ];
-    export class Measure
+    export class Measurement
     {
         result: Result = getUnmeasuredReslult();
         phase: number = 0;
-        currentPhase: MeasurePhaseBase | null = null;
+        currentPhase: MeasurementPhaseBase | null = null;
         constructor(public canvas: HTMLDivElement)
             { };
         start = () =>
@@ -110,7 +129,7 @@ export namespace Benchmark
             if (this.currentPhase !== phases[this.phase])
             {
                 this.currentPhase = phases[this.phase];
-                UI.benchmarkPhase.textContent = Library.Locale.map(this.currentPhase?.name ?? "benchmark-phase-finished");
+                UI.benchmarkPhase.textContent = Library.Locale.map(this.currentPhase.name);
                 this.currentPhase?.start(this, now);
             }
             phases[this.phase].step(this, now);

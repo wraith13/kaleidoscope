@@ -37,5 +37,7 @@
     "benchmark-phase-preparation": "準備",
     "benchmark-phase-screen-resolution": "画面解像度",
     "benchmark-phase-refresh-rate": "リフレッシュレート",
+    "benchmark-phase-calculation-score": "計算性能",
+    "benchmark-phase-rendering-score": "描画性能",
     "benchmark-phase-finished": "完了"
 }

@@ -114,6 +114,8 @@ define("resource/lang.en", [], {
     "benchmarking-in-progress": "Benchmarking in progress",
     "benchmark-phase-screen-resolution": "Screen Resolution",
     "benchmark-phase-refresh-rate": "Refresh Rate",
+    "benchmark-phase-calculation-score": "Calculation Score",
+    "benchmark-phase-rendering-score": "Rendering Score",
     "benchmark-phase-finished": "Finished"
 });
 define("resource/lang.ja", [], {
@@ -155,6 +157,8 @@ define("resource/lang.ja", [], {
     "benchmark-phase-preparation": "準備",
     "benchmark-phase-screen-resolution": "画面解像度",
     "benchmark-phase-refresh-rate": "リフレッシュレート",
+    "benchmark-phase-calculation-score": "計算性能",
+    "benchmark-phase-rendering-score": "描画性能",
     "benchmark-phase-finished": "完了"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
@@ -2710,13 +2714,14 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/features/benchmark", ["require", "exports", "script/library/index", "script/ui", "script/features/fps", "resource/config"], function (require, exports, _library_4, ui_2, fps_1, config_json_5) {
+define("script/features/benchmark", ["require", "exports", "script/library/index", "script/ui", "script/features/fps", "script/features/animation", "resource/config"], function (require, exports, _library_4, ui_2, fps_1, animation_1, config_json_5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
     config_json_5 = __importDefault(config_json_5);
     var Benchmark;
     (function (Benchmark) {
+        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.canvas);
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
@@ -2743,8 +2748,8 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
         var setProgressBarProgress = function (progress) {
             return Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
         };
-        var screenResolutionMeasurePhase = /** @class */ (function () {
-            function screenResolutionMeasurePhase() {
+        var ScreenResolutionMeasurementPhase = /** @class */ (function () {
+            function ScreenResolutionMeasurementPhase() {
                 var _this = this;
                 this.name = "benchmark-phase-screen-resolution";
                 this.start = function (_measure, now) {
@@ -2758,11 +2763,11 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 };
                 this.startAt = 0;
             }
-            return screenResolutionMeasurePhase;
+            return ScreenResolutionMeasurementPhase;
         }());
-        Benchmark.screenResolutionMeasurePhase = screenResolutionMeasurePhase;
-        var RefreshRateMeasurePhase = /** @class */ (function () {
-            function RefreshRateMeasurePhase() {
+        Benchmark.ScreenResolutionMeasurementPhase = ScreenResolutionMeasurementPhase;
+        var RefreshRateMeasurementPhase = /** @class */ (function () {
+            function RefreshRateMeasurementPhase() {
                 var _this = this;
                 this.name = "benchmark-phase-refresh-rate";
                 this.start = function (_measure, now) {
@@ -2782,15 +2787,33 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.fpsTotal = 0;
                 this.fpsCount = 0;
             }
-            return RefreshRateMeasurePhase;
+            return RefreshRateMeasurementPhase;
         }());
-        Benchmark.RefreshRateMeasurePhase = RefreshRateMeasurePhase;
+        Benchmark.RefreshRateMeasurementPhase = RefreshRateMeasurementPhase;
+        var CalculationScoreMeasurementPhase = /** @class */ (function () {
+            function CalculationScoreMeasurementPhase() {
+                var _this = this;
+                this.name = "benchmark-phase-calculation-score";
+                this.start = function (_measure, now) {
+                    _this.startAt = now;
+                };
+                this.step = function (measure, now) {
+                    if (_this.startAt + 1000 <= now) {
+                        measure.next();
+                    }
+                };
+                this.startAt = 0;
+            }
+            return CalculationScoreMeasurementPhase;
+        }());
+        Benchmark.CalculationScoreMeasurementPhase = CalculationScoreMeasurementPhase;
         var phases = [
-            new screenResolutionMeasurePhase(),
-            new RefreshRateMeasurePhase(),
+            new ScreenResolutionMeasurementPhase(),
+            new RefreshRateMeasurementPhase(),
+            new CalculationScoreMeasurementPhase(),
         ];
-        var Measure = /** @class */ (function () {
-            function Measure(canvas) {
+        var Measurement = /** @class */ (function () {
+            function Measurement(canvas) {
                 var _this = this;
                 this.canvas = canvas;
                 this.result = Benchmark.getUnmeasuredReslult();
@@ -2804,11 +2827,11 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
                 this.step = function (now) {
-                    var _a, _b, _c;
+                    var _a;
                     if (_this.currentPhase !== phases[_this.phase]) {
                         _this.currentPhase = phases[_this.phase];
-                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map((_b = (_a = _this.currentPhase) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : "benchmark-phase-finished");
-                        (_c = _this.currentPhase) === null || _c === void 0 ? void 0 : _c.start(_this, now);
+                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map(_this.currentPhase.name);
+                        (_a = _this.currentPhase) === null || _a === void 0 ? void 0 : _a.start(_this, now);
                     }
                     phases[_this.phase].step(_this, now);
                 };
@@ -2824,9 +2847,9 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 };
             }
             ;
-            return Measure;
+            return Measurement;
         }());
-        Benchmark.Measure = Measure;
+        Benchmark.Measurement = Measurement;
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });
 define("script/features/index", ["require", "exports", "script/features/fps", "script/features/animation", "script/features/benchmark"], function (require, exports, ImportedFps, ImportedAnimation, ImportedBenchmark) {
@@ -2934,7 +2957,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
     config_json_7 = __importDefault(config_json_7);
     var Benchmark;
     (function (Benchmark) {
-        Benchmark.benchmark = new _features_3.Features.Benchmark.Measure(ui_5.UI.benchmarkCanvas);
+        Benchmark.benchmark = new _features_3.Features.Benchmark.Measurement(ui_5.UI.benchmarkCanvas);
         Benchmark.loopBenchmark = function (now) {
             if (Benchmark.isInBenchmark()) {
                 _features_3.Features.Fps.step(now);
