@@ -71,9 +71,13 @@
         height: 0.5rem;
         &.on
         {
+            background-color: #44DD88AA;
+        }
+        &.now
+        {
             background-color: #44DD8866;
         }
-        &:not(.on)
+        &:not(.on):not(.now)
         {
             background-color: #00000066;
         }

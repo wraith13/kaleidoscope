@@ -40,7 +40,14 @@ export namespace Benchmark
     const setProgressBarSize = (size: number) =>
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
     const setProgressBarProgress = (progress: number) =>
-        Array.from(UI.benchmarkProgressBar.children).forEach((i, ix) => i.classList.toggle("on", ix < progress));
+        Array.from(UI.benchmarkProgressBar.children).forEach
+        (
+            (i, ix) =>
+            {
+                i.classList.toggle("on", ix < progress);
+                i.classList.toggle("now", ix === progress);
+            }
+        );
     export interface MeasurementPhaseBase
     {
         name: Library.Locale.Label;
@@ -103,11 +110,28 @@ export namespace Benchmark
         };
         startAt = 0;
     }
+    export class RenderingScoreMeasurementPhase implements MeasurementPhaseBase
+    {
+        name = "benchmark-phase-rendering-score" as const;
+        start = (_measure: Measurement, now: number) =>
+        {
+            this.startAt = now;
+        };
+        step = (measure: Measurement, now: number) =>
+        {
+            if (this.startAt + 1000 <= now)
+            {
+                measure.next();
+            }
+        };
+        startAt = 0;
+    }
     const phases: MeasurementPhaseBase[] =
     [
         new ScreenResolutionMeasurementPhase(),
         new RefreshRateMeasurementPhase(),
         new CalculationScoreMeasurementPhase(),
+        new RenderingScoreMeasurementPhase(),
     ];
     export class Measurement
     {

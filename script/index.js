@@ -2587,9 +2587,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     switch (true) {
                         case 0 < mile:
                             return _this.makeForegroundRgb(mile - 1, offset, ix);
-                        case mile <= 0 && ix <= 0:
+                        case ix <= 0:
                             return _this.phiColoring.makePhiRgb(0.0);
-                        case mile <= 0 && 0 < ix:
                         default:
                             return Animation.black;
                     }
@@ -2746,7 +2745,10 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
             return _library_4.Library.UI.cullOrBreed(ui_2.UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
         };
         var setProgressBarProgress = function (progress) {
-            return Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) { return i.classList.toggle("on", ix < progress); });
+            return Array.from(ui_2.UI.benchmarkProgressBar.children).forEach(function (i, ix) {
+                i.classList.toggle("on", ix < progress);
+                i.classList.toggle("now", ix === progress);
+            });
         };
         var ScreenResolutionMeasurementPhase = /** @class */ (function () {
             function ScreenResolutionMeasurementPhase() {
@@ -2807,10 +2809,28 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
             return CalculationScoreMeasurementPhase;
         }());
         Benchmark.CalculationScoreMeasurementPhase = CalculationScoreMeasurementPhase;
+        var RenderingScoreMeasurementPhase = /** @class */ (function () {
+            function RenderingScoreMeasurementPhase() {
+                var _this = this;
+                this.name = "benchmark-phase-rendering-score";
+                this.start = function (_measure, now) {
+                    _this.startAt = now;
+                };
+                this.step = function (measure, now) {
+                    if (_this.startAt + 1000 <= now) {
+                        measure.next();
+                    }
+                };
+                this.startAt = 0;
+            }
+            return RenderingScoreMeasurementPhase;
+        }());
+        Benchmark.RenderingScoreMeasurementPhase = RenderingScoreMeasurementPhase;
         var phases = [
             new ScreenResolutionMeasurementPhase(),
             new RefreshRateMeasurementPhase(),
             new CalculationScoreMeasurementPhase(),
+            new RenderingScoreMeasurementPhase(),
         ];
         var Measurement = /** @class */ (function () {
             function Measurement(canvas) {

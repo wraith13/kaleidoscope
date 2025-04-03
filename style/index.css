@@ -132,9 +132,12 @@ body:not(.benchmark) #benchmark-progress-bar:not(.show) {
   height: 0.5rem;
 }
 #benchmark-progress-bar .progress-block.on {
+  background-color: rgba(68, 221, 136, 0.6666666667);
+}
+#benchmark-progress-bar .progress-block.now {
   background-color: rgba(68, 221, 136, 0.4);
 }
-#benchmark-progress-bar .progress-block:not(.on) {
+#benchmark-progress-bar .progress-block:not(.on):not(.now) {
   background-color: rgba(0, 0, 0, 0.4);
 }
 

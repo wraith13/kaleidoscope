@@ -750,6 +750,12 @@ declare module "script/features/benchmark" {
             step: (measure: Measurement, now: number) => void;
             startAt: number;
         }
+        class RenderingScoreMeasurementPhase implements MeasurementPhaseBase {
+            name: "benchmark-phase-rendering-score";
+            start: (_measure: Measurement, now: number) => void;
+            step: (measure: Measurement, now: number) => void;
+            startAt: number;
+        }
         class Measurement {
             canvas: HTMLDivElement;
             result: Result;

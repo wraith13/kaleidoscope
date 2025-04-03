@@ -189,9 +189,8 @@ export namespace Animation
             {
             case 0 < mile:
                 return this.makeForegroundRgb(mile -1, offset, ix);
-            case mile <= 0 && ix <= 0:
+            case ix <= 0:
                 return this.phiColoring.makePhiRgb(0.0);
-            case mile <= 0 && 0 < ix:
             default:
                 return black;
             }
