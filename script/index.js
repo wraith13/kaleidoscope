@@ -2494,7 +2494,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     depth: 0.0,
                     maxPatternSize: _tools_2.Tools.Random.select([undefined, intervalSize / (2 + _tools_2.Tools.Random.makeInteger(9)),]),
                     reverseRate: _tools_2.Tools.Random.select([undefined, 0.0,]),
-                    anglePerDepth: _tools_2.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
+                    //anglePerDepth: Tools.Random.select([ undefined, "auto", "-auto", 1,0, -1.0, ]),
+                    anglePerDepth: _tools_2.Tools.Random.select(["auto", "-auto", 1, 0, -1.0,]),
                     maximumFractionDigits: config_json_4.default.maximumFractionDigits,
                 });
             };
@@ -2720,7 +2721,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
     config_json_5 = __importDefault(config_json_5);
     var Benchmark;
     (function (Benchmark) {
-        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.canvas);
+        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas);
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
@@ -2798,6 +2799,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.name = "benchmark-phase-calculation-score";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
+                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", true);
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + 1000 <= now) {
@@ -2815,6 +2817,7 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.name = "benchmark-phase-rendering-score";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
+                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", false);
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + 1000 <= now) {

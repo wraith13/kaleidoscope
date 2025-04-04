@@ -5,7 +5,7 @@ import { Animation } from "./animation";
 import config from "@resource/config.json";
 export namespace Benchmark
 {
-    export const animator = new Animation.Animator(UI.canvas);
+    export const animator = new Animation.Animator(UI.benchmarkCanvas);
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
     export interface Result
     {
@@ -96,13 +96,23 @@ export namespace Benchmark
     }
     export class CalculationScoreMeasurementPhase implements MeasurementPhaseBase
     {
+        patterns = [ "triline", "trispot" ] as const;
         name = "benchmark-phase-calculation-score" as const;
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
+            UI.benchmarkCanvas.classList.toggle("calulate-only", true);
+            animator.setColorspace("sRGB");
+            animator.setColoring("phi-colors");
+            animator.setLayers(1);
+            //animator.setCycleSpan(1000);
+            animator.setEasing(true)
+            animator.setPattern(this.patterns[0]);
+            animator.startStep(now);
         };
         step = (measure: Measurement, now: number) =>
         {
+            animator.step(now);
             if (this.startAt + 1000 <= now)
             {
                 measure.next();
@@ -116,6 +126,7 @@ export namespace Benchmark
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
+            UI.benchmarkCanvas.classList.toggle("calulate-only", false);
         };
         step = (measure: Measurement, now: number) =>
         {

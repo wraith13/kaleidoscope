@@ -94,6 +94,14 @@ export namespace Animation
         {
             switch(pattern)
             {
+            case "triline": // for benchmark only
+                return [
+                    makeRandomTrilineArguments,
+                ];
+            case "trispot": // for benchmark only
+                return [
+                    makeRandomTrispotArguments,
+                ];
             case "lines":
                 return [
                     makeRandomStripeArguments,

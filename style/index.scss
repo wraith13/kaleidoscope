@@ -117,6 +117,13 @@
     {
         @include full-stretch-box();
         @include fade-transition("body:not(.benchmark)");
+        &.calulate-only
+        {
+            .layer
+            {
+                display: none;
+            }
+        }
     }
 }
 #option-panel

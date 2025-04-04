@@ -228,6 +228,10 @@ body:not(.benchmark) #screen-body #benchmark-canvas:not(.show)::before {
   transition: filter 750ms;
 }
 
+#screen-body #benchmark-canvas.calulate-only .layer {
+  display: none;
+}
+
 #option-panel {
   transition: opacity 750ms, filter 750ms;
   font-size: 0.75rem;
