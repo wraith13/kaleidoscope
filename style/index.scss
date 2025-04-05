@@ -87,7 +87,7 @@
 {
     @include full-stretch-box();
     @include flex(column, center);
-    position: absolute;
+    position: fixed;
     background-color: $body-background-color;
     @at-root body.immersive:not(.mousemove) &
     {
@@ -100,11 +100,11 @@
     #canvas, #benchmark-canvas
     {
         @include solid-box();
-        position: fixed;
+        position: absolute;
         .layer
         {
             @include full-stretch-box();
-            position: fixed;
+            position: absolute;
             mix-blend-mode: difference;
             will-change: mix-blend-mode, background-color, background-image, background-position, background-size;
         }

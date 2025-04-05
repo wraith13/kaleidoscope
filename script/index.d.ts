@@ -267,10 +267,25 @@ declare module "script/tools/math" {
         const mod: (n: number, m: number) => number;
     }
 }
+declare module "script/tools/hash" {
+    export namespace Hash {
+        const fnv1a_32: (key: string) => number;
+    }
+}
 declare module "script/tools/random" {
     export namespace Random {
-        const makeInteger: (size: number) => number;
-        const select: <T>(list: T[]) => T;
+        type Function = (index?: number, prime?: number) => number;
+        const makeInteger: (size: number, random?: Function, index?: number, prime?: number) => number;
+        const select: <T>(list: T[], random?: Function, index?: number, prime?: number) => T;
+        class IndexedRandom {
+            private hash32;
+            private seed;
+            private prime;
+            index: number;
+            constructor(hash32?: (key: string) => number, seed?: number | string, prime?: number);
+            get: (index?: number, prime?: number) => number;
+            getFunction: () => Function;
+        }
     }
 }
 declare module "script/tools/array" {
@@ -286,12 +301,14 @@ declare module "script/tools/index" {
     import * as ImportedMath from "script/tools/math";
     import * as ImportedRandom from "script/tools/random";
     import * as ImportedArray from "script/tools/array";
+    import * as ImportedHash from "script/tools/hash";
     export namespace Tools {
         export import Number = ImportedNumber.Number;
         export import Timespan = ImportedTimespan.Timespan;
         export import Math = ImportedMath.Math;
         export import Random = ImportedRandom.Random;
         export import Array = ImportedArray.Array;
+        export import Hash = ImportedHash.Hash;
     }
 }
 declare module "script/ui" {
@@ -628,6 +645,7 @@ declare module "flounder.style.js/index" {
 declare module "script/features/animation" {
     import { FlounderStyle } from "flounder.style.js/index";
     import { phiColors } from "phi-colors";
+    import { Tools } from "script/tools/index";
     import control from "resource/control";
     export namespace Animation {
         export const black: {
@@ -663,6 +681,7 @@ declare module "script/features/animation" {
         }
         export class Animator {
             canvas: HTMLDivElement;
+            random: Tools.Random.Function;
             phiColoring: PhiColoring;
             layers: Layer[];
             pattern: typeof control.pattern.enum[number];
@@ -670,13 +689,13 @@ declare module "script/features/animation" {
             offsetAt: number;
             cycleSpan: number;
             diagonalSize: number;
-            constructor(canvas: HTMLDivElement, phiColoring?: PhiColoring);
+            constructor(canvas: HTMLDivElement, random?: Tools.Random.Function, phiColoring?: PhiColoring);
             getDiagonalSize: () => number;
             makeColor: (rgb: phiColors.Rgb) => FlounderStyle.Type.Color;
             easing: (t: number) => number;
             argumentHistory: FlounderStyle.Type.Arguments[];
             startStep: (now: number) => number;
-            makeRandomArguments: () => FlounderStyle.Type.Arguments;
+            makeRandomArguments: (mile: number) => FlounderStyle.Type.Arguments;
             getNextColorMaker: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, offset: number, _ix: number) => phiColors.Rgb;
             makeForegroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb;
             makeBackgroundRgb: (mile: number, offset: number, ix: number) => phiColors.Rgb;
@@ -745,6 +764,7 @@ declare module "script/features/benchmark" {
             fpsCount: number;
         }
         class CalculationScoreMeasurementPhase implements MeasurementPhaseBase {
+            patterns: readonly ["triline", "trispot"];
             name: "benchmark-phase-calculation-score";
             start: (_measure: Measurement, now: number) => void;
             step: (measure: Measurement, now: number) => void;

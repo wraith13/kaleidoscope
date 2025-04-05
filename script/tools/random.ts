@@ -1,15 +1,19 @@
+import { Hash } from "./hash";
 export namespace Random
 {
-    export const makeInteger = (size: number, index?: number, random: (index?: number) => number = Math.random) =>
-        Math.floor(random(index) *size);
-    export const select = <T>(list: T[], index?: number, random: (index?: number) => number = Math.random): T =>
-        list[makeInteger(list.length, index, random)];
+    export type Function = (index?: number, prime?: number) => number;
+    export const makeInteger = (size: number, random: Function = Math.random, index?: number, prime?: number) =>
+        Math.floor(random(index, prime) *size);
+    export const select = <T>(list: T[], random: Function = Math.random, index?: number, prime?: number): T =>
+        list[makeInteger(list.length, random, index, prime)];
     export class IndexedRandom
     {
         public index: number = 0;
-        constructor(private hash32: (key: string) => number, private seed: number | string, private prime: number = 31)
+        constructor(private hash32: (key: string) => number = Hash.fnv1a_32, private seed: number | string = Math.random(), private prime: number = 31)
             { }
-        public get = (index?: number): number =>
-            this.hash32(`${this.seed}:${this.prime *(index ?? (this.index++))}`) /0xFFFFFFFF;
+        public get = (index?: number, prime?: number): number =>
+            this.hash32(`${this.seed}:${(prime ?? this.prime) *(index ?? (this.index++))}`) /0xFFFFFFFF;
+        public getFunction = (): Function =>
+            this.get.bind(this);
     }
 }

@@ -846,14 +846,57 @@ define("script/tools/math", ["require", "exports"], function (require, exports) 
         };
     })(Math || (exports.Math = Math = {}));
 });
-define("script/tools/random", ["require", "exports"], function (require, exports) {
+define("script/tools/hash", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Hash = void 0;
+    var Hash;
+    (function (Hash) {
+        Hash.fnv1a_32 = function (key) {
+            var hash = 2166136261;
+            for (var _i = 0, key_1 = key; _i < key_1.length; _i++) {
+                var char = key_1[_i];
+                hash ^= char.charCodeAt(0);
+                hash = (hash * 16777619) >>> 0;
+            }
+            return hash;
+        };
+    })(Hash || (exports.Hash = Hash = {}));
+});
+define("script/tools/random", ["require", "exports", "script/tools/hash"], function (require, exports, hash_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Random = void 0;
     var Random;
     (function (Random) {
-        Random.makeInteger = function (size) { return Math.floor(Math.random() * size); };
-        Random.select = function (list) { return list[Random.makeInteger(list.length)]; };
+        Random.makeInteger = function (size, random, index, prime) {
+            if (random === void 0) { random = Math.random; }
+            return Math.floor(random(index, prime) * size);
+        };
+        Random.select = function (list, random, index, prime) {
+            if (random === void 0) { random = Math.random; }
+            return list[Random.makeInteger(list.length, random, index, prime)];
+        };
+        var IndexedRandom = /** @class */ (function () {
+            function IndexedRandom(hash32, seed, prime) {
+                if (hash32 === void 0) { hash32 = hash_1.Hash.fnv1a_32; }
+                if (seed === void 0) { seed = Math.random(); }
+                if (prime === void 0) { prime = 31; }
+                var _this = this;
+                this.hash32 = hash32;
+                this.seed = seed;
+                this.prime = prime;
+                this.index = 0;
+                this.get = function (index, prime) {
+                    return _this.hash32("".concat(_this.seed, ":").concat((prime !== null && prime !== void 0 ? prime : _this.prime) * (index !== null && index !== void 0 ? index : (_this.index++)))) / 0xFFFFFFFF;
+                };
+                this.getFunction = function () {
+                    return _this.get.bind(_this);
+                };
+            }
+            return IndexedRandom;
+        }());
+        Random.IndexedRandom = IndexedRandom;
     })(Random || (exports.Random = Random = {}));
 });
 define("script/tools/array", ["require", "exports", "script/library/type-guards", "script/tools/math"], function (require, exports, type_guards_2, math_1) {
@@ -875,7 +918,7 @@ define("script/tools/array", ["require", "exports", "script/library/type-guards"
         };
     })(Array || (exports.Array = Array = {}));
 });
-define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray) {
+define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array", "script/tools/hash"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray, ImportedHash) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Tools = void 0;
@@ -884,6 +927,7 @@ define("script/tools/index", ["require", "exports", "script/tools/number", "scri
     ImportedMath = __importStar(ImportedMath);
     ImportedRandom = __importStar(ImportedRandom);
     ImportedArray = __importStar(ImportedArray);
+    ImportedHash = __importStar(ImportedHash);
     var Tools;
     (function (Tools) {
         Tools.Number = ImportedNumber.Number;
@@ -891,6 +935,7 @@ define("script/tools/index", ["require", "exports", "script/tools/number", "scri
         Tools.Math = ImportedMath.Math;
         Tools.Random = ImportedRandom.Random;
         Tools.Array = ImportedArray.Array;
+        Tools.Hash = ImportedHash.Hash;
     })(Tools || (exports.Tools = Tools = {}));
 });
 define("resource/control", [], {
@@ -2494,8 +2539,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     depth: 0.0,
                     maxPatternSize: _tools_2.Tools.Random.select([undefined, intervalSize / (2 + _tools_2.Tools.Random.makeInteger(9)),]),
                     reverseRate: _tools_2.Tools.Random.select([undefined, 0.0,]),
-                    //anglePerDepth: Tools.Random.select([ undefined, "auto", "-auto", 1,0, -1.0, ]),
-                    anglePerDepth: _tools_2.Tools.Random.select(["auto", "-auto", 1, 0, -1.0,]),
+                    anglePerDepth: _tools_2.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
                     maximumFractionDigits: config_json_4.default.maximumFractionDigits,
                 });
             };
@@ -2510,6 +2554,14 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
             };
             var getList = function (pattern) {
                 switch (pattern) {
+                    case "triline": // for benchmark only
+                        return [
+                            makeRandomTrilineArguments,
+                        ];
+                    case "trispot": // for benchmark only
+                        return [
+                            makeRandomTrispotArguments,
+                        ];
                     case "lines":
                         return [
                             makeRandomStripeArguments,
@@ -2532,15 +2584,18 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         ];
                 }
             };
-            Pattern.make = function (pattern, intervalSize) {
-                return _tools_2.Tools.Random.select(getList(pattern))(intervalSize);
+            Pattern.make = function (pattern, intervalSize, random, index, prime) {
+                if (random === void 0) { random = Math.random; }
+                return _tools_2.Tools.Random.select(getList(pattern), random, index, prime)(intervalSize);
             };
         })(Pattern || (Pattern = {}));
         var Animator = /** @class */ (function () {
-            function Animator(canvas, phiColoring) {
+            function Animator(canvas, random, phiColoring) {
+                if (random === void 0) { random = new _tools_2.Tools.Random.IndexedRandom().getFunction(); }
                 if (phiColoring === void 0) { phiColoring = new PhiColoring(); }
                 var _this = this;
                 this.canvas = canvas;
+                this.random = random;
                 this.phiColoring = phiColoring;
                 this.layers = [];
                 this.pattern = control_json_2.default.pattern.default;
@@ -2555,8 +2610,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.startStep = function (now) {
                     return _this.startAt = now - _this.offsetAt;
                 };
-                this.makeRandomArguments = function () {
-                    var result = Pattern.make(_this.pattern, _tools_2.Tools.Math.scale(_this.diagonalSize * config_json_4.default.intervalSize.minRate, _this.diagonalSize * config_json_4.default.intervalSize.maxRate)(Math.random()));
+                this.makeRandomArguments = function (mile) {
+                    var result = Pattern.make(_this.pattern, _tools_2.Tools.Math.scale(_this.diagonalSize * config_json_4.default.intervalSize.minRate, _this.diagonalSize * config_json_4.default.intervalSize.maxRate)(_this.random(mile, 17)), _this.random, mile, 23);
                     _this.argumentHistory.push(result);
                     if (3 <= _this.argumentHistory.length) {
                         _this.argumentHistory.shift();
@@ -2614,7 +2669,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                                     ++i.mile;
                                     step = _this.getStep(universalStep, i);
                                 }
-                                i.arguments = Object.assign({}, (_b = (_a = _this.layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : _this.makeRandomArguments(), {
+                                i.arguments = Object.assign({}, (_b = (_a = _this.layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : _this.makeRandomArguments(i.mile), {
                                     foregroundColor: _this.makeForegroundColor(i.mile, i.offset, ix),
                                     backgroundColor: (_d = (_c = i.arguments) === null || _c === void 0 ? void 0 : _c.foregroundColor) !== null && _d !== void 0 ? _d : _this.makeBackgroundColor(i.mile, i.offset, ix),
                                 });
@@ -2796,12 +2851,21 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
         var CalculationScoreMeasurementPhase = /** @class */ (function () {
             function CalculationScoreMeasurementPhase() {
                 var _this = this;
+                this.patterns = ["triline", "trispot"];
                 this.name = "benchmark-phase-calculation-score";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", true);
+                    Benchmark.animator.setColorspace("sRGB");
+                    Benchmark.animator.setColoring("phi-colors");
+                    Benchmark.animator.setLayers(1);
+                    //animator.setCycleSpan(1000);
+                    Benchmark.animator.setEasing(true);
+                    Benchmark.animator.setPattern(_this.patterns[0]);
+                    Benchmark.animator.startStep(now);
                 };
                 this.step = function (measure, now) {
+                    Benchmark.animator.step(now);
                     if (_this.startAt + 1000 <= now) {
                         measure.next();
                     }
@@ -2930,7 +2994,7 @@ define("script/controller/animation", ["require", "exports", "script/features/in
     config_json_6 = __importDefault(config_json_6);
     var Animation;
     (function (Animation) {
-        Animation.animator = new _features_2.Features.Animation.Animator(ui_4.UI.canvas);
+        Animation.animator = new _features_2.Features.Animation.Animator(ui_4.UI.canvas, Math.random);
         Animation.isInAnimation = function () {
             return base_1.Base.isInMode("animation");
         };

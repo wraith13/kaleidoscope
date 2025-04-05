@@ -124,8 +124,8 @@ export namespace Animation
                 ];
             }
         };
-        export const make = (pattern: typeof control.pattern.enum[number], intervalSize: IntervalSize) =>
-            Tools.Random.select(getList(pattern))(intervalSize);
+        export const make = (pattern: typeof control.pattern.enum[number], intervalSize: IntervalSize, random: Tools.Random.Function = Math.random, index?: number, prime?: number) =>
+            Tools.Random.select(getList(pattern), random, index, prime)(intervalSize);
     }
     interface Layer
     {
@@ -142,7 +142,8 @@ export namespace Animation
         offsetAt = 0;
         cycleSpan = control.cycleSpan.default;
         diagonalSize = 0;
-        constructor(public canvas: HTMLDivElement, public phiColoring: PhiColoring = new PhiColoring())
+
+        constructor(public canvas: HTMLDivElement, public random: Tools.Random.Function = new Tools.Random.IndexedRandom().getFunction(), public phiColoring: PhiColoring = new PhiColoring())
             { };
         getDiagonalSize = () => Math.sqrt(Math.pow(this.canvas.clientWidth ?? 0, 2) +Math.pow(this.canvas.clientHeight ?? 0, 2));
         makeColor: (rgb: phiColors.Rgb) => FlounderStyle.Type.Color = this.phiColoring.makeSrgbColor;
@@ -150,7 +151,7 @@ export namespace Animation
         argumentHistory: FlounderStyle.Type.Arguments[] = [];
         public startStep = (now: number) =>
             this.startAt = now -this.offsetAt;
-        makeRandomArguments = (): FlounderStyle.Type.Arguments =>
+        makeRandomArguments = (mile: number): FlounderStyle.Type.Arguments =>
         {
             const result = Pattern.make
             (
@@ -160,7 +161,8 @@ export namespace Animation
                     this.diagonalSize *config.intervalSize.minRate,
                     this.diagonalSize *config.intervalSize.maxRate
                 )
-                (Math.random())
+                (this.random(mile, 17)),
+                this.random, mile, 23
             );
             this.argumentHistory.push(result);
             if (3 <= this.argumentHistory.length)
@@ -230,7 +232,7 @@ export namespace Animation
                             i.arguments = Object.assign
                             (
                                 { },
-                                this.layers[ix -1]?.arguments ?? this.makeRandomArguments(),
+                                this.layers[ix -1]?.arguments ?? this.makeRandomArguments(i.mile),
                                 {
                                     foregroundColor: this.makeForegroundColor(i.mile, i.offset, ix),
                                     backgroundColor: i.arguments?.foregroundColor ?? this.makeBackgroundColor(i.mile, i.offset, ix),
