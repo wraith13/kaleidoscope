@@ -1,20 +1,15 @@
 export namespace Random
 {
-    export const makeInteger = (size: number, random: () => number = Math.random) =>
-        Math.floor(random() *size);
-    export const select = <T>(list: T[], random: () => number = Math.random): T =>
-        list[makeInteger(list.length, random)];
+    export const makeInteger = (size: number, index?: number, random: (index?: number) => number = Math.random) =>
+        Math.floor(random(index) *size);
+    export const select = <T>(list: T[], index?: number, random: (index?: number) => number = Math.random): T =>
+        list[makeInteger(list.length, index, random)];
     export class IndexedRandom
     {
         public index: number = 0;
-        constructor(private hash: (key: string) => number, private seed: number | string, private prime: number = 31)
-        {
-        }
-        public get(index?: number): number
-        {
-            const key = `${this.seed}:${this.prime *(index ?? (this.index++))}`;
-            const hash = this.hash(key);
-            return hash /0xFFFFFFFF;
-        }
+        constructor(private hash32: (key: string) => number, private seed: number | string, private prime: number = 31)
+            { }
+        public get = (index?: number): number =>
+            this.hash32(`${this.seed}:${this.prime *(index ?? (this.index++))}`) /0xFFFFFFFF;
     }
 }
