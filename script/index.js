@@ -2769,14 +2769,15 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/features/benchmark", ["require", "exports", "script/library/index", "script/ui", "script/features/fps", "script/features/animation", "resource/config"], function (require, exports, _library_4, ui_2, fps_1, animation_1, config_json_5) {
+define("script/features/benchmark", ["require", "exports", "script/tools/index", "script/library/index", "script/ui", "script/features/fps", "script/features/animation", "resource/config"], function (require, exports, _tools_3, _library_4, ui_2, fps_1, animation_1, config_json_5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
     config_json_5 = __importDefault(config_json_5);
     var Benchmark;
     (function (Benchmark) {
-        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas);
+        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas, new _tools_3.Tools.Random.IndexedRandom(_tools_3.Tools.Hash.fnv1a_32, "benchmark")
+            .getFunction());
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
@@ -2855,18 +2856,19 @@ define("script/features/benchmark", ["require", "exports", "script/library/index
                 this.name = "benchmark-phase-calculation-score";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
-                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", true);
+                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", false);
                     Benchmark.animator.setColorspace("sRGB");
                     Benchmark.animator.setColoring("phi-colors");
+                    Benchmark.animator.setDiagonalSize(1000);
                     Benchmark.animator.setLayers(1);
-                    //animator.setCycleSpan(1000);
+                    Benchmark.animator.setCycleSpan(1000);
                     Benchmark.animator.setEasing(true);
                     Benchmark.animator.setPattern(_this.patterns[0]);
                     Benchmark.animator.startStep(now);
                 };
                 this.step = function (measure, now) {
                     Benchmark.animator.step(now);
-                    if (_this.startAt + 1000 <= now) {
+                    if (_this.startAt + 10000 <= now) {
                         measure.next();
                     }
                 };
@@ -3259,11 +3261,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_3, ui_7, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_4, ui_7, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     ui_7.UI.initialize();
     events_1.Events.initialize();
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_3.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_4.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

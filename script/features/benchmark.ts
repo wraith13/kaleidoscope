@@ -1,3 +1,4 @@
+import { Tools } from "@tools";
 import { Library } from "@library";
 import { UI } from "../ui";
 import { Fps } from "./fps";
@@ -5,7 +6,16 @@ import { Animation } from "./animation";
 import config from "@resource/config.json";
 export namespace Benchmark
 {
-    export const animator = new Animation.Animator(UI.benchmarkCanvas);
+    export const animator = new Animation.Animator
+    (
+        UI.benchmarkCanvas,
+        new Tools.Random.IndexedRandom
+        (
+            Tools.Hash.fnv1a_32,
+            "benchmark",
+        )
+        .getFunction()
+    );
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
     export interface Result
     {
@@ -101,11 +111,12 @@ export namespace Benchmark
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
-            UI.benchmarkCanvas.classList.toggle("calulate-only", true);
+            UI.benchmarkCanvas.classList.toggle("calulate-only", false);
             animator.setColorspace("sRGB");
             animator.setColoring("phi-colors");
+            animator.setDiagonalSize(1000);
             animator.setLayers(1);
-            //animator.setCycleSpan(1000);
+            animator.setCycleSpan(1000);
             animator.setEasing(true)
             animator.setPattern(this.patterns[0]);
             animator.startStep(now);
@@ -113,7 +124,7 @@ export namespace Benchmark
         step = (measure: Measurement, now: number) =>
         {
             animator.step(now);
-            if (this.startAt + 1000 <= now)
+            if (this.startAt + 10000 <= now)
             {
                 measure.next();
             }
