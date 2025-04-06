@@ -1,4 +1,5 @@
 import { Features } from "@features";
+import { Library } from "@library";
 import { Base } from "./base";
 import { UI } from "../ui";
 import config from "@resource/config.json";
@@ -37,11 +38,10 @@ export namespace Benchmark
     {
         Base.intoMode("benchmark");
         benchmark.start();
-        // 🚧
-        // if (Library.UI.fullscreenEnabled)
-        // {
-        //     Library.UI.requestFullscreen(document.body);
-        // }
+        if (Library.UI.fullscreenEnabled)
+        {
+            Library.UI.requestFullscreen(document.body);
+        }
         UI.showFps.get();
         setTimeout
         (

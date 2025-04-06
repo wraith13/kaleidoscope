@@ -54,6 +54,21 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 define("script/library/type-guards", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -2807,8 +2822,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         };
         Benchmark.measureScreenResolution = function () {
             return ({
-                width: document.body.clientWidth,
-                height: document.body.clientHeight,
+                width: document.documentElement.clientWidth,
+                height: document.documentElement.clientHeight,
                 colorDepth: window.screen.colorDepth,
             });
         };
@@ -2863,20 +2878,22 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             return RefreshRateMeasurementPhase;
         }());
         Benchmark.RefreshRateMeasurementPhase = RefreshRateMeasurementPhase;
-        var CalculationScoreMeasurementPhase = /** @class */ (function () {
-            function CalculationScoreMeasurementPhase() {
+        var ScoreMeasurementPhaseBase = /** @class */ (function () {
+            function ScoreMeasurementPhaseBase(calculateOnly, calculateScore, calculateTotalScore) {
                 var _this = this;
+                this.calculateOnly = calculateOnly;
+                this.calculateScore = calculateScore;
+                this.calculateTotalScore = calculateTotalScore;
                 this.patternIndex = 0;
                 this.layers = 1;
                 this.patterns = ["triline", "trispot"];
-                this.name = "benchmark-phase-calculation-score";
                 this.start = function (measure, now) {
                     _this.patternIndex = 0;
-                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", true);
+                    ui_2.UI.benchmarkCanvas.classList.toggle("calculate-only", _this.calculateOnly);
                     Benchmark.animator.setColorspace("sRGB");
                     Benchmark.animator.setColoring("phi-colors");
                     Benchmark.animator.setDiagonalSize(1000);
-                    Benchmark.animator.setCycleSpan(1000);
+                    Benchmark.animator.setCycleSpan(500);
                     Benchmark.animator.setEasing(true);
                     _this.startPattern(measure, now);
                 };
@@ -2898,17 +2915,10 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                         _this.startLayers(now, layers);
                     }
                     if (_this.isNextPattern(now)) {
-                        switch (_this.patterns[_this.patternIndex]) {
-                            case "triline":
-                                measure.result.linesCalculationScore = _this.calculationScore();
-                                break;
-                            case "trispot":
-                                measure.result.spotCalculationScore = _this.calculationScore();
-                                break;
-                        }
+                        _this.calculateScore(measure, _this.patterns[_this.patternIndex]);
                         ++_this.patternIndex;
                         if (_this.isEnd()) {
-                            measure.result.totalCalculationScore = Benchmark.calculateMeasurementScore(measure.result.linesCalculationScore, measure.result.spotCalculationScore, function (a, b) { return (a + b) / 2; });
+                            _this.calculateTotalScore(measure);
                             measure.next();
                         }
                         else {
@@ -2921,7 +2931,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.patternStartAt = 0;
                 this.isStable = function (now) {
                     return fps_1.Fps.isValid &&
-                        _this.patternStartAt + 500 < now;
+                        _this.patternStartAt + 750 < now;
                 };
                 this.isNeedAdjustingLayers = function (now) {
                     return _this.isStable(now) &&
@@ -2939,26 +2949,56 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     return fps_1.Fps.averageFps * _this.layers;
                 };
             }
-            return CalculationScoreMeasurementPhase;
+            return ScoreMeasurementPhaseBase;
         }());
-        Benchmark.CalculationScoreMeasurementPhase = CalculationScoreMeasurementPhase;
-        var RenderingScoreMeasurementPhase = /** @class */ (function () {
-            function RenderingScoreMeasurementPhase() {
-                var _this = this;
-                this.name = "benchmark-phase-rendering-score";
-                this.start = function (_measure, now) {
-                    _this.startAt = now;
-                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", false);
-                };
-                this.step = function (measure, now) {
-                    if (_this.startAt + 1000 <= now) {
-                        measure.next();
+        Benchmark.ScoreMeasurementPhaseBase = ScoreMeasurementPhaseBase;
+        var CalculationScoreMeasurementPhase = /** @class */ (function (_super) {
+            __extends(CalculationScoreMeasurementPhase, _super);
+            function CalculationScoreMeasurementPhase() {
+                var _this = _super.call(this, true, function (measure, pattern) {
+                    switch (pattern) {
+                        case "triline":
+                            measure.result.linesCalculationScore = _this.calculationScore();
+                            break;
+                        case "trispot":
+                            measure.result.spotCalculationScore = _this.calculationScore();
+                            break;
                     }
+                }, function (measure) {
+                    measure.result.totalCalculationScore = Benchmark.calculateMeasurementScore(measure.result.linesCalculationScore, measure.result.spotCalculationScore, function (a, b) { return (a + b) / 2; });
+                }) || this;
+                _this.name = "benchmark-phase-calculation-score";
+                return _this;
+            }
+            return CalculationScoreMeasurementPhase;
+        }(ScoreMeasurementPhaseBase));
+        Benchmark.CalculationScoreMeasurementPhase = CalculationScoreMeasurementPhase;
+        var RenderingScoreMeasurementPhase = /** @class */ (function (_super) {
+            __extends(RenderingScoreMeasurementPhase, _super);
+            function RenderingScoreMeasurementPhase() {
+                var _this = _super.call(this, false, function (measure, pattern) {
+                    switch (pattern) {
+                        case "triline":
+                            measure.result.linesRenderingScorePerPixel =
+                                _this.calculationScore() * _this.calculateArea();
+                            break;
+                        case "trispot":
+                            measure.result.spotsRenderingScorePerPixel =
+                                _this.calculationScore() * _this.calculateArea();
+                            break;
+                    }
+                }, function (measure) {
+                    measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerPixel, measure.result.spotsRenderingScorePerPixel, function (a, b) { return (a + b) / 2; });
+                }) || this;
+                _this.name = "benchmark-phase-rendering-score";
+                _this.calculateArea = function () {
+                    return (document.documentElement.clientWidth * document.documentElement.clientHeight)
+                        / 1000000;
                 };
-                this.startAt = 0;
+                return _this;
             }
             return RenderingScoreMeasurementPhase;
-        }());
+        }(ScoreMeasurementPhaseBase));
         Benchmark.RenderingScoreMeasurementPhase = RenderingScoreMeasurementPhase;
         var phases = [
             new ScreenResolutionMeasurementPhase(),
@@ -2997,6 +3037,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.end = function () {
                     ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
+                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.totalCalculationScore, _this.result.totalRenderingScore, function (a, b) { return a + b; });
                     console.log("📈 benchmark", _this.result);
                 };
             }
@@ -3104,7 +3145,7 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         };
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_3, base_2, ui_5, config_json_7) {
+define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_3, _library_6, base_2, ui_5, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
@@ -3135,11 +3176,9 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.runBenchmark = function () {
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
-            // 🚧
-            // if (Library.UI.fullscreenEnabled)
-            // {
-            //     Library.UI.requestFullscreen(document.body);
-            // }
+            if (_library_6.Library.UI.fullscreenEnabled) {
+                _library_6.Library.UI.requestFullscreen(document.body);
+            }
             ui_5.UI.showFps.get();
             setTimeout(function () {
                 return window.requestAnimationFrame(function (now) {
@@ -3186,7 +3225,7 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         };
     })(Controller || (exports.Controller = Controller = {}));
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_6, _features_4, _controller_1, ui_6, config_json_8) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_7, _features_4, _controller_1, ui_6, config_json_8) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
@@ -3267,16 +3306,16 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_6.UI.benchmarkCanvas);
                 _controller_1.Controller.Benchmark.stopBenchmark();
             });
-            var mouseMoveTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            var mouseMoveTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
             ui_6.UI.screenBody.addEventListener("mousemove", function (_event) {
                 if (config_json_8.default.log.mousemove && !mouseMoveTimer.isOn()) {
                     console.log("🖱️ MouseMove:", event, ui_6.UI.screenBody);
                 }
                 mouseMoveTimer.start(document.body, "mousemove", 1000);
             });
-            _library_6.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-                .forEach(function (label) { return _library_6.Library.UI.showPickerOnLabel(label); });
-            _library_6.Library.Shortcuts.setCommandMap({
+            _library_7.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+                .forEach(function (label) { return _library_7.Library.UI.showPickerOnLabel(label); });
+            _library_7.Library.Shortcuts.setCommandMap({
                 "nop": function () { },
                 "toggleHideUI": function () {
                     document.body.classList.toggle("hide-ui");
@@ -3309,7 +3348,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
                 }
             });
-            var showShortcutsTimer = new _library_6.Library.UI.ToggleClassForWhileTimer();
+            var showShortcutsTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
             window.addEventListener("resize", function () { return updateDiagonalSize(); });
             [
                 ui_6.UI.colorspaceSelect,
@@ -3326,11 +3365,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_5, ui_7, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_8, _tools_5, ui_7, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     ui_7.UI.initialize();
     events_1.Events.initialize();
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_8.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map

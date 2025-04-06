@@ -765,11 +765,14 @@ declare module "script/features/benchmark" {
             fpsTotal: number;
             fpsCount: number;
         }
-        class CalculationScoreMeasurementPhase implements MeasurementPhaseBase {
+        class ScoreMeasurementPhaseBase {
+            calculateOnly: boolean;
+            calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown;
+            calculateTotalScore: (measure: Measurement) => unknown;
             patternIndex: number;
             layers: number;
             patterns: readonly ["triline", "trispot"];
-            name: "benchmark-phase-calculation-score";
+            constructor(calculateOnly: boolean, calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown, calculateTotalScore: (measure: Measurement) => unknown);
             start: (measure: Measurement, now: number) => void;
             startPattern: (_measure: Measurement, now: number) => void;
             startLayers: (now: number, layers: number) => void;
@@ -782,11 +785,14 @@ declare module "script/features/benchmark" {
             isEnd: () => boolean;
             calculationScore: () => number;
         }
-        class RenderingScoreMeasurementPhase implements MeasurementPhaseBase {
+        class CalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
+            name: "benchmark-phase-calculation-score";
+            constructor();
+        }
+        class RenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
             name: "benchmark-phase-rendering-score";
-            start: (_measure: Measurement, now: number) => void;
-            step: (measure: Measurement, now: number) => void;
-            startAt: number;
+            constructor();
+            calculateArea: () => number;
         }
         class Measurement {
             canvas: HTMLDivElement;

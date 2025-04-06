@@ -117,7 +117,7 @@
     {
         @include full-stretch-box();
         @include fade-transition("body:not(.benchmark)");
-        &.calulate-only
+        &.calculate-only
         {
             .layer
             {

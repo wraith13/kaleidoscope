@@ -229,7 +229,7 @@ body:not(.benchmark) #screen-body #benchmark-canvas:not(.show)::before {
   transition: filter 750ms;
 }
 
-#screen-body #benchmark-canvas.calulate-only .layer {
+#screen-body #benchmark-canvas.calculate-only .layer {
   display: none;
 }
 
