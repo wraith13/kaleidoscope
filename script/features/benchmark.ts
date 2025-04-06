@@ -17,12 +17,23 @@ export namespace Benchmark
         .getFunction()
     );
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
+    export const calculateMeasurementScore = <T>(a: MeasurementScore<T>, b: MeasurementScore<T>, calculate: (a: T, b: T) => T): MeasurementScore<T> =>
+    {
+        for(var i in [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ])
+        {
+            if (a === i || b === i)
+            {
+                return i;
+            }
+        }
+        return calculate(a as T, b as T);
+    };
     export interface Result
     {
         screenResolution: MeasurementScore<{ width: number, height: number, colorDepth: number }>;
         refreshRate: MeasurementScore<number>;
-        linesCalculationScore: MeasurementScore<number>; // 0x0ピクセル状態で１秒間に計算可能なレイヤーの総数( Triline )
-        spotCalculationScore: MeasurementScore<number>; // 0x0ピクセル状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
+        linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
+        spotCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
         totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotCalculationScore) /2
         linesRenderingScorePerPixel: MeasurementScore<number>; // 計算時間を除外した1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Triline )
         spotsRenderingScorePerPixel: MeasurementScore<number>; // 計算時間を除外した1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Tetraspot )
@@ -106,30 +117,87 @@ export namespace Benchmark
     }
     export class CalculationScoreMeasurementPhase implements MeasurementPhaseBase
     {
+        patternIndex = 0;
+        layers = 1;
         patterns = [ "triline", "trispot" ] as const;
         name = "benchmark-phase-calculation-score" as const;
-        start = (_measure: Measurement, now: number) =>
+        start = (measure: Measurement, now: number) =>
         {
-            this.startAt = now;
-            UI.benchmarkCanvas.classList.toggle("calulate-only", false);
+            this.patternIndex = 0;
+            UI.benchmarkCanvas.classList.toggle("calulate-only", true);
             animator.setColorspace("sRGB");
             animator.setColoring("phi-colors");
             animator.setDiagonalSize(1000);
-            animator.setLayers(1);
             animator.setCycleSpan(1000);
-            animator.setEasing(true)
-            animator.setPattern(this.patterns[0]);
-            animator.startStep(now);
+            animator.setEasing(true);
+            this.startPattern(measure, now);
         };
+        startPattern = (_measure: Measurement, now: number) =>
+        {
+            this.patternStartAt = now;
+            animator.setPattern(this.patterns[this.patternIndex]);
+            this.startLayers(now, 1);
+            animator.startStep(now);
+            Fps.reset();
+        };
+        startLayers = (now: number, layers: number) =>
+        {
+            this.laysersStartAt = now;
+            this.layers = layers;
+            animator.setLayers(this.layers);
+    }
         step = (measure: Measurement, now: number) =>
         {
-            animator.step(now);
-            if (this.startAt + 10000 <= now)
+            if (this.isNeedAdjustingLayers(now))
             {
-                measure.next();
+                const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /30), this.layers +1);
+                this.startLayers(now, layers);
             }
+            if (this.isNextPattern(now))
+            {
+                switch(this.patterns[this.patternIndex])
+                {
+                case "triline":
+                    measure.result.linesCalculationScore = this.calculationScore();
+                    break;
+                case "trispot":
+                    measure.result.spotCalculationScore = this.calculationScore();
+                    break;
+                }
+                ++this.patternIndex;
+                if (this.isEnd())
+                {
+                    measure.result.totalCalculationScore = calculateMeasurementScore
+                    (
+                        measure.result.linesCalculationScore,
+                        measure.result.spotCalculationScore,
+                        (a, b) => (a +b) /2
+                    );
+                    measure.next();
+                }
+                else
+                {
+                    this.startPattern(measure, now);
+                }
+            }
+            animator.step(now);
         };
-        startAt = 0;
+        laysersStartAt = 0;
+        patternStartAt = 0;
+        isStable = (now: number) =>
+            Fps.isValid &&
+            this.patternStartAt +500 < now;
+        isNeedAdjustingLayers = (now: number) =>
+            this.isStable(now) &&
+            this.laysersStartAt +100 < now &&
+            30 <= Fps.averageFps;
+        isNextPattern = (now: number) =>
+            this.isStable(now) &&
+            this.laysersStartAt +1000 < now;
+        isEnd = () =>
+            this.patterns.length <= this.patternIndex;
+        calculationScore = () =>
+            Fps.averageFps *this.layers;
     }
     export class RenderingScoreMeasurementPhase implements MeasurementPhaseBase
     {

@@ -1,3 +1,4 @@
+import { Tools } from "@tools";
 export namespace Fps
 {
     export class OnlineStandardDeviation
@@ -41,6 +42,7 @@ export namespace Fps
     export let currentMinFps: FpsHistoryEntry;
     export let fuseFps: number;
     export let isValid: boolean;
+    export let averageFps: number = NaN; // 直近1秒間の平均FPSを格納する変数
     const makeInvalidFpsHistoryEntry = (): FpsHistoryEntry =>
         ({
             fps: NaN,
@@ -55,6 +57,7 @@ export namespace Fps
         currentMaxFps = currentNowFps = currentMinFps =
             makeInvalidFpsHistoryEntry();
         standardDeviation.reset();
+        averageFps = NaN; // リセット時に初期化
     };
     export const step = (now: number) =>
     {
@@ -98,6 +101,8 @@ export namespace Fps
                     }
                 }
             );
+            const totalFps = Tools.Math.sum( fpsHistory.map(i => i.fps));
+            averageFps = totalFps / fpsHistory.length;
             if (isUnderFuseFps())
             {
                 console.error
@@ -108,6 +113,7 @@ export namespace Fps
                         maxFps: Fps.currentMaxFps.fps,
                         nowFps: Fps.currentMaxFps.fps,
                         minFps: Fps.currentMinFps.fps,
+                        averageFps: Fps.averageFps,
                     }
                 );
             }
@@ -116,8 +122,9 @@ export namespace Fps
     const makeFpsText = (fps: number) =>
         `${fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, })} FPS`;
     export const getText = () =>
-            currentMaxFps.text +"(Max)\n"
-            +currentNowFps.text + "(Now)\n"
-            +currentMinFps.text +"(Min)";
+            currentMaxFps.text +" (Max)\n"
+            +`${averageFps.toFixed(2)} FPS (Avg)\n`
+            //+currentNowFps.text + " (Now)\n"
+            +currentMinFps.text +" (Min)";
     export const isUnderFuseFps = () => isValid && currentMaxFps.fps < fuseFps;
 }

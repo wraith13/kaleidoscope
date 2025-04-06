@@ -361,6 +361,7 @@ declare module "script/features/fps" {
         export let currentMinFps: FpsHistoryEntry;
         export let fuseFps: number;
         export let isValid: boolean;
+        export let averageFps: number;
         export const reset: () => void;
         export const step: (now: number) => void;
         export const getText: () => string;
@@ -723,6 +724,7 @@ declare module "script/features/benchmark" {
     export namespace Benchmark {
         const animator: Animation.Animator;
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
+        const calculateMeasurementScore: <T>(a: MeasurementScore<T>, b: MeasurementScore<T>, calculate: (a: T, b: T) => T) => MeasurementScore<T>;
         interface Result {
             screenResolution: MeasurementScore<{
                 width: number;
@@ -764,11 +766,21 @@ declare module "script/features/benchmark" {
             fpsCount: number;
         }
         class CalculationScoreMeasurementPhase implements MeasurementPhaseBase {
+            patternIndex: number;
+            layers: number;
             patterns: readonly ["triline", "trispot"];
             name: "benchmark-phase-calculation-score";
-            start: (_measure: Measurement, now: number) => void;
+            start: (measure: Measurement, now: number) => void;
+            startPattern: (_measure: Measurement, now: number) => void;
+            startLayers: (now: number, layers: number) => void;
             step: (measure: Measurement, now: number) => void;
-            startAt: number;
+            laysersStartAt: number;
+            patternStartAt: number;
+            isStable: (now: number) => boolean;
+            isNeedAdjustingLayers: (now: number) => boolean;
+            isNextPattern: (now: number) => boolean;
+            isEnd: () => boolean;
+            calculationScore: () => number;
         }
         class RenderingScoreMeasurementPhase implements MeasurementPhaseBase {
             name: "benchmark-phase-rendering-score";

@@ -1162,7 +1162,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         };
     })(UI || (exports.UI = UI = {}));
 });
-define("script/features/fps", ["require", "exports"], function (require, exports) {
+define("script/features/fps", ["require", "exports", "script/tools/index"], function (require, exports, _tools_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Fps = void 0;
@@ -1201,6 +1201,7 @@ define("script/features/fps", ["require", "exports"], function (require, exports
         var fpsWindow = 1000; // ms
         var frameTimings = [];
         var fpsHistory = [];
+        Fps.averageFps = NaN; // 直近1秒間の平均FPSを格納する変数
         var makeInvalidFpsHistoryEntry = function () {
             return ({
                 fps: NaN,
@@ -1215,6 +1216,7 @@ define("script/features/fps", ["require", "exports"], function (require, exports
             Fps.currentMaxFps = Fps.currentNowFps = Fps.currentMinFps =
                 makeInvalidFpsHistoryEntry();
             Fps.standardDeviation.reset();
+            Fps.averageFps = NaN; // リセット時に初期化
         };
         Fps.step = function (now) {
             frameTimings.push(now);
@@ -1248,12 +1250,15 @@ define("script/features/fps", ["require", "exports"], function (require, exports
                         Fps.currentMinFps = i;
                     }
                 });
+                var totalFps = _tools_2.Tools.Math.sum(fpsHistory.map(function (i) { return i.fps; }));
+                Fps.averageFps = totalFps / fpsHistory.length;
                 if (Fps.isUnderFuseFps()) {
                     console.error("❌ UnderFuseFps:", {
                         fuseFps: Fps.fuseFps,
                         maxFps: Fps.currentMaxFps.fps,
                         nowFps: Fps.currentMaxFps.fps,
                         minFps: Fps.currentMinFps.fps,
+                        averageFps: Fps.averageFps,
                     });
                 }
             }
@@ -1262,9 +1267,10 @@ define("script/features/fps", ["require", "exports"], function (require, exports
             return "".concat(fps.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: 2, minimumFractionDigits: 2, }), " FPS");
         };
         Fps.getText = function () {
-            return Fps.currentMaxFps.text + "(Max)\n"
-                + Fps.currentNowFps.text + "(Now)\n"
-                + Fps.currentMinFps.text + "(Min)";
+            return Fps.currentMaxFps.text + " (Max)\n"
+                + "".concat(Fps.averageFps.toFixed(2), " FPS (Avg)\n")
+                //+currentNowFps.text + " (Now)\n"
+                + Fps.currentMinFps.text + " (Min)";
         };
         Fps.isUnderFuseFps = function () { return Fps.isValid && Fps.currentMaxFps.fps < Fps.fuseFps; };
     })(Fps || (exports.Fps = Fps = {}));
@@ -2461,7 +2467,7 @@ define("flounder.style.js/index", ["require", "exports", "flounder.style.js/gene
         };
     })(FlounderStyle || (exports.FlounderStyle = FlounderStyle = {}));
 });
-define("script/features/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_3, _tools_2, control_json_2, config_json_4) {
+define("script/features/animation", ["require", "exports", "flounder.style.js/index", "phi-colors", "script/library/index", "script/tools/index", "resource/control", "resource/config"], function (require, exports, flounder_style_js_1, phi_colors_1, _library_3, _tools_3, control_json_2, config_json_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
@@ -2502,9 +2508,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.s = PhiColoring.regulateS(saturation);
                 this.l = PhiColoring.regulateL(lightness);
             }
-            PhiColoring.regulateH = function (h) { return _tools_2.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
-            PhiColoring.regulateS = function (s) { return _tools_2.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
-            PhiColoring.regulateL = function (l) { return _tools_2.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
+            PhiColoring.regulateH = function (h) { return _tools_3.Tools.Math.scale(phi_colors_1.phiColors.HslHMin, phi_colors_1.phiColors.HslHMax)(h); };
+            PhiColoring.regulateS = function (s) { return _tools_3.Tools.Math.scale(phi_colors_1.phiColors.HslSMin, phi_colors_1.phiColors.HslSMax)(s); };
+            PhiColoring.regulateL = function (l) { return _tools_3.Tools.Math.scale(phi_colors_1.phiColors.HslLMin, phi_colors_1.phiColors.HslLMax)(l); };
             return PhiColoring;
         }());
         Animation.PhiColoring = PhiColoring;
@@ -2513,13 +2519,13 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
             var makeRandomSpotArguments = function (type, intervalSize) {
                 return ({
                     type: type,
-                    layoutAngle: _tools_2.Tools.Random.select(["regular", "alternative",]),
+                    layoutAngle: _tools_3.Tools.Random.select(["regular", "alternative",]),
                     foregroundColor: "forestgreen",
                     backgroundColor: "blanchedalmond",
                     intervalSize: intervalSize,
                     depth: 0.0,
-                    maxPatternSize: _tools_2.Tools.Random.select([undefined, intervalSize / 4,]),
-                    reverseRate: _tools_2.Tools.Random.select([undefined, 0.0,]),
+                    maxPatternSize: _tools_3.Tools.Random.select([undefined, intervalSize / 4,]),
+                    reverseRate: _tools_3.Tools.Random.select([undefined, 0.0,]),
                     maximumFractionDigits: config_json_4.default.maximumFractionDigits,
                 });
             };
@@ -2537,9 +2543,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     backgroundColor: "blanchedalmond",
                     intervalSize: intervalSize,
                     depth: 0.0,
-                    maxPatternSize: _tools_2.Tools.Random.select([undefined, intervalSize / (2 + _tools_2.Tools.Random.makeInteger(9)),]),
-                    reverseRate: _tools_2.Tools.Random.select([undefined, 0.0,]),
-                    anglePerDepth: _tools_2.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
+                    maxPatternSize: _tools_3.Tools.Random.select([undefined, intervalSize / (2 + _tools_3.Tools.Random.makeInteger(9)),]),
+                    reverseRate: _tools_3.Tools.Random.select([undefined, 0.0,]),
+                    anglePerDepth: _tools_3.Tools.Random.select([undefined, "auto", "-auto", 1, 0, -1.0,]),
                     maximumFractionDigits: config_json_4.default.maximumFractionDigits,
                 });
             };
@@ -2586,12 +2592,12 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
             };
             Pattern.make = function (pattern, intervalSize, random, index, prime) {
                 if (random === void 0) { random = Math.random; }
-                return _tools_2.Tools.Random.select(getList(pattern), random, index, prime)(intervalSize);
+                return _tools_3.Tools.Random.select(getList(pattern), random, index, prime)(intervalSize);
             };
         })(Pattern || (Pattern = {}));
         var Animator = /** @class */ (function () {
             function Animator(canvas, random, phiColoring) {
-                if (random === void 0) { random = new _tools_2.Tools.Random.IndexedRandom().getFunction(); }
+                if (random === void 0) { random = new _tools_3.Tools.Random.IndexedRandom().getFunction(); }
                 if (phiColoring === void 0) { phiColoring = new PhiColoring(); }
                 var _this = this;
                 this.canvas = canvas;
@@ -2611,7 +2617,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return _this.startAt = now - _this.offsetAt;
                 };
                 this.makeRandomArguments = function (mile) {
-                    var result = Pattern.make(_this.pattern, _tools_2.Tools.Math.scale(_this.diagonalSize * config_json_4.default.intervalSize.minRate, _this.diagonalSize * config_json_4.default.intervalSize.maxRate)(_this.random(mile, 17)), _this.random, mile, 23);
+                    var result = Pattern.make(_this.pattern, _tools_3.Tools.Math.scale(_this.diagonalSize * config_json_4.default.intervalSize.minRate, _this.diagonalSize * config_json_4.default.intervalSize.maxRate)(_this.random(mile, 17)), _this.random, mile, 23);
                     _this.argumentHistory.push(result);
                     if (3 <= _this.argumentHistory.length) {
                         _this.argumentHistory.shift();
@@ -2623,7 +2629,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         case "monochrome":
                             return function (mile, _offset, _ix) {
                                 //Tools.Array.cycleSelect(<FlounderStyle.Type.Color[]>config.colors.monochrome, mile +1.0);
-                                return _tools_2.Tools.Array.cycleSelect([Animation.black, Animation.white], mile + 1.0);
+                                return _tools_3.Tools.Array.cycleSelect([Animation.black, Animation.white], mile + 1.0);
                             };
                         case "primary-colors":
                             // return (mile: number, _offset: number, ix: number) =>
@@ -2769,15 +2775,23 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
         Animation.Animator = Animator;
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/features/benchmark", ["require", "exports", "script/tools/index", "script/library/index", "script/ui", "script/features/fps", "script/features/animation", "resource/config"], function (require, exports, _tools_3, _library_4, ui_2, fps_1, animation_1, config_json_5) {
+define("script/features/benchmark", ["require", "exports", "script/tools/index", "script/library/index", "script/ui", "script/features/fps", "script/features/animation", "resource/config"], function (require, exports, _tools_4, _library_4, ui_2, fps_1, animation_1, config_json_5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
     config_json_5 = __importDefault(config_json_5);
     var Benchmark;
     (function (Benchmark) {
-        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas, new _tools_3.Tools.Random.IndexedRandom(_tools_3.Tools.Hash.fnv1a_32, "benchmark")
+        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas, new _tools_4.Tools.Random.IndexedRandom(_tools_4.Tools.Hash.fnv1a_32, "benchmark")
             .getFunction());
+        Benchmark.calculateMeasurementScore = function (a, b, calculate) {
+            for (var i in ["Unmeasured", "UnmeasurablePoor", "UnmeasurableRich",]) {
+                if (a === i || b === i) {
+                    return i;
+                }
+            }
+            return calculate(a, b);
+        };
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
@@ -2852,27 +2866,78 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         var CalculationScoreMeasurementPhase = /** @class */ (function () {
             function CalculationScoreMeasurementPhase() {
                 var _this = this;
+                this.patternIndex = 0;
+                this.layers = 1;
                 this.patterns = ["triline", "trispot"];
                 this.name = "benchmark-phase-calculation-score";
-                this.start = function (_measure, now) {
-                    _this.startAt = now;
-                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", false);
+                this.start = function (measure, now) {
+                    _this.patternIndex = 0;
+                    ui_2.UI.benchmarkCanvas.classList.toggle("calulate-only", true);
                     Benchmark.animator.setColorspace("sRGB");
                     Benchmark.animator.setColoring("phi-colors");
                     Benchmark.animator.setDiagonalSize(1000);
-                    Benchmark.animator.setLayers(1);
                     Benchmark.animator.setCycleSpan(1000);
                     Benchmark.animator.setEasing(true);
-                    Benchmark.animator.setPattern(_this.patterns[0]);
+                    _this.startPattern(measure, now);
+                };
+                this.startPattern = function (_measure, now) {
+                    _this.patternStartAt = now;
+                    Benchmark.animator.setPattern(_this.patterns[_this.patternIndex]);
+                    _this.startLayers(now, 1);
                     Benchmark.animator.startStep(now);
+                    fps_1.Fps.reset();
+                };
+                this.startLayers = function (now, layers) {
+                    _this.laysersStartAt = now;
+                    _this.layers = layers;
+                    Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
-                    Benchmark.animator.step(now);
-                    if (_this.startAt + 10000 <= now) {
-                        measure.next();
+                    if (_this.isNeedAdjustingLayers(now)) {
+                        var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / 30), _this.layers + 1);
+                        _this.startLayers(now, layers);
                     }
+                    if (_this.isNextPattern(now)) {
+                        switch (_this.patterns[_this.patternIndex]) {
+                            case "triline":
+                                measure.result.linesCalculationScore = _this.calculationScore();
+                                break;
+                            case "trispot":
+                                measure.result.spotCalculationScore = _this.calculationScore();
+                                break;
+                        }
+                        ++_this.patternIndex;
+                        if (_this.isEnd()) {
+                            measure.result.totalCalculationScore = Benchmark.calculateMeasurementScore(measure.result.linesCalculationScore, measure.result.spotCalculationScore, function (a, b) { return (a + b) / 2; });
+                            measure.next();
+                        }
+                        else {
+                            _this.startPattern(measure, now);
+                        }
+                    }
+                    Benchmark.animator.step(now);
                 };
-                this.startAt = 0;
+                this.laysersStartAt = 0;
+                this.patternStartAt = 0;
+                this.isStable = function (now) {
+                    return fps_1.Fps.isValid &&
+                        _this.patternStartAt + 500 < now;
+                };
+                this.isNeedAdjustingLayers = function (now) {
+                    return _this.isStable(now) &&
+                        _this.laysersStartAt + 100 < now &&
+                        30 <= fps_1.Fps.averageFps;
+                };
+                this.isNextPattern = function (now) {
+                    return _this.isStable(now) &&
+                        _this.laysersStartAt + 1000 < now;
+                };
+                this.isEnd = function () {
+                    return _this.patterns.length <= _this.patternIndex;
+                };
+                this.calculationScore = function () {
+                    return fps_1.Fps.averageFps * _this.layers;
+                };
             }
             return CalculationScoreMeasurementPhase;
         }());
@@ -3261,11 +3326,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_4, ui_7, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_7, _tools_5, ui_7, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     ui_7.UI.initialize();
     events_1.Events.initialize();
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_4.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_7.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=index.js.map
