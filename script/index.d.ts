@@ -725,6 +725,7 @@ declare module "script/features/benchmark" {
         const animator: Animation.Animator;
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
         const calculateMeasurementScore: <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R) => MeasurementScore<R>;
+        const getMeasurementScoreValue: <T>(score: MeasurementScore<T>) => T | undefined;
         interface Result {
             screenResolution: MeasurementScore<{
                 width: number;
@@ -772,6 +773,7 @@ declare module "script/features/benchmark" {
             patternIndex: number;
             layers: number;
             patterns: readonly ["triline", "trispot"];
+            halfRefreshRate: number;
             constructor(calculateOnly: boolean, calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown, calculateTotalScore: (measure: Measurement) => unknown);
             start: (measure: Measurement, now: number) => void;
             startPattern: (_measure: Measurement, now: number) => void;

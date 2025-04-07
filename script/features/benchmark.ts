@@ -313,7 +313,7 @@ export namespace Benchmark
             (
                 this.result.screenResolution,
                 this.result.totalRenderingScore,
-                (a, b) => a.width *a.height *b /config.benchmark.pixelUnit
+                (a, b) =>  b /((a.width *a.height) /config.benchmark.pixelUnit)
             );
             console.log("📈 benchmark", this.result);
         }

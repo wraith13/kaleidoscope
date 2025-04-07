@@ -40,9 +40,8 @@ export namespace Benchmark
         benchmark.start();
         if (Library.UI.fullscreenEnabled)
         {
-            //Library.UI.requestFullscreen(document.body);
+            Library.UI.requestFullscreen(document.body);
         }
-        UI.showFps.get();
         setTimeout
         (
             () =>

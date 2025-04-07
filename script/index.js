@@ -247,7 +247,8 @@ define("resource/config", [], {
         "startWait": 1500,
         "screenResolutionWait": 500,
         "refreshRateWait": 1500,
-        "endWait": 750
+        "endWait": 750,
+        "pixelUnit": 1000000
     }
 });
 define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
@@ -2807,6 +2808,11 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             }
             return calculate(a, b);
         };
+        Benchmark.getMeasurementScoreValue = function (score) {
+            return ["Unmeasured", "UnmeasurablePoor", "UnmeasurableRich",].includes(score) ?
+                undefined :
+                score;
+        };
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
@@ -2887,7 +2893,10 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.patternIndex = 0;
                 this.layers = 1;
                 this.patterns = ["triline", "trispot"];
+                this.halfRefreshRate = 30;
                 this.start = function (measure, now) {
+                    var _a;
+                    _this.halfRefreshRate = (_a = Benchmark.getMeasurementScoreValue(measure.result.refreshRate)) !== null && _a !== void 0 ? _a : 30;
                     _this.patternIndex = 0;
                     ui_2.UI.benchmarkCanvas.classList.toggle("calculate-only", _this.calculateOnly);
                     Benchmark.animator.setColorspace("sRGB");
@@ -2911,7 +2920,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.step = function (measure, now) {
                     if (_this.isNeedAdjustingLayers(now)) {
-                        var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / 30), _this.layers + 1);
+                        var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
                     }
                     if (_this.isNextPattern(now)) {
@@ -2993,7 +3002,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 _this.name = "benchmark-phase-rendering-score";
                 _this.calculateArea = function () {
                     return (document.documentElement.clientWidth * document.documentElement.clientHeight)
-                        / 1000000;
+                        / config_json_5.default.benchmark.pixelUnit;
                 };
                 return _this;
             }
@@ -3037,7 +3046,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.end = function () {
                     ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
-                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return a.width * a.height * b / 1000000; });
+                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return b / ((a.width * a.height) / config_json_5.default.benchmark.pixelUnit); });
                     console.log("📈 benchmark", _this.result);
                 };
             }
@@ -3177,9 +3186,8 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
             if (_library_6.Library.UI.fullscreenEnabled) {
-                //Library.UI.requestFullscreen(document.body);
+                _library_6.Library.UI.requestFullscreen(document.body);
             }
-            ui_5.UI.showFps.get();
             setTimeout(function () {
                 return window.requestAnimationFrame(function (now) {
                     Benchmark.loopBenchmark(now);
