@@ -3037,7 +3037,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.end = function () {
                     ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
-                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.totalCalculationScore, _this.result.totalRenderingScore, function (a, b) { return a + b; });
+                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return a.width * a.height * b / 1000000; });
                     console.log("📈 benchmark", _this.result);
                 };
             }
@@ -3177,7 +3177,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
             if (_library_6.Library.UI.fullscreenEnabled) {
-                _library_6.Library.UI.requestFullscreen(document.body);
+                //Library.UI.requestFullscreen(document.body);
             }
             ui_5.UI.showFps.get();
             setTimeout(function () {

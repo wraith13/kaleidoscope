@@ -724,7 +724,7 @@ declare module "script/features/benchmark" {
     export namespace Benchmark {
         const animator: Animation.Animator;
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
-        const calculateMeasurementScore: <T>(a: MeasurementScore<T>, b: MeasurementScore<T>, calculate: (a: T, b: T) => T) => MeasurementScore<T>;
+        const calculateMeasurementScore: <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R) => MeasurementScore<R>;
         interface Result {
             screenResolution: MeasurementScore<{
                 width: number;

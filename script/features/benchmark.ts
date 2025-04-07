@@ -17,7 +17,7 @@ export namespace Benchmark
         .getFunction()
     );
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
-    export const calculateMeasurementScore = <T>(a: MeasurementScore<T>, b: MeasurementScore<T>, calculate: (a: T, b: T) => T): MeasurementScore<T> =>
+    export const calculateMeasurementScore = <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R): MeasurementScore<R> =>
     {
         for(var i in [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ])
         {
@@ -26,8 +26,12 @@ export namespace Benchmark
                 return i;
             }
         }
-        return calculate(a as T, b as T);
+        return calculate(a as A, b as B);
     };
+    export const getMeasurementScoreValue = <T>(score: MeasurementScore<T>): T | undefined =>
+        [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ].includes(score as string) ?
+        undefined :
+        score as T;
     export interface Result
     {
         screenResolution: MeasurementScore<{ width: number, height: number, colorDepth: number }>;
@@ -35,10 +39,10 @@ export namespace Benchmark
         linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
         spotCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
         totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotCalculationScore) /2
-        linesRenderingScorePerPixel: MeasurementScore<number>; // 計算時間を除外した1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Triline )
-        spotsRenderingScorePerPixel: MeasurementScore<number>; // 計算時間を除外した1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Tetraspot )
+        linesRenderingScorePerPixel: MeasurementScore<number>; // 1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Triline )
+        spotsRenderingScorePerPixel: MeasurementScore<number>; // 1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Tetraspot )
         totalRenderingScore: MeasurementScore<number>; // (linesRenderingScorePerPixel + spotsRenderingScorePerPixel) /2
-        totalScore: MeasurementScore<number>; // totalCalculationScore + totalRenderingScore
+        totalScore: MeasurementScore<number>; // totalRenderingScore * screenResolution.width * screenResolution.height / 1000000
     }
     export const getUnmeasuredReslult = (): Result =>
     ({
@@ -120,6 +124,7 @@ export namespace Benchmark
         patternIndex = 0;
         layers = 1;
         patterns = [ "triline", "trispot" ] as const;
+        halfRefreshRate = 30;
         constructor
         (
             public calculateOnly: boolean,
@@ -130,6 +135,7 @@ export namespace Benchmark
         }
         start = (measure: Measurement, now: number) =>
         {
+            this.halfRefreshRate = getMeasurementScoreValue(measure.result.refreshRate) ?? 30;
             this.patternIndex = 0;
             UI.benchmarkCanvas.classList.toggle("calculate-only", this.calculateOnly);
             animator.setColorspace("sRGB");
@@ -157,7 +163,7 @@ export namespace Benchmark
         {
             if (this.isNeedAdjustingLayers(now))
             {
-                const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /30), this.layers +1);
+                const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate), this.layers +1);
                 this.startLayers(now, layers);
             }
             if (this.isNextPattern(now))
@@ -260,7 +266,7 @@ export namespace Benchmark
         }
         calculateArea = () =>
             (document.documentElement.clientWidth *document.documentElement.clientHeight)
-            /1000000;
+            /config.benchmark.pixelUnit;
     }
     const phases: MeasurementPhaseBase[] =
     [
@@ -305,9 +311,9 @@ export namespace Benchmark
             UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-finished");
             this.result.totalScore = calculateMeasurementScore
             (
-                this.result.totalCalculationScore,
+                this.result.screenResolution,
                 this.result.totalRenderingScore,
-                (a, b) => a +b
+                (a, b) => a.width *a.height *b /config.benchmark.pixelUnit
             );
             console.log("📈 benchmark", this.result);
         }

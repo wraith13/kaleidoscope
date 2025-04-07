@@ -38,6 +38,7 @@
         "startWait": 1500,
         "screenResolutionWait": 500,
         "refreshRateWait": 1500,
-        "endWait": 750
+        "endWait": 750,
+        "pixelUnit": 1000000
     }
 }

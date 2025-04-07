@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Apr 06 2025 20:44:16 GMT+0900 (日本標準時)
+    build at: Mon Apr 07 2025 09:11:25 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1196,8 +1196,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Apr 06 2025 20:44:16 GMT+0900 (日本標準時)",
-    tick: 1743939856925
+    at: "Mon Apr 07 2025 09:11:25 GMT+0900 (日本標準時)",
+    tick: 1743984685686
 };
 const evilCommonjsConfig =
 {
@@ -7220,7 +7220,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.end = function () {
                     ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
-                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.totalCalculationScore, _this.result.totalRenderingScore, function (a, b) { return a + b; });
+                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return a.width * a.height * b / 1000000; });
                     console.log("📈 benchmark", _this.result);
                 };
             }
@@ -7360,7 +7360,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
             if (_library_6.Library.UI.fullscreenEnabled) {
-                _library_6.Library.UI.requestFullscreen(document.body);
+                //Library.UI.requestFullscreen(document.body);
             }
             ui_5.UI.showFps.get();
             setTimeout(function () {
