@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Tue Apr 08 2025 08:51:06 GMT+0900 (日本標準時)
+    build at: Tue Apr 08 2025 20:19:11 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -457,13 +457,13 @@ body.hide-ui #option-panel:not(.show)::before {
   will-change: contents opacity filter;
   transition: opacity 750ms, filter 750ms;
 }
-body:not(.immersive) #fps:not(.show) {
+body:not(.animation) #fps:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body:not(.immersive) #fps:not(.show)::before {
+body:not(.animation) #fps:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -1199,8 +1199,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Tue Apr 08 2025 08:51:06 GMT+0900 (日本標準時)",
-    tick: 1744069866030
+    at: "Tue Apr 08 2025 20:19:11 GMT+0900 (日本標準時)",
+    tick: 1744111151841
 };
 const evilCommonjsConfig =
 {

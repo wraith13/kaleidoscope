@@ -208,7 +208,7 @@
         text-align: right;
         white-space: pre;
         will-change: contents opacity filter;
-        @include fade-transition("body:not(.immersive)", "&.hide");
+        @include fade-transition("body:not(.animation)", "&.hide");
     }
 }
 #benchmark-panel
