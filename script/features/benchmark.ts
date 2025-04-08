@@ -186,14 +186,14 @@ export namespace Benchmark
         patternStartAt = 0;
         isStable = (now: number) =>
             Fps.isValid &&
-            this.patternStartAt +750 < now;
+            this.patternStartAt +config.benchmark.stableWait < now;
         isNeedAdjustingLayers = (now: number) =>
             this.isStable(now) &&
-            this.laysersStartAt +100 < now &&
+            this.laysersStartAt +config.benchmark.adjustLayersWait < now &&
             30 <= Fps.averageFps;
         isNextPattern = (now: number) =>
             this.isStable(now) &&
-            this.laysersStartAt +1000 < now;
+            this.laysersStartAt +config.benchmark.nextPatternWait < now;
         isEnd = () =>
             this.patterns.length <= this.patternIndex;
         calculationScore = () =>

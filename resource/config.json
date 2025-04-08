@@ -36,6 +36,9 @@
     "startWait": 750,
     "benchmark": {
         "startWait": 1500,
+        "stableWait": 750,
+        "adjustLayersWait": 300,
+        "nextPatternWait": 1000,
         "screenResolutionWait": 500,
         "refreshRateWait": 1500,
         "endWait": 750,

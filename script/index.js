@@ -245,6 +245,9 @@ define("resource/config", [], {
     "startWait": 750,
     "benchmark": {
         "startWait": 1500,
+        "stableWait": 750,
+        "adjustLayersWait": 300,
+        "nextPatternWait": 1000,
         "screenResolutionWait": 500,
         "refreshRateWait": 1500,
         "endWait": 750,
@@ -2940,16 +2943,16 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.patternStartAt = 0;
                 this.isStable = function (now) {
                     return fps_1.Fps.isValid &&
-                        _this.patternStartAt + 750 < now;
+                        _this.patternStartAt + config_json_5.default.benchmark.stableWait < now;
                 };
                 this.isNeedAdjustingLayers = function (now) {
                     return _this.isStable(now) &&
-                        _this.laysersStartAt + 100 < now &&
+                        _this.laysersStartAt + config_json_5.default.benchmark.adjustLayersWait < now &&
                         30 <= fps_1.Fps.averageFps;
                 };
                 this.isNextPattern = function (now) {
                     return _this.isStable(now) &&
-                        _this.laysersStartAt + 1000 < now;
+                        _this.laysersStartAt + config_json_5.default.benchmark.nextPatternWait < now;
                 };
                 this.isEnd = function () {
                     return _this.patterns.length <= _this.patternIndex;
