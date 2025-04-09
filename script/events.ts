@@ -70,6 +70,14 @@ export namespace Events
         UI.easingCheckbox.setChange(updateEasing);
         // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);
+        UI.benchmarkResultCloseButton.data.click = (event, button) =>
+        {
+            event?.stopPropagation();
+            button.dom.blur();
+            //Controller.Benchmark.runBenchmark();
+            document.body.classList.toggle("immersive", false);
+            document.body.classList.toggle("benchmark-result", false);
+        };
         UI.canvas.addEventListener
         (
             "click",

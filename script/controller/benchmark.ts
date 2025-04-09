@@ -21,7 +21,7 @@ export namespace Benchmark
                     () =>
                     {
                         stopBenchmark();
-                        // 🚧 showResult();
+                        showResult();
                     },
                     config.benchmark.endWait
                 );
@@ -71,4 +71,10 @@ export namespace Benchmark
         }
         Base.exitMode("benchmark");
     };
+    export const showResult = () =>
+    {
+        document.body.classList.toggle("immersive", true);
+        document.body.classList.toggle("benchmark-result", true);
+        UI.scorePanel.innerText = JSON.stringify(benchmark.result, null, 4);
+    }
 }

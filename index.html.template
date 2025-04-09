@@ -40,6 +40,15 @@ __STYLE__
     <div id="benchmark-canvas">
         <div class="layer"></div>
     </div>
+    <div id="benchmark-result">
+        <div id="benchmark-result-panel">
+            <div id="score-panel">
+            </div>
+            <div id="description-panel">
+            </div>
+        </div>
+        <button id="benchmark-result-close-button">close<button>
+    </div>
 </div>
 <div id="option-panel">
     <label for="colorspace">

@@ -316,10 +316,6 @@ declare module "script/ui" {
     export namespace UI {
         const screenBody: HTMLDivElement;
         const canvas: HTMLDivElement;
-        const benchmarkProgressBar: HTMLDivElement;
-        const benchmarkCanvas: HTMLDivElement;
-        const keyboardShortcut: HTMLDivElement;
-        const benchmarkPhase: HTMLSpanElement;
         const playButton: Library.Control.Button<HTMLElement>;
         const runBenchmarkButton: Library.Control.Button<HTMLElement>;
         const colorspaceSelect: Library.Control.Select<string>;
@@ -334,6 +330,12 @@ declare module "script/ui" {
         const showFps: Library.Control.Checkbox;
         const languageSelect: Library.Control.Select<string>;
         const fpsDisplay: HTMLDivElement;
+        const benchmarkProgressBar: HTMLDivElement;
+        const benchmarkCanvas: HTMLDivElement;
+        const keyboardShortcut: HTMLDivElement;
+        const benchmarkPhase: HTMLSpanElement;
+        const scorePanel: HTMLDivElement;
+        const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
         const updateLanguage: () => void;
         const initialize: () => void;
     }
@@ -848,6 +850,7 @@ declare module "script/controller/benchmark" {
         const isInBenchmark: () => boolean;
         const runBenchmark: () => void;
         const stopBenchmark: () => void;
+        const showResult: () => void;
     }
 }
 declare module "script/controller/index" {

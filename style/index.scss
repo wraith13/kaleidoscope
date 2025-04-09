@@ -131,6 +131,13 @@
             height: 100%;
         }
     }
+    #benchmark-result
+    {
+        @include fade-transition("body:not(.benchmark-result)");
+        @include black-pop-panel-style();
+        @include solid-box();
+        position: absolute;
+    }
 }
 #option-panel
 {

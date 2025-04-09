@@ -9,14 +9,6 @@ export namespace UI
         Library.UI.getElementById("div", "screen-body");
     export const canvas =
         Library.UI.getElementById("div", "canvas");
-    export const benchmarkProgressBar =
-        Library.UI.getElementById("div", "benchmark-progress-bar");
-    export const benchmarkCanvas =
-        Library.UI.getElementById("div", "benchmark-canvas");
-    export const keyboardShortcut =
-        Library.UI.getElementById("div", "keyboard-shortcut");
-    export const benchmarkPhase =
-        Library.UI.getElementById("span", "benchmark-phase");
     export const playButton =
         new Library.Control.Button({ id: "play-button", });
     export const runBenchmarkButton =
@@ -54,6 +46,18 @@ export namespace UI
         );
     export const fpsDisplay =
         Library.UI.getElementById("div", "fps");
+    export const benchmarkProgressBar =
+        Library.UI.getElementById("div", "benchmark-progress-bar");
+    export const benchmarkCanvas =
+        Library.UI.getElementById("div", "benchmark-canvas");
+    export const keyboardShortcut =
+        Library.UI.getElementById("div", "keyboard-shortcut");
+    export const benchmarkPhase =
+        Library.UI.getElementById("span", "benchmark-phase");
+    export const scorePanel =
+        Library.UI.getElementById("div", "score-panel");
+    export const benchmarkResultCloseButton =
+        new Library.Control.Button({ id: "benchmark-result-close-button", });
     export const updateLanguage = () =>
     {
         Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Language | "Auto");

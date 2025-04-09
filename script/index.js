@@ -1118,10 +1118,6 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
     (function (UI) {
         UI.screenBody = _library_2.Library.UI.getElementById("div", "screen-body");
         UI.canvas = _library_2.Library.UI.getElementById("div", "canvas");
-        UI.benchmarkProgressBar = _library_2.Library.UI.getElementById("div", "benchmark-progress-bar");
-        UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
-        UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
-        UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
         UI.playButton = new _library_2.Library.Control.Button({ id: "play-button", });
         UI.runBenchmarkButton = new _library_2.Library.Control.Button({ id: "run-benchmark", });
         UI.colorspaceSelect = new _library_2.Library.Control.Select(control_json_1.default.colorspace);
@@ -1141,6 +1137,12 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             change: function () { return UI.updateLanguage(); },
         });
         UI.fpsDisplay = _library_2.Library.UI.getElementById("div", "fps");
+        UI.benchmarkProgressBar = _library_2.Library.UI.getElementById("div", "benchmark-progress-bar");
+        UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
+        UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
+        UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
+        UI.scorePanel = _library_2.Library.UI.getElementById("div", "score-panel");
+        UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
         UI.updateLanguage = function () {
             _library_2.Library.Locale.setLocale(UI.languageSelect.get());
             UI.colorspaceSelect.reloadOptions();
@@ -3174,7 +3176,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                     Benchmark.benchmark.end();
                     setTimeout(function () {
                         Benchmark.stopBenchmark();
-                        // 🚧 showResult();
+                        Benchmark.showResult();
                     }, config_json_7.default.benchmark.endWait);
                 }
                 else {
@@ -3206,6 +3208,11 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 });
             }
             base_2.Base.exitMode("benchmark");
+        };
+        Benchmark.showResult = function () {
+            document.body.classList.toggle("immersive", true);
+            document.body.classList.toggle("benchmark-result", true);
+            ui_5.UI.scorePanel.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });
@@ -3307,6 +3314,13 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_6.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
             ui_6.UI.showFps.setChange(updateShowFps);
+            ui_6.UI.benchmarkResultCloseButton.data.click = function (event, button) {
+                event === null || event === void 0 ? void 0 : event.stopPropagation();
+                button.dom.blur();
+                //Controller.Benchmark.runBenchmark();
+                document.body.classList.toggle("immersive", false);
+                document.body.classList.toggle("benchmark-result", false);
+            };
             ui_6.UI.canvas.addEventListener("click", function (event) {
                 event.stopPropagation();
                 console.log("👆 canvas.Click: pauseAnimation", event, ui_6.UI.canvas);
