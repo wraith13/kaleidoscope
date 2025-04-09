@@ -733,6 +733,7 @@ declare module "script/features/benchmark" {
                 width: number;
                 height: number;
                 colorDepth: number;
+                devicePixelRatio: number;
             }>;
             refreshRate: MeasurementScore<number>;
             linesCalculationScore: MeasurementScore<number>;
@@ -748,6 +749,7 @@ declare module "script/features/benchmark" {
             width: number;
             height: number;
             colorDepth: number;
+            devicePixelRatio: number;
         };
         interface MeasurementPhaseBase {
             name: Library.Locale.Label;

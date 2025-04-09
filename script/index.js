@@ -251,7 +251,7 @@ define("resource/config", [], {
         "screenResolutionWait": 500,
         "refreshRateWait": 1500,
         "endWait": 750,
-        "pixelUnit": 1000000
+        "pixelUnit": 2073600
     }
 });
 define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
@@ -2832,10 +2832,12 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             });
         };
         Benchmark.measureScreenResolution = function () {
+            var _a;
             return ({
                 width: document.documentElement.clientWidth,
                 height: document.documentElement.clientHeight,
                 colorDepth: window.screen.colorDepth,
+                devicePixelRatio: (_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0,
             });
         };
         var setProgressBarSize = function (size) {
@@ -3006,7 +3008,9 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 }) || this;
                 _this.name = "benchmark-phase-rendering-score";
                 _this.calculateArea = function () {
-                    return (document.documentElement.clientWidth * document.documentElement.clientHeight)
+                    var _a, _b;
+                    return ((document.documentElement.clientWidth * ((_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0))
+                        * (document.documentElement.clientHeight * ((_b = window.devicePixelRatio) !== null && _b !== void 0 ? _b : 1.0)))
                         / config_json_5.default.benchmark.pixelUnit;
                 };
                 return _this;
@@ -3051,7 +3055,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.end = function () {
                     ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
-                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return b / ((a.width * a.height) / config_json_5.default.benchmark.pixelUnit); });
+                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return b / (((a.width * a.devicePixelRatio) * (a.height * a.devicePixelRatio)) / config_json_5.default.benchmark.pixelUnit); });
                     console.log("📈 benchmark", _this.result);
                 };
             }

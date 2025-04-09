@@ -34,15 +34,15 @@ export namespace Benchmark
         score as T;
     export interface Result
     {
-        screenResolution: MeasurementScore<{ width: number, height: number, colorDepth: number }>;
+        screenResolution: MeasurementScore<{ width: number; height: number; colorDepth: number; devicePixelRatio: number; }>;
         refreshRate: MeasurementScore<number>;
         linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
         spotCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
         totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotCalculationScore) /2
-        linesRenderingScorePerPixel: MeasurementScore<number>; // 1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Triline )
-        spotsRenderingScorePerPixel: MeasurementScore<number>; // 1000x1000ピクセル状態で１秒間に描画可能なレイヤーの総数( Tetraspot )
+        linesRenderingScorePerPixel: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Triline )
+        spotsRenderingScorePerPixel: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Tetraspot )
         totalRenderingScore: MeasurementScore<number>; // (linesRenderingScorePerPixel + spotsRenderingScorePerPixel) /2
-        totalScore: MeasurementScore<number>; // totalRenderingScore * screenResolution.width * screenResolution.height / 1000000
+        totalScore: MeasurementScore<number>; // totalRenderingScore * screenResolution.width * screenResolution.height / (1920 *1080)
     }
     export const getUnmeasuredReslult = (): Result =>
     ({
@@ -61,6 +61,7 @@ export namespace Benchmark
         width: document.documentElement.clientWidth,
         height: document.documentElement.clientHeight,
         colorDepth: window.screen.colorDepth,
+        devicePixelRatio: window.devicePixelRatio ?? 1.0,
     });
     const setProgressBarSize = (size: number) =>
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
@@ -265,7 +266,10 @@ export namespace Benchmark
             );
         }
         calculateArea = () =>
-            (document.documentElement.clientWidth *document.documentElement.clientHeight)
+            (
+                (document.documentElement.clientWidth *(window.devicePixelRatio ?? 1.0))
+                *(document.documentElement.clientHeight *(window.devicePixelRatio ?? 1.0))
+            )
             /config.benchmark.pixelUnit;
     }
     const phases: MeasurementPhaseBase[] =
@@ -313,7 +317,7 @@ export namespace Benchmark
             (
                 this.result.screenResolution,
                 this.result.totalRenderingScore,
-                (a, b) =>  b /((a.width *a.height) /config.benchmark.pixelUnit)
+                (a, b) =>  b /(((a.width *a.devicePixelRatio) *(a.height *a.devicePixelRatio)) /config.benchmark.pixelUnit)
             );
             console.log("📈 benchmark", this.result);
         }
