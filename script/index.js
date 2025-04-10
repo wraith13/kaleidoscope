@@ -2834,8 +2834,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         Benchmark.measureScreenResolution = function () {
             var _a;
             return ({
-                width: document.documentElement.clientWidth,
-                height: document.documentElement.clientHeight,
+                width: screen.width,
+                height: screen.height,
                 colorDepth: window.screen.colorDepth,
                 devicePixelRatio: (_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0,
             });
@@ -3009,8 +3009,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 _this.name = "benchmark-phase-rendering-score";
                 _this.calculateArea = function () {
                     var _a, _b;
-                    return ((document.documentElement.clientWidth * ((_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0))
-                        * (document.documentElement.clientHeight * ((_b = window.devicePixelRatio) !== null && _b !== void 0 ? _b : 1.0)))
+                    return ((ui_2.UI.benchmarkCanvas.clientWidth * ((_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0))
+                        * (ui_2.UI.benchmarkCanvas.clientHeight * ((_b = window.devicePixelRatio) !== null && _b !== void 0 ? _b : 1.0)))
                         / config_json_5.default.benchmark.pixelUnit;
                 };
                 return _this;

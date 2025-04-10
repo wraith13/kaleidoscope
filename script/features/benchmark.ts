@@ -58,8 +58,8 @@ export namespace Benchmark
     });
     export const measureScreenResolution = () =>
     ({
-        width: document.documentElement.clientWidth,
-        height: document.documentElement.clientHeight,
+        width: screen.width,
+        height: screen.height,
         colorDepth: window.screen.colorDepth,
         devicePixelRatio: window.devicePixelRatio ?? 1.0,
     });
@@ -267,8 +267,8 @@ export namespace Benchmark
         }
         calculateArea = () =>
             (
-                (document.documentElement.clientWidth *(window.devicePixelRatio ?? 1.0))
-                *(document.documentElement.clientHeight *(window.devicePixelRatio ?? 1.0))
+                (UI.benchmarkCanvas.clientWidth *(window.devicePixelRatio ?? 1.0))
+                *(UI.benchmarkCanvas.clientHeight *(window.devicePixelRatio ?? 1.0))
             )
             /config.benchmark.pixelUnit;
     }
