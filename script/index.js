@@ -245,7 +245,7 @@ define("resource/config", [], {
     "startWait": 750,
     "benchmark": {
         "startWait": 1500,
-        "stableWait": 750,
+        "stableWait": 1000,
         "adjustLayersWait": 300,
         "nextPatternWait": 1000,
         "screenResolutionWait": 500,
@@ -2905,11 +2905,11 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     var _a;
                     _this.halfRefreshRate = (_a = Benchmark.getMeasurementScoreValue(measure.result.refreshRate)) !== null && _a !== void 0 ? _a : 30;
                     _this.patternIndex = 0;
-                    ui_2.UI.benchmarkCanvas.classList.toggle("calculate-only", _this.calculateOnly);
+                    document.body.classList.toggle("benchmark-rendering", !_this.calculateOnly);
                     Benchmark.animator.setColorspace("sRGB");
                     Benchmark.animator.setColoring("phi-colors");
                     Benchmark.animator.setDiagonalSize(1000);
-                    Benchmark.animator.setCycleSpan(500);
+                    Benchmark.animator.setCycleSpan(1000);
                     Benchmark.animator.setEasing(true);
                     _this.startPattern(measure, now);
                 };
@@ -3212,6 +3212,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 });
             }
             base_2.Base.exitMode("benchmark");
+            document.body.classList.toggle("benchmark-rendering", false);
         };
         Benchmark.showResult = function () {
             document.body.classList.toggle("immersive", true);

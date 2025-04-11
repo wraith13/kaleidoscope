@@ -183,13 +183,13 @@ body.immersive.mousemove #screen-body {
 #screen-body #canvas {
   transition: opacity 750ms, filter 750ms;
 }
-body.benchmark #screen-body #canvas:not(.show) {
+body.benchmark-rendering #screen-body #canvas:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.benchmark #screen-body #canvas:not(.show)::before {
+body.benchmark-rendering #screen-body #canvas:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -205,13 +205,13 @@ body.benchmark #screen-body #canvas:not(.show)::before {
 #screen-body #benchmark-canvas {
   transition: opacity 750ms, filter 750ms;
 }
-body:not(.benchmark) #screen-body #benchmark-canvas:not(.show) {
+body:not(.benchmark-rendering) #screen-body #benchmark-canvas:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body:not(.benchmark) #screen-body #benchmark-canvas:not(.show)::before {
+body:not(.benchmark-rendering) #screen-body #benchmark-canvas:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -224,17 +224,19 @@ body:not(.benchmark) #screen-body #benchmark-canvas:not(.show)::before {
   transition: filter 750ms;
 }
 
-#screen-body #benchmark-canvas.calculate-only {
+body:not(.benchmark-rendering) #screen-body #benchmark-canvas {
   width: 0px;
   height: 0px;
 }
-#screen-body #benchmark-canvas.calculate-only .layer {
+body:not(.benchmark-rendering) #screen-body #benchmark-canvas .layer {
   display: none;
 }
-#screen-body #benchmark-canvas:not(.calculate-only) {
+
+body.benchmark-rendering #screen-body #benchmark-canvas {
   width: 100%;
   height: 100%;
 }
+
 #screen-body #benchmark-result {
   transition: opacity 750ms, filter 750ms;
   backdrop-filter: blur(1rem);

@@ -70,6 +70,7 @@ export namespace Benchmark
             );
         }
         Base.exitMode("benchmark");
+        document.body.classList.toggle("benchmark-rendering", false);
     };
     export const showResult = () =>
     {

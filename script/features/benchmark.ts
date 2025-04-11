@@ -138,11 +138,11 @@ export namespace Benchmark
         {
             this.halfRefreshRate = getMeasurementScoreValue(measure.result.refreshRate) ?? 30;
             this.patternIndex = 0;
-            UI.benchmarkCanvas.classList.toggle("calculate-only", this.calculateOnly);
+            document.body.classList.toggle("benchmark-rendering", ! this.calculateOnly);
             animator.setColorspace("sRGB");
             animator.setColoring("phi-colors");
             animator.setDiagonalSize(1000);
-            animator.setCycleSpan(500);
+            animator.setCycleSpan(1000);
             animator.setEasing(true);
             this.startPattern(measure, now);
         };
