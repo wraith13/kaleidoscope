@@ -40,6 +40,11 @@ __STYLE__
     <div id="benchmark-canvas">
         <div class="layer"></div>
     </div>
+    <div id="benchmark-popup">
+        <div id="benchmark-popup-description">
+        </div>
+        <button id="benchmark-abort-button">abort<button>
+    </div>
     <div id="benchmark-result">
         <div id="benchmark-result-panel">
             <div id="score-panel">
