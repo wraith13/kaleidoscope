@@ -111,7 +111,7 @@ __STYLE__
     <div id="benchmark-popup-description">
     計測中...
     </div>
-    <button id="benchmark-abort-button">abort<button>
+    <button id="benchmark-abort-button"><span data-lang-key="benchmark-abort"></span></button>
 </div>
 <div id="screen-footer">
     <div id="supplementary-line">

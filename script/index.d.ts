@@ -44,6 +44,7 @@ declare module "script/library/locale" {
                 "Speed Down / Up": string;
                 FullScreen: string;
                 "Show FPS": string;
+                "benchmark-abort": string;
                 "benchmark-phase-preparation": string;
                 "benchmarking-in-progress": string;
                 "benchmark-phase-screen-resolution": string;
@@ -87,6 +88,7 @@ declare module "script/library/locale" {
                 "Speed Down / Up": string;
                 FullScreen: string;
                 "Show FPS": string;
+                "benchmark-abort": string;
                 "benchmarking-in-progress": string;
                 "benchmark-phase-preparation": string;
                 "benchmark-phase-screen-resolution": string;
@@ -335,6 +337,7 @@ declare module "script/ui" {
         const keyboardShortcut: HTMLDivElement;
         const benchmarkPhase: HTMLSpanElement;
         const scorePanel: HTMLDivElement;
+        const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
         const updateLanguage: () => void;
         const initialize: () => void;

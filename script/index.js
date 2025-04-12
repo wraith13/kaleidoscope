@@ -125,6 +125,7 @@ define("resource/lang.en", [], {
     "Speed Down / Up": "Speed Down / Up",
     "FullScreen": "FullScreen",
     "Show FPS": "Show FPS",
+    "benchmark-abort": "Abort",
     "benchmark-phase-preparation": "Preparation",
     "benchmarking-in-progress": "Benchmarking in progress",
     "benchmark-phase-screen-resolution": "Screen Resolution",
@@ -168,6 +169,7 @@ define("resource/lang.ja", [], {
     "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
     "Show FPS": "FPS 表示",
+    "benchmark-abort": "中断",
     "benchmarking-in-progress": "ベンチマーク計測中",
     "benchmark-phase-preparation": "準備",
     "benchmark-phase-screen-resolution": "画面解像度",
@@ -1142,6 +1144,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
         UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
         UI.scorePanel = _library_2.Library.UI.getElementById("div", "score-panel");
+        UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
         UI.updateLanguage = function () {
             _library_2.Library.Locale.setLocale(UI.languageSelect.get());
@@ -3319,6 +3322,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_6.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
             ui_6.UI.showFps.setChange(updateShowFps);
+            ui_6.UI.benchmarkAbortButton.data.click = function (event, button) {
+                event === null || event === void 0 ? void 0 : event.stopPropagation();
+                button.dom.blur();
+                _controller_1.Controller.Benchmark.stopBenchmark();
+            };
             ui_6.UI.benchmarkResultCloseButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();

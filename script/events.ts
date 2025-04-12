@@ -70,6 +70,12 @@ export namespace Events
         UI.easingCheckbox.setChange(updateEasing);
         // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);
+        UI.benchmarkAbortButton.data.click = (event, button) =>
+        {
+            event?.stopPropagation();
+            button.dom.blur();
+            Controller.Benchmark.stopBenchmark();
+        };
         UI.benchmarkResultCloseButton.data.click = (event, button) =>
         {
             event?.stopPropagation();

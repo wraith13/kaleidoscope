@@ -39,8 +39,8 @@ export namespace Benchmark
         linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
         spotCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
         totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotCalculationScore) /2
-        linesRenderingScorePerPixel: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Triline )
-        spotsRenderingScorePerPixel: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Tetraspot )
+        linesRenderingScorePerFullHd: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Triline )
+        spotsRenderingScorePerFullHd: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Tetraspot )
         totalRenderingScore: MeasurementScore<number>; // (linesRenderingScorePerPixel + spotsRenderingScorePerPixel) /2
         totalScore: MeasurementScore<number>; // totalRenderingScore * screenResolution.width * screenResolution.height / (1920 *1080)
     }
@@ -51,8 +51,8 @@ export namespace Benchmark
         linesCalculationScore: "Unmeasured",
         spotCalculationScore: "Unmeasured",
         totalCalculationScore: "Unmeasured",
-        linesRenderingScorePerPixel: "Unmeasured",
-        spotsRenderingScorePerPixel: "Unmeasured",
+        linesRenderingScorePerFullHd: "Unmeasured",
+        spotsRenderingScorePerFullHd: "Unmeasured",
         totalRenderingScore: "Unmeasured",
         totalScore: "Unmeasured",
     });
@@ -245,11 +245,11 @@ export namespace Benchmark
                     switch(pattern)
                     {
                     case "triline":
-                        measure.result.linesRenderingScorePerPixel =
+                        measure.result.linesRenderingScorePerFullHd =
                             this.calculationScore() *this.calculateArea();
                         break;
                     case "trispot":
-                        measure.result.spotsRenderingScorePerPixel =
+                        measure.result.spotsRenderingScorePerFullHd =
                             this.calculationScore() *this.calculateArea();
                         break;
                     }
@@ -258,8 +258,8 @@ export namespace Benchmark
                 {
                     measure.result.totalRenderingScore = calculateMeasurementScore
                     (
-                        measure.result.linesRenderingScorePerPixel,
-                        measure.result.spotsRenderingScorePerPixel,
+                        measure.result.linesRenderingScorePerFullHd,
+                        measure.result.spotsRenderingScorePerFullHd,
                         (a, b) => (a +b) /2
                     );
                 }
@@ -317,7 +317,7 @@ export namespace Benchmark
             (
                 this.result.screenResolution,
                 this.result.totalRenderingScore,
-                (a, b) =>  b /(((a.width *a.devicePixelRatio) *(a.height *a.devicePixelRatio)) /config.benchmark.pixelUnit)
+                (a, b) => b /(((a.width *a.devicePixelRatio) *(a.height *a.devicePixelRatio)) /config.benchmark.pixelUnit)
             );
             console.log("📈 benchmark", this.result);
         }

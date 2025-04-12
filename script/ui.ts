@@ -56,6 +56,8 @@ export namespace UI
         Library.UI.getElementById("span", "benchmark-phase");
     export const scorePanel =
         Library.UI.getElementById("div", "score-panel");
+    export const benchmarkAbortButton =
+        new Library.Control.Button({ id: "benchmark-abort-button", });
     export const benchmarkResultCloseButton =
         new Library.Control.Button({ id: "benchmark-result-close-button", });
     export const updateLanguage = () =>

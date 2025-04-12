@@ -335,24 +335,18 @@
         max-height: calc(100vh - 5rem);
         z-index: 50;
     }
-    button
+    button#benchmark-abort-button
     {
-        svg
-        {
-            @include svg-color(white-color(0.7));
-            width: 100%;
-            height: 100%;
-        }
+        line-height: 100%;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        color: black-color(0.9);
+        background-color: white-color(0.7);
         @media (hover: hover)
         {
             &:hover
             {
-                border-color: white-color;
-                background-color: $hover-black-color;
-            }
-            &:hover svg
-            {
-                @include svg-color($white-color);
+                background-color: white-color(0.9);
             }
         }
     }

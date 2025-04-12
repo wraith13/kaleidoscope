@@ -33,6 +33,7 @@
     "Speed Down / Up": "Speed Down / Up",
     "FullScreen": "FullScreen",
     "Show FPS": "Show FPS",
+    "benchmark-abort": "Abort",
     "benchmark-phase-preparation": "Preparation",
     "benchmarking-in-progress":"Benchmarking in progress",
     "benchmark-phase-screen-resolution": "Screen Resolution",
