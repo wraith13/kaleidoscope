@@ -1144,6 +1144,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
         UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
         UI.scorePanel = _library_2.Library.UI.getElementById("div", "score-panel");
+        UI.benchmarkDescription = _library_2.Library.UI.getElementById("div", "benchmark-popup-description");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
         UI.updateLanguage = function () {
@@ -2858,6 +2859,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.name = "benchmark-phase-screen-resolution";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
+                    ui_2.UI.benchmarkDescription.textContent = JSON.stringify(Benchmark.measureScreenResolution());
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
@@ -2880,6 +2882,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     _this.fpsCount = 0;
                 };
                 this.step = function (measure, now) {
+                    ui_2.UI.benchmarkDescription.textContent = "Refesh Rate: ".concat(fps_1.Fps.currentNowFps.fps.toFixed(2), " fps");
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
@@ -2929,6 +2932,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
+                    ui_2.UI.benchmarkDescription.textContent = "score: ".concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);

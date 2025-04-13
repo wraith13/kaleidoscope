@@ -337,6 +337,7 @@ declare module "script/ui" {
         const keyboardShortcut: HTMLDivElement;
         const benchmarkPhase: HTMLSpanElement;
         const scorePanel: HTMLDivElement;
+        const benchmarkDescription: HTMLDivElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
         const updateLanguage: () => void;

@@ -86,6 +86,7 @@ export namespace Benchmark
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
+            UI.benchmarkDescription.textContent = JSON.stringify(measureScreenResolution());
         };
         step = (measure: Measurement, now: number) =>
         {
@@ -108,6 +109,7 @@ export namespace Benchmark
         };
         step = (measure: Measurement, now: number) =>
         {
+            UI.benchmarkDescription.textContent = `Refesh Rate: ${Fps.currentNowFps.fps.toFixed(2)} fps`;
             this.fpsTotal += Fps.currentNowFps.fps;
             ++this.fpsCount;
             if (this.startAt + config.benchmark.refreshRateWait <= now)
@@ -162,6 +164,7 @@ export namespace Benchmark
         }
         step = (measure: Measurement, now: number) =>
         {
+            UI.benchmarkDescription.textContent = `score: ${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
             if (this.isNeedAdjustingLayers(now))
             {
                 const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate), this.layers +1);

@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat Apr 12 2025 17:04:47 GMT+0900 (日本標準時)
+    build at: Sun Apr 13 2025 15:01:58 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -298,7 +298,6 @@ body.benchmark-rendering #screen-body #benchmark-canvas {
   margin: 0px;
   padding: 0px;
   border: 0;
-  position: absolute;
 }
 body:not(.benchmark-result) #screen-body #benchmark-result:not(.show) {
   opacity: 0;
@@ -317,6 +316,31 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   filter: blur(1em);
   z-index: -1;
   transition: filter 750ms;
+}
+
+#screen-body #benchmark-result {
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  transition: opacity 750ms, filter 750ms;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: calc(100vw - 3rem);
+  max-height: calc(100vh - 5rem);
+  z-index: 50;
+}
+#screen-body #benchmark-result button#benchmark-result-close-button {
+  line-height: 100%;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  color: rgba(32, 28, 38, 0.9);
+  background-color: rgba(230, 237, 243, 0.7);
+}
+@media (hover: hover) {
+  #screen-body #benchmark-result button#benchmark-result-close-button:hover {
+    background-color: rgba(230, 237, 243, 0.9);
+  }
 }
 
 #option-panel {
@@ -1371,8 +1395,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sat Apr 12 2025 17:04:47 GMT+0900 (日本標準時)",
-    tick: 1744445087265
+    at: "Sun Apr 13 2025 15:01:58 GMT+0900 (日本標準時)",
+    tick: 1744524118749
 };
 const evilCommonjsConfig =
 {
@@ -5502,6 +5526,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
         UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
         UI.scorePanel = _library_2.Library.UI.getElementById("div", "score-panel");
+        UI.benchmarkDescription = _library_2.Library.UI.getElementById("div", "benchmark-popup-description");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
         UI.updateLanguage = function () {
@@ -7216,6 +7241,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.name = "benchmark-phase-screen-resolution";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
+                    ui_2.UI.benchmarkDescription.textContent = JSON.stringify(Benchmark.measureScreenResolution());
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
@@ -7238,6 +7264,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     _this.fpsCount = 0;
                 };
                 this.step = function (measure, now) {
+                    ui_2.UI.benchmarkDescription.textContent = "Refesh Rate: ".concat(fps_1.Fps.currentNowFps.fps.toFixed(2), " fps");
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
@@ -7287,6 +7314,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
+                    ui_2.UI.benchmarkDescription.textContent = "score: ".concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
