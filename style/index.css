@@ -586,13 +586,51 @@ body.hide-ui #benchmark-panel:not(.show)::before {
   background-color: rgba(32, 28, 38, 0.6);
   transition: opacity 750ms, filter 750ms;
 }
-body.immersive:not(.mousemove) #play-button:not(.show) {
+body.animation:not(.mousemove) #play-button:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.immersive:not(.mousemove) #play-button:not(.show)::before {
+body.animation:not(.mousemove) #play-button:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.benchmark #play-button:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.benchmark #play-button:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.benchmark-result #play-button:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.benchmark-result #play-button:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;

@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat Apr 12 2025 14:48:48 GMT+0900 (日本標準時)
+    build at: Sat Apr 12 2025 17:04:47 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -638,13 +638,51 @@ body.hide-ui #benchmark-panel:not(.show)::before {
   background-color: rgba(32, 28, 38, 0.6);
   transition: opacity 750ms, filter 750ms;
 }
-body.immersive:not(.mousemove) #play-button:not(.show) {
+body.animation:not(.mousemove) #play-button:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.immersive:not(.mousemove) #play-button:not(.show)::before {
+body.animation:not(.mousemove) #play-button:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.benchmark #play-button:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.benchmark #play-button:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.benchmark-result #play-button:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.benchmark-result #play-button:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -1333,8 +1371,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sat Apr 12 2025 14:48:48 GMT+0900 (日本標準時)",
-    tick: 1744436928389
+    at: "Sat Apr 12 2025 17:04:47 GMT+0900 (日本標準時)",
+    tick: 1744445087265
 };
 const evilCommonjsConfig =
 {
@@ -7148,8 +7186,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 linesCalculationScore: "Unmeasured",
                 spotCalculationScore: "Unmeasured",
                 totalCalculationScore: "Unmeasured",
-                linesRenderingScorePerPixel: "Unmeasured",
-                spotsRenderingScorePerPixel: "Unmeasured",
+                linesRenderingScorePerFullHd: "Unmeasured",
+                spotsRenderingScorePerFullHd: "Unmeasured",
                 totalRenderingScore: "Unmeasured",
                 totalScore: "Unmeasured",
             });
@@ -7318,16 +7356,16 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 var _this = _super.call(this, false, function (measure, pattern) {
                     switch (pattern) {
                         case "triline":
-                            measure.result.linesRenderingScorePerPixel =
+                            measure.result.linesRenderingScorePerFullHd =
                                 _this.calculationScore() * _this.calculateArea();
                             break;
                         case "trispot":
-                            measure.result.spotsRenderingScorePerPixel =
+                            measure.result.spotsRenderingScorePerFullHd =
                                 _this.calculationScore() * _this.calculateArea();
                             break;
                     }
                 }, function (measure) {
-                    measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerPixel, measure.result.spotsRenderingScorePerPixel, function (a, b) { return (a + b) / 2; });
+                    measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerFullHd, measure.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
                 }) || this;
                 _this.name = "benchmark-phase-rendering-score";
                 _this.calculateArea = function () {

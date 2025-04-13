@@ -742,8 +742,8 @@ declare module "script/features/benchmark" {
             linesCalculationScore: MeasurementScore<number>;
             spotCalculationScore: MeasurementScore<number>;
             totalCalculationScore: MeasurementScore<number>;
-            linesRenderingScorePerPixel: MeasurementScore<number>;
-            spotsRenderingScorePerPixel: MeasurementScore<number>;
+            linesRenderingScorePerFullHd: MeasurementScore<number>;
+            spotsRenderingScorePerFullHd: MeasurementScore<number>;
             totalRenderingScore: MeasurementScore<number>;
             totalScore: MeasurementScore<number>;
         }

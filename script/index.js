@@ -2828,8 +2828,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 linesCalculationScore: "Unmeasured",
                 spotCalculationScore: "Unmeasured",
                 totalCalculationScore: "Unmeasured",
-                linesRenderingScorePerPixel: "Unmeasured",
-                spotsRenderingScorePerPixel: "Unmeasured",
+                linesRenderingScorePerFullHd: "Unmeasured",
+                spotsRenderingScorePerFullHd: "Unmeasured",
                 totalRenderingScore: "Unmeasured",
                 totalScore: "Unmeasured",
             });
@@ -2998,16 +2998,16 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 var _this = _super.call(this, false, function (measure, pattern) {
                     switch (pattern) {
                         case "triline":
-                            measure.result.linesRenderingScorePerPixel =
+                            measure.result.linesRenderingScorePerFullHd =
                                 _this.calculationScore() * _this.calculateArea();
                             break;
                         case "trispot":
-                            measure.result.spotsRenderingScorePerPixel =
+                            measure.result.spotsRenderingScorePerFullHd =
                                 _this.calculationScore() * _this.calculateArea();
                             break;
                     }
                 }, function (measure) {
-                    measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerPixel, measure.result.spotsRenderingScorePerPixel, function (a, b) { return (a + b) / 2; });
+                    measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerFullHd, measure.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
                 }) || this;
                 _this.name = "benchmark-phase-rendering-score";
                 _this.calculateArea = function () {

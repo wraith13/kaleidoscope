@@ -272,7 +272,7 @@
 #play-button
 {
     @include black-pop-panel-style();
-    @include fade-transition("body.immersive:not(.mousemove)", "body.hide-ui");
+    @include fade-transition("body.animation:not(.mousemove)", "body.benchmark", "body.benchmark-result", "body.hide-ui");
     &
     {
         border-style: solid;
