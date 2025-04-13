@@ -47,7 +47,7 @@ __STYLE__
             <div id="description-panel">
             </div>
         </div>
-        <button id="benchmark-result-close-button">close<button>
+        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span><button>
     </div>
 </div>
 <div id="option-panel">
@@ -131,7 +131,7 @@ __STYLE__
 </div>
 <div id="benchmark-status">
     <span id="benchmark-message" data-lang-key="benchmarking-in-progress"></span>
-    <span id="benchmark-phase">xxx</span>
+    <span id="benchmark-phase"></span>
 </div>
 </body>
 <script type="text/javascript">

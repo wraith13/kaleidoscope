@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Apr 13 2025 15:01:58 GMT+0900 (日本標準時)
+    build at: Sun Apr 13 2025 20:12:22 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1290,7 +1290,7 @@ body:not(.benchmark) #benchmark-status:not(.show) {
             <div id="description-panel">
             </div>
         </div>
-        <button id="benchmark-result-close-button">close<button>
+        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span><button>
     </div>
 </div>
 <div id="option-panel">
@@ -1389,14 +1389,14 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 </div>
 <div id="benchmark-status">
     <span id="benchmark-message" data-lang-key="benchmarking-in-progress"></span>
-    <span id="benchmark-phase">xxx</span>
+    <span id="benchmark-phase"></span>
 </div>
 </body>
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Apr 13 2025 15:01:58 GMT+0900 (日本標準時)",
-    tick: 1744524118749
+    at: "Sun Apr 13 2025 20:12:22 GMT+0900 (日本標準時)",
+    tick: 1744542742633
 };
 const evilCommonjsConfig =
 {
@@ -4508,6 +4508,7 @@ define("resource/lang.en", [], {
     "FullScreen": "FullScreen",
     "Show FPS": "Show FPS",
     "benchmark-abort": "Abort",
+    "benchmark-close": "Close",
     "benchmark-phase-preparation": "Preparation",
     "benchmarking-in-progress": "Benchmarking in progress",
     "benchmark-phase-screen-resolution": "Screen Resolution",
@@ -4552,6 +4553,7 @@ define("resource/lang.ja", [], {
     "FullScreen": "フルスクリーン",
     "Show FPS": "FPS 表示",
     "benchmark-abort": "中断",
+    "benchmark-close": "閉じる",
     "benchmarking-in-progress": "ベンチマーク計測中",
     "benchmark-phase-preparation": "準備",
     "benchmark-phase-screen-resolution": "画面解像度",

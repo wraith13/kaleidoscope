@@ -45,6 +45,7 @@ declare module "script/library/locale" {
                 FullScreen: string;
                 "Show FPS": string;
                 "benchmark-abort": string;
+                "benchmark-close": string;
                 "benchmark-phase-preparation": string;
                 "benchmarking-in-progress": string;
                 "benchmark-phase-screen-resolution": string;
@@ -89,6 +90,7 @@ declare module "script/library/locale" {
                 FullScreen: string;
                 "Show FPS": string;
                 "benchmark-abort": string;
+                "benchmark-close": string;
                 "benchmarking-in-progress": string;
                 "benchmark-phase-preparation": string;
                 "benchmark-phase-screen-resolution": string;
