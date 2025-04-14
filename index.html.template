@@ -47,7 +47,7 @@ __STYLE__
             <div id="description-panel">
             </div>
         </div>
-        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span><button>
+        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
     </div>
 </div>
 <div id="option-panel">

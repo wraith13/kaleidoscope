@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Apr 14 2025 08:41:10 GMT+0900 (日本標準時)
+    build at: Mon Apr 14 2025 21:30:20 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -333,6 +333,7 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   max-width: calc(100vw - 3rem);
   max-height: calc(100vh - 5rem);
   z-index: 50;
+  gap: 1rem;
 }
 #screen-body #benchmark-result button#benchmark-result-close-button {
   line-height: 100%;
@@ -861,6 +862,30 @@ body.hide-ui #benchmark-popup:not(.show)::before {
   max-width: calc(100vw - 3rem);
   max-height: calc(100vh - 5rem);
   z-index: 50;
+  gap: 1rem;
+}
+#benchmark-popup #benchmark-popup-description {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-popup #benchmark-popup-description {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-popup #benchmark-popup-description {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-popup #benchmark-popup-description {
+  font-family: monospace;
+}
+#benchmark-popup #benchmark-popup-description {
+  font-size: 2rem;
 }
 #benchmark-popup button#benchmark-abort-button {
   line-height: 100%;
@@ -1298,7 +1323,7 @@ body:not(.benchmark) #benchmark-status:not(.show) {
             <div id="description-panel">
             </div>
         </div>
-        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span><button>
+        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
     </div>
 </div>
 <div id="option-panel">
@@ -1403,8 +1428,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Mon Apr 14 2025 08:41:10 GMT+0900 (日本標準時)",
-    tick: 1744587670893
+    at: "Mon Apr 14 2025 21:30:20 GMT+0900 (日本標準時)",
+    tick: 1744633820458
 };
 const evilCommonjsConfig =
 {
