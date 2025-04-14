@@ -136,6 +136,7 @@
         @include fade-transition("body:not(.benchmark-result)");
         @include black-pop-panel-style();
         @include solid-box();
+        @include flex(column, center);
         &
         {
             border-radius: 0.5rem;
@@ -351,6 +352,7 @@
 #benchmark-popup
 {
     @include black-pop-panel-style();
+    @include flex(column, center);
     @include fade-transition("body:not(.benchmark)", "body.benchmark-result", "body.hide-ui");
     &
     {

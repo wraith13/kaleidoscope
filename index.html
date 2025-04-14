@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Apr 13 2025 20:12:22 GMT+0900 (日本標準時)
+    build at: Mon Apr 14 2025 08:41:10 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -298,6 +298,10 @@ body.benchmark-rendering #screen-body #benchmark-canvas {
   margin: 0px;
   padding: 0px;
   border: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 body:not(.benchmark-result) #screen-body #benchmark-result:not(.show) {
   opacity: 0;
@@ -783,6 +787,10 @@ body:not(.immersive) #play-button #pause-icon {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   transition: opacity 750ms, filter 750ms;
 }
 body:not(.benchmark) #benchmark-popup:not(.show) {
@@ -1395,8 +1403,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Apr 13 2025 20:12:22 GMT+0900 (日本標準時)",
-    tick: 1744542742633
+    at: "Mon Apr 14 2025 08:41:10 GMT+0900 (日本標準時)",
+    tick: 1744587670893
 };
 const evilCommonjsConfig =
 {
