@@ -2900,11 +2900,12 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         }());
         Benchmark.RefreshRateMeasurementPhase = RefreshRateMeasurementPhase;
         var ScoreMeasurementPhaseBase = /** @class */ (function () {
-            function ScoreMeasurementPhaseBase(calculateOnly, calculateScore, calculateTotalScore) {
+            function ScoreMeasurementPhaseBase(calculateOnly, calculateScore, calculateTotalScore, scoreLabels) {
                 var _this = this;
                 this.calculateOnly = calculateOnly;
                 this.calculateScore = calculateScore;
                 this.calculateTotalScore = calculateTotalScore;
+                this.scoreLabels = scoreLabels;
                 this.patternIndex = 0;
                 this.layers = 1;
                 this.patterns = ["triline", "trispot"];
@@ -2934,7 +2935,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "score: ".concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
+                    ui_2.UI.benchmarkDescription.textContent = "".concat(_this.scoreLabels[_this.patternIndex], ": ").concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
@@ -2991,7 +2992,10 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     }
                 }, function (measure) {
                     measure.result.totalCalculationScore = Benchmark.calculateMeasurementScore(measure.result.linesCalculationScore, measure.result.spotCalculationScore, function (a, b) { return (a + b) / 2; });
-                }) || this;
+                }, [
+                    "line-calculation-score",
+                    "spot-calculation-score",
+                ]) || this;
                 _this.name = "benchmark-phase-calculation-score";
                 return _this;
             }
@@ -3014,7 +3018,10 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     }
                 }, function (measure) {
                     measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerFullHd, measure.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
-                }) || this;
+                }, [
+                    "line-rendering-score",
+                    "spot-rendering-score",
+                ]) || this;
                 _this.name = "benchmark-phase-rendering-score";
                 _this.calculateArea = function () {
                     var _a, _b;

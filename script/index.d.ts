@@ -780,11 +780,12 @@ declare module "script/features/benchmark" {
             calculateOnly: boolean;
             calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown;
             calculateTotalScore: (measure: Measurement) => unknown;
+            scoreLabels: string[];
             patternIndex: number;
             layers: number;
             patterns: readonly ["triline", "trispot"];
             halfRefreshRate: number;
-            constructor(calculateOnly: boolean, calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown, calculateTotalScore: (measure: Measurement) => unknown);
+            constructor(calculateOnly: boolean, calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown, calculateTotalScore: (measure: Measurement) => unknown, scoreLabels: string[]);
             start: (measure: Measurement, now: number) => void;
             startPattern: (_measure: Measurement, now: number) => void;
             startLayers: (now: number, layers: number) => void;

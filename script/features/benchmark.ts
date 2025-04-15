@@ -132,7 +132,8 @@ export namespace Benchmark
         (
             public calculateOnly: boolean,
             public calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown,
-            public calculateTotalScore: (measure: Measurement) => unknown
+            public calculateTotalScore: (measure: Measurement) => unknown,
+            public scoreLabels: string[]
         )
         {
         }
@@ -164,7 +165,7 @@ export namespace Benchmark
         }
         step = (measure: Measurement, now: number) =>
         {
-            UI.benchmarkDescription.textContent = `score: ${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
+            UI.benchmarkDescription.textContent = `${this.scoreLabels[this.patternIndex]}: ${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
             if (this.isNeedAdjustingLayers(now))
             {
                 const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate), this.layers +1);
@@ -231,7 +232,11 @@ export namespace Benchmark
                         measure.result.spotCalculationScore,
                         (a, b) => (a +b) /2
                     );
-                }
+                },
+                [
+                    "line-calculation-score",
+                    "spot-calculation-score",
+                ]
             );
         }
     }
@@ -265,7 +270,11 @@ export namespace Benchmark
                         measure.result.spotsRenderingScorePerFullHd,
                         (a, b) => (a +b) /2
                     );
-                }
+                },
+                [
+                    "line-rendering-score",
+                    "spot-rendering-score",
+                ]
             );
         }
         calculateArea = () =>
