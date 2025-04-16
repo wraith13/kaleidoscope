@@ -7,6 +7,7 @@
     "pattern-label": "Pattern:",
     "canvas-size-label": "Canvas Size:",
     "layers-label": "Layers:",
+    "spots-layers-label": "Layers(spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
     "easing-label": "Easing:",

@@ -99,6 +99,7 @@ define("resource/lang.en", [], {
     "pattern-label": "Pattern:",
     "canvas-size-label": "Canvas Size:",
     "layers-label": "Layers:",
+    "spots-layers-label": "Layers(spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
     "easing-label": "Easing:",
@@ -144,6 +145,7 @@ define("resource/lang.ja", [], {
     "pattern-label": "パターン:",
     "canvas-size-label": "キャンバスサイズ:",
     "layers-label": "レイヤー数:",
+    "spots-layers-label": "レイヤー数(spots):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
     "easing-label": "イージング:",
@@ -1039,6 +1041,15 @@ define("resource/control", [], {
         ],
         "default": 17
     },
+    "spotsLayers": {
+        "id": "spotsLayers",
+        "enum": [
+            100,
+            66,
+            33
+        ],
+        "default": 33
+    },
     "cycleSpan": {
         "id": "cycle-span",
         "enum": [
@@ -1129,6 +1140,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.patternSelect = new _library_2.Library.Control.Select(control_json_1.default.pattern);
         UI.canvasSizeSelect = new _library_2.Library.Control.Select(control_json_1.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.layersSelect = new _library_2.Library.Control.Select(control_json_1.default.layers);
+        UI.spotslayersSelect = new _library_2.Library.Control.Select(control_json_1.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.cycleSpanSelect = new _library_2.Library.Control.Select(control_json_1.default.cycleSpan, { makeLabel: _tools_1.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_2.Library.Control.Select(control_json_1.default.fuseFps);
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);

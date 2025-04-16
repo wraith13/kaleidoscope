@@ -23,6 +23,8 @@ export namespace UI
         new Library.Control.Select(control.canvasSize, { makeLabel: i => `${i} %` });
     export const layersSelect =
         new Library.Control.Select(control.layers);
+    export const spotslayersSelect =
+        new Library.Control.Select(control.spotsLayers, { makeLabel: i => `${i} %` });
     export const cycleSpanSelect =
         new Library.Control.Select(control.cycleSpan, { makeLabel: Tools.Timespan.toDisplayString });
     export const fuseFpsSelect =

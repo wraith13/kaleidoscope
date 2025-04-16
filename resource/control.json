@@ -76,6 +76,15 @@
         ],
         "default": 17
     },
+    "spotsLayers": {
+        "id": "spotsLayers",
+        "enum": [
+            100,
+            66,
+            33
+        ],
+        "default": 33
+    },
     "cycleSpan": {
         "id": "cycle-span",
         "enum": [

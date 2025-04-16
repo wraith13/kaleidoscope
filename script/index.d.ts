@@ -18,6 +18,7 @@ declare module "script/library/locale" {
                 "pattern-label": string;
                 "canvas-size-label": string;
                 "layers-label": string;
+                "spots-layers-label": string;
                 "cycle-span-label": string;
                 "fuse-fps-label": string;
                 "easing-label": string;
@@ -63,6 +64,7 @@ declare module "script/library/locale" {
                 "pattern-label": string;
                 "canvas-size-label": string;
                 "layers-label": string;
+                "spots-layers-label": string;
                 "cycle-span-label": string;
                 "fuse-fps-label": string;
                 "easing-label": string;
@@ -327,6 +329,7 @@ declare module "script/ui" {
         const patternSelect: Library.Control.Select<string>;
         const canvasSizeSelect: Library.Control.Select<number>;
         const layersSelect: Library.Control.Select<number>;
+        const spotslayersSelect: Library.Control.Select<number>;
         const cycleSpanSelect: Library.Control.Select<number>;
         const fuseFpsSelect: Library.Control.Select<number>;
         const easingCheckbox: Library.Control.Checkbox;

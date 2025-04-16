@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Tue Apr 15 2025 21:20:05 GMT+0900 (日本標準時)
+    build at: Wed Apr 16 2025 21:13:25 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1351,6 +1351,10 @@ body:not(.benchmark) #benchmark-status:not(.show) {
         <span data-lang-key="layers-label">Layers:</span>
         <select id="layers"></select>
     </label>
+    <label for="spotsLayers">
+        <span data-lang-key="spots-layers-label">Layers:</span>
+        <select id="spotsLayers"></select>
+    </label>
     <label for="cycle-span">
         <span data-lang-key="cycle-span-label">Cycle Span:</span>
         <select id="cycle-span"></select>
@@ -1432,8 +1436,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Tue Apr 15 2025 21:20:05 GMT+0900 (日本標準時)",
-    tick: 1744719605944
+    at: "Wed Apr 16 2025 21:13:25 GMT+0900 (日本標準時)",
+    tick: 1744805605969
 };
 const evilCommonjsConfig =
 {
@@ -4518,6 +4522,7 @@ define("resource/lang.en", [], {
     "pattern-label": "Pattern:",
     "canvas-size-label": "Canvas Size:",
     "layers-label": "Layers:",
+    "spots-layers-label": "Layers(spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
     "easing-label": "Easing:",
@@ -4563,6 +4568,7 @@ define("resource/lang.ja", [], {
     "pattern-label": "パターン:",
     "canvas-size-label": "キャンバスサイズ:",
     "layers-label": "レイヤー数:",
+    "spots-layers-label": "レイヤー数(spots):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
     "easing-label": "イージング:",
@@ -5458,6 +5464,15 @@ define("resource/control", [], {
         ],
         "default": 17
     },
+    "spotsLayers": {
+        "id": "spotsLayers",
+        "enum": [
+            100,
+            66,
+            33
+        ],
+        "default": 33
+    },
     "cycleSpan": {
         "id": "cycle-span",
         "enum": [
@@ -5548,6 +5563,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.patternSelect = new _library_2.Library.Control.Select(control_json_1.default.pattern);
         UI.canvasSizeSelect = new _library_2.Library.Control.Select(control_json_1.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.layersSelect = new _library_2.Library.Control.Select(control_json_1.default.layers);
+        UI.spotslayersSelect = new _library_2.Library.Control.Select(control_json_1.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.cycleSpanSelect = new _library_2.Library.Control.Select(control_json_1.default.cycleSpan, { makeLabel: _tools_1.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_2.Library.Control.Select(control_json_1.default.fuseFps);
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);

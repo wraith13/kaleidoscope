@@ -7,6 +7,7 @@
     "pattern-label": "パターン:",
     "canvas-size-label": "キャンバスサイズ:",
     "layers-label": "レイヤー数:",
+    "spots-layers-label": "レイヤー数(spots):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
     "easing-label": "イージング:",
