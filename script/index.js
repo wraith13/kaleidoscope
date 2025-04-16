@@ -3211,7 +3211,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
             if (_library_6.Library.UI.fullscreenEnabled) {
-                _library_6.Library.UI.requestFullscreen(document.body);
+                //Library.UI.requestFullscreen(document.body);
             }
             setTimeout(function () {
                 return window.requestAnimationFrame(function (now) {

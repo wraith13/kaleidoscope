@@ -283,6 +283,9 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   z-index: 50;
   gap: 1rem;
 }
+#screen-body #benchmark-result #benchmark-result-panel {
+  overflow: scroll;
+}
 #screen-body #benchmark-result button#benchmark-result-close-button {
   line-height: 100%;
   padding: 0.5rem 1.5rem;
@@ -834,6 +837,7 @@ body.hide-ui #benchmark-popup:not(.show)::before {
 }
 #benchmark-popup #benchmark-popup-description {
   font-size: 2rem;
+  line-height: 2rem;
 }
 #benchmark-popup button#benchmark-abort-button {
   line-height: 100%;

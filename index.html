@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Tue Apr 15 2025 07:53:44 GMT+0900 (日本標準時)
+    build at: Tue Apr 15 2025 21:20:05 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -334,6 +334,9 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   max-height: calc(100vh - 5rem);
   z-index: 50;
   gap: 1rem;
+}
+#screen-body #benchmark-result #benchmark-result-panel {
+  overflow: scroll;
 }
 #screen-body #benchmark-result button#benchmark-result-close-button {
   line-height: 100%;
@@ -886,6 +889,7 @@ body.hide-ui #benchmark-popup:not(.show)::before {
 }
 #benchmark-popup #benchmark-popup-description {
   font-size: 2rem;
+  line-height: 2rem;
 }
 #benchmark-popup button#benchmark-abort-button {
   line-height: 100%;
@@ -1428,8 +1432,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Tue Apr 15 2025 07:53:44 GMT+0900 (日本標準時)",
-    tick: 1744671224855
+    at: "Tue Apr 15 2025 21:20:05 GMT+0900 (日本標準時)",
+    tick: 1744719605944
 };
 const evilCommonjsConfig =
 {
@@ -7626,7 +7630,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
             if (_library_6.Library.UI.fullscreenEnabled) {
-                _library_6.Library.UI.requestFullscreen(document.body);
+                //Library.UI.requestFullscreen(document.body);
             }
             setTimeout(function () {
                 return window.requestAnimationFrame(function (now) {
