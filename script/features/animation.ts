@@ -137,12 +137,12 @@ export namespace Animation
     export class Animator
     {
         layers: Layer[] = [];
+        spotsLayersRate = 1;
         pattern: typeof control.pattern.enum[number] = control.pattern.default;
         startAt = 0;
         offsetAt = 0;
         cycleSpan = control.cycleSpan.default;
         diagonalSize = 0;
-
         constructor(public canvas: HTMLDivElement, public random: Tools.Random.Function = new Tools.Random.IndexedRandom().getFunction(), public phiColoring: PhiColoring = new PhiColoring())
             { };
         getDiagonalSize = () => Math.sqrt(Math.pow(this.canvas.clientWidth ?? 0, 2) +Math.pow(this.canvas.clientHeight ?? 0, 2));
@@ -211,6 +211,10 @@ export namespace Animation
             this.makeColor(this.makeBackgroundRgb(mile, offset, ix));
         isStarted = () => 0 < this.startAt;
         getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
+        getSpotsIndex = (ix: number) =>
+            Math.floor(ix *this.spotsLayersRate);
+        isValidSpotLayer = (ix: number) =>
+            this.getSpotsIndex(ix -1) < this.getSpotsIndex(ix);
         step = (now: number) =>
         {
             this.offsetAt = now -this.startAt;
@@ -333,6 +337,10 @@ export namespace Animation
                     }
                 )
             );
+        };
+        setSpotsLayers = (spotsLayersRate: number) =>
+        {
+            this.spotsLayersRate = spotsLayersRate;
         };
         setEasing = (enabled: boolean) =>
         {

@@ -23,6 +23,8 @@ export namespace Events
         update(() => Controller.Animation.animator.setPattern(UI.patternSelect.get()));
     const updateLayers = (): void =>
         update(() => Controller.Animation.animator.setLayers(parseInt(UI.layersSelect.get())));
+    const updateSpotsLayers = (): void =>
+        update(() => Controller.Animation.animator.setSpotsLayers(parseInt(UI.spotslayersSelect.get()) /100.0));
     const setCanvasSize = (size: string) =>
     {
         [ "width", "height", ].forEach
@@ -65,6 +67,7 @@ export namespace Events
         UI.patternSelect.setChange(updatePattern);
         UI.canvasSizeSelect.setChange(updateCanvasSize);
         UI.layersSelect.setChange(updateLayers);
+        UI.spotslayersSelect.setChange(updateSpotsLayers);
         UI.cycleSpanSelect.setChange(updateCycleSpan);
         UI.fuseFpsSelect.setChange(updateFuseFps);
         UI.easingCheckbox.setChange(updateEasing);

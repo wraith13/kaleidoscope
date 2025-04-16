@@ -80,8 +80,8 @@
         "id": "spotsLayers",
         "enum": [
             100,
-            66,
-            33
+            65,
+            35
         ],
         "default": 33
     },
