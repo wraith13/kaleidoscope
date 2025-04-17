@@ -126,6 +126,19 @@ export namespace Animation
         };
         export const make = (pattern: typeof control.pattern.enum[number], intervalSize: IntervalSize, random: Tools.Random.Function = Math.random, index?: number, prime?: number) =>
             Tools.Random.select(getList(pattern), random, index, prime)(intervalSize);
+        export const getTypeCategory = (type: FlounderStyle.Type.FlounderType): "lines" | "spots" =>
+        {
+            switch(type)
+            {
+            case "stripe":
+            case "diline":
+            case "triline":
+                return "lines";
+            case "trispot":
+            case "tetraspot":
+                return "spots";
+            }
+        };
     }
     interface Layer
     {
