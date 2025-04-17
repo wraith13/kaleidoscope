@@ -215,6 +215,19 @@ export namespace Animation
             Math.floor(ix *this.spotsLayersRate);
         isValidSpotLayer = (ix: number) =>
             this.getSpotsIndex(ix -1) < this.getSpotsIndex(ix);
+        getPreviousSpotsLayer = (ix: number) =>
+        {
+            const currentSpotsIndex = this.getSpotsIndex(ix);
+            let i = ix;
+            while(0 <= --i)
+            {
+                if (this.getSpotsIndex(i) !== currentSpotsIndex)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        };
         step = (now: number) =>
         {
             this.offsetAt = now -this.startAt;
