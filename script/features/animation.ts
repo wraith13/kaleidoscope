@@ -241,6 +241,9 @@ export namespace Animation
             }
             return -1;
         };
+        isValidLayer = (ix: number) =>
+            "lines" === Pattern.getTypeCategory(this.layers[ix].arguments?.type ?? "stripe") ||
+            this.isValidSpotLayer(ix);
         step = (now: number) =>
         {
             this.offsetAt = now -this.startAt;
