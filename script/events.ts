@@ -170,6 +170,7 @@ export namespace Events
             UI.patternSelect,
             UI.canvasSizeSelect,
             UI.layersSelect,
+            UI.spotslayersSelect,
             UI.cycleSpanSelect,
             UI.fuseFpsSelect,
             UI.easingCheckbox,

@@ -696,6 +696,7 @@ declare module "script/features/animation" {
             random: Tools.Random.Function;
             phiColoring: PhiColoring;
             layers: Layer[];
+            spotsLayersRate: number;
             pattern: typeof control.pattern.enum[number];
             startAt: number;
             offsetAt: number;
@@ -715,6 +716,9 @@ declare module "script/features/animation" {
             makeBackgroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
             isStarted: () => boolean;
             getStep: (universalStep: number, layer: Layer) => number;
+            getSpotsIndex: (ix: number) => number;
+            isValidSpotLayer: (ix: number) => boolean;
+            isValidLayer: (ix: number) => boolean;
             step: (now: number) => void;
             update: () => void;
             setColorspace: (colorspace: (typeof control.colorspace.enum)[number]) => void;
@@ -724,6 +728,7 @@ declare module "script/features/animation" {
             updateDiagonalSize: () => void;
             setCycleSpan: (newCycleSpan: number) => void;
             setLayers: (newLayers: number) => void;
+            setSpotsLayers: (spotsLayersRate: number) => void;
             setEasing: (enabled: boolean) => void;
         }
         export {};

@@ -989,7 +989,7 @@ define("resource/control", [], {
             "spots",
             "all"
         ],
-        "default": "lines"
+        "default": "all"
     },
     "canvasSize": {
         "id": "canvas-size",
@@ -1045,10 +1045,27 @@ define("resource/control", [], {
         "id": "spotsLayers",
         "enum": [
             100,
-            66,
-            33
+            95,
+            90,
+            85,
+            80,
+            75,
+            70,
+            65,
+            60,
+            55,
+            50,
+            45,
+            40,
+            35,
+            30,
+            25,
+            20,
+            15,
+            10,
+            5
         ],
-        "default": 33
+        "default": 30
     },
     "cycleSpan": {
         "id": "cycle-span",
@@ -2633,6 +2650,17 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 if (random === void 0) { random = Math.random; }
                 return _tools_3.Tools.Random.select(getList(pattern), random, index, prime)(intervalSize);
             };
+            Pattern.getTypeCategory = function (type) {
+                switch (type) {
+                    case "stripe":
+                    case "diline":
+                    case "triline":
+                        return "lines";
+                    case "trispot":
+                    case "tetraspot":
+                        return "spots";
+                }
+            };
         })(Pattern || (Pattern = {}));
         var Animator = /** @class */ (function () {
             function Animator(canvas, random, phiColoring) {
@@ -2643,6 +2671,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.random = random;
                 this.phiColoring = phiColoring;
                 this.layers = [];
+                this.spotsLayersRate = 1.0;
                 this.pattern = control_json_2.default.pattern.default;
                 this.startAt = 0;
                 this.offsetAt = 0;
@@ -2702,11 +2731,22 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 };
                 this.isStarted = function () { return 0 < _this.startAt; };
                 this.getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
+                this.getSpotsIndex = function (ix) {
+                    return Math.floor(ix * _this.spotsLayersRate);
+                };
+                this.isValidSpotLayer = function (ix) {
+                    return _this.getSpotsIndex(ix - 1) < _this.getSpotsIndex(ix);
+                };
+                this.isValidLayer = function (ix) {
+                    var _a, _b;
+                    return "lines" === Pattern.getTypeCategory((_b = (_a = _this.layers[ix].arguments) === null || _a === void 0 ? void 0 : _a.type) !== null && _b !== void 0 ? _b : "stripe") ||
+                        _this.isValidSpotLayer(ix);
+                };
                 this.step = function (now) {
                     _this.offsetAt = now - _this.startAt;
                     var universalStep = _this.offsetAt / _this.cycleSpan;
                     _this.layers.forEach(function (i, ix) {
-                        var _a, _b, _c, _d;
+                        var _a, _b, _c, _d, _e;
                         var step = _this.getStep(universalStep, i);
                         if (0 <= step) {
                             if (1.0 <= step || undefined === i.arguments) {
@@ -2718,9 +2758,20 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                                     foregroundColor: _this.makeForegroundColor(i.mile, i.offset, ix),
                                     backgroundColor: (_d = (_c = i.arguments) === null || _c === void 0 ? void 0 : _c.foregroundColor) !== null && _d !== void 0 ? _d : _this.makeBackgroundColor(i.mile, i.offset, ix),
                                 });
+                                if (!_this.isValidLayer(ix)) {
+                                    i.arguments.foregroundColor = (_e = i.arguments.backgroundColor) !== null && _e !== void 0 ? _e : "black";
+                                    flounder_style_js_1.FlounderStyle.setStyle(i.layer, {
+                                        "background-color": i.arguments.foregroundColor,
+                                        "background-image": undefined,
+                                        "background-size": undefined,
+                                        "background-position": undefined,
+                                    });
+                                }
                             }
-                            i.arguments.depth = _this.easing(step);
-                            flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
+                            if (_this.isValidLayer(ix)) {
+                                i.arguments.depth = _this.easing(step);
+                                flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
+                            }
                         }
                     });
                 };
@@ -2799,6 +2850,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             arguments: 0 === ix ? newArguments : restoreArgument(oldArguments, ix),
                         });
                     });
+                };
+                this.setSpotsLayers = function (spotsLayersRate) {
+                    _this.spotsLayersRate = spotsLayersRate;
                 };
                 this.setEasing = function (enabled) {
                     _this.easing = enabled ?
@@ -3304,6 +3358,9 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         var updateLayers = function () {
             return update(function () { return _controller_1.Controller.Animation.animator.setLayers(parseInt(ui_6.UI.layersSelect.get())); });
         };
+        var updateSpotsLayers = function () {
+            return update(function () { return _controller_1.Controller.Animation.animator.setSpotsLayers(parseInt(ui_6.UI.spotslayersSelect.get()) / 100.0); });
+        };
         var setCanvasSize = function (size) {
             ["width", "height",].forEach(function (i) { return ui_6.UI.canvas.style.setProperty(i, size); });
             updateDiagonalSize();
@@ -3342,6 +3399,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_6.UI.patternSelect.setChange(updatePattern);
             ui_6.UI.canvasSizeSelect.setChange(updateCanvasSize);
             ui_6.UI.layersSelect.setChange(updateLayers);
+            ui_6.UI.spotslayersSelect.setChange(updateSpotsLayers);
             ui_6.UI.cycleSpanSelect.setChange(updateCycleSpan);
             ui_6.UI.fuseFpsSelect.setChange(updateFuseFps);
             ui_6.UI.easingCheckbox.setChange(updateEasing);
@@ -3419,6 +3477,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 ui_6.UI.patternSelect,
                 ui_6.UI.canvasSizeSelect,
                 ui_6.UI.layersSelect,
+                ui_6.UI.spotslayersSelect,
                 ui_6.UI.cycleSpanSelect,
                 ui_6.UI.fuseFpsSelect,
                 ui_6.UI.easingCheckbox,

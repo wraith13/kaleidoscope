@@ -150,7 +150,7 @@ export namespace Animation
     export class Animator
     {
         layers: Layer[] = [];
-        spotsLayersRate = 1;
+        spotsLayersRate = 1.0;
         pattern: typeof control.pattern.enum[number] = control.pattern.default;
         startAt = 0;
         offsetAt = 0;
@@ -228,19 +228,6 @@ export namespace Animation
             Math.floor(ix *this.spotsLayersRate);
         isValidSpotLayer = (ix: number) =>
             this.getSpotsIndex(ix -1) < this.getSpotsIndex(ix);
-        getPreviousSpotsLayer = (ix: number) =>
-        {
-            const currentSpotsIndex = this.getSpotsIndex(ix);
-            let i = ix;
-            while(0 <= --i)
-            {
-                if (this.getSpotsIndex(i) !== currentSpotsIndex)
-                {
-                    return i;
-                }
-            }
-            return -1;
-        };
         isValidLayer = (ix: number) =>
             "lines" === Pattern.getTypeCategory(this.layers[ix].arguments?.type ?? "stripe") ||
             this.isValidSpotLayer(ix);
@@ -271,9 +258,26 @@ export namespace Animation
                                     backgroundColor: i.arguments?.foregroundColor ?? this.makeBackgroundColor(i.mile, i.offset, ix),
                                 }
                             );
+                            if ( ! this.isValidLayer(ix))
+                            {
+                                i.arguments.foregroundColor = i.arguments.backgroundColor ?? "black";
+                                FlounderStyle.setStyle
+                                (
+                                    i.layer,
+                                    {
+                                        "background-color": i.arguments.foregroundColor,
+                                        "background-image": undefined,
+                                        "background-size":undefined,
+                                        "background-position": undefined,
+                                    }
+                                );
+                            }
                         }
-                        i.arguments.depth = this.easing(step);
-                        FlounderStyle.setStyle(i.layer, i.arguments);
+                        if (this.isValidLayer(ix))
+                        {
+                            i.arguments.depth = this.easing(step);
+                            FlounderStyle.setStyle(i.layer, i.arguments);
+                        }
                     }
                 }
             );
