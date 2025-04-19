@@ -86,7 +86,8 @@ export namespace Benchmark
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
-            UI.benchmarkDescription.textContent = JSON.stringify(measureScreenResolution());
+            const i = measureScreenResolution();
+            UI.benchmarkDescription.textContent = `${i.width}x${i.height} ${i.colorDepth}bit ${i.devicePixelRatio}x`;
         };
         step = (measure: Measurement, now: number) =>
         {

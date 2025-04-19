@@ -2927,7 +2927,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.name = "benchmark-phase-screen-resolution";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
-                    ui_2.UI.benchmarkDescription.textContent = JSON.stringify(Benchmark.measureScreenResolution());
+                    var i = Benchmark.measureScreenResolution();
+                    ui_2.UI.benchmarkDescription.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.colorDepth, "bit ").concat(i.devicePixelRatio, "x");
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
