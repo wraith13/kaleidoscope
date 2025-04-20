@@ -303,6 +303,7 @@ export namespace Benchmark
         {
             setProgressBarSize(phases.length);
             setProgressBarProgress(this.phase = 0);
+            UI.benchmarkDescription.textContent =
             UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-preparation");
             this.currentPhase = null;
             this.result = getUnmeasuredReslult();

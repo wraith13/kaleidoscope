@@ -3117,7 +3117,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.start = function () {
                     setProgressBarSize(phases.length);
                     setProgressBarProgress(_this.phase = 0);
-                    ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-preparation");
+                    ui_2.UI.benchmarkDescription.textContent =
+                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-preparation");
                     _this.currentPhase = null;
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
