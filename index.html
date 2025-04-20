@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat Apr 19 2025 20:10:40 GMT+0900 (日本標準時)
+    build at: Sat Apr 19 2025 20:18:15 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1407,9 +1407,7 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 </div>
 </button>
 <div id="benchmark-popup">
-    <div id="benchmark-popup-description">
-    計測中...
-    </div>
+    <div id="benchmark-popup-description"></div>
     <button id="benchmark-abort-button"><span data-lang-key="benchmark-abort"></span></button>
 </div>
 <div id="screen-footer">
@@ -1436,8 +1434,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sat Apr 19 2025 20:10:40 GMT+0900 (日本標準時)",
-    tick: 1745061040195
+    at: "Sat Apr 19 2025 20:18:15 GMT+0900 (日本標準時)",
+    tick: 1745061495121
 };
 const evilCommonjsConfig =
 {
@@ -7351,7 +7349,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     var i = Benchmark.measureScreenResolution();
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.colorDepth, "bit ").concat(i.devicePixelRatio, "x");
+                    ui_2.UI.benchmarkDescription.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit");
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
