@@ -42,5 +42,9 @@
     "benchmark-phase-fps": "FPS",
     "benchmark-phase-calculation-score": "Calculation Score",
     "benchmark-phase-rendering-score": "Rendering Score",
-    "benchmark-phase-finished": "Finished"
+    "benchmark-phase-finished": "Finished",
+    "benchmark-lines-calculation-score": "Calculation Score (lines)",
+    "benchmark-spots-calculation-score": "Calculation Score (spots)",
+    "benchmark-lines-rendering-score": "Rendering Score (lines)",
+    "benchmark-spots-rendering-score": "Rendering Score (spots)"
 }

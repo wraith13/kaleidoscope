@@ -42,5 +42,9 @@
     "benchmark-phase-fps": "FPS",
     "benchmark-phase-calculation-score": "計算性能",
     "benchmark-phase-rendering-score": "描画性能",
-    "benchmark-phase-finished": "完了"
+    "benchmark-phase-finished": "完了",
+    "benchmark-lines-calculation-score": "計算性能(lines)",
+    "benchmark-spots-calculation-score": "計算性能(spots)",
+    "benchmark-lines-rendering-score": "描画性能(lines)",
+    "benchmark-spots-rendering-score": "描画性能(spots)"
 }

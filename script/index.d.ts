@@ -54,6 +54,10 @@ declare module "script/library/locale" {
                 "benchmark-phase-calculation-score": string;
                 "benchmark-phase-rendering-score": string;
                 "benchmark-phase-finished": string;
+                "benchmark-lines-calculation-score": string;
+                "benchmark-spots-calculation-score": string;
+                "benchmark-lines-rendering-score": string;
+                "benchmark-spots-rendering-score": string;
             };
             ja: {
                 "lang-label": string;
@@ -100,6 +104,10 @@ declare module "script/library/locale" {
                 "benchmark-phase-calculation-score": string;
                 "benchmark-phase-rendering-score": string;
                 "benchmark-phase-finished": string;
+                "benchmark-lines-calculation-score": string;
+                "benchmark-spots-calculation-score": string;
+                "benchmark-lines-rendering-score": string;
+                "benchmark-spots-rendering-score": string;
             };
         };
         type Label = keyof typeof localeEn & keyof typeof localeJa;
@@ -788,12 +796,12 @@ declare module "script/features/benchmark" {
             calculateOnly: boolean;
             calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown;
             calculateTotalScore: (measure: Measurement) => unknown;
-            scoreLabels: string[];
+            scoreLabels: Library.Locale.Label[];
             patternIndex: number;
             layers: number;
             patterns: readonly ["triline", "trispot"];
             halfRefreshRate: number;
-            constructor(calculateOnly: boolean, calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown, calculateTotalScore: (measure: Measurement) => unknown, scoreLabels: string[]);
+            constructor(calculateOnly: boolean, calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown, calculateTotalScore: (measure: Measurement) => unknown, scoreLabels: Library.Locale.Label[]);
             start: (measure: Measurement, now: number) => void;
             startPattern: (_measure: Measurement, now: number) => void;
             startLayers: (now: number, layers: number) => void;

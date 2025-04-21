@@ -134,7 +134,11 @@ define("resource/lang.en", [], {
     "benchmark-phase-fps": "FPS",
     "benchmark-phase-calculation-score": "Calculation Score",
     "benchmark-phase-rendering-score": "Rendering Score",
-    "benchmark-phase-finished": "Finished"
+    "benchmark-phase-finished": "Finished",
+    "benchmark-lines-calculation-score": "Calculation Score (lines)",
+    "benchmark-spots-calculation-score": "Calculation Score (spots)",
+    "benchmark-lines-rendering-score": "Rendering Score (lines)",
+    "benchmark-spots-rendering-score": "Rendering Score (spots)"
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -180,7 +184,11 @@ define("resource/lang.ja", [], {
     "benchmark-phase-fps": "FPS",
     "benchmark-phase-calculation-score": "計算性能",
     "benchmark-phase-rendering-score": "描画性能",
-    "benchmark-phase-finished": "完了"
+    "benchmark-phase-finished": "完了",
+    "benchmark-lines-calculation-score": "計算性能(lines)",
+    "benchmark-spots-calculation-score": "計算性能(spots)",
+    "benchmark-lines-rendering-score": "描画性能(lines)",
+    "benchmark-spots-rendering-score": "描画性能(spots)"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -3002,7 +3010,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(_this.scoreLabels[_this.patternIndex], ": ").concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
+                    ui_2.UI.benchmarkDescription.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabels[_this.patternIndex]), ": ").concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
@@ -3060,8 +3068,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 }, function (measure) {
                     measure.result.totalCalculationScore = Benchmark.calculateMeasurementScore(measure.result.linesCalculationScore, measure.result.spotCalculationScore, function (a, b) { return (a + b) / 2; });
                 }, [
-                    "line-calculation-score",
-                    "spot-calculation-score",
+                    "benchmark-lines-calculation-score",
+                    "benchmark-spots-calculation-score",
                 ]) || this;
                 _this.name = "benchmark-phase-calculation-score";
                 return _this;
@@ -3086,8 +3094,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 }, function (measure) {
                     measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerFullHd, measure.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
                 }, [
-                    "line-rendering-score",
-                    "spot-rendering-score",
+                    "benchmark-lines-rendering-score",
+                    "benchmark-spots-rendering-score",
                 ]) || this;
                 _this.name = "benchmark-phase-rendering-score";
                 _this.calculateArea = function () {
