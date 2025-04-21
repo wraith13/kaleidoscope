@@ -131,7 +131,7 @@ define("resource/lang.en", [], {
     "benchmark-phase-preparation": "Preparation",
     "benchmarking-in-progress": "Benchmarking in progress",
     "benchmark-phase-screen-resolution": "Screen Resolution",
-    "benchmark-phase-refresh-rate": "Refresh Rate",
+    "benchmark-phase-fps": "FPS",
     "benchmark-phase-calculation-score": "Calculation Score",
     "benchmark-phase-rendering-score": "Rendering Score",
     "benchmark-phase-finished": "Finished"
@@ -177,7 +177,7 @@ define("resource/lang.ja", [], {
     "benchmarking-in-progress": "ベンチマーク計測中",
     "benchmark-phase-preparation": "準備",
     "benchmark-phase-screen-resolution": "画面解像度",
-    "benchmark-phase-refresh-rate": "リフレッシュレート",
+    "benchmark-phase-fps": "FPS",
     "benchmark-phase-calculation-score": "計算性能",
     "benchmark-phase-rendering-score": "描画性能",
     "benchmark-phase-finished": "完了"
@@ -2893,7 +2893,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
-                refreshRate: "Unmeasured",
+                fps: "Unmeasured",
                 linesCalculationScore: "Unmeasured",
                 spotCalculationScore: "Unmeasured",
                 totalCalculationScore: "Unmeasured",
@@ -2941,21 +2941,21 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             return ScreenResolutionMeasurementPhase;
         }());
         Benchmark.ScreenResolutionMeasurementPhase = ScreenResolutionMeasurementPhase;
-        var RefreshRateMeasurementPhase = /** @class */ (function () {
-            function RefreshRateMeasurementPhase() {
+        var FpsMeasurementPhase = /** @class */ (function () {
+            function FpsMeasurementPhase() {
                 var _this = this;
-                this.name = "benchmark-phase-refresh-rate";
+                this.name = "benchmark-phase-fps";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     _this.fpsTotal = 0;
                     _this.fpsCount = 0;
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "Refesh Rate: ".concat(fps_1.Fps.currentNowFps.fps.toFixed(2), " fps");
+                    ui_2.UI.benchmarkDescription.textContent = "".concat(fps_1.Fps.currentNowFps.text, " fps");
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
-                        measure.result.refreshRate = _this.fpsTotal / _this.fpsCount;
+                        measure.result.fps = _this.fpsTotal / _this.fpsCount;
                         measure.next();
                     }
                 };
@@ -2963,9 +2963,9 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.fpsTotal = 0;
                 this.fpsCount = 0;
             }
-            return RefreshRateMeasurementPhase;
+            return FpsMeasurementPhase;
         }());
-        Benchmark.RefreshRateMeasurementPhase = RefreshRateMeasurementPhase;
+        Benchmark.FpsMeasurementPhase = FpsMeasurementPhase;
         var ScoreMeasurementPhaseBase = /** @class */ (function () {
             function ScoreMeasurementPhaseBase(calculateOnly, calculateScore, calculateTotalScore, scoreLabels) {
                 var _this = this;
@@ -2979,7 +2979,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.halfRefreshRate = 30;
                 this.start = function (measure, now) {
                     var _a;
-                    _this.halfRefreshRate = (_a = Benchmark.getMeasurementScoreValue(measure.result.refreshRate)) !== null && _a !== void 0 ? _a : 30;
+                    _this.halfRefreshRate = (_a = Benchmark.getMeasurementScoreValue(measure.result.fps)) !== null && _a !== void 0 ? _a : 30;
                     _this.patternIndex = 0;
                     document.body.classList.toggle("benchmark-rendering", !_this.calculateOnly);
                     Benchmark.animator.setColorspace("sRGB");
@@ -3103,7 +3103,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         Benchmark.RenderingScoreMeasurementPhase = RenderingScoreMeasurementPhase;
         var phases = [
             new ScreenResolutionMeasurementPhase(),
-            new RefreshRateMeasurementPhase(),
+            new FpsMeasurementPhase(),
             new CalculationScoreMeasurementPhase(),
             new RenderingScoreMeasurementPhase(),
         ];

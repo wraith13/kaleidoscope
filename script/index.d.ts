@@ -50,7 +50,7 @@ declare module "script/library/locale" {
                 "benchmark-phase-preparation": string;
                 "benchmarking-in-progress": string;
                 "benchmark-phase-screen-resolution": string;
-                "benchmark-phase-refresh-rate": string;
+                "benchmark-phase-fps": string;
                 "benchmark-phase-calculation-score": string;
                 "benchmark-phase-rendering-score": string;
                 "benchmark-phase-finished": string;
@@ -96,7 +96,7 @@ declare module "script/library/locale" {
                 "benchmarking-in-progress": string;
                 "benchmark-phase-preparation": string;
                 "benchmark-phase-screen-resolution": string;
-                "benchmark-phase-refresh-rate": string;
+                "benchmark-phase-fps": string;
                 "benchmark-phase-calculation-score": string;
                 "benchmark-phase-rendering-score": string;
                 "benchmark-phase-finished": string;
@@ -749,7 +749,7 @@ declare module "script/features/benchmark" {
                 colorDepth: number;
                 devicePixelRatio: number;
             }>;
-            refreshRate: MeasurementScore<number>;
+            fps: MeasurementScore<number>;
             linesCalculationScore: MeasurementScore<number>;
             spotCalculationScore: MeasurementScore<number>;
             totalCalculationScore: MeasurementScore<number>;
@@ -776,8 +776,8 @@ declare module "script/features/benchmark" {
             step: (measure: Measurement, now: number) => void;
             startAt: number;
         }
-        class RefreshRateMeasurementPhase implements MeasurementPhaseBase {
-            name: "benchmark-phase-refresh-rate";
+        class FpsMeasurementPhase implements MeasurementPhaseBase {
+            name: "benchmark-phase-fps";
             start: (_measure: Measurement, now: number) => void;
             step: (measure: Measurement, now: number) => void;
             startAt: number;

@@ -35,7 +35,7 @@ export namespace Benchmark
     export interface Result
     {
         screenResolution: MeasurementScore<{ width: number; height: number; colorDepth: number; devicePixelRatio: number; }>;
-        refreshRate: MeasurementScore<number>;
+        fps: MeasurementScore<number>;
         linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
         spotCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
         totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotCalculationScore) /2
@@ -47,7 +47,7 @@ export namespace Benchmark
     export const getUnmeasuredReslult = (): Result =>
     ({
         screenResolution: "Unmeasured",
-        refreshRate: "Unmeasured",
+        fps: "Unmeasured",
         linesCalculationScore: "Unmeasured",
         spotCalculationScore: "Unmeasured",
         totalCalculationScore: "Unmeasured",
@@ -99,9 +99,9 @@ export namespace Benchmark
         };
         startAt = 0;
     }
-    export class RefreshRateMeasurementPhase implements MeasurementPhaseBase
+    export class FpsMeasurementPhase implements MeasurementPhaseBase
     {
-        name = "benchmark-phase-refresh-rate" as const;
+        name = "benchmark-phase-fps" as const;
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
@@ -110,12 +110,12 @@ export namespace Benchmark
         };
         step = (measure: Measurement, now: number) =>
         {
-            UI.benchmarkDescription.textContent = `Refesh Rate: ${Fps.currentNowFps.fps.toFixed(2)} fps`;
+            UI.benchmarkDescription.textContent = `${Fps.currentNowFps.text} fps`;
             this.fpsTotal += Fps.currentNowFps.fps;
             ++this.fpsCount;
             if (this.startAt + config.benchmark.refreshRateWait <= now)
             {
-                measure.result.refreshRate = this.fpsTotal / this.fpsCount;
+                measure.result.fps = this.fpsTotal / this.fpsCount;
                 measure.next();
             }
         };
@@ -140,7 +140,7 @@ export namespace Benchmark
         }
         start = (measure: Measurement, now: number) =>
         {
-            this.halfRefreshRate = getMeasurementScoreValue(measure.result.refreshRate) ?? 30;
+            this.halfRefreshRate = getMeasurementScoreValue(measure.result.fps) ?? 30;
             this.patternIndex = 0;
             document.body.classList.toggle("benchmark-rendering", ! this.calculateOnly);
             animator.setColorspace("sRGB");
@@ -288,7 +288,7 @@ export namespace Benchmark
     const phases: MeasurementPhaseBase[] =
     [
         new ScreenResolutionMeasurementPhase(),
-        new RefreshRateMeasurementPhase(),
+        new FpsMeasurementPhase(),
         new CalculationScoreMeasurementPhase(),
         new RenderingScoreMeasurementPhase(),
     ];

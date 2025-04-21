@@ -39,7 +39,7 @@
     "benchmark-phase-preparation": "Preparation",
     "benchmarking-in-progress":"Benchmarking in progress",
     "benchmark-phase-screen-resolution": "Screen Resolution",
-    "benchmark-phase-refresh-rate": "Refresh Rate",
+    "benchmark-phase-fps": "FPS",
     "benchmark-phase-calculation-score": "Calculation Score",
     "benchmark-phase-rendering-score": "Rendering Score",
     "benchmark-phase-finished": "Finished"
