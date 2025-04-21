@@ -3278,8 +3278,8 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.runBenchmark = function () {
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
-            if (_library_6.Library.UI.fullscreenEnabled) {
-                //Library.UI.requestFullscreen(document.body);
+            if (_library_6.Library.UI.fullscreenEnabled && ui_5.UI.withFullscreen.get()) {
+                _library_6.Library.UI.requestFullscreen(document.body);
             }
             setTimeout(function () {
                 return window.requestAnimationFrame(function (now) {
