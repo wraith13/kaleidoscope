@@ -76,6 +76,6 @@ export namespace Benchmark
     {
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("benchmark-result", true);
-        UI.scorePanel.innerText = JSON.stringify(benchmark.result, null, 4);
+        UI.benchmarkScorePanel.innerText = JSON.stringify(benchmark.result, null, 4);
     }
 }

@@ -56,8 +56,10 @@ export namespace UI
         Library.UI.getElementById("div", "keyboard-shortcut");
     export const benchmarkPhase =
         Library.UI.getElementById("span", "benchmark-phase");
-    export const scorePanel =
-        Library.UI.getElementById("div", "score-panel");
+    export const benchmarkScorePanel =
+        Library.UI.getElementById("div", "benchmark-score-panel");
+    export const benchmarkDescriptionPanel =
+        Library.UI.getElementById("div", "benchmark-description-panel");
     export const benchmarkDescription =
         Library.UI.getElementById("div", "benchmark-popup-description");
     export const benchmarkAbortButton =

@@ -42,9 +42,9 @@ __STYLE__
     </div>
     <div id="benchmark-result">
         <div id="benchmark-result-panel">
-            <div id="score-panel">
+            <div id="benchmark-score-panel">
             </div>
-            <div id="description-panel">
+            <div id="benchmark-description-panel">
             </div>
         </div>
         <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
