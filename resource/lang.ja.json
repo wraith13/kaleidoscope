@@ -15,10 +15,7 @@
     "show-fps-label": "FPS を表示:",
     "language-label": "言語:",
     "run-benchmark-label": "ベンチマーク実行",
-    "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
-    "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
-    "DELETEME.informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
     "timeUnitMs": "ミリ秒",
     "timeUnitS": "秒",
     "timeUnitM": "分",
@@ -46,5 +43,7 @@
     "benchmark-lines-calculation-score": "計算性能(lines)",
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
-    "benchmark-spots-rendering-score": "描画性能(spots)"
+    "benchmark-spots-rendering-score": "描画性能(spots)",
+    "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
+    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。"
 }

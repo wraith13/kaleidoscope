@@ -107,10 +107,7 @@ define("resource/lang.en", [], {
     "show-fps-label": "Show FPS:",
     "language-label": "Language:",
     "run-benchmark-label": "Run Benchmark",
-    "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
-    "DELETEME.informationLayers": "Higher \"Layers\" create more intricate visuals but increase system load.",
-    "DELETEME.informationPattern": "\"Spots\" patterns are more resource-intensive, while \"Lines\" are lighter.",
     "timeUnitMs": "ms",
     "timeUnitS": "s",
     "timeUnitM": "m",
@@ -138,7 +135,9 @@ define("resource/lang.en", [], {
     "benchmark-lines-calculation-score": "Calculation Score (lines)",
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
-    "benchmark-spots-rendering-score": "Rendering Score (spots)"
+    "benchmark-spots-rendering-score": "Rendering Score (spots)",
+    "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
+    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -157,10 +156,7 @@ define("resource/lang.ja", [], {
     "show-fps-label": "FPS を表示:",
     "language-label": "言語:",
     "run-benchmark-label": "ベンチマーク実行",
-    "DELETEME.warningText": "高過ぎる負荷により Web ブラウザや OS がクラッシュすることがあります。",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
-    "DELETEME.informationLayers": "\"Layers\" が大きくなるほど繊細な映像をお楽しみ頂けますが、マシンの負荷も増大します。",
-    "DELETEME.informationPattern": "\"Pattern\" は \"spots\" が重く \"lines\" が軽いです。",
     "timeUnitMs": "ミリ秒",
     "timeUnitS": "秒",
     "timeUnitM": "分",
@@ -188,7 +184,9 @@ define("resource/lang.ja", [], {
     "benchmark-lines-calculation-score": "計算性能(lines)",
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
-    "benchmark-spots-rendering-score": "描画性能(spots)"
+    "benchmark-spots-rendering-score": "描画性能(spots)",
+    "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
+    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -250,10 +248,9 @@ define("resource/config", [], {
     "informations": [
         "informationFuseFps"
     ],
-    "informations.full": [
-        "informationFuseFps",
-        "informationLayers",
-        "informationPattern"
+    "benchmarkDescription": [
+        "benchmark-description-calculation-score",
+        "benchmark-description-rendering-score"
     ],
     "maximumFractionDigits": 2,
     "startWait": 750,
@@ -1182,7 +1179,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
         UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
-        UI.scorePanel = _library_2.Library.UI.getElementById("div", "score-panel");
+        UI.benchmarkScorePanel = _library_2.Library.UI.getElementById("div", "benchmark-score-panel");
         UI.benchmarkDescription = _library_2.Library.UI.getElementById("div", "benchmark-popup-description");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
@@ -1213,6 +1210,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             })
                 .reduce(function (a, b) { return a.concat(b); }, []));
             _library_2.Library.UI.replaceChildren(_library_2.Library.UI.getElementById("ul", "information-list"), config_json_2.default.informations.map(function (i) { return ({ tag: "li", text: _library_2.Library.Locale.map(i), }); }));
+            _library_2.Library.UI.replaceChildren(_library_2.Library.UI.getElementById("ul", "benchmark-description-panel"), config_json_2.default.benchmarkDescription.map(function (i) { return ({ tag: "li", text: _library_2.Library.Locale.map(i), }); }));
         };
         UI.initialize = function () {
             if (!_library_2.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
@@ -3309,7 +3307,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.showResult = function () {
             document.body.classList.toggle("immersive", true);
             document.body.classList.toggle("benchmark-result", true);
-            ui_5.UI.scorePanel.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
+            ui_5.UI.benchmarkScorePanel.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });

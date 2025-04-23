@@ -15,10 +15,7 @@
     "show-fps-label": "Show FPS:",
     "language-label": "Language:",
     "run-benchmark-label": "Run Benchmark",
-    "DELETEME.warningText": "Web browsers and operating systems may crash due to excessive load.",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
-    "DELETEME.informationLayers": "Higher \"Layers\" create more intricate visuals but increase system load.",
-    "DELETEME.informationPattern": "\"Spots\" patterns are more resource-intensive, while \"Lines\" are lighter.",
     "timeUnitMs": "ms",
     "timeUnitS": "s",
     "timeUnitM": "m",
@@ -46,5 +43,7 @@
     "benchmark-lines-calculation-score": "Calculation Score (lines)",
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
-    "benchmark-spots-rendering-score": "Rendering Score (spots)"
+    "benchmark-spots-rendering-score": "Rendering Score (spots)",
+    "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
+    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
 }

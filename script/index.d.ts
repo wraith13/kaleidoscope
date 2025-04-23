@@ -26,10 +26,7 @@ declare module "script/library/locale" {
                 "show-fps-label": string;
                 "language-label": string;
                 "run-benchmark-label": string;
-                "DELETEME.warningText": string;
                 informationFuseFps: string;
-                "DELETEME.informationLayers": string;
-                "DELETEME.informationPattern": string;
                 timeUnitMs: string;
                 timeUnitS: string;
                 timeUnitM: string;
@@ -58,6 +55,8 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-description-calculation-score": string;
+                "benchmark-description-rendering-score": string;
             };
             ja: {
                 "lang-label": string;
@@ -76,10 +75,7 @@ declare module "script/library/locale" {
                 "show-fps-label": string;
                 "language-label": string;
                 "run-benchmark-label": string;
-                "DELETEME.warningText": string;
                 informationFuseFps: string;
-                "DELETEME.informationLayers": string;
-                "DELETEME.informationPattern": string;
                 timeUnitMs: string;
                 timeUnitS: string;
                 timeUnitM: string;
@@ -108,6 +104,8 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-description-calculation-score": string;
+                "benchmark-description-rendering-score": string;
             };
         };
         type Label = keyof typeof localeEn & keyof typeof localeJa;
@@ -349,7 +347,7 @@ declare module "script/ui" {
         const benchmarkCanvas: HTMLDivElement;
         const keyboardShortcut: HTMLDivElement;
         const benchmarkPhase: HTMLSpanElement;
-        const scorePanel: HTMLDivElement;
+        const benchmarkScorePanel: HTMLDivElement;
         const benchmarkDescription: HTMLDivElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;

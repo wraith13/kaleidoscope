@@ -58,8 +58,6 @@ export namespace UI
         Library.UI.getElementById("span", "benchmark-phase");
     export const benchmarkScorePanel =
         Library.UI.getElementById("div", "benchmark-score-panel");
-    export const benchmarkDescriptionPanel =
-        Library.UI.getElementById("div", "benchmark-description-panel");
     export const benchmarkDescription =
         Library.UI.getElementById("div", "benchmark-popup-description");
     export const benchmarkAbortButton =
@@ -111,6 +109,13 @@ export namespace UI
             Library.UI.getElementById("ul", "information-list"),
             config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.Label>i), }))
         );
+        Library.UI.replaceChildren
+        (
+            Library.UI.getElementById("ul", "benchmark-description-panel"),
+            config.benchmarkDescription.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.Label>i), }))
+        );
+
+        
     }
     export const initialize = () =>
     {
