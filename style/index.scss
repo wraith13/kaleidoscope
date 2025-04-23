@@ -140,7 +140,6 @@
         &
         {
             border-radius: 0.5rem;
-            padding: 1.5rem;
             transition: opacity 750ms, filter 750ms;
             position: absolute;
             top: 50%;
@@ -149,16 +148,17 @@
             max-width: calc(100vw - 3rem);
             max-height: calc(100vh - 5rem);
             z-index: 50;
-            gap: 1rem;
         }
         #benchmark-result-panel
         {
+            padding: 1.5rem;
             overflow: scroll;
         }
         button#benchmark-result-close-button
         {
             line-height: 100%;
             padding: 0.5rem 1.5rem;
+            margin: 1rem;
             border-radius: 0.5rem;
             color: black-color(0.9);
             background-color: white-color(0.7);
