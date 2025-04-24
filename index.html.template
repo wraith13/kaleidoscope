@@ -43,6 +43,7 @@ __STYLE__
     <div id="benchmark-result">
         <div id="benchmark-result-panel">
             <div id="benchmark-score-panel">
+                <div id="benchmark-main-score"></div>
             </div>
             <ul id="benchmark-description-panel">
             </ul>
