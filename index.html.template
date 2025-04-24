@@ -43,7 +43,9 @@ __STYLE__
     <div id="benchmark-result">
         <div id="benchmark-result-panel">
             <div id="benchmark-score-panel">
+                <h2>Benchmark Report</h2>
                 <div id="benchmark-main-score"></div>
+                <div id="benchmark-sub-score"></div>
             </div>
             <ul id="benchmark-description-panel">
             </ul>
