@@ -55,6 +55,7 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-report-label": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
             };
@@ -104,6 +105,7 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-report-label": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
             };
@@ -347,7 +349,7 @@ declare module "script/ui" {
         const benchmarkCanvas: HTMLDivElement;
         const keyboardShortcut: HTMLDivElement;
         const benchmarkPhase: HTMLSpanElement;
-        const benchmarkScorePanel: HTMLDivElement;
+        const benchmarkDetails: HTMLDivElement;
         const benchmarkDescription: HTMLDivElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;

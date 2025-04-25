@@ -281,8 +281,11 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   max-height: calc(100vh - 5rem);
   z-index: 50;
 }
+#screen-body #benchmark-result h2 {
+  padding: 0.5rem 1rem;
+}
 #screen-body #benchmark-result #benchmark-result-panel {
-  padding: 1.5rem;
+  padding: 0rem 1.5rem;
   overflow: scroll;
 }
 #screen-body #benchmark-result button#benchmark-result-close-button {

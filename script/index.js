@@ -136,6 +136,7 @@ define("resource/lang.en", [], {
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
+    "benchmark-report-label": "Benchmark Report",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
 });
@@ -185,6 +186,7 @@ define("resource/lang.ja", [], {
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
     "benchmark-spots-rendering-score": "描画性能(spots)",
+    "benchmark-report-label": "ベンチマークレポート",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
     "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。"
 });
@@ -1179,7 +1181,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
         UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
-        UI.benchmarkScorePanel = _library_2.Library.UI.getElementById("div", "benchmark-score-panel");
+        UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
         UI.benchmarkDescription = _library_2.Library.UI.getElementById("div", "benchmark-popup-description");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
@@ -3307,7 +3309,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.showResult = function () {
             document.body.classList.toggle("immersive", true);
             document.body.classList.toggle("benchmark-result", true);
-            ui_5.UI.benchmarkScorePanel.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
+            ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });

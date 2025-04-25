@@ -44,6 +44,7 @@
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
+    "benchmark-report-label": "Benchmark Report",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
 }

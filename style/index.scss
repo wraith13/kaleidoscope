@@ -149,9 +149,13 @@
             max-height: calc(100vh - 5rem);
             z-index: 50;
         }
+        h2
+        {
+            padding: 0.5rem 1.0rem;
+        }
         #benchmark-result-panel
         {
-            padding: 1.5rem;
+            padding: 0rem 1.5rem;
             overflow: scroll;
         }
         button#benchmark-result-close-button
