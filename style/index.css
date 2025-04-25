@@ -282,7 +282,10 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   z-index: 50;
 }
 #screen-body #benchmark-result h2 {
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
   padding: 0.5rem 1rem;
+  width: 100%;
+  background-color: rgba(32, 28, 38, 0.4);
 }
 #screen-body #benchmark-result #benchmark-result-panel {
   padding: 0rem 1.5rem;
