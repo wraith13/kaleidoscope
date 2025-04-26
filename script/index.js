@@ -137,6 +137,8 @@ define("resource/lang.en", [], {
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
     "benchmark-report-label": "Benchmark Report",
+    "benchmark-total-score": "Total Score",
+    "benchmark-score-per-fullhd": "Score per FullHD",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
 });
@@ -187,6 +189,8 @@ define("resource/lang.ja", [], {
     "benchmark-lines-rendering-score": "描画性能(lines)",
     "benchmark-spots-rendering-score": "描画性能(spots)",
     "benchmark-report-label": "ベンチマークレポート",
+    "benchmark-total-score": "総合スコア",
+    "benchmark-score-per-fullhd": "Full HD あたりのスコア",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
     "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。"
 });
@@ -1181,6 +1185,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
         UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
+        UI.benchmarkTotalScore = _library_2.Library.UI.getElementById("span", "benchmark-total-score");
+        UI.benchmarkScorePerFullHD = _library_2.Library.UI.getElementById("span", "benchmark-score-per-fullhd");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
         UI.benchmarkDescription = _library_2.Library.UI.getElementById("div", "benchmark-popup-description");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
@@ -3307,8 +3313,13 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             document.body.classList.toggle("benchmark-rendering", false);
         };
         Benchmark.showResult = function () {
+            var _a, _b, _c, _d;
             document.body.classList.toggle("immersive", true);
             document.body.classList.toggle("benchmark-result", true);
+            ui_5.UI.benchmarkTotalScore.innerText =
+                (_b = (_a = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalScore)) === null || _a === void 0 ? void 0 : _a.toFixed(2)) !== null && _b !== void 0 ? _b : "xxxxxxxx";
+            ui_5.UI.benchmarkScorePerFullHD.innerText =
+                (_d = (_c = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalRenderingScore)) === null || _c === void 0 ? void 0 : _c.toFixed(2)) !== null && _d !== void 0 ? _d : "xxxxxxxx";
             ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));

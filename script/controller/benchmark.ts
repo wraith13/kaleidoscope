@@ -76,6 +76,10 @@ export namespace Benchmark
     {
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("benchmark-result", true);
+        UI.benchmarkTotalScore.innerText =
+            Features.Benchmark.getMeasurementScoreValue(benchmark.result.totalScore)?.toFixed(2) ?? "xxxxxxxx";
+        UI.benchmarkScorePerFullHD.innerText =
+            Features.Benchmark.getMeasurementScoreValue(benchmark.result.totalRenderingScore)?.toFixed(2) ?? "xxxxxxxx";
         UI.benchmarkDetails.innerText = JSON.stringify(benchmark.result, null, 4);
     }
 }
