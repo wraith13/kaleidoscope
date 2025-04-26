@@ -41,6 +41,7 @@
         "screenResolutionWait": 500,
         "refreshRateWait": 1500,
         "endWait": 750,
-        "pixelUnit": 2073600
+        "pixelUnit": 2073600,
+        "colorDepthUnit": 24
     }
 }

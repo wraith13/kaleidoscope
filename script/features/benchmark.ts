@@ -37,8 +37,8 @@ export namespace Benchmark
         screenResolution: MeasurementScore<{ width: number; height: number; colorDepth: number; devicePixelRatio: number; }>;
         fps: MeasurementScore<number>;
         linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
-        spotCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
-        totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotCalculationScore) /2
+        spotsCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
+        totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotsCalculationScore) /2
         linesRenderingScorePerFullHd: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Triline )
         spotsRenderingScorePerFullHd: MeasurementScore<number>; // Full HD (1920x1080) のピクセル数で１秒間に描画可能なレイヤーの総数( Tetraspot )
         totalRenderingScore: MeasurementScore<number>; // (linesRenderingScorePerPixel + spotsRenderingScorePerPixel) /2
@@ -49,7 +49,7 @@ export namespace Benchmark
         screenResolution: "Unmeasured",
         fps: "Unmeasured",
         linesCalculationScore: "Unmeasured",
-        spotCalculationScore: "Unmeasured",
+        spotsCalculationScore: "Unmeasured",
         totalCalculationScore: "Unmeasured",
         linesRenderingScorePerFullHd: "Unmeasured",
         spotsRenderingScorePerFullHd: "Unmeasured",
@@ -125,23 +125,20 @@ export namespace Benchmark
     }
     export class ScoreMeasurementPhaseBase
     {
-        patternIndex = 0;
         layers = 1;
-        patterns = [ "triline", "trispot" ] as const;
         halfRefreshRate = 30;
         constructor
         (
             public calculateOnly: boolean,
-            public calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown,
-            public calculateTotalScore: (measure: Measurement) => unknown,
-            public scoreLabels: Library.Locale.Label[]
+            public pattern: "triline" | "trispot",
+            public scoreLabel: Library.Locale.Label,
+            public calculateScore: (measure: Measurement) => unknown,
         )
         {
         }
         start = (measure: Measurement, now: number) =>
         {
             this.halfRefreshRate = getMeasurementScoreValue(measure.result.fps) ?? 30;
-            this.patternIndex = 0;
             document.body.classList.toggle("benchmark-rendering", ! this.calculateOnly);
             animator.setColorspace("sRGB");
             animator.setColoring("phi-colors");
@@ -153,7 +150,7 @@ export namespace Benchmark
         startPattern = (_measure: Measurement, now: number) =>
         {
             this.patternStartAt = now;
-            animator.setPattern(this.patterns[this.patternIndex]);
+            animator.setPattern(this.pattern);
             this.startLayers(now, 1);
             animator.startStep(now);
             Fps.reset();
@@ -166,27 +163,21 @@ export namespace Benchmark
         }
         step = (measure: Measurement, now: number) =>
         {
-            UI.benchmarkDescription.textContent = `${Library.Locale.map(this.scoreLabels[this.patternIndex])}: ${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
+            UI.benchmarkDescription.textContent = `${Library.Locale.map(this.scoreLabel)}: ${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
             if (this.isNeedAdjustingLayers(now))
             {
                 const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate), this.layers +1);
                 this.startLayers(now, layers);
             }
-            if (this.isNextPattern(now))
+            if (this.isEnd(now))
             {
-                this.calculateScore(measure, this.patterns[this.patternIndex]);
-                ++this.patternIndex;
-                if (this.isEnd())
-                {
-                    this.calculateTotalScore(measure);
-                    measure.next();
-                }
-                else
-                {
-                    this.startPattern(measure, now);
-                }
+                this.calculateScore(measure);
+                measure.next();
             }
-            animator.step(now);
+            else
+            {
+                animator.step(now);
+            }
         };
         laysersStartAt = 0;
         patternStartAt = 0;
@@ -197,15 +188,13 @@ export namespace Benchmark
             this.isStable(now) &&
             this.laysersStartAt +config.benchmark.adjustLayersWait < now &&
             30 <= Fps.averageFps;
-        isNextPattern = (now: number) =>
+        isEnd = (now: number) =>
             this.isStable(now) &&
             this.laysersStartAt +config.benchmark.nextPatternWait < now;
-        isEnd = () =>
-            this.patterns.length <= this.patternIndex;
         calculationScore = () =>
             Fps.averageFps *this.layers;
     }
-    export class CalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
+    export class LinesCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
     {
         name = "benchmark-phase-calculation-score" as const;
         constructor()
@@ -213,35 +202,34 @@ export namespace Benchmark
             super
             (
                 true,
-                (measure, pattern) =>
-                {
-                    switch(pattern)
-                    {
-                    case "triline":
-                        measure.result.linesCalculationScore = this.calculationScore();
-                        break;
-                    case "trispot":
-                        measure.result.spotCalculationScore = this.calculationScore();
-                        break;
-                    }
-                },
-                (measure) =>
-                {
-                    measure.result.totalCalculationScore = calculateMeasurementScore
-                    (
-                        measure.result.linesCalculationScore,
-                        measure.result.spotCalculationScore,
-                        (a, b) => (a +b) /2
-                    );
-                },
-                [
-                    "benchmark-lines-calculation-score",
-                    "benchmark-spots-calculation-score",
-                ]
+                "triline",
+                "benchmark-lines-calculation-score",
+                measure => measure.result.linesCalculationScore = this.calculationScore(),
             );
         }
     }
-    export class RenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
+    export class SpotsCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
+    {
+        name = "benchmark-phase-calculation-score" as const;
+        constructor()
+        {
+            super
+            (
+                true,
+                "trispot",
+                "benchmark-spots-calculation-score",
+                measure => measure.result.spotsCalculationScore = this.calculationScore(),
+            );
+        }
+    }
+    const calculateArea = () =>
+        (
+            (UI.benchmarkCanvas.clientWidth *(window.devicePixelRatio ?? 1.0))
+            *(UI.benchmarkCanvas.clientHeight *(window.devicePixelRatio ?? 1.0))
+            *window.screen.colorDepth
+        )
+        /(config.benchmark.pixelUnit *config.benchmark.colorDepthUnit);
+    export class LinesRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
     {
         name = "benchmark-phase-rendering-score" as const;
         constructor()
@@ -249,48 +237,34 @@ export namespace Benchmark
             super
             (
                 false,
-                (measure, pattern) =>
-                {
-                    switch(pattern)
-                    {
-                    case "triline":
-                        measure.result.linesRenderingScorePerFullHd =
-                            this.calculationScore() *this.calculateArea();
-                        break;
-                    case "trispot":
-                        measure.result.spotsRenderingScorePerFullHd =
-                            this.calculationScore() *this.calculateArea();
-                        break;
-                    }
-                },
-                (measure) =>
-                {
-                    measure.result.totalRenderingScore = calculateMeasurementScore
-                    (
-                        measure.result.linesRenderingScorePerFullHd,
-                        measure.result.spotsRenderingScorePerFullHd,
-                        (a, b) => (a +b) /2
-                    );
-                },
-                [
-                    "benchmark-lines-rendering-score",
-                    "benchmark-spots-rendering-score",
-                ]
+                "triline",
+                "benchmark-lines-rendering-score",
+                measure => measure.result.linesRenderingScorePerFullHd = this.calculationScore() *calculateArea()
             );
         }
-        calculateArea = () =>
+    }
+    export class SpotsRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
+    {
+        name = "benchmark-phase-rendering-score" as const;
+        constructor()
+        {
+            super
             (
-                (UI.benchmarkCanvas.clientWidth *(window.devicePixelRatio ?? 1.0))
-                *(UI.benchmarkCanvas.clientHeight *(window.devicePixelRatio ?? 1.0))
-            )
-            /config.benchmark.pixelUnit;
+                false,
+                "trispot",
+                "benchmark-spots-rendering-score",
+                measure => measure.result.spotsRenderingScorePerFullHd = this.calculationScore() *calculateArea(),
+            );
+        }
     }
     const phases: MeasurementPhaseBase[] =
     [
         new ScreenResolutionMeasurementPhase(),
         new FpsMeasurementPhase(),
-        new CalculationScoreMeasurementPhase(),
-        new RenderingScoreMeasurementPhase(),
+        new LinesCalculationScoreMeasurementPhase(),
+        new SpotsCalculationScoreMeasurementPhase(),
+        new LinesRenderingScoreMeasurementPhase(),
+        new SpotsRenderingScoreMeasurementPhase(),
     ];
     export class Measurement
     {
@@ -327,6 +301,18 @@ export namespace Benchmark
         end = () =>
         {
             UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-finished");
+            this.result.totalCalculationScore = calculateMeasurementScore
+            (
+                this.result.linesCalculationScore,
+                this.result.spotsCalculationScore,
+                (a, b) => (a +b) /2
+            );
+            this.result.totalRenderingScore = calculateMeasurementScore
+            (
+                this.result.linesRenderingScorePerFullHd,
+                this.result.spotsRenderingScorePerFullHd,
+                (a, b) => (a +b) /2
+            );
             this.result.totalScore = calculateMeasurementScore
             (
                 this.result.screenResolution,

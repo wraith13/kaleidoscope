@@ -268,7 +268,8 @@ define("resource/config", [], {
         "screenResolutionWait": 500,
         "refreshRateWait": 1500,
         "endWait": 750,
-        "pixelUnit": 2073600
+        "pixelUnit": 2073600,
+        "colorDepthUnit": 24
     }
 });
 define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
@@ -2909,7 +2910,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 screenResolution: "Unmeasured",
                 fps: "Unmeasured",
                 linesCalculationScore: "Unmeasured",
-                spotCalculationScore: "Unmeasured",
+                spotsCalculationScore: "Unmeasured",
                 totalCalculationScore: "Unmeasured",
                 linesRenderingScorePerFullHd: "Unmeasured",
                 spotsRenderingScorePerFullHd: "Unmeasured",
@@ -2981,20 +2982,17 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         }());
         Benchmark.FpsMeasurementPhase = FpsMeasurementPhase;
         var ScoreMeasurementPhaseBase = /** @class */ (function () {
-            function ScoreMeasurementPhaseBase(calculateOnly, calculateScore, calculateTotalScore, scoreLabels) {
+            function ScoreMeasurementPhaseBase(calculateOnly, pattern, scoreLabel, calculateScore) {
                 var _this = this;
                 this.calculateOnly = calculateOnly;
+                this.pattern = pattern;
+                this.scoreLabel = scoreLabel;
                 this.calculateScore = calculateScore;
-                this.calculateTotalScore = calculateTotalScore;
-                this.scoreLabels = scoreLabels;
-                this.patternIndex = 0;
                 this.layers = 1;
-                this.patterns = ["triline", "trispot"];
                 this.halfRefreshRate = 30;
                 this.start = function (measure, now) {
                     var _a;
                     _this.halfRefreshRate = (_a = Benchmark.getMeasurementScoreValue(measure.result.fps)) !== null && _a !== void 0 ? _a : 30;
-                    _this.patternIndex = 0;
                     document.body.classList.toggle("benchmark-rendering", !_this.calculateOnly);
                     Benchmark.animator.setColorspace("sRGB");
                     Benchmark.animator.setColoring("phi-colors");
@@ -3005,7 +3003,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.startPattern = function (_measure, now) {
                     _this.patternStartAt = now;
-                    Benchmark.animator.setPattern(_this.patterns[_this.patternIndex]);
+                    Benchmark.animator.setPattern(_this.pattern);
                     _this.startLayers(now, 1);
                     Benchmark.animator.startStep(now);
                     fps_1.Fps.reset();
@@ -3016,23 +3014,18 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabels[_this.patternIndex]), ": ").concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
+                    ui_2.UI.benchmarkDescription.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ": ").concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
                     }
-                    if (_this.isNextPattern(now)) {
-                        _this.calculateScore(measure, _this.patterns[_this.patternIndex]);
-                        ++_this.patternIndex;
-                        if (_this.isEnd()) {
-                            _this.calculateTotalScore(measure);
-                            measure.next();
-                        }
-                        else {
-                            _this.startPattern(measure, now);
-                        }
+                    if (_this.isEnd(now)) {
+                        _this.calculateScore(measure);
+                        measure.next();
                     }
-                    Benchmark.animator.step(now);
+                    else {
+                        Benchmark.animator.step(now);
+                    }
                 };
                 this.laysersStartAt = 0;
                 this.patternStartAt = 0;
@@ -3045,12 +3038,9 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                         _this.laysersStartAt + config_json_5.default.benchmark.adjustLayersWait < now &&
                         30 <= fps_1.Fps.averageFps;
                 };
-                this.isNextPattern = function (now) {
+                this.isEnd = function (now) {
                     return _this.isStable(now) &&
                         _this.laysersStartAt + config_json_5.default.benchmark.nextPatternWait < now;
-                };
-                this.isEnd = function () {
-                    return _this.patterns.length <= _this.patternIndex;
                 };
                 this.calculationScore = function () {
                     return fps_1.Fps.averageFps * _this.layers;
@@ -3059,67 +3049,60 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             return ScoreMeasurementPhaseBase;
         }());
         Benchmark.ScoreMeasurementPhaseBase = ScoreMeasurementPhaseBase;
-        var CalculationScoreMeasurementPhase = /** @class */ (function (_super) {
-            __extends(CalculationScoreMeasurementPhase, _super);
-            function CalculationScoreMeasurementPhase() {
-                var _this = _super.call(this, true, function (measure, pattern) {
-                    switch (pattern) {
-                        case "triline":
-                            measure.result.linesCalculationScore = _this.calculationScore();
-                            break;
-                        case "trispot":
-                            measure.result.spotCalculationScore = _this.calculationScore();
-                            break;
-                    }
-                }, function (measure) {
-                    measure.result.totalCalculationScore = Benchmark.calculateMeasurementScore(measure.result.linesCalculationScore, measure.result.spotCalculationScore, function (a, b) { return (a + b) / 2; });
-                }, [
-                    "benchmark-lines-calculation-score",
-                    "benchmark-spots-calculation-score",
-                ]) || this;
+        var LinesCalculationScoreMeasurementPhase = /** @class */ (function (_super) {
+            __extends(LinesCalculationScoreMeasurementPhase, _super);
+            function LinesCalculationScoreMeasurementPhase() {
+                var _this = _super.call(this, true, "triline", "benchmark-lines-calculation-score", function (measure) { return measure.result.linesCalculationScore = _this.calculationScore(); }) || this;
                 _this.name = "benchmark-phase-calculation-score";
                 return _this;
             }
-            return CalculationScoreMeasurementPhase;
+            return LinesCalculationScoreMeasurementPhase;
         }(ScoreMeasurementPhaseBase));
-        Benchmark.CalculationScoreMeasurementPhase = CalculationScoreMeasurementPhase;
-        var RenderingScoreMeasurementPhase = /** @class */ (function (_super) {
-            __extends(RenderingScoreMeasurementPhase, _super);
-            function RenderingScoreMeasurementPhase() {
-                var _this = _super.call(this, false, function (measure, pattern) {
-                    switch (pattern) {
-                        case "triline":
-                            measure.result.linesRenderingScorePerFullHd =
-                                _this.calculationScore() * _this.calculateArea();
-                            break;
-                        case "trispot":
-                            measure.result.spotsRenderingScorePerFullHd =
-                                _this.calculationScore() * _this.calculateArea();
-                            break;
-                    }
-                }, function (measure) {
-                    measure.result.totalRenderingScore = Benchmark.calculateMeasurementScore(measure.result.linesRenderingScorePerFullHd, measure.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
-                }, [
-                    "benchmark-lines-rendering-score",
-                    "benchmark-spots-rendering-score",
-                ]) || this;
-                _this.name = "benchmark-phase-rendering-score";
-                _this.calculateArea = function () {
-                    var _a, _b;
-                    return ((ui_2.UI.benchmarkCanvas.clientWidth * ((_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0))
-                        * (ui_2.UI.benchmarkCanvas.clientHeight * ((_b = window.devicePixelRatio) !== null && _b !== void 0 ? _b : 1.0)))
-                        / config_json_5.default.benchmark.pixelUnit;
-                };
+        Benchmark.LinesCalculationScoreMeasurementPhase = LinesCalculationScoreMeasurementPhase;
+        var SpotsCalculationScoreMeasurementPhase = /** @class */ (function (_super) {
+            __extends(SpotsCalculationScoreMeasurementPhase, _super);
+            function SpotsCalculationScoreMeasurementPhase() {
+                var _this = _super.call(this, true, "trispot", "benchmark-spots-calculation-score", function (measure) { return measure.result.spotsCalculationScore = _this.calculationScore(); }) || this;
+                _this.name = "benchmark-phase-calculation-score";
                 return _this;
             }
-            return RenderingScoreMeasurementPhase;
+            return SpotsCalculationScoreMeasurementPhase;
         }(ScoreMeasurementPhaseBase));
-        Benchmark.RenderingScoreMeasurementPhase = RenderingScoreMeasurementPhase;
+        Benchmark.SpotsCalculationScoreMeasurementPhase = SpotsCalculationScoreMeasurementPhase;
+        var calculateArea = function () {
+            var _a, _b;
+            return ((ui_2.UI.benchmarkCanvas.clientWidth * ((_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0))
+                * (ui_2.UI.benchmarkCanvas.clientHeight * ((_b = window.devicePixelRatio) !== null && _b !== void 0 ? _b : 1.0))
+                * window.screen.colorDepth)
+                / (config_json_5.default.benchmark.pixelUnit * config_json_5.default.benchmark.colorDepthUnit);
+        };
+        var LinesRenderingScoreMeasurementPhase = /** @class */ (function (_super) {
+            __extends(LinesRenderingScoreMeasurementPhase, _super);
+            function LinesRenderingScoreMeasurementPhase() {
+                var _this = _super.call(this, false, "triline", "benchmark-lines-rendering-score", function (measure) { return measure.result.linesRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
+                _this.name = "benchmark-phase-rendering-score";
+                return _this;
+            }
+            return LinesRenderingScoreMeasurementPhase;
+        }(ScoreMeasurementPhaseBase));
+        Benchmark.LinesRenderingScoreMeasurementPhase = LinesRenderingScoreMeasurementPhase;
+        var SpotsRenderingScoreMeasurementPhase = /** @class */ (function (_super) {
+            __extends(SpotsRenderingScoreMeasurementPhase, _super);
+            function SpotsRenderingScoreMeasurementPhase() {
+                var _this = _super.call(this, false, "trispot", "benchmark-spots-rendering-score", function (measure) { return measure.result.spotsRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
+                _this.name = "benchmark-phase-rendering-score";
+                return _this;
+            }
+            return SpotsRenderingScoreMeasurementPhase;
+        }(ScoreMeasurementPhaseBase));
+        Benchmark.SpotsRenderingScoreMeasurementPhase = SpotsRenderingScoreMeasurementPhase;
         var phases = [
             new ScreenResolutionMeasurementPhase(),
             new FpsMeasurementPhase(),
-            new CalculationScoreMeasurementPhase(),
-            new RenderingScoreMeasurementPhase(),
+            new LinesCalculationScoreMeasurementPhase(),
+            new SpotsCalculationScoreMeasurementPhase(),
+            new LinesRenderingScoreMeasurementPhase(),
+            new SpotsRenderingScoreMeasurementPhase(),
         ];
         var Measurement = /** @class */ (function () {
             function Measurement(canvas) {
@@ -3153,6 +3136,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 };
                 this.end = function () {
                     ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
+                    _this.result.totalCalculationScore = Benchmark.calculateMeasurementScore(_this.result.linesCalculationScore, _this.result.spotsCalculationScore, function (a, b) { return (a + b) / 2; });
+                    _this.result.totalRenderingScore = Benchmark.calculateMeasurementScore(_this.result.linesRenderingScorePerFullHd, _this.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
                     _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return b / (((a.width * a.devicePixelRatio) * (a.height * a.devicePixelRatio)) / config_json_5.default.benchmark.pixelUnit); });
                     console.log("📈 benchmark", _this.result);
                 };

@@ -765,7 +765,7 @@ declare module "script/features/benchmark" {
             }>;
             fps: MeasurementScore<number>;
             linesCalculationScore: MeasurementScore<number>;
-            spotCalculationScore: MeasurementScore<number>;
+            spotsCalculationScore: MeasurementScore<number>;
             totalCalculationScore: MeasurementScore<number>;
             linesRenderingScorePerFullHd: MeasurementScore<number>;
             spotsRenderingScorePerFullHd: MeasurementScore<number>;
@@ -800,14 +800,12 @@ declare module "script/features/benchmark" {
         }
         class ScoreMeasurementPhaseBase {
             calculateOnly: boolean;
-            calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown;
-            calculateTotalScore: (measure: Measurement) => unknown;
-            scoreLabels: Library.Locale.Label[];
-            patternIndex: number;
+            pattern: "triline" | "trispot";
+            scoreLabel: Library.Locale.Label;
+            calculateScore: (measure: Measurement) => unknown;
             layers: number;
-            patterns: readonly ["triline", "trispot"];
             halfRefreshRate: number;
-            constructor(calculateOnly: boolean, calculateScore: (measure: Measurement, pattern: ScoreMeasurementPhaseBase["patterns"][number]) => unknown, calculateTotalScore: (measure: Measurement) => unknown, scoreLabels: Library.Locale.Label[]);
+            constructor(calculateOnly: boolean, pattern: "triline" | "trispot", scoreLabel: Library.Locale.Label, calculateScore: (measure: Measurement) => unknown);
             start: (measure: Measurement, now: number) => void;
             startPattern: (_measure: Measurement, now: number) => void;
             startLayers: (now: number, layers: number) => void;
@@ -816,18 +814,24 @@ declare module "script/features/benchmark" {
             patternStartAt: number;
             isStable: (now: number) => boolean;
             isNeedAdjustingLayers: (now: number) => boolean;
-            isNextPattern: (now: number) => boolean;
-            isEnd: () => boolean;
+            isEnd: (now: number) => boolean;
             calculationScore: () => number;
         }
-        class CalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
+        class LinesCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
             name: "benchmark-phase-calculation-score";
             constructor();
         }
-        class RenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
+        class SpotsCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
+            name: "benchmark-phase-calculation-score";
+            constructor();
+        }
+        class LinesRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
             name: "benchmark-phase-rendering-score";
             constructor();
-            calculateArea: () => number;
+        }
+        class SpotsRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
+            name: "benchmark-phase-rendering-score";
+            constructor();
         }
         class Measurement {
             canvas: HTMLDivElement;
