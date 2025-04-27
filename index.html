@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat Apr 26 2025 13:59:12 GMT+0900 (日本標準時)
+    build at: Sat Apr 26 2025 21:35:59 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -340,8 +340,36 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   background-color: rgba(32, 28, 38, 0.4);
 }
 #screen-body #benchmark-result #benchmark-result-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+}
+#screen-body #benchmark-result #benchmark-result-panel {
   padding: 0rem 1rem;
   overflow: scroll;
+  gap: 0.5rem;
+}
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score,
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score,
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score {
+  flex-wrap: wrap;
+}
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score #benchmark-total-score,
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score #benchmark-total-score {
+  font-size: 4rem;
+  line-height: 4rem;
+}
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score #benchmark-score-per-fullhd,
+#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score #benchmark-score-per-fullhd {
+  font-size: 2rem;
+  line-height: 2rem;
 }
 #screen-body #benchmark-result button#benchmark-result-close-button {
   line-height: 100%;
@@ -1448,8 +1476,8 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sat Apr 26 2025 13:59:12 GMT+0900 (日本標準時)",
-    tick: 1745643552678
+    at: "Sat Apr 26 2025 21:35:59 GMT+0900 (日本標準時)",
+    tick: 1745670959268
 };
 const evilCommonjsConfig =
 {

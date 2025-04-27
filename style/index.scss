@@ -158,8 +158,30 @@
         }
         #benchmark-result-panel
         {
-            padding: 0rem 1.0rem;
-            overflow: scroll;
+            @include flex(column, start, stretch);
+            &
+            {
+                padding: 0rem 1.0rem;
+                overflow: scroll;
+                gap: 0.5rem;
+            }
+            #benchmark-main-score,
+            #benchmark-sub-score
+            {
+                @include flex(row, space-between);
+                &
+                {
+                    flex-wrap: wrap;
+                }
+                #benchmark-total-score
+                {
+                    @include font-size(4rem);
+                }
+                #benchmark-score-per-fullhd
+                {
+                    @include font-size(2rem);
+                }
+            }
         }
         button#benchmark-result-close-button
         {
