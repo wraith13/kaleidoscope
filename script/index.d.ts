@@ -58,6 +58,7 @@ declare module "script/library/locale" {
                 "benchmark-report-label": string;
                 "benchmark-total-score": string;
                 "benchmark-score-per-fullhd": string;
+                "benchmark-calculation-score": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
             };
@@ -110,6 +111,7 @@ declare module "script/library/locale" {
                 "benchmark-report-label": string;
                 "benchmark-total-score": string;
                 "benchmark-score-per-fullhd": string;
+                "benchmark-calculation-score": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
             };
@@ -355,6 +357,7 @@ declare module "script/ui" {
         const benchmarkPhase: HTMLSpanElement;
         const benchmarkTotalScore: HTMLSpanElement;
         const benchmarkScorePerFullHD: HTMLSpanElement;
+        const benchmarkCalculationScore: HTMLSpanElement;
         const benchmarkDetails: HTMLDivElement;
         const benchmarkDescription: HTMLDivElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;

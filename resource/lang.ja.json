@@ -46,7 +46,8 @@
     "benchmark-spots-rendering-score": "描画性能(spots)",
     "benchmark-report-label": "ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
-    "benchmark-score-per-fullhd": "Full HD あたりのスコア",
+    "benchmark-score-per-fullhd": "Full HD あたりの描画スコア",
+    "benchmark-calculation-score": "計算スコア",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
     "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。"
 }

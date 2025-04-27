@@ -43,13 +43,17 @@ __STYLE__
     <div id="benchmark-result">
         <h2><span data-lang-key="benchmark-report-label"></span></h2>
         <div id="benchmark-result-panel">
-            <div id="benchmark-main-score">
+            <div class="benchmark-main-score">
                 <span data-lang-key="benchmark-total-score"></span>
                 <span id="benchmark-total-score"></span>
             </div>
-            <div id="benchmark-sub-score">
+            <div class="benchmark-sub-score">
                 <span data-lang-key="benchmark-score-per-fullhd"></span>
                 <span id="benchmark-score-per-fullhd"></span>
+            </div>
+            <div class="benchmark-sub-score">
+                <span data-lang-key="benchmark-calculation-score"></span>
+                <span id="benchmark-calculation-score"></span>
             </div>
             <div id="benchmark-details"></div>
             <ul id="benchmark-description-panel">

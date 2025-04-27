@@ -136,9 +136,10 @@
         @include fade-transition("body:not(.benchmark-result)");
         @include black-pop-panel-style();
         @include solid-box();
-        @include flex(column, center);
+        @include flex(column);
         &
         {
+            gap: 0.5rem;
             border-radius: 0.5rem;
             transition: opacity 750ms, filter 750ms;
             position: absolute;
@@ -162,11 +163,10 @@
             &
             {
                 padding: 0rem 1.0rem;
-                overflow: scroll;
+                overflow: auto;
                 gap: 0.5rem;
             }
-            #benchmark-main-score,
-            #benchmark-sub-score
+            & > div
             {
                 @include flex(row, space-between);
                 &
@@ -177,9 +177,15 @@
                 {
                     @include font-size(4rem);
                 }
-                #benchmark-score-per-fullhd
+                #benchmark-score-per-fullhd,
+                #benchmark-calculation-score
                 {
                     @include font-size(2rem);
+                }
+                span:last-child
+                {
+                    flex-grow: 1;
+                    text-align: end;
                 }
             }
         }

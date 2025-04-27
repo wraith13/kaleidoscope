@@ -248,7 +248,7 @@ body.benchmark-rendering #screen-body #benchmark-canvas {
   border: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 body:not(.benchmark-result) #screen-body #benchmark-result:not(.show) {
@@ -271,6 +271,7 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
 }
 
 #screen-body #benchmark-result {
+  gap: 0.5rem;
   border-radius: 0.5rem;
   transition: opacity 750ms, filter 750ms;
   position: absolute;
@@ -295,29 +296,30 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
 }
 #screen-body #benchmark-result #benchmark-result-panel {
   padding: 0rem 1rem;
-  overflow: scroll;
+  overflow: auto;
   gap: 0.5rem;
 }
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score,
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score {
+#screen-body #benchmark-result #benchmark-result-panel > div {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score,
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score {
+#screen-body #benchmark-result #benchmark-result-panel > div {
   flex-wrap: wrap;
 }
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score #benchmark-total-score,
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score #benchmark-total-score {
+#screen-body #benchmark-result #benchmark-result-panel > div #benchmark-total-score {
   font-size: 4rem;
   line-height: 4rem;
 }
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-main-score #benchmark-score-per-fullhd,
-#screen-body #benchmark-result #benchmark-result-panel #benchmark-sub-score #benchmark-score-per-fullhd {
+#screen-body #benchmark-result #benchmark-result-panel > div #benchmark-score-per-fullhd,
+#screen-body #benchmark-result #benchmark-result-panel > div #benchmark-calculation-score {
   font-size: 2rem;
   line-height: 2rem;
+}
+#screen-body #benchmark-result #benchmark-result-panel > div span:last-child {
+  flex-grow: 1;
+  text-align: end;
 }
 #screen-body #benchmark-result button#benchmark-result-close-button {
   line-height: 100%;
