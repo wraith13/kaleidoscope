@@ -82,6 +82,10 @@ export namespace Benchmark
             Features.Benchmark.getMeasurementScoreValue(benchmark.result.totalRenderingScore)?.toFixed(2) ?? "xxxxxxxx";
         UI.benchmarkCalculationScore.innerText =
             Features.Benchmark.getMeasurementScoreValue(benchmark.result.totalCalculationScore)?.toFixed(2) ?? "xxxxxxxx";
+        UI.benchmarkLinesCalculationScore.innerText =
+            Features.Benchmark.getMeasurementScoreValue(benchmark.result.linesCalculationScore)?.toFixed(2) ?? "xxxxxxxx";
+        UI.benchmarkSpotsCalculationScore.innerText =
+            Features.Benchmark.getMeasurementScoreValue(benchmark.result.spotsCalculationScore)?.toFixed(2) ?? "xxxxxxxx";
         UI.benchmarkDetails.innerText = JSON.stringify(benchmark.result, null, 4);
     }
 }

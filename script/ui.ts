@@ -62,6 +62,10 @@ export namespace UI
         Library.UI.getElementById("span", "benchmark-score-per-fullhd");
     export const benchmarkCalculationScore =
         Library.UI.getElementById("span", "benchmark-calculation-score");
+    export const benchmarkLinesCalculationScore =
+        Library.UI.getElementById("span", "benchmark-lines-calculation-score");
+    export const benchmarkSpotsCalculationScore =
+        Library.UI.getElementById("span", "benchmark-spots-calculation-score");
     export const benchmarkDetails =
         Library.UI.getElementById("div", "benchmark-details");
     export const benchmarkDescription =

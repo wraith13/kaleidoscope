@@ -358,6 +358,8 @@ declare module "script/ui" {
         const benchmarkTotalScore: HTMLSpanElement;
         const benchmarkScorePerFullHD: HTMLSpanElement;
         const benchmarkCalculationScore: HTMLSpanElement;
+        const benchmarkLinesCalculationScore: HTMLSpanElement;
+        const benchmarkSpotsCalculationScore: HTMLSpanElement;
         const benchmarkDetails: HTMLDivElement;
         const benchmarkDescription: HTMLDivElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;

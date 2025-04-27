@@ -102,46 +102,6 @@ body.hide-ui #screen-header:not(.show) {
   }
 }
 
-#benchmark-progress-bar {
-  margin: 0px;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-  display: flex;
-  flex-direction: row;
-  justify-content: stretch;
-  align-items: center;
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.8);
-  transition: transform 500ms;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  position: fixed;
-  z-index: 100;
-}
-body:not(.benchmark) #benchmark-progress-bar:not(.show) {
-  transform: translate(0px, -100%);
-}
-
-#benchmark-progress-bar .progress-block {
-  display: block;
-  margin: 0px;
-  padding: 0px;
-  border: 0;
-  flex-grow: 1;
-  height: 0.5rem;
-}
-#benchmark-progress-bar .progress-block.on {
-  background-color: rgba(68, 221, 136, 0.6666666667);
-}
-#benchmark-progress-bar .progress-block.now {
-  background-color: rgba(68, 221, 136, 0.4);
-}
-#benchmark-progress-bar .progress-block:not(.on):not(.now) {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
 #screen-body {
   margin: 0px;
   top: 0px;
@@ -839,14 +799,12 @@ body.hide-ui #benchmark-popup:not(.show)::before {
 }
 
 #benchmark-popup {
-  border-radius: 0.5rem;
   padding: 1.5rem;
   transition: opacity 750ms, filter 750ms;
   position: fixed;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: calc(100vw - 3rem);
+  width: 100%;
+  transform: translate(0%, -50%);
   max-height: calc(100vh - 5rem);
   z-index: 50;
   gap: 1rem;
@@ -886,6 +844,39 @@ body.hide-ui #benchmark-popup:not(.show)::before {
   #benchmark-popup button#benchmark-abort-button:hover {
     background-color: rgba(230, 237, 243, 0.9);
   }
+}
+#benchmark-popup #benchmark-progress-bar {
+  margin: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: center;
+  transition: transform 500ms;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  position: fixed;
+  z-index: 100;
+}
+body:not(.benchmark) #benchmark-popup #benchmark-progress-bar:not(.show) {
+  transform: translate(0px, -100%);
+}
+
+#benchmark-popup #benchmark-progress-bar .progress-block {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: 0;
+  flex-grow: 1;
+  height: 0.5rem;
+}
+#benchmark-popup #benchmark-progress-bar .progress-block.on {
+  background-color: rgba(68, 221, 136, 0.6666666667);
+}
+#benchmark-popup #benchmark-progress-bar .progress-block.now {
+  background-color: rgba(68, 221, 136, 0.4);
 }
 
 #screen-footer {

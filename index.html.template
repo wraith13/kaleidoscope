@@ -32,7 +32,6 @@ __STYLE__
 </head>
 <body>
 <h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="__REPOSITORY_URL_"><span>Kaleidoscope</span></a></h1>
-<div id="benchmark-progress-bar"></div>
 <div id="screen-body">
     <div id="canvas">
         <div class="layer"></div>
@@ -54,6 +53,14 @@ __STYLE__
             <div class="benchmark-sub-score">
                 <span data-lang-key="benchmark-calculation-score"></span>
                 <span id="benchmark-calculation-score"></span>
+            </div>
+            <div class="benchmark-score-item">
+                <span data-lang-key="benchmark-lines-calculation-score"></span>
+                <span id="benchmark-lines-calculation-score"></span>
+            </div>
+            <div class="benchmark-score-item">
+                <span data-lang-key="benchmark-spots-calculation-score"></span>
+                <span id="benchmark-spots-calculation-score"></span>
             </div>
             <div id="benchmark-details"></div>
             <ul id="benchmark-description-panel">
@@ -126,6 +133,7 @@ __STYLE__
 <div id="benchmark-popup">
     <div id="benchmark-popup-description"></div>
     <button id="benchmark-abort-button"><span data-lang-key="benchmark-abort"></span></button>
+    <div id="benchmark-progress-bar"></div>
 </div>
 <div id="screen-footer">
     <div id="supplementary-line">
