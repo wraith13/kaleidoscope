@@ -131,7 +131,10 @@ __STYLE__
     __IMAGES__
 </button>
 <div id="benchmark-popup">
-    <div id="benchmark-popup-description"></div>
+    <div id="benchmark-popup-description">
+        <span id="benchmark-popup-label"></span>
+        <span id="benchmark-popup-value"></span>
+    </div>
     <button id="benchmark-abort-button"><span data-lang-key="benchmark-abort"></span></button>
     <div id="benchmark-progress-bar"></div>
 </div>
@@ -150,10 +153,6 @@ __STYLE__
             </ul>
         </div>
     </div>
-</div>
-<div id="benchmark-status">
-    <span id="benchmark-message" data-lang-key="benchmarking-in-progress"></span>
-    <span id="benchmark-phase"></span>
 </div>
 </body>
 <script type="text/javascript">

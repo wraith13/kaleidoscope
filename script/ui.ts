@@ -54,8 +54,6 @@ export namespace UI
         Library.UI.getElementById("div", "benchmark-canvas");
     export const keyboardShortcut =
         Library.UI.getElementById("div", "keyboard-shortcut");
-    export const benchmarkPhase =
-        Library.UI.getElementById("span", "benchmark-phase");
     export const benchmarkTotalScore =
         Library.UI.getElementById("span", "benchmark-total-score");
     export const benchmarkScorePerFullHD =
@@ -68,8 +66,10 @@ export namespace UI
         Library.UI.getElementById("span", "benchmark-spots-calculation-score");
     export const benchmarkDetails =
         Library.UI.getElementById("div", "benchmark-details");
-    export const benchmarkDescription =
-        Library.UI.getElementById("div", "benchmark-popup-description");
+    export const benchmarkPopupLabel =
+        Library.UI.getElementById("span", "benchmark-popup-label");
+    export const benchmarkPopupValue =
+        Library.UI.getElementById("span", "benchmark-popup-value");
     export const benchmarkAbortButton =
         new Library.Control.Button({ id: "benchmark-abort-button", });
     export const benchmarkResultCloseButton =

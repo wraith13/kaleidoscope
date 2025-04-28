@@ -108,21 +108,21 @@
         @include black-pop-panel-style();
         @include solid-box();
         @include flex(column);
+        @include monospace-font();
         &
         {
             gap: 0.5rem;
-            border-radius: 0.5rem;
             transition: opacity 750ms, filter 750ms;
             position: absolute;
             top: 50%;
             width: 100%;
             transform: translate(0%, -50%);
+            max-width: 100vw;
             max-height: 100vh;
             z-index: 50;
         }
         h2
         {
-            border-radius: 0.5rem 0.5rem 0rem 0rem;
             padding: 0.5rem 1.0rem;
             width: 100%;
             background-color: black-color(0.4);
@@ -143,18 +143,26 @@
                 {
                     flex-wrap: wrap;
                 }
-                #benchmark-total-score
+                &.benchmark-main-score span:last-child
                 {
-                    @include font-size(4rem);
+                    @include font-size(5rem);
                 }
-                #benchmark-score-per-fullhd,
-                #benchmark-calculation-score
+                &.benchmark-sub-score span:last-child
                 {
-                    @include font-size(2rem);
+                    @include font-size(2.5rem);
+                }
+                &.benchmark-score-item span:last-child
+                {
+                    @include font-size(1.25rem);
+                }
+                span:first-child
+                {
+                    @include font-size(1rem);
                 }
                 span:last-child
                 {
                     flex-grow: 1;
+                    margin-left: 1rem;
                     text-align: end;
                 }
             }
@@ -175,9 +183,6 @@
                 }
             }
         }
-    
-
-
     }
 }
 #option-panel
@@ -378,10 +383,22 @@
     }
     #benchmark-popup-description
     {
+        @include flex(row, space-between);
         @include monospace-font();
         &
         {
-            @include font-size(2rem);
+            flex-wrap: wrap;
+        }
+        #benchmark-popup-label
+        {
+            @include font-size(1.5rem);
+        }
+        #benchmark-popup-value
+        {
+            @include font-size(1.5rem);
+            flex-grow: 1;
+            margin-left: 1rem;
+            text-align: end;
         }
     }
     button#benchmark-abort-button
@@ -416,11 +433,11 @@
             height: 0.5rem;
             &.on
             {
-                background-color: #44DD88AA;
+                background-color: #44DD88EE;
             }
             &.now
             {
-                background-color: #44DD8866;
+                background-color: #44DD8877;
             }
             // &:not(.on):not(.now)
             // {
@@ -562,37 +579,6 @@
                     }
                 }
             }
-        }
-    }
-}
-#benchmark-status
-{
-    @include bottom-stretch-box();
-    @include flex(row, center);
-    @include black-line-panel-style();
-    @include slide-down-transition("body:not(.benchmark)");
-    position: fixed;
-    z-index: 50;
-    pointer-events: none;
-    padding: 1.0rem;
-    #benchmark-message
-    {
-        @include font();
-    }
-    #benchmark-phase
-    {
-        @include font();
-        &::before
-        {
-            @include font();
-            &
-            {
-                content: ": ";
-            }
-        }
-        @media (max-width: 480px)
-        {
-            display: none;
         }
     }
 }

@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Apr 28 2025 10:07:12 GMT+0900 (日本標準時)
+    build at: Mon Apr 28 2025 22:32:30 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -262,6 +262,9 @@ body.benchmark-rendering #screen-body #benchmark-canvas {
   flex-direction: column;
   justify-content: start;
   align-items: center;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
 }
 body:not(.benchmark-result) #screen-body #benchmark-result:not(.show) {
   opacity: 0;
@@ -282,19 +285,33 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
   transition: filter 750ms;
 }
 
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #screen-body #benchmark-result {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #screen-body #benchmark-result {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#screen-body #benchmark-result {
+  font-family: monospace;
+}
 #screen-body #benchmark-result {
   gap: 0.5rem;
-  border-radius: 0.5rem;
   transition: opacity 750ms, filter 750ms;
   position: absolute;
   top: 50%;
   width: 100%;
   transform: translate(0%, -50%);
+  max-width: 100vw;
   max-height: 100vh;
   z-index: 50;
 }
 #screen-body #benchmark-result h2 {
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
   padding: 0.5rem 1rem;
   width: 100%;
   background-color: rgba(32, 28, 38, 0.4);
@@ -319,17 +336,25 @@ body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
 #screen-body #benchmark-result #benchmark-result-panel > div {
   flex-wrap: wrap;
 }
-#screen-body #benchmark-result #benchmark-result-panel > div #benchmark-total-score {
-  font-size: 4rem;
-  line-height: 4rem;
+#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-main-score span:last-child {
+  font-size: 5rem;
+  line-height: 5rem;
 }
-#screen-body #benchmark-result #benchmark-result-panel > div #benchmark-score-per-fullhd,
-#screen-body #benchmark-result #benchmark-result-panel > div #benchmark-calculation-score {
-  font-size: 2rem;
-  line-height: 2rem;
+#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-sub-score span:last-child {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+}
+#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-score-item span:last-child {
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+}
+#screen-body #benchmark-result #benchmark-result-panel > div span:first-child {
+  font-size: 1rem;
+  line-height: 1rem;
 }
 #screen-body #benchmark-result #benchmark-result-panel > div span:last-child {
   flex-grow: 1;
+  margin-left: 1rem;
   text-align: end;
 }
 #screen-body #benchmark-result button#benchmark-result-close-button {
@@ -861,6 +886,10 @@ body.hide-ui #benchmark-popup:not(.show)::before {
   gap: 1rem;
 }
 #benchmark-popup #benchmark-popup-description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.75rem;
   line-height: 0.75rem;
   font-weight: 400;
@@ -881,8 +910,18 @@ body.hide-ui #benchmark-popup:not(.show)::before {
   font-family: monospace;
 }
 #benchmark-popup #benchmark-popup-description {
-  font-size: 2rem;
-  line-height: 2rem;
+  flex-wrap: wrap;
+}
+#benchmark-popup #benchmark-popup-description #benchmark-popup-label {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+}
+#benchmark-popup #benchmark-popup-description #benchmark-popup-value {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  flex-grow: 1;
+  margin-left: 1rem;
+  text-align: end;
 }
 #benchmark-popup button#benchmark-abort-button {
   line-height: 100%;
@@ -924,10 +963,10 @@ body:not(.benchmark) #benchmark-popup #benchmark-progress-bar:not(.show) {
   height: 0.5rem;
 }
 #benchmark-popup #benchmark-progress-bar .progress-block.on {
-  background-color: rgba(68, 221, 136, 0.6666666667);
+  background-color: rgba(68, 221, 136, 0.9333333333);
 }
 #benchmark-popup #benchmark-progress-bar .progress-block.now {
-  background-color: rgba(68, 221, 136, 0.4);
+  background-color: rgba(68, 221, 136, 0.4666666667);
 }
 
 #screen-footer {
@@ -1241,97 +1280,6 @@ body.hide-ui #screen-footer #information-line:not(.show) {
   padding: 0.25rem;
 }
 
-#benchmark-status {
-  margin: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.8);
-  transition: transform 500ms;
-  position: fixed;
-  z-index: 50;
-  pointer-events: none;
-  padding: 1rem;
-}
-body:not(.benchmark) #benchmark-status:not(.show) {
-  transform: translate(0px, 100%);
-}
-
-#benchmark-status #benchmark-message {
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 400;
-}
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-status #benchmark-message {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #benchmark-status #benchmark-message {
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-}
-#benchmark-status #benchmark-message {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-#benchmark-status #benchmark-phase {
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 400;
-}
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-status #benchmark-phase {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #benchmark-status #benchmark-phase {
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-}
-#benchmark-status #benchmark-phase {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-#benchmark-status #benchmark-phase::before {
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 400;
-}
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-status #benchmark-phase::before {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #benchmark-status #benchmark-phase::before {
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-}
-#benchmark-status #benchmark-phase::before {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-#benchmark-status #benchmark-phase::before {
-  content: ": ";
-}
-@media (max-width: 480px) {
-  #benchmark-status #benchmark-phase {
-    display: none;
-  }
-}
-
 /*# sourceMappingURL=index.css.map */
 
 </style>
@@ -1452,7 +1400,10 @@ body:not(.benchmark) #benchmark-status:not(.show) {
 </div>
 </button>
 <div id="benchmark-popup">
-    <div id="benchmark-popup-description"></div>
+    <div id="benchmark-popup-description">
+        <span id="benchmark-popup-label"></span>
+        <span id="benchmark-popup-value"></span>
+    </div>
     <button id="benchmark-abort-button"><span data-lang-key="benchmark-abort"></span></button>
     <div id="benchmark-progress-bar"></div>
 </div>
@@ -1472,16 +1423,12 @@ body:not(.benchmark) #benchmark-status:not(.show) {
         </div>
     </div>
 </div>
-<div id="benchmark-status">
-    <span id="benchmark-message" data-lang-key="benchmarking-in-progress"></span>
-    <span id="benchmark-phase"></span>
-</div>
 </body>
 <script type="text/javascript">
 const build =
 {
-    at: "Mon Apr 28 2025 10:07:12 GMT+0900 (日本標準時)",
-    tick: 1745802432782
+    at: "Mon Apr 28 2025 22:32:30 GMT+0900 (日本標準時)",
+    tick: 1745847150202
 };
 const evilCommonjsConfig =
 {
@@ -4592,13 +4539,13 @@ define("resource/lang.en", [], {
     "Show FPS": "Show FPS",
     "benchmark-abort": "Abort",
     "benchmark-close": "Close",
-    "benchmark-phase-preparation": "Preparation",
-    "benchmarking-in-progress": "Benchmarking in progress",
-    "benchmark-phase-screen-resolution": "Screen Resolution",
-    "benchmark-phase-fps": "FPS",
-    "benchmark-phase-calculation-score": "Calculation Score",
-    "benchmark-phase-rendering-score": "Rendering Score",
-    "benchmark-phase-finished": "Finished",
+    "DELETEME.benchmarking-in-progress": "Benchmarking in progress",
+    "DELETEME.benchmark-phase-preparation": "Preparation",
+    "DELETEME.benchmark-phase-screen-resolution": "Screen Resolution",
+    "DELETEME.benchmark-phase-fps": "FPS",
+    "DELETEME.benchmark-phase-calculation-score": "Calculation Score",
+    "DELETEME.benchmark-phase-rendering-score": "Rendering Score",
+    "DELETEME.benchmark-phase-finished": "Finished",
     "benchmark-lines-calculation-score": "Calculation Score (lines)",
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
@@ -4645,13 +4592,13 @@ define("resource/lang.ja", [], {
     "Show FPS": "FPS 表示",
     "benchmark-abort": "中断",
     "benchmark-close": "閉じる",
-    "benchmarking-in-progress": "ベンチマーク計測中",
-    "benchmark-phase-preparation": "準備",
-    "benchmark-phase-screen-resolution": "画面解像度",
-    "benchmark-phase-fps": "FPS",
-    "benchmark-phase-calculation-score": "計算性能",
-    "benchmark-phase-rendering-score": "描画性能",
-    "benchmark-phase-finished": "完了",
+    "DELETEME.benchmarking-in-progress": "ベンチマーク計測中",
+    "DELETEME.benchmark-phase-preparation": "準備",
+    "DELETEME.benchmark-phase-screen-resolution": "画面解像度",
+    "DELETEME.benchmark-phase-fps": "FPS",
+    "DELETEME.benchmark-phase-calculation-score": "計算性能",
+    "DELETEME.benchmark-phase-rendering-score": "描画性能",
+    "DELETEME.benchmark-phase-finished": "完了",
     "benchmark-lines-calculation-score": "計算性能(lines)",
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
@@ -5654,14 +5601,14 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkProgressBar = _library_2.Library.UI.getElementById("div", "benchmark-progress-bar");
         UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
-        UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
         UI.benchmarkTotalScore = _library_2.Library.UI.getElementById("span", "benchmark-total-score");
         UI.benchmarkScorePerFullHD = _library_2.Library.UI.getElementById("span", "benchmark-score-per-fullhd");
         UI.benchmarkCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-calculation-score");
         UI.benchmarkLinesCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-calculation-score");
         UI.benchmarkSpotsCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-calculation-score");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
-        UI.benchmarkDescription = _library_2.Library.UI.getElementById("div", "benchmark-popup-description");
+        UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
+        UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
         UI.updateLanguage = function () {
@@ -7411,11 +7358,11 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         var ScreenResolutionMeasurementPhase = /** @class */ (function () {
             function ScreenResolutionMeasurementPhase() {
                 var _this = this;
-                this.name = "benchmark-phase-screen-resolution";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     var i = Benchmark.measureScreenResolution();
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit");
+                    ui_2.UI.benchmarkPopupLabel.textContent = "Screen Resolution:";
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit");
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
@@ -7431,14 +7378,14 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         var FpsMeasurementPhase = /** @class */ (function () {
             function FpsMeasurementPhase() {
                 var _this = this;
-                this.name = "benchmark-phase-fps";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     _this.fpsTotal = 0;
                     _this.fpsCount = 0;
+                    ui_2.UI.benchmarkPopupLabel.textContent = "FPS:";
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(fps_1.Fps.currentNowFps.text, " fps");
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(fps_1.Fps.currentNowFps.fps.toFixed(2));
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
@@ -7472,6 +7419,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setCycleSpan(1000);
                     Benchmark.animator.setEasing(true);
                     _this.startPattern(measure, now);
+                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ":");
                 };
                 this.startPattern = function (_measure, now) {
                     _this.patternStartAt = now;
@@ -7486,7 +7434,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ": ").concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
@@ -7525,7 +7473,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(LinesCalculationScoreMeasurementPhase, _super);
             function LinesCalculationScoreMeasurementPhase() {
                 var _this = _super.call(this, true, "triline", "benchmark-lines-calculation-score", function (measure) { return measure.result.linesCalculationScore = _this.calculationScore(); }) || this;
-                _this.name = "benchmark-phase-calculation-score";
                 return _this;
             }
             return LinesCalculationScoreMeasurementPhase;
@@ -7535,7 +7482,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(SpotsCalculationScoreMeasurementPhase, _super);
             function SpotsCalculationScoreMeasurementPhase() {
                 var _this = _super.call(this, true, "trispot", "benchmark-spots-calculation-score", function (measure) { return measure.result.spotsCalculationScore = _this.calculationScore(); }) || this;
-                _this.name = "benchmark-phase-calculation-score";
                 return _this;
             }
             return SpotsCalculationScoreMeasurementPhase;
@@ -7552,7 +7498,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(LinesRenderingScoreMeasurementPhase, _super);
             function LinesRenderingScoreMeasurementPhase() {
                 var _this = _super.call(this, false, "triline", "benchmark-lines-rendering-score", function (measure) { return measure.result.linesRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
-                _this.name = "benchmark-phase-rendering-score";
                 return _this;
             }
             return LinesRenderingScoreMeasurementPhase;
@@ -7562,7 +7507,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(SpotsRenderingScoreMeasurementPhase, _super);
             function SpotsRenderingScoreMeasurementPhase() {
                 var _this = _super.call(this, false, "trispot", "benchmark-spots-rendering-score", function (measure) { return measure.result.spotsRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
-                _this.name = "benchmark-phase-rendering-score";
                 return _this;
             }
             return SpotsRenderingScoreMeasurementPhase;
@@ -7585,17 +7529,19 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.currentPhase = null;
                 this.start = function () {
                     setProgressBarSize(phases.length);
-                    setProgressBarProgress(_this.phase = 0);
-                    ui_2.UI.benchmarkDescription.textContent =
-                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-preparation");
+                    setProgressBarProgress(_this.phase = -1);
+                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map("DELETEME.benchmarking-in-progress"), ":");
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(_library_4.Library.Locale.map("DELETEME.benchmark-phase-preparation"));
                     _this.currentPhase = null;
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
                 this.step = function (now) {
                     var _a;
+                    if (_this.phase < 0) {
+                        _this.next();
+                    }
                     if (_this.currentPhase !== phases[_this.phase]) {
                         _this.currentPhase = phases[_this.phase];
-                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map(_this.currentPhase.name);
                         (_a = _this.currentPhase) === null || _a === void 0 ? void 0 : _a.start(_this, now);
                     }
                     phases[_this.phase].step(_this, now);
@@ -7607,7 +7553,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     return phases.length <= _this.phase;
                 };
                 this.end = function () {
-                    ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
                     _this.result.totalCalculationScore = Benchmark.calculateMeasurementScore(_this.result.linesCalculationScore, _this.result.spotsCalculationScore, function (a, b) { return (a + b) / 2; });
                     _this.result.totalRenderingScore = Benchmark.calculateMeasurementScore(_this.result.linesRenderingScorePerFullHd, _this.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
                     _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return b / (((a.width * a.devicePixelRatio) * (a.height * a.devicePixelRatio)) / config_json_5.default.benchmark.pixelUnit); });

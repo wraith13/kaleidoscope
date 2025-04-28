@@ -44,13 +44,13 @@ declare module "script/library/locale" {
                 "Show FPS": string;
                 "benchmark-abort": string;
                 "benchmark-close": string;
-                "benchmark-phase-preparation": string;
-                "benchmarking-in-progress": string;
-                "benchmark-phase-screen-resolution": string;
-                "benchmark-phase-fps": string;
-                "benchmark-phase-calculation-score": string;
-                "benchmark-phase-rendering-score": string;
-                "benchmark-phase-finished": string;
+                "DELETEME.benchmarking-in-progress": string;
+                "DELETEME.benchmark-phase-preparation": string;
+                "DELETEME.benchmark-phase-screen-resolution": string;
+                "DELETEME.benchmark-phase-fps": string;
+                "DELETEME.benchmark-phase-calculation-score": string;
+                "DELETEME.benchmark-phase-rendering-score": string;
+                "DELETEME.benchmark-phase-finished": string;
                 "benchmark-lines-calculation-score": string;
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
@@ -97,13 +97,13 @@ declare module "script/library/locale" {
                 "Show FPS": string;
                 "benchmark-abort": string;
                 "benchmark-close": string;
-                "benchmarking-in-progress": string;
-                "benchmark-phase-preparation": string;
-                "benchmark-phase-screen-resolution": string;
-                "benchmark-phase-fps": string;
-                "benchmark-phase-calculation-score": string;
-                "benchmark-phase-rendering-score": string;
-                "benchmark-phase-finished": string;
+                "DELETEME.benchmarking-in-progress": string;
+                "DELETEME.benchmark-phase-preparation": string;
+                "DELETEME.benchmark-phase-screen-resolution": string;
+                "DELETEME.benchmark-phase-fps": string;
+                "DELETEME.benchmark-phase-calculation-score": string;
+                "DELETEME.benchmark-phase-rendering-score": string;
+                "DELETEME.benchmark-phase-finished": string;
                 "benchmark-lines-calculation-score": string;
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
@@ -354,14 +354,14 @@ declare module "script/ui" {
         const benchmarkProgressBar: HTMLDivElement;
         const benchmarkCanvas: HTMLDivElement;
         const keyboardShortcut: HTMLDivElement;
-        const benchmarkPhase: HTMLSpanElement;
         const benchmarkTotalScore: HTMLSpanElement;
         const benchmarkScorePerFullHD: HTMLSpanElement;
         const benchmarkCalculationScore: HTMLSpanElement;
         const benchmarkLinesCalculationScore: HTMLSpanElement;
         const benchmarkSpotsCalculationScore: HTMLSpanElement;
         const benchmarkDetails: HTMLDivElement;
-        const benchmarkDescription: HTMLDivElement;
+        const benchmarkPopupLabel: HTMLSpanElement;
+        const benchmarkPopupValue: HTMLSpanElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
         const updateLanguage: () => void;
@@ -785,18 +785,15 @@ declare module "script/features/benchmark" {
             devicePixelRatio: number;
         };
         interface MeasurementPhaseBase {
-            name: Library.Locale.Label;
             start: (measure: Measurement, now: number) => void;
             step: (measure: Measurement, now: number) => void;
         }
         class ScreenResolutionMeasurementPhase implements MeasurementPhaseBase {
-            name: "benchmark-phase-screen-resolution";
             start: (_measure: Measurement, now: number) => void;
             step: (measure: Measurement, now: number) => void;
             startAt: number;
         }
         class FpsMeasurementPhase implements MeasurementPhaseBase {
-            name: "benchmark-phase-fps";
             start: (_measure: Measurement, now: number) => void;
             step: (measure: Measurement, now: number) => void;
             startAt: number;
@@ -823,19 +820,15 @@ declare module "script/features/benchmark" {
             calculationScore: () => number;
         }
         class LinesCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
-            name: "benchmark-phase-calculation-score";
             constructor();
         }
         class SpotsCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
-            name: "benchmark-phase-calculation-score";
             constructor();
         }
         class LinesRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
-            name: "benchmark-phase-rendering-score";
             constructor();
         }
         class SpotsRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase {
-            name: "benchmark-phase-rendering-score";
             constructor();
         }
         class Measurement {

@@ -76,18 +76,17 @@ export namespace Benchmark
         );
     export interface MeasurementPhaseBase
     {
-        name: Library.Locale.Label;
         start: (measure: Measurement, now: number) => void;
         step: (measure: Measurement, now: number) => void;
     }
     export class ScreenResolutionMeasurementPhase implements MeasurementPhaseBase
     {
-        name = "benchmark-phase-screen-resolution" as const;
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
             const i = measureScreenResolution();
-            UI.benchmarkDescription.textContent = `${i.width}x${i.height} ${i.devicePixelRatio}x ${i.colorDepth}bit`;
+            UI.benchmarkPopupLabel.textContent = `Screen Resolution:`;
+            UI.benchmarkPopupValue.textContent = `${i.width}x${i.height} ${i.devicePixelRatio}x ${i.colorDepth}bit`;
         };
         step = (measure: Measurement, now: number) =>
         {
@@ -101,16 +100,16 @@ export namespace Benchmark
     }
     export class FpsMeasurementPhase implements MeasurementPhaseBase
     {
-        name = "benchmark-phase-fps" as const;
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
             this.fpsTotal = 0;
             this.fpsCount = 0;
+            UI.benchmarkPopupLabel.textContent = `FPS:`;
         };
         step = (measure: Measurement, now: number) =>
         {
-            UI.benchmarkDescription.textContent = `${Fps.currentNowFps.text} fps`;
+            UI.benchmarkPopupValue.textContent = `${Fps.currentNowFps.fps.toFixed(2)}`;
             this.fpsTotal += Fps.currentNowFps.fps;
             ++this.fpsCount;
             if (this.startAt + config.benchmark.refreshRateWait <= now)
@@ -146,6 +145,7 @@ export namespace Benchmark
             animator.setCycleSpan(1000);
             animator.setEasing(true);
             this.startPattern(measure, now);
+            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map(this.scoreLabel)}:`;
         };
         startPattern = (_measure: Measurement, now: number) =>
         {
@@ -163,7 +163,7 @@ export namespace Benchmark
         }
         step = (measure: Measurement, now: number) =>
         {
-            UI.benchmarkDescription.textContent = `${Library.Locale.map(this.scoreLabel)}: ${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
+            UI.benchmarkPopupValue.textContent = `${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
             if (this.isNeedAdjustingLayers(now))
             {
                 const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate), this.layers +1);
@@ -196,7 +196,6 @@ export namespace Benchmark
     }
     export class LinesCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
     {
-        name = "benchmark-phase-calculation-score" as const;
         constructor()
         {
             super
@@ -210,7 +209,6 @@ export namespace Benchmark
     }
     export class SpotsCalculationScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
     {
-        name = "benchmark-phase-calculation-score" as const;
         constructor()
         {
             super
@@ -231,7 +229,6 @@ export namespace Benchmark
         /(config.benchmark.pixelUnit *config.benchmark.colorDepthUnit);
     export class LinesRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
     {
-        name = "benchmark-phase-rendering-score" as const;
         constructor()
         {
             super
@@ -245,7 +242,6 @@ export namespace Benchmark
     }
     export class SpotsRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
     {
-        name = "benchmark-phase-rendering-score" as const;
         constructor()
         {
             super
@@ -276,18 +272,21 @@ export namespace Benchmark
         start = () =>
         {
             setProgressBarSize(phases.length);
-            setProgressBarProgress(this.phase = 0);
-            UI.benchmarkDescription.textContent =
-            UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-preparation");
+            setProgressBarProgress(this.phase = -1);
+            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map("DELETEME.benchmarking-in-progress")}:`;
+            UI.benchmarkPopupValue.textContent = `${Library.Locale.map("DELETEME.benchmark-phase-preparation")}`;
             this.currentPhase = null;
             this.result = getUnmeasuredReslult();
         };
         step = (now: number) =>
         {
+            if (this.phase < 0)
+            {
+                this.next();
+            }
             if (this.currentPhase !== phases[this.phase])
             {
                 this.currentPhase = phases[this.phase];
-                UI.benchmarkPhase.textContent = Library.Locale.map(this.currentPhase.name);
                 this.currentPhase?.start(this, now);
             }
             phases[this.phase].step(this, now);
@@ -300,7 +299,6 @@ export namespace Benchmark
             phases.length <= this.phase;
         end = () =>
         {
-            UI.benchmarkPhase.textContent = Library.Locale.map("benchmark-phase-finished");
             this.result.totalCalculationScore = calculateMeasurementScore
             (
                 this.result.linesCalculationScore,

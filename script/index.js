@@ -125,13 +125,13 @@ define("resource/lang.en", [], {
     "Show FPS": "Show FPS",
     "benchmark-abort": "Abort",
     "benchmark-close": "Close",
-    "benchmark-phase-preparation": "Preparation",
-    "benchmarking-in-progress": "Benchmarking in progress",
-    "benchmark-phase-screen-resolution": "Screen Resolution",
-    "benchmark-phase-fps": "FPS",
-    "benchmark-phase-calculation-score": "Calculation Score",
-    "benchmark-phase-rendering-score": "Rendering Score",
-    "benchmark-phase-finished": "Finished",
+    "DELETEME.benchmarking-in-progress": "Benchmarking in progress",
+    "DELETEME.benchmark-phase-preparation": "Preparation",
+    "DELETEME.benchmark-phase-screen-resolution": "Screen Resolution",
+    "DELETEME.benchmark-phase-fps": "FPS",
+    "DELETEME.benchmark-phase-calculation-score": "Calculation Score",
+    "DELETEME.benchmark-phase-rendering-score": "Rendering Score",
+    "DELETEME.benchmark-phase-finished": "Finished",
     "benchmark-lines-calculation-score": "Calculation Score (lines)",
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
@@ -178,13 +178,13 @@ define("resource/lang.ja", [], {
     "Show FPS": "FPS 表示",
     "benchmark-abort": "中断",
     "benchmark-close": "閉じる",
-    "benchmarking-in-progress": "ベンチマーク計測中",
-    "benchmark-phase-preparation": "準備",
-    "benchmark-phase-screen-resolution": "画面解像度",
-    "benchmark-phase-fps": "FPS",
-    "benchmark-phase-calculation-score": "計算性能",
-    "benchmark-phase-rendering-score": "描画性能",
-    "benchmark-phase-finished": "完了",
+    "DELETEME.benchmarking-in-progress": "ベンチマーク計測中",
+    "DELETEME.benchmark-phase-preparation": "準備",
+    "DELETEME.benchmark-phase-screen-resolution": "画面解像度",
+    "DELETEME.benchmark-phase-fps": "FPS",
+    "DELETEME.benchmark-phase-calculation-score": "計算性能",
+    "DELETEME.benchmark-phase-rendering-score": "描画性能",
+    "DELETEME.benchmark-phase-finished": "完了",
     "benchmark-lines-calculation-score": "計算性能(lines)",
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
@@ -1187,14 +1187,14 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkProgressBar = _library_2.Library.UI.getElementById("div", "benchmark-progress-bar");
         UI.benchmarkCanvas = _library_2.Library.UI.getElementById("div", "benchmark-canvas");
         UI.keyboardShortcut = _library_2.Library.UI.getElementById("div", "keyboard-shortcut");
-        UI.benchmarkPhase = _library_2.Library.UI.getElementById("span", "benchmark-phase");
         UI.benchmarkTotalScore = _library_2.Library.UI.getElementById("span", "benchmark-total-score");
         UI.benchmarkScorePerFullHD = _library_2.Library.UI.getElementById("span", "benchmark-score-per-fullhd");
         UI.benchmarkCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-calculation-score");
         UI.benchmarkLinesCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-calculation-score");
         UI.benchmarkSpotsCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-calculation-score");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
-        UI.benchmarkDescription = _library_2.Library.UI.getElementById("div", "benchmark-popup-description");
+        UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
+        UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_2.Library.Control.Button({ id: "benchmark-result-close-button", });
         UI.updateLanguage = function () {
@@ -2944,11 +2944,11 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         var ScreenResolutionMeasurementPhase = /** @class */ (function () {
             function ScreenResolutionMeasurementPhase() {
                 var _this = this;
-                this.name = "benchmark-phase-screen-resolution";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     var i = Benchmark.measureScreenResolution();
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit");
+                    ui_2.UI.benchmarkPopupLabel.textContent = "Screen Resolution:";
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit");
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
@@ -2964,14 +2964,14 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         var FpsMeasurementPhase = /** @class */ (function () {
             function FpsMeasurementPhase() {
                 var _this = this;
-                this.name = "benchmark-phase-fps";
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     _this.fpsTotal = 0;
                     _this.fpsCount = 0;
+                    ui_2.UI.benchmarkPopupLabel.textContent = "FPS:";
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(fps_1.Fps.currentNowFps.text, " fps");
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(fps_1.Fps.currentNowFps.fps.toFixed(2));
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
@@ -3005,6 +3005,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setCycleSpan(1000);
                     Benchmark.animator.setEasing(true);
                     _this.startPattern(measure, now);
+                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ":");
                 };
                 this.startPattern = function (_measure, now) {
                     _this.patternStartAt = now;
@@ -3019,7 +3020,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkDescription.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ": ").concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
@@ -3058,7 +3059,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(LinesCalculationScoreMeasurementPhase, _super);
             function LinesCalculationScoreMeasurementPhase() {
                 var _this = _super.call(this, true, "triline", "benchmark-lines-calculation-score", function (measure) { return measure.result.linesCalculationScore = _this.calculationScore(); }) || this;
-                _this.name = "benchmark-phase-calculation-score";
                 return _this;
             }
             return LinesCalculationScoreMeasurementPhase;
@@ -3068,7 +3068,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(SpotsCalculationScoreMeasurementPhase, _super);
             function SpotsCalculationScoreMeasurementPhase() {
                 var _this = _super.call(this, true, "trispot", "benchmark-spots-calculation-score", function (measure) { return measure.result.spotsCalculationScore = _this.calculationScore(); }) || this;
-                _this.name = "benchmark-phase-calculation-score";
                 return _this;
             }
             return SpotsCalculationScoreMeasurementPhase;
@@ -3085,7 +3084,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(LinesRenderingScoreMeasurementPhase, _super);
             function LinesRenderingScoreMeasurementPhase() {
                 var _this = _super.call(this, false, "triline", "benchmark-lines-rendering-score", function (measure) { return measure.result.linesRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
-                _this.name = "benchmark-phase-rendering-score";
                 return _this;
             }
             return LinesRenderingScoreMeasurementPhase;
@@ -3095,7 +3093,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             __extends(SpotsRenderingScoreMeasurementPhase, _super);
             function SpotsRenderingScoreMeasurementPhase() {
                 var _this = _super.call(this, false, "trispot", "benchmark-spots-rendering-score", function (measure) { return measure.result.spotsRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
-                _this.name = "benchmark-phase-rendering-score";
                 return _this;
             }
             return SpotsRenderingScoreMeasurementPhase;
@@ -3118,17 +3115,19 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.currentPhase = null;
                 this.start = function () {
                     setProgressBarSize(phases.length);
-                    setProgressBarProgress(_this.phase = 0);
-                    ui_2.UI.benchmarkDescription.textContent =
-                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-preparation");
+                    setProgressBarProgress(_this.phase = -1);
+                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map("DELETEME.benchmarking-in-progress"), ":");
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(_library_4.Library.Locale.map("DELETEME.benchmark-phase-preparation"));
                     _this.currentPhase = null;
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
                 this.step = function (now) {
                     var _a;
+                    if (_this.phase < 0) {
+                        _this.next();
+                    }
                     if (_this.currentPhase !== phases[_this.phase]) {
                         _this.currentPhase = phases[_this.phase];
-                        ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map(_this.currentPhase.name);
                         (_a = _this.currentPhase) === null || _a === void 0 ? void 0 : _a.start(_this, now);
                     }
                     phases[_this.phase].step(_this, now);
@@ -3140,7 +3139,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     return phases.length <= _this.phase;
                 };
                 this.end = function () {
-                    ui_2.UI.benchmarkPhase.textContent = _library_4.Library.Locale.map("benchmark-phase-finished");
                     _this.result.totalCalculationScore = Benchmark.calculateMeasurementScore(_this.result.linesCalculationScore, _this.result.spotsCalculationScore, function (a, b) { return (a + b) / 2; });
                     _this.result.totalRenderingScore = Benchmark.calculateMeasurementScore(_this.result.linesRenderingScorePerFullHd, _this.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
                     _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return b / (((a.width * a.devicePixelRatio) * (a.height * a.devicePixelRatio)) / config_json_5.default.benchmark.pixelUnit); });
