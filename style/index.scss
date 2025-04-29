@@ -102,88 +102,6 @@
             height: 100%;
         }
     }
-    #benchmark-result
-    {
-        @include fade-transition("body:not(.benchmark-result)");
-        @include black-pop-panel-style();
-        @include solid-box();
-        @include flex(column);
-        @include monospace-font();
-        &
-        {
-            gap: 0.5rem;
-            transition: opacity 750ms, filter 750ms;
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            transform: translate(0%, -50%);
-            max-width: 100vw;
-            max-height: 100vh;
-            z-index: 50;
-        }
-        h2
-        {
-            padding: 0.5rem 1.0rem;
-            width: 100%;
-            background-color: black-color(0.4);
-        }
-        #benchmark-result-panel
-        {
-            @include flex(column, start, stretch);
-            &
-            {
-                padding: 0rem 1.0rem;
-                overflow: auto;
-                gap: 0.5rem;
-            }
-            & > div
-            {
-                @include flex(row, space-between);
-                &
-                {
-                    flex-wrap: wrap;
-                }
-                &.benchmark-main-score span:last-child
-                {
-                    @include font-size(5rem);
-                }
-                &.benchmark-sub-score span:last-child
-                {
-                    @include font-size(2.5rem);
-                }
-                &.benchmark-score-item span:last-child
-                {
-                    @include font-size(1.25rem);
-                }
-                span:first-child
-                {
-                    @include font-size(1rem);
-                }
-                span:last-child
-                {
-                    flex-grow: 1;
-                    margin-left: 1rem;
-                    text-align: end;
-                }
-            }
-        }
-        button#benchmark-result-close-button
-        {
-            line-height: 100%;
-            padding: 0.5rem 1.5rem;
-            margin: 1rem;
-            border-radius: 0.5rem;
-            color: black-color(0.9);
-            background-color: white-color(0.7);
-            @media (hover: hover)
-            {
-                &:hover
-                {
-                    background-color: white-color(0.9);
-                }
-            }
-        }
-    }
 }
 #option-panel
 {
@@ -408,6 +326,7 @@
         border-radius: 0.5rem;
         color: black-color(0.9);
         background-color: white-color(0.7);
+        width: 12rem;
         @media (hover: hover)
         {
             &:hover
@@ -443,6 +362,95 @@
             // {
             //     background-color: #00000066;
             // }
+        }
+    }
+}
+#benchmark-result
+{
+    @include fade-transition("body:not(.benchmark-result)");
+    @include full-stretch-box();
+    @include black-pop-panel-style();
+    @include solid-box();
+    @include flex(column);
+    @include monospace-font();
+    &
+    {
+        gap: 1rem;
+        position: absolute;
+        z-index: 50;
+    }
+    h2
+    {
+        padding: 0.5rem 1.0rem;
+        width: 100%;
+        text-align: center;
+        background-color: black-color(0.4);
+        @include font-size(1.125rem);
+    }
+    #benchmark-result-panel
+    {
+        @include flex(column, start, stretch);
+        &
+        {
+            padding: 0rem 1.0rem;
+            overflow: auto;
+            gap: 0.75rem;
+        }
+        & > div
+        {
+            @include flex(row, space-between);
+            &
+            {
+                flex-wrap: wrap;
+            }
+            &.benchmark-main-score span:last-child
+            {
+                @include font-size(5rem);
+            }
+            &.benchmark-sub-score span:last-child
+            {
+                @include font-size(2.5rem);
+            }
+            &.benchmark-score-item span:last-child
+            {
+                opacity: 0.75;
+                @include font-size(1.125rem);
+            }
+            span:first-child
+            {
+                @include font-size(1.125rem);
+                line-height: 140%;
+                opacity: 0.75;
+                overflow-y: visible;;
+            }
+            span:last-child
+            {
+                flex-grow: 1;
+                margin-left: 1rem;
+                text-align: end;
+            }
+        }
+        #benchmark-description-panel
+        {
+            margin-left: 1rem;
+            opacity: 0.5;
+        }
+    }
+    button#benchmark-result-close-button
+    {
+        margin: 1rem;
+        line-height: 100%;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        color: black-color(0.9);
+        background-color: white-color(0.7);
+        width: 12rem;
+        @media (hover: hover)
+        {
+            &:hover
+            {
+                background-color: white-color(0.9);
+            }
         }
     }
 }

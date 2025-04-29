@@ -77,15 +77,19 @@ export namespace Benchmark
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("benchmark-result", true);
         UI.benchmarkTotalScore.innerText =
-            Features.Benchmark.getMeasurementScoreValue(benchmark.result.totalScore)?.toFixed(2) ?? "xxxxxxxx";
+            Features.Benchmark.measurementScoreToText(benchmark.result.totalScore, i => i.toFixed(2));
         UI.benchmarkScorePerFullHD.innerText =
-            Features.Benchmark.getMeasurementScoreValue(benchmark.result.totalRenderingScore)?.toFixed(2) ?? "xxxxxxxx";
+            Features.Benchmark.measurementScoreToText(benchmark.result.totalRenderingScore, i => i.toFixed(2));
         UI.benchmarkCalculationScore.innerText =
-            Features.Benchmark.getMeasurementScoreValue(benchmark.result.totalCalculationScore)?.toFixed(2) ?? "xxxxxxxx";
+            Features.Benchmark.measurementScoreToText(benchmark.result.totalCalculationScore, i => i.toFixed(2));
         UI.benchmarkLinesCalculationScore.innerText =
-            Features.Benchmark.getMeasurementScoreValue(benchmark.result.linesCalculationScore)?.toFixed(2) ?? "xxxxxxxx";
+            Features.Benchmark.measurementScoreToText(benchmark.result.linesCalculationScore, i => i.toFixed(2));
         UI.benchmarkSpotsCalculationScore.innerText =
-            Features.Benchmark.getMeasurementScoreValue(benchmark.result.spotsCalculationScore)?.toFixed(2) ?? "xxxxxxxx";
+            Features.Benchmark.measurementScoreToText(benchmark.result.spotsCalculationScore, i => i.toFixed(2));
+        UI.benchmarkLinesRenderingScore.innerText =
+            Features.Benchmark.measurementScoreToText(benchmark.result.linesRenderingScorePerFullHd, i => i.toFixed(2));
+        UI.benchmarkSpotsRenderingScore.innerText =
+            Features.Benchmark.measurementScoreToText(benchmark.result.spotsRenderingScorePerFullHd, i => i.toFixed(2));
         UI.benchmarkDetails.innerText = JSON.stringify(benchmark.result, null, 4);
     }
 }

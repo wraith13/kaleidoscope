@@ -136,12 +136,15 @@ define("resource/lang.en", [], {
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
-    "benchmark-report-label": "Benchmark Report",
+    "benchmark-report-label": "Kaleidoscope Benchmark Report",
     "benchmark-total-score": "Total Score",
     "benchmark-score-per-fullhd": "Rendering Score per FullHD",
     "benchmark-calculation-score": "Calculation Score",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
-    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
+    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
+    "Unmeasured": "Unmeasured",
+    "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",
+    "UnmeasurableRich": "Unmeasurable (Excessive Performance)"
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -189,12 +192,15 @@ define("resource/lang.ja", [], {
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
     "benchmark-spots-rendering-score": "描画性能(spots)",
-    "benchmark-report-label": "ベンチマークレポート",
+    "benchmark-report-label": "Kaleidoscope ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
     "benchmark-score-per-fullhd": "Full HD あたりの描画スコア",
     "benchmark-calculation-score": "計算スコア",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
-    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。"
+    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。",
+    "Unmeasured": "未計測",
+    "UnmeasurablePoor": "計測不能(性能不足)",
+    "UnmeasurableRich": "計測不能(性能過剰)"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -1192,6 +1198,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-calculation-score");
         UI.benchmarkLinesCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-calculation-score");
         UI.benchmarkSpotsCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-calculation-score");
+        UI.benchmarkLinesRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-rendering-score");
+        UI.benchmarkSpotsRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-rendering-score");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
         UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
         UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
@@ -2910,6 +2918,16 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 undefined :
                 score;
         };
+        Benchmark.measurementScoreToText = function (score, toText) {
+            switch (score) {
+                case "Unmeasured":
+                case "UnmeasurablePoor":
+                case "UnmeasurableRich":
+                    return _library_4.Library.Locale.map(score);
+                default:
+                    return toText(score);
+            }
+        };
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
@@ -3301,19 +3319,22 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             document.body.classList.toggle("benchmark-rendering", false);
         };
         Benchmark.showResult = function () {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
             document.body.classList.toggle("immersive", true);
             document.body.classList.toggle("benchmark-result", true);
             ui_5.UI.benchmarkTotalScore.innerText =
-                (_b = (_a = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalScore)) === null || _a === void 0 ? void 0 : _a.toFixed(2)) !== null && _b !== void 0 ? _b : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkScorePerFullHD.innerText =
-                (_d = (_c = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalRenderingScore)) === null || _c === void 0 ? void 0 : _c.toFixed(2)) !== null && _d !== void 0 ? _d : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalRenderingScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkCalculationScore.innerText =
-                (_f = (_e = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalCalculationScore)) === null || _e === void 0 ? void 0 : _e.toFixed(2)) !== null && _f !== void 0 ? _f : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalCalculationScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkLinesCalculationScore.innerText =
-                (_h = (_g = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.linesCalculationScore)) === null || _g === void 0 ? void 0 : _g.toFixed(2)) !== null && _h !== void 0 ? _h : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesCalculationScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkSpotsCalculationScore.innerText =
-                (_k = (_j = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.spotsCalculationScore)) === null || _j === void 0 ? void 0 : _j.toFixed(2)) !== null && _k !== void 0 ? _k : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsCalculationScore, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkLinesRenderingScore.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkSpotsRenderingScore.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));

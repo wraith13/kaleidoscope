@@ -44,10 +44,13 @@
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
-    "benchmark-report-label": "Benchmark Report",
+    "benchmark-report-label": "Kaleidoscope Benchmark Report",
     "benchmark-total-score": "Total Score",
     "benchmark-score-per-fullhd": "Rendering Score per FullHD",
     "benchmark-calculation-score": "Calculation Score",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
-    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
+    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
+    "Unmeasured": "Unmeasured",
+    "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",
+    "UnmeasurableRich": "Unmeasurable (Excessive Performance)"
 }

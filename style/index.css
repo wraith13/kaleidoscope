@@ -197,128 +197,6 @@ body.benchmark-rendering #screen-body #benchmark-canvas {
   height: 100%;
 }
 
-#screen-body #benchmark-result {
-  transition: opacity 750ms, filter 750ms;
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.6);
-  display: block;
-  margin: 0px;
-  padding: 0px;
-  border: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 400;
-}
-body:not(.benchmark-result) #screen-body #benchmark-result:not(.show) {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
-  filter: blur(1em);
-}
-body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
-  content: "";
-  position: absolute;
-  top: -1em;
-  left: -1em;
-  right: -1em;
-  bottom: -1em;
-  background: inherit;
-  filter: blur(1em);
-  z-index: -1;
-  transition: filter 750ms;
-}
-
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #screen-body #benchmark-result {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #screen-body #benchmark-result {
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-}
-#screen-body #benchmark-result {
-  font-family: monospace;
-}
-#screen-body #benchmark-result {
-  gap: 0.5rem;
-  transition: opacity 750ms, filter 750ms;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  transform: translate(0%, -50%);
-  max-width: 100vw;
-  max-height: 100vh;
-  z-index: 50;
-}
-#screen-body #benchmark-result h2 {
-  padding: 0.5rem 1rem;
-  width: 100%;
-  background-color: rgba(32, 28, 38, 0.4);
-}
-#screen-body #benchmark-result #benchmark-result-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: stretch;
-}
-#screen-body #benchmark-result #benchmark-result-panel {
-  padding: 0rem 1rem;
-  overflow: auto;
-  gap: 0.5rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div {
-  flex-wrap: wrap;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-main-score span:last-child {
-  font-size: 5rem;
-  line-height: 5rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-sub-score span:last-child {
-  font-size: 2.5rem;
-  line-height: 2.5rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-score-item span:last-child {
-  font-size: 1.25rem;
-  line-height: 1.25rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div span:first-child {
-  font-size: 1rem;
-  line-height: 1rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div span:last-child {
-  flex-grow: 1;
-  margin-left: 1rem;
-  text-align: end;
-}
-#screen-body #benchmark-result button#benchmark-result-close-button {
-  line-height: 100%;
-  padding: 0.5rem 1.5rem;
-  margin: 1rem;
-  border-radius: 0.5rem;
-  color: rgba(32, 28, 38, 0.9);
-  background-color: rgba(230, 237, 243, 0.7);
-}
-@media (hover: hover) {
-  #screen-body #benchmark-result button#benchmark-result-close-button:hover {
-    background-color: rgba(230, 237, 243, 0.9);
-  }
-}
-
 #option-panel {
   transition: opacity 750ms, filter 750ms;
   font-size: 0.75rem;
@@ -877,6 +755,7 @@ body.hide-ui #benchmark-popup:not(.show)::before {
   border-radius: 0.5rem;
   color: rgba(32, 28, 38, 0.9);
   background-color: rgba(230, 237, 243, 0.7);
+  width: 12rem;
 }
 @media (hover: hover) {
   #benchmark-popup button#benchmark-abort-button:hover {
@@ -915,6 +794,139 @@ body:not(.benchmark) #benchmark-popup #benchmark-progress-bar:not(.show) {
 }
 #benchmark-popup #benchmark-progress-bar .progress-block.now {
   background-color: rgba(68, 221, 136, 0.4666666667);
+}
+
+#benchmark-result {
+  transition: opacity 750ms, filter 750ms;
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+body:not(.benchmark-result) #benchmark-result:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body:not(.benchmark-result) #benchmark-result:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-result {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-result {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-result {
+  font-family: monospace;
+}
+#benchmark-result {
+  gap: 1rem;
+  position: absolute;
+  z-index: 50;
+}
+#benchmark-result h2 {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(32, 28, 38, 0.4);
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+}
+#benchmark-result #benchmark-result-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+}
+#benchmark-result #benchmark-result-panel {
+  padding: 0rem 1rem;
+  overflow: auto;
+  gap: 0.75rem;
+}
+#benchmark-result #benchmark-result-panel > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#benchmark-result #benchmark-result-panel > div {
+  flex-wrap: wrap;
+}
+#benchmark-result #benchmark-result-panel > div.benchmark-main-score span:last-child {
+  font-size: 5rem;
+  line-height: 5rem;
+}
+#benchmark-result #benchmark-result-panel > div.benchmark-sub-score span:last-child {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+}
+#benchmark-result #benchmark-result-panel > div.benchmark-score-item span:last-child {
+  opacity: 0.75;
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+}
+#benchmark-result #benchmark-result-panel > div span:first-child {
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+  line-height: 140%;
+  opacity: 0.75;
+  overflow-y: visible;
+}
+#benchmark-result #benchmark-result-panel > div span:last-child {
+  flex-grow: 1;
+  margin-left: 1rem;
+  text-align: end;
+}
+#benchmark-result #benchmark-result-panel #benchmark-description-panel {
+  margin-left: 1rem;
+  opacity: 0.5;
+}
+#benchmark-result button#benchmark-result-close-button {
+  margin: 1rem;
+  line-height: 100%;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  color: rgba(32, 28, 38, 0.9);
+  background-color: rgba(230, 237, 243, 0.7);
+  width: 12rem;
+}
+@media (hover: hover) {
+  #benchmark-result button#benchmark-result-close-button:hover {
+    background-color: rgba(230, 237, 243, 0.9);
+  }
 }
 
 #screen-footer {

@@ -61,6 +61,9 @@ declare module "script/library/locale" {
                 "benchmark-calculation-score": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
+                Unmeasured: string;
+                UnmeasurablePoor: string;
+                UnmeasurableRich: string;
             };
             ja: {
                 "lang-label": string;
@@ -114,6 +117,9 @@ declare module "script/library/locale" {
                 "benchmark-calculation-score": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
+                Unmeasured: string;
+                UnmeasurablePoor: string;
+                UnmeasurableRich: string;
             };
         };
         type Label = keyof typeof localeEn & keyof typeof localeJa;
@@ -359,6 +365,8 @@ declare module "script/ui" {
         const benchmarkCalculationScore: HTMLSpanElement;
         const benchmarkLinesCalculationScore: HTMLSpanElement;
         const benchmarkSpotsCalculationScore: HTMLSpanElement;
+        const benchmarkLinesRenderingScore: HTMLSpanElement;
+        const benchmarkSpotsRenderingScore: HTMLSpanElement;
         const benchmarkDetails: HTMLDivElement;
         const benchmarkPopupLabel: HTMLSpanElement;
         const benchmarkPopupValue: HTMLSpanElement;
@@ -761,6 +769,7 @@ declare module "script/features/benchmark" {
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
         const calculateMeasurementScore: <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R) => MeasurementScore<R>;
         const getMeasurementScoreValue: <T>(score: MeasurementScore<T>) => T | undefined;
+        const measurementScoreToText: <T>(score: MeasurementScore<T>, toText: (score: T) => string) => string;
         interface Result {
             screenResolution: MeasurementScore<{
                 width: number;

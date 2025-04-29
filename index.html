@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Apr 28 2025 22:32:30 GMT+0900 (日本標準時)
+    build at: Tue Apr 29 2025 16:44:39 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -247,128 +247,6 @@ body:not(.benchmark-rendering) #screen-body #benchmark-canvas .layer {
 body.benchmark-rendering #screen-body #benchmark-canvas {
   width: 100%;
   height: 100%;
-}
-
-#screen-body #benchmark-result {
-  transition: opacity 750ms, filter 750ms;
-  backdrop-filter: blur(1rem);
-  color: rgb(230, 237, 243);
-  background-color: rgba(32, 28, 38, 0.6);
-  display: block;
-  margin: 0px;
-  padding: 0px;
-  border: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 400;
-}
-body:not(.benchmark-result) #screen-body #benchmark-result:not(.show) {
-  opacity: 0;
-  cursor: none;
-  pointer-events: none;
-  filter: blur(1em);
-}
-body:not(.benchmark-result) #screen-body #benchmark-result:not(.show)::before {
-  content: "";
-  position: absolute;
-  top: -1em;
-  left: -1em;
-  right: -1em;
-  bottom: -1em;
-  background: inherit;
-  filter: blur(1em);
-  z-index: -1;
-  transition: filter 750ms;
-}
-
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #screen-body #benchmark-result {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #screen-body #benchmark-result {
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-}
-#screen-body #benchmark-result {
-  font-family: monospace;
-}
-#screen-body #benchmark-result {
-  gap: 0.5rem;
-  transition: opacity 750ms, filter 750ms;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  transform: translate(0%, -50%);
-  max-width: 100vw;
-  max-height: 100vh;
-  z-index: 50;
-}
-#screen-body #benchmark-result h2 {
-  padding: 0.5rem 1rem;
-  width: 100%;
-  background-color: rgba(32, 28, 38, 0.4);
-}
-#screen-body #benchmark-result #benchmark-result-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: stretch;
-}
-#screen-body #benchmark-result #benchmark-result-panel {
-  padding: 0rem 1rem;
-  overflow: auto;
-  gap: 0.5rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div {
-  flex-wrap: wrap;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-main-score span:last-child {
-  font-size: 5rem;
-  line-height: 5rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-sub-score span:last-child {
-  font-size: 2.5rem;
-  line-height: 2.5rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div.benchmark-score-item span:last-child {
-  font-size: 1.25rem;
-  line-height: 1.25rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div span:first-child {
-  font-size: 1rem;
-  line-height: 1rem;
-}
-#screen-body #benchmark-result #benchmark-result-panel > div span:last-child {
-  flex-grow: 1;
-  margin-left: 1rem;
-  text-align: end;
-}
-#screen-body #benchmark-result button#benchmark-result-close-button {
-  line-height: 100%;
-  padding: 0.5rem 1.5rem;
-  margin: 1rem;
-  border-radius: 0.5rem;
-  color: rgba(32, 28, 38, 0.9);
-  background-color: rgba(230, 237, 243, 0.7);
-}
-@media (hover: hover) {
-  #screen-body #benchmark-result button#benchmark-result-close-button:hover {
-    background-color: rgba(230, 237, 243, 0.9);
-  }
 }
 
 #option-panel {
@@ -929,6 +807,7 @@ body.hide-ui #benchmark-popup:not(.show)::before {
   border-radius: 0.5rem;
   color: rgba(32, 28, 38, 0.9);
   background-color: rgba(230, 237, 243, 0.7);
+  width: 12rem;
 }
 @media (hover: hover) {
   #benchmark-popup button#benchmark-abort-button:hover {
@@ -967,6 +846,139 @@ body:not(.benchmark) #benchmark-popup #benchmark-progress-bar:not(.show) {
 }
 #benchmark-popup #benchmark-progress-bar .progress-block.now {
   background-color: rgba(68, 221, 136, 0.4666666667);
+}
+
+#benchmark-result {
+  transition: opacity 750ms, filter 750ms;
+  margin: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+body:not(.benchmark-result) #benchmark-result:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body:not(.benchmark-result) #benchmark-result:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-result {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-result {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-result {
+  font-family: monospace;
+}
+#benchmark-result {
+  gap: 1rem;
+  position: absolute;
+  z-index: 50;
+}
+#benchmark-result h2 {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(32, 28, 38, 0.4);
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+}
+#benchmark-result #benchmark-result-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+}
+#benchmark-result #benchmark-result-panel {
+  padding: 0rem 1rem;
+  overflow: auto;
+  gap: 0.75rem;
+}
+#benchmark-result #benchmark-result-panel > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+#benchmark-result #benchmark-result-panel > div {
+  flex-wrap: wrap;
+}
+#benchmark-result #benchmark-result-panel > div.benchmark-main-score span:last-child {
+  font-size: 5rem;
+  line-height: 5rem;
+}
+#benchmark-result #benchmark-result-panel > div.benchmark-sub-score span:last-child {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+}
+#benchmark-result #benchmark-result-panel > div.benchmark-score-item span:last-child {
+  opacity: 0.75;
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+}
+#benchmark-result #benchmark-result-panel > div span:first-child {
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+  line-height: 140%;
+  opacity: 0.75;
+  overflow-y: visible;
+}
+#benchmark-result #benchmark-result-panel > div span:last-child {
+  flex-grow: 1;
+  margin-left: 1rem;
+  text-align: end;
+}
+#benchmark-result #benchmark-result-panel #benchmark-description-panel {
+  margin-left: 1rem;
+  opacity: 0.5;
+}
+#benchmark-result button#benchmark-result-close-button {
+  margin: 1rem;
+  line-height: 100%;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  color: rgba(32, 28, 38, 0.9);
+  background-color: rgba(230, 237, 243, 0.7);
+  width: 12rem;
+}
+@media (hover: hover) {
+  #benchmark-result button#benchmark-result-close-button:hover {
+    background-color: rgba(230, 237, 243, 0.9);
+  }
 }
 
 #screen-footer {
@@ -1293,35 +1305,6 @@ body.hide-ui #screen-footer #information-line:not(.show) {
     <div id="benchmark-canvas">
         <div class="layer"></div>
     </div>
-    <div id="benchmark-result">
-        <h2><span data-lang-key="benchmark-report-label"></span></h2>
-        <div id="benchmark-result-panel">
-            <div class="benchmark-main-score">
-                <span data-lang-key="benchmark-total-score"></span>
-                <span id="benchmark-total-score"></span>
-            </div>
-            <div class="benchmark-sub-score">
-                <span data-lang-key="benchmark-score-per-fullhd"></span>
-                <span id="benchmark-score-per-fullhd"></span>
-            </div>
-            <div class="benchmark-sub-score">
-                <span data-lang-key="benchmark-calculation-score"></span>
-                <span id="benchmark-calculation-score"></span>
-            </div>
-            <div class="benchmark-score-item">
-                <span data-lang-key="benchmark-lines-calculation-score"></span>
-                <span id="benchmark-lines-calculation-score"></span>
-            </div>
-            <div class="benchmark-score-item">
-                <span data-lang-key="benchmark-spots-calculation-score"></span>
-                <span id="benchmark-spots-calculation-score"></span>
-            </div>
-            <div id="benchmark-details"></div>
-            <ul id="benchmark-description-panel">
-            </ul>
-        </div>
-        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
-    </div>
 </div>
 <div id="option-panel">
     <label for="colorspace">
@@ -1375,15 +1358,15 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 </div>
 <div id="fps"></div>
 <div id="benchmark-panel">
-<button id="run-benchmark">
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <button id="run-benchmark">
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <path d="M544,96C773.597,96 960,282.403 960,512C960,741.597 773.597,928 544,928C359.06,928 202.145,807.056 148.097,640L101.665,640C87.638,641.705 72.994,637.182 62.231,626.43L61.686,625.887C43.938,608.157 43.119,579.856 59.236,561.152C60.593,559.536 62.055,558.011 63.611,556.587L142.163,477.954C151.474,468.634 163.7,463.982 175.922,464L176.078,464C188.3,463.982 200.526,468.634 209.837,477.954L288.389,556.587C289.945,558.011 291.407,559.536 292.764,561.152C308.881,579.856 308.062,608.157 290.314,625.887L289.769,626.43C279.096,637.093 264.605,641.629 250.684,640.041C300.108,752.992 412.9,832 544,832C720.613,832 864,688.613 864,512C864,335.387 720.613,192 544,192C517.508,192 496,170.492 496,144C496,117.508 517.508,96 544,96ZM529.339,589.751C522.254,587.505 515.587,583.575 509.969,577.961L323.778,391.882C305.039,373.155 305.03,342.738 323.757,324C342.484,305.262 372.901,305.253 391.639,323.979L543.879,476.127L638.201,381.917C656.795,363.345 686.968,363.363 705.539,381.957L706.083,382.501C724.655,401.095 724.637,431.268 706.043,449.839L579.239,576.493C578.79,576.981 578.327,577.464 577.851,577.94C570.8,584.995 562.093,589.395 552.975,591.14L551.945,591.326C550.353,591.595 548.734,591.786 547.093,591.894L545.642,591.969L544.815,591.991L543.58,591.999L543.333,591.997C538.522,591.942 533.879,591.178 529.507,589.804L529.339,589.751Z"/>
 </svg>
 
-    <span data-lang-key="run-benchmark-label"></span>
-</button>
+        <span data-lang-key="run-benchmark-label"></span>
+    </button>
 <div id="run-benchmark-report"></div>
 </div>
 <button id="play-button">
@@ -1407,6 +1390,43 @@ body.hide-ui #screen-footer #information-line:not(.show) {
     <button id="benchmark-abort-button"><span data-lang-key="benchmark-abort"></span></button>
     <div id="benchmark-progress-bar"></div>
 </div>
+<div id="benchmark-result">
+    <h2><span data-lang-key="benchmark-report-label"></span></h2>
+    <div id="benchmark-result-panel">
+        <div class="benchmark-main-score">
+            <span data-lang-key="benchmark-total-score"></span>
+            <span id="benchmark-total-score"></span>
+        </div>
+        <div class="benchmark-sub-score">
+            <span data-lang-key="benchmark-score-per-fullhd"></span>
+            <span id="benchmark-score-per-fullhd"></span>
+        </div>
+        <div class="benchmark-sub-score">
+            <span data-lang-key="benchmark-calculation-score"></span>
+            <span id="benchmark-calculation-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-lines-calculation-score"></span>
+            <span id="benchmark-lines-calculation-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-spots-calculation-score"></span>
+            <span id="benchmark-spots-calculation-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-lines-rendering-score"></span>
+            <span id="benchmark-lines-rendering-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-spots-rendering-score"></span>
+            <span id="benchmark-spots-rendering-score"></span>
+        </div>
+        <div id="benchmark-details"></div>
+        <ul id="benchmark-description-panel">
+        </ul>
+    </div>
+    <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
+</div>
 <div id="screen-footer">
     <div id="supplementary-line">
         <div id="keyboard-shortcut">
@@ -1427,8 +1447,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Mon Apr 28 2025 22:32:30 GMT+0900 (日本標準時)",
-    tick: 1745847150202
+    at: "Tue Apr 29 2025 16:44:39 GMT+0900 (日本標準時)",
+    tick: 1745912679448
 };
 const evilCommonjsConfig =
 {
@@ -4550,12 +4570,15 @@ define("resource/lang.en", [], {
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
-    "benchmark-report-label": "Benchmark Report",
+    "benchmark-report-label": "Kaleidoscope Benchmark Report",
     "benchmark-total-score": "Total Score",
     "benchmark-score-per-fullhd": "Rendering Score per FullHD",
     "benchmark-calculation-score": "Calculation Score",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
-    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state."
+    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
+    "Unmeasured": "Unmeasured",
+    "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",
+    "UnmeasurableRich": "Unmeasurable (Excessive Performance)"
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -4603,12 +4626,15 @@ define("resource/lang.ja", [], {
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
     "benchmark-spots-rendering-score": "描画性能(spots)",
-    "benchmark-report-label": "ベンチマークレポート",
+    "benchmark-report-label": "Kaleidoscope ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
     "benchmark-score-per-fullhd": "Full HD あたりの描画スコア",
     "benchmark-calculation-score": "計算スコア",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
-    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。"
+    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。",
+    "Unmeasured": "未計測",
+    "UnmeasurablePoor": "計測不能(性能不足)",
+    "UnmeasurableRich": "計測不能(性能過剰)"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -5606,6 +5632,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-calculation-score");
         UI.benchmarkLinesCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-calculation-score");
         UI.benchmarkSpotsCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-calculation-score");
+        UI.benchmarkLinesRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-rendering-score");
+        UI.benchmarkSpotsRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-rendering-score");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
         UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
         UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
@@ -7324,6 +7352,16 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 undefined :
                 score;
         };
+        Benchmark.measurementScoreToText = function (score, toText) {
+            switch (score) {
+                case "Unmeasured":
+                case "UnmeasurablePoor":
+                case "UnmeasurableRich":
+                    return _library_4.Library.Locale.map(score);
+                default:
+                    return toText(score);
+            }
+        };
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
@@ -7715,19 +7753,22 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             document.body.classList.toggle("benchmark-rendering", false);
         };
         Benchmark.showResult = function () {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
             document.body.classList.toggle("immersive", true);
             document.body.classList.toggle("benchmark-result", true);
             ui_5.UI.benchmarkTotalScore.innerText =
-                (_b = (_a = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalScore)) === null || _a === void 0 ? void 0 : _a.toFixed(2)) !== null && _b !== void 0 ? _b : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkScorePerFullHD.innerText =
-                (_d = (_c = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalRenderingScore)) === null || _c === void 0 ? void 0 : _c.toFixed(2)) !== null && _d !== void 0 ? _d : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalRenderingScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkCalculationScore.innerText =
-                (_f = (_e = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.totalCalculationScore)) === null || _e === void 0 ? void 0 : _e.toFixed(2)) !== null && _f !== void 0 ? _f : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalCalculationScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkLinesCalculationScore.innerText =
-                (_h = (_g = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.linesCalculationScore)) === null || _g === void 0 ? void 0 : _g.toFixed(2)) !== null && _h !== void 0 ? _h : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesCalculationScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkSpotsCalculationScore.innerText =
-                (_k = (_j = _features_3.Features.Benchmark.getMeasurementScoreValue(Benchmark.benchmark.result.spotsCalculationScore)) === null || _j === void 0 ? void 0 : _j.toFixed(2)) !== null && _k !== void 0 ? _k : "xxxxxxxx";
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsCalculationScore, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkLinesRenderingScore.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkSpotsRenderingScore.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));

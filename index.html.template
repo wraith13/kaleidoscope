@@ -39,35 +39,6 @@ __STYLE__
     <div id="benchmark-canvas">
         <div class="layer"></div>
     </div>
-    <div id="benchmark-result">
-        <h2><span data-lang-key="benchmark-report-label"></span></h2>
-        <div id="benchmark-result-panel">
-            <div class="benchmark-main-score">
-                <span data-lang-key="benchmark-total-score"></span>
-                <span id="benchmark-total-score"></span>
-            </div>
-            <div class="benchmark-sub-score">
-                <span data-lang-key="benchmark-score-per-fullhd"></span>
-                <span id="benchmark-score-per-fullhd"></span>
-            </div>
-            <div class="benchmark-sub-score">
-                <span data-lang-key="benchmark-calculation-score"></span>
-                <span id="benchmark-calculation-score"></span>
-            </div>
-            <div class="benchmark-score-item">
-                <span data-lang-key="benchmark-lines-calculation-score"></span>
-                <span id="benchmark-lines-calculation-score"></span>
-            </div>
-            <div class="benchmark-score-item">
-                <span data-lang-key="benchmark-spots-calculation-score"></span>
-                <span id="benchmark-spots-calculation-score"></span>
-            </div>
-            <div id="benchmark-details"></div>
-            <ul id="benchmark-description-panel">
-            </ul>
-        </div>
-        <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
-    </div>
 </div>
 <div id="option-panel">
     <label for="colorspace">
@@ -121,10 +92,10 @@ __STYLE__
 </div>
 <div id="fps"></div>
 <div id="benchmark-panel">
-<button id="run-benchmark">
-    __ELAPSED_ICON__
-    <span data-lang-key="run-benchmark-label"></span>
-</button>
+    <button id="run-benchmark">
+        __ELAPSED_ICON__
+        <span data-lang-key="run-benchmark-label"></span>
+    </button>
 <div id="run-benchmark-report"></div>
 </div>
 <button id="play-button">
@@ -137,6 +108,43 @@ __STYLE__
     </div>
     <button id="benchmark-abort-button"><span data-lang-key="benchmark-abort"></span></button>
     <div id="benchmark-progress-bar"></div>
+</div>
+<div id="benchmark-result">
+    <h2><span data-lang-key="benchmark-report-label"></span></h2>
+    <div id="benchmark-result-panel">
+        <div class="benchmark-main-score">
+            <span data-lang-key="benchmark-total-score"></span>
+            <span id="benchmark-total-score"></span>
+        </div>
+        <div class="benchmark-sub-score">
+            <span data-lang-key="benchmark-score-per-fullhd"></span>
+            <span id="benchmark-score-per-fullhd"></span>
+        </div>
+        <div class="benchmark-sub-score">
+            <span data-lang-key="benchmark-calculation-score"></span>
+            <span id="benchmark-calculation-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-lines-calculation-score"></span>
+            <span id="benchmark-lines-calculation-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-spots-calculation-score"></span>
+            <span id="benchmark-spots-calculation-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-lines-rendering-score"></span>
+            <span id="benchmark-lines-rendering-score"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-spots-rendering-score"></span>
+            <span id="benchmark-spots-rendering-score"></span>
+        </div>
+        <div id="benchmark-details"></div>
+        <ul id="benchmark-description-panel">
+        </ul>
+    </div>
+    <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
 </div>
 <div id="screen-footer">
     <div id="supplementary-line">

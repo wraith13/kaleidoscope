@@ -30,8 +30,20 @@ export namespace Benchmark
     };
     export const getMeasurementScoreValue = <T>(score: MeasurementScore<T>): T | undefined =>
         [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ].includes(score as string) ?
-        undefined :
-        score as T;
+            undefined :
+            score as T;
+    export const measurementScoreToText = <T>(score: MeasurementScore<T>, toText: (score:T) => string): string =>
+    {
+        switch(score)
+        {
+        case "Unmeasured":
+        case "UnmeasurablePoor":
+        case "UnmeasurableRich":
+            return Library.Locale.map(score as Library.Locale.Label);
+        default:
+            return toText(score);
+        }
+    };
     export interface Result
     {
         screenResolution: MeasurementScore<{ width: number; height: number; colorDepth: number; devicePixelRatio: number; }>;
