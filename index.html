@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Tue Apr 29 2025 21:37:18 GMT+0900 (日本標準時)
+    build at: Wed Apr 30 2025 09:48:01 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1494,8 +1494,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Tue Apr 29 2025 21:37:18 GMT+0900 (日本標準時)",
-    tick: 1745930238188
+    at: "Wed Apr 30 2025 09:48:01 GMT+0900 (日本標準時)",
+    tick: 1745974081261
 };
 const evilCommonjsConfig =
 {
@@ -7397,24 +7397,19 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             }
             return calculate(a, b);
         };
+        Benchmark.isMeasuredScore = function (score) {
+            return !["Unmeasured", "UnmeasurablePoor", "UnmeasurableRich",].includes(score);
+        };
         Benchmark.getMeasurementScoreValue = function (score) {
-            return ["Unmeasured", "UnmeasurablePoor", "UnmeasurableRich",].includes(score) ?
-                undefined :
-                score;
+            return Benchmark.isMeasuredScore(score) ? score : undefined;
         };
         Benchmark.measurementScoreToText = function (score, toText) {
-            switch (score) {
-                case "Unmeasured":
-                case "UnmeasurablePoor":
-                case "UnmeasurableRich":
-                    return _library_4.Library.Locale.map(score);
-                default:
-                    return toText(score);
-            }
+            return Benchmark.isMeasuredScore(score) ? toText(score) : _library_4.Library.Locale.map(score);
         };
         Benchmark.getUnmeasuredReslult = function () {
             return ({
                 screenResolution: "Unmeasured",
+                screenResolutionScore: "Unmeasured",
                 fps: "Unmeasured",
                 linesCalculationScore: "Unmeasured",
                 spotsCalculationScore: "Unmeasured",
@@ -7433,6 +7428,13 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 colorDepth: window.screen.colorDepth,
                 devicePixelRatio: (_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0,
             });
+        };
+        var measureScreenResolutionScore = function () {
+            var _a, _b;
+            return ((ui_2.UI.benchmarkCanvas.clientWidth * ((_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0))
+                * (ui_2.UI.benchmarkCanvas.clientHeight * ((_b = window.devicePixelRatio) !== null && _b !== void 0 ? _b : 1.0))
+                * window.screen.colorDepth)
+                / (config_json_5.default.benchmark.pixelUnit * config_json_5.default.benchmark.colorDepthUnit);
         };
         var setProgressBarSize = function (size) {
             return _library_4.Library.UI.cullOrBreed(ui_2.UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
@@ -7455,6 +7457,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
                         measure.result.screenResolution = Benchmark.measureScreenResolution();
+                        measure.result.screenResolutionScore = measureScreenResolutionScore();
                         measure.next();
                     }
                 };
@@ -7575,17 +7578,10 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             return SpotsCalculationScoreMeasurementPhase;
         }(ScoreMeasurementPhaseBase));
         Benchmark.SpotsCalculationScoreMeasurementPhase = SpotsCalculationScoreMeasurementPhase;
-        var calculateArea = function () {
-            var _a, _b;
-            return ((ui_2.UI.benchmarkCanvas.clientWidth * ((_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0))
-                * (ui_2.UI.benchmarkCanvas.clientHeight * ((_b = window.devicePixelRatio) !== null && _b !== void 0 ? _b : 1.0))
-                * window.screen.colorDepth)
-                / (config_json_5.default.benchmark.pixelUnit * config_json_5.default.benchmark.colorDepthUnit);
-        };
         var LinesRenderingScoreMeasurementPhase = /** @class */ (function (_super) {
             __extends(LinesRenderingScoreMeasurementPhase, _super);
             function LinesRenderingScoreMeasurementPhase() {
-                var _this = _super.call(this, false, "triline", "benchmark-lines-rendering-score", function (measure) { return measure.result.linesRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
+                var _this = _super.call(this, false, "triline", "benchmark-lines-rendering-score", function (measure) { return measure.result.linesRenderingScorePerFullHd = _this.calculationScore() * measureScreenResolutionScore(); }) || this;
                 return _this;
             }
             return LinesRenderingScoreMeasurementPhase;
@@ -7594,7 +7590,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         var SpotsRenderingScoreMeasurementPhase = /** @class */ (function (_super) {
             __extends(SpotsRenderingScoreMeasurementPhase, _super);
             function SpotsRenderingScoreMeasurementPhase() {
-                var _this = _super.call(this, false, "trispot", "benchmark-spots-rendering-score", function (measure) { return measure.result.spotsRenderingScorePerFullHd = _this.calculationScore() * calculateArea(); }) || this;
+                var _this = _super.call(this, false, "trispot", "benchmark-spots-rendering-score", function (measure) { return measure.result.spotsRenderingScorePerFullHd = _this.calculationScore() * measureScreenResolutionScore(); }) || this;
                 return _this;
             }
             return SpotsRenderingScoreMeasurementPhase;
@@ -7643,7 +7639,9 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.end = function () {
                     _this.result.totalCalculationScore = Benchmark.calculateMeasurementScore(_this.result.linesCalculationScore, _this.result.spotsCalculationScore, function (a, b) { return (a + b) / 2; });
                     _this.result.totalRenderingScore = Benchmark.calculateMeasurementScore(_this.result.linesRenderingScorePerFullHd, _this.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
-                    _this.result.totalScore = Benchmark.calculateMeasurementScore(_this.result.screenResolution, _this.result.totalRenderingScore, function (a, b) { return b / (((a.width * a.devicePixelRatio) * (a.height * a.devicePixelRatio)) / config_json_5.default.benchmark.pixelUnit); });
+                    _this.result.totalScore = Benchmark.isMeasuredScore(_this.result.totalRenderingScore) ?
+                        _this.result.totalRenderingScore / measureScreenResolutionScore() :
+                        _this.result.totalRenderingScore;
                     console.log("📈 benchmark", _this.result);
                 };
             }

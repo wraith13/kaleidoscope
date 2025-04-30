@@ -771,6 +771,7 @@ declare module "script/features/benchmark" {
         const animator: Animation.Animator;
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
         const calculateMeasurementScore: <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R) => MeasurementScore<R>;
+        const isMeasuredScore: <T>(score: MeasurementScore<T>) => score is T;
         const getMeasurementScoreValue: <T>(score: MeasurementScore<T>) => T | undefined;
         const measurementScoreToText: <T>(score: MeasurementScore<T>, toText: (score: T) => string) => string;
         interface Result {
@@ -780,6 +781,7 @@ declare module "script/features/benchmark" {
                 colorDepth: number;
                 devicePixelRatio: number;
             }>;
+            screenResolutionScore: MeasurementScore<number>;
             fps: MeasurementScore<number>;
             linesCalculationScore: MeasurementScore<number>;
             spotsCalculationScore: MeasurementScore<number>;

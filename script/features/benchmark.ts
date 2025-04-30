@@ -28,25 +28,16 @@ export namespace Benchmark
         }
         return calculate(a as A, b as B);
     };
+    export const isMeasuredScore = <T>(score: MeasurementScore<T>): score is T =>
+        ! [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ].includes(score as string);
     export const getMeasurementScoreValue = <T>(score: MeasurementScore<T>): T | undefined =>
-        [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ].includes(score as string) ?
-            undefined :
-            score as T;
+        isMeasuredScore(score) ? score: undefined;
     export const measurementScoreToText = <T>(score: MeasurementScore<T>, toText: (score:T) => string): string =>
-    {
-        switch(score)
-        {
-        case "Unmeasured":
-        case "UnmeasurablePoor":
-        case "UnmeasurableRich":
-            return Library.Locale.map(score as Library.Locale.Label);
-        default:
-            return toText(score);
-        }
-    };
+        isMeasuredScore(score) ? toText(score): Library.Locale.map(score as Library.Locale.Label);
     export interface Result
     {
         screenResolution: MeasurementScore<{ width: number; height: number; colorDepth: number; devicePixelRatio: number; }>;
+        screenResolutionScore: MeasurementScore<number>;
         fps: MeasurementScore<number>;
         linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
         spotsCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
@@ -59,6 +50,7 @@ export namespace Benchmark
     export const getUnmeasuredReslult = (): Result =>
     ({
         screenResolution: "Unmeasured",
+        screenResolutionScore: "Unmeasured",
         fps: "Unmeasured",
         linesCalculationScore: "Unmeasured",
         spotsCalculationScore: "Unmeasured",
@@ -75,6 +67,13 @@ export namespace Benchmark
         colorDepth: window.screen.colorDepth,
         devicePixelRatio: window.devicePixelRatio ?? 1.0,
     });
+    const measureScreenResolutionScore = () =>
+        (
+            (UI.benchmarkCanvas.clientWidth *(window.devicePixelRatio ?? 1.0))
+            *(UI.benchmarkCanvas.clientHeight *(window.devicePixelRatio ?? 1.0))
+            *window.screen.colorDepth
+        )
+        /(config.benchmark.pixelUnit *config.benchmark.colorDepthUnit);
     const setProgressBarSize = (size: number) =>
         Library.UI.cullOrBreed(UI.benchmarkProgressBar, { tag: "div", className: "progress-block", }, size);
     const setProgressBarProgress = (progress: number) =>
@@ -105,6 +104,7 @@ export namespace Benchmark
             if (this.startAt +config.benchmark.screenResolutionWait <= now)
             {
                 measure.result.screenResolution = measureScreenResolution();
+                measure.result.screenResolutionScore = measureScreenResolutionScore();
                 measure.next();
             }
         };
@@ -232,13 +232,6 @@ export namespace Benchmark
             );
         }
     }
-    const calculateArea = () =>
-        (
-            (UI.benchmarkCanvas.clientWidth *(window.devicePixelRatio ?? 1.0))
-            *(UI.benchmarkCanvas.clientHeight *(window.devicePixelRatio ?? 1.0))
-            *window.screen.colorDepth
-        )
-        /(config.benchmark.pixelUnit *config.benchmark.colorDepthUnit);
     export class LinesRenderingScoreMeasurementPhase extends ScoreMeasurementPhaseBase implements MeasurementPhaseBase
     {
         constructor()
@@ -248,7 +241,7 @@ export namespace Benchmark
                 false,
                 "triline",
                 "benchmark-lines-rendering-score",
-                measure => measure.result.linesRenderingScorePerFullHd = this.calculationScore() *calculateArea()
+                measure => measure.result.linesRenderingScorePerFullHd = this.calculationScore() *measureScreenResolutionScore()
             );
         }
     }
@@ -261,7 +254,7 @@ export namespace Benchmark
                 false,
                 "trispot",
                 "benchmark-spots-rendering-score",
-                measure => measure.result.spotsRenderingScorePerFullHd = this.calculationScore() *calculateArea(),
+                measure => measure.result.spotsRenderingScorePerFullHd = this.calculationScore() *measureScreenResolutionScore(),
             );
         }
     }
@@ -323,12 +316,9 @@ export namespace Benchmark
                 this.result.spotsRenderingScorePerFullHd,
                 (a, b) => (a +b) /2
             );
-            this.result.totalScore = calculateMeasurementScore
-            (
-                this.result.screenResolution,
-                this.result.totalRenderingScore,
-                (a, b) => b /(((a.width *a.devicePixelRatio) *(a.height *a.devicePixelRatio)) /config.benchmark.pixelUnit)
-            );
+            this.result.totalScore = isMeasuredScore(this.result.totalRenderingScore) ?
+                (this.result.totalRenderingScore /measureScreenResolutionScore()):
+                this.result.totalRenderingScore;
             console.log("📈 benchmark", this.result);
         }
     }
