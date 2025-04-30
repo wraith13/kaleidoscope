@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Tue Apr 29 2025 16:44:39 GMT+0900 (日本標準時)
+    build at: Tue Apr 29 2025 21:37:18 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -866,9 +866,6 @@ body:not(.benchmark) #benchmark-popup #benchmark-progress-bar:not(.show) {
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  font-weight: 400;
 }
 body:not(.benchmark-result) #benchmark-result:not(.show) {
   opacity: 0;
@@ -889,33 +886,38 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   transition: filter 750ms;
 }
 
-@media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-result {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
-  }
-}
-@media (min-width: 1600px) {
-  #benchmark-result {
-    font-size: 1rem;
-    line-height: 1rem;
-  }
-}
-#benchmark-result {
-  font-family: monospace;
-}
 #benchmark-result {
   gap: 1rem;
   position: absolute;
   z-index: 50;
 }
 #benchmark-result h2 {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-result h2 {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-result h2 {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-result h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-result h2 {
+  font-size: 1.125rem;
+  line-height: 1.125rem;
   padding: 0.5rem 1rem;
   width: 100%;
   text-align: center;
   background-color: rgba(32, 28, 38, 0.4);
-  font-size: 1.125rem;
-  line-height: 1.125rem;
 }
 #benchmark-result #benchmark-result-panel {
   display: flex;
@@ -924,6 +926,7 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   align-items: stretch;
 }
 #benchmark-result #benchmark-result-panel {
+  max-width: 32rem;
   padding: 0rem 1rem;
   overflow: auto;
   gap: 0.75rem;
@@ -951,11 +954,51 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   line-height: 1.125rem;
 }
 #benchmark-result #benchmark-result-panel > div span:first-child {
-  font-size: 1.125rem;
-  line-height: 1.125rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-result #benchmark-result-panel > div span:first-child {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-result #benchmark-result-panel > div span:first-child {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-result #benchmark-result-panel > div span:first-child {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-result #benchmark-result-panel > div span:first-child {
+  font-size: 1rem;
+  line-height: 1rem;
   line-height: 140%;
   opacity: 0.75;
   overflow-y: visible;
+}
+#benchmark-result #benchmark-result-panel > div span:last-child {
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-result #benchmark-result-panel > div span:last-child {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-result #benchmark-result-panel > div span:last-child {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-result #benchmark-result-panel > div span:last-child {
+  font-family: monospace;
 }
 #benchmark-result #benchmark-result-panel > div span:last-child {
   flex-grow: 1;
@@ -1421,6 +1464,10 @@ body.hide-ui #screen-footer #information-line:not(.show) {
             <span data-lang-key="benchmark-spots-rendering-score"></span>
             <span id="benchmark-spots-rendering-score"></span>
         </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-fps-score"></span>
+            <span id="benchmark-fps-score"></span>
+        </div>
         <div id="benchmark-details"></div>
         <ul id="benchmark-description-panel">
         </ul>
@@ -1447,8 +1494,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Tue Apr 29 2025 16:44:39 GMT+0900 (日本標準時)",
-    tick: 1745912679448
+    at: "Tue Apr 29 2025 21:37:18 GMT+0900 (日本標準時)",
+    tick: 1745930238188
 };
 const evilCommonjsConfig =
 {
@@ -4570,6 +4617,7 @@ define("resource/lang.en", [], {
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
+    "benchmark-fps-score": "FPS",
     "benchmark-report-label": "Kaleidoscope Benchmark Report",
     "benchmark-total-score": "Total Score",
     "benchmark-score-per-fullhd": "Rendering Score per FullHD",
@@ -4626,6 +4674,7 @@ define("resource/lang.ja", [], {
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
     "benchmark-spots-rendering-score": "描画性能(spots)",
+    "benchmark-fps-score": "FPS",
     "benchmark-report-label": "Kaleidoscope ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
     "benchmark-score-per-fullhd": "Full HD あたりの描画スコア",
@@ -5634,6 +5683,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkSpotsCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-calculation-score");
         UI.benchmarkLinesRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-rendering-score");
         UI.benchmarkSpotsRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-rendering-score");
+        UI.benchmarkFpsScore = _library_2.Library.UI.getElementById("span", "benchmark-fps-score");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
         UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
         UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
@@ -7769,6 +7819,8 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkSpotsRenderingScore.innerText =
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkFpsScore.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.fps, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));

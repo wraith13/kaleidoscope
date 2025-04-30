@@ -55,6 +55,7 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-fps-score": string;
                 "benchmark-report-label": string;
                 "benchmark-total-score": string;
                 "benchmark-score-per-fullhd": string;
@@ -111,6 +112,7 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-fps-score": string;
                 "benchmark-report-label": string;
                 "benchmark-total-score": string;
                 "benchmark-score-per-fullhd": string;
@@ -367,6 +369,7 @@ declare module "script/ui" {
         const benchmarkSpotsCalculationScore: HTMLSpanElement;
         const benchmarkLinesRenderingScore: HTMLSpanElement;
         const benchmarkSpotsRenderingScore: HTMLSpanElement;
+        const benchmarkFpsScore: HTMLSpanElement;
         const benchmarkDetails: HTMLDivElement;
         const benchmarkPopupLabel: HTMLSpanElement;
         const benchmarkPopupValue: HTMLSpanElement;

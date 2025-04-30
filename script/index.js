@@ -136,6 +136,7 @@ define("resource/lang.en", [], {
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
+    "benchmark-fps-score": "FPS",
     "benchmark-report-label": "Kaleidoscope Benchmark Report",
     "benchmark-total-score": "Total Score",
     "benchmark-score-per-fullhd": "Rendering Score per FullHD",
@@ -192,6 +193,7 @@ define("resource/lang.ja", [], {
     "benchmark-spots-calculation-score": "計算性能(spots)",
     "benchmark-lines-rendering-score": "描画性能(lines)",
     "benchmark-spots-rendering-score": "描画性能(spots)",
+    "benchmark-fps-score": "FPS",
     "benchmark-report-label": "Kaleidoscope ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
     "benchmark-score-per-fullhd": "Full HD あたりの描画スコア",
@@ -1200,6 +1202,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkSpotsCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-calculation-score");
         UI.benchmarkLinesRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-rendering-score");
         UI.benchmarkSpotsRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-rendering-score");
+        UI.benchmarkFpsScore = _library_2.Library.UI.getElementById("span", "benchmark-fps-score");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
         UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
         UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
@@ -3335,6 +3338,8 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkSpotsRenderingScore.innerText =
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkFpsScore.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.fps, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
