@@ -69,8 +69,8 @@ export namespace Benchmark
     });
     const measureScreenResolutionScore = () =>
         (
-            (UI.benchmarkCanvas.clientWidth *(window.devicePixelRatio ?? 1.0))
-            *(UI.benchmarkCanvas.clientHeight *(window.devicePixelRatio ?? 1.0))
+            (UI.screenBody.clientWidth *(window.devicePixelRatio ?? 1.0))
+            *(UI.screenBody.clientHeight *(window.devicePixelRatio ?? 1.0))
             *window.screen.colorDepth
         )
         /(config.benchmark.pixelUnit *config.benchmark.colorDepthUnit);
@@ -151,7 +151,7 @@ export namespace Benchmark
         {
             this.halfRefreshRate = getMeasurementScoreValue(measure.result.fps) ?? 30;
             document.body.classList.toggle("benchmark-rendering", ! this.calculateOnly);
-            animator.setColorspace("sRGB");
+            animator.setColorspace("Rec. 2020");
             animator.setColoring("phi-colors");
             animator.setDiagonalSize(1000);
             animator.setCycleSpan(1000);

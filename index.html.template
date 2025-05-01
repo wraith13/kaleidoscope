@@ -140,9 +140,13 @@ __STYLE__
             <span data-lang-key="benchmark-spots-rendering-score"></span>
             <span id="benchmark-spots-rendering-score"></span>
         </div>
-        <div class="benchmark-score-item">
+        <div class="benchmark-sub-score">
             <span data-lang-key="benchmark-fps-score"></span>
             <span id="benchmark-fps-score"></span>
+        </div>
+        <div class="benchmark-sub-score">
+            <span data-lang-key="benchmark-screen-resolution-score"></span>
+            <span id="benchmark-screen-resolution-score"></span>
         </div>
         <div id="benchmark-details"></div>
         <ul id="benchmark-description-panel">

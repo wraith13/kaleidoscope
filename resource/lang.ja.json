@@ -45,6 +45,7 @@
     "benchmark-lines-rendering-score": "描画性能(lines)",
     "benchmark-spots-rendering-score": "描画性能(spots)",
     "benchmark-fps-score": "FPS",
+    "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-report-label": "Kaleidoscope ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
     "benchmark-score-per-fullhd": "Full HD あたりの描画スコア",
