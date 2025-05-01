@@ -148,6 +148,14 @@ __STYLE__
             <span data-lang-key="benchmark-screen-resolution-score"></span>
             <span id="benchmark-screen-resolution-score"></span>
         </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-screen-width"></span>
+            <span id="benchmark-screen-width"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-screen-height"></span>
+            <span id="benchmark-screen-height"></span>
+        </div>
         <div id="benchmark-details"></div>
         <ul id="benchmark-description-panel">
         </ul>

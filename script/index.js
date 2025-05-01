@@ -132,16 +132,18 @@ define("resource/lang.en", [], {
     "DELETEME.benchmark-phase-calculation-score": "Calculation Score",
     "DELETEME.benchmark-phase-rendering-score": "Rendering Score",
     "DELETEME.benchmark-phase-finished": "Finished",
+    "benchmark-report-label": "Kaleidoscope Benchmark Report",
+    "benchmark-total-score": "Total Score",
+    "benchmark-score-per-fullhd": "Rendering Score",
+    "benchmark-calculation-score": "Calculation Score",
     "benchmark-lines-calculation-score": "Calculation Score (lines)",
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
     "benchmark-fps-score": "FPS",
     "benchmark-screen-resolution-score": "Screen Resolution Score",
-    "benchmark-report-label": "Kaleidoscope Benchmark Report",
-    "benchmark-total-score": "Total Score",
-    "benchmark-score-per-fullhd": "Rendering Score per FullHD",
-    "benchmark-calculation-score": "Calculation Score",
+    "benchmark-screen-width": "Screen Width",
+    "benchmark-screen-height": "Screen Height",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
     "Unmeasured": "Unmeasured",
@@ -187,19 +189,21 @@ define("resource/lang.ja", [], {
     "DELETEME.benchmark-phase-preparation": "準備",
     "DELETEME.benchmark-phase-screen-resolution": "画面解像度",
     "DELETEME.benchmark-phase-fps": "FPS",
-    "DELETEME.benchmark-phase-calculation-score": "計算性能",
-    "DELETEME.benchmark-phase-rendering-score": "描画性能",
+    "DELETEME.benchmark-phase-calculation-score": "計算スコア",
+    "DELETEME.benchmark-phase-rendering-score": "描画スコア",
     "DELETEME.benchmark-phase-finished": "完了",
-    "benchmark-lines-calculation-score": "計算性能(lines)",
-    "benchmark-spots-calculation-score": "計算性能(spots)",
-    "benchmark-lines-rendering-score": "描画性能(lines)",
-    "benchmark-spots-rendering-score": "描画性能(spots)",
-    "benchmark-fps-score": "FPS",
-    "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-report-label": "Kaleidoscope ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
-    "benchmark-score-per-fullhd": "Full HD あたりの描画スコア",
+    "benchmark-score-per-fullhd": "描画スコア",
     "benchmark-calculation-score": "計算スコア",
+    "benchmark-lines-calculation-score": "計算スコア(lines)",
+    "benchmark-spots-calculation-score": "計算スコア(spots)",
+    "benchmark-lines-rendering-score": "描画スコア(lines)",
+    "benchmark-spots-rendering-score": "描画スコア(spots)",
+    "benchmark-fps-score": "FPS",
+    "benchmark-screen-resolution-score": "画面解像度スコア",
+    "benchmark-screen-width": "画面横幅",
+    "benchmark-screen-height": "画面高さ",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
     "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。",
     "Unmeasured": "未計測",
@@ -1206,6 +1210,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkSpotsRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-rendering-score");
         UI.benchmarkFpsScore = _library_2.Library.UI.getElementById("span", "benchmark-fps-score");
         UI.benchmarkScreenResolutionScore = _library_2.Library.UI.getElementById("span", "benchmark-screen-resolution-score");
+        UI.benchmarkScreenWidth = _library_2.Library.UI.getElementById("span", "benchmark-screen-width");
+        UI.benchmarkScreenHeight = _library_2.Library.UI.getElementById("span", "benchmark-screen-height");
         UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
         UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
         UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
@@ -3343,6 +3349,10 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.fps, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkScreenResolutionScore.innerText =
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolutionScore, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkScreenWidth.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.width.toFixed(2); });
+            ui_5.UI.benchmarkScreenHeight.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.height.toFixed(2); });
             ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));

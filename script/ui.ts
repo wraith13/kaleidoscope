@@ -72,6 +72,10 @@ export namespace UI
         Library.UI.getElementById("span", "benchmark-fps-score");
     export const benchmarkScreenResolutionScore =
         Library.UI.getElementById("span", "benchmark-screen-resolution-score");
+    export const benchmarkScreenWidth =
+        Library.UI.getElementById("span", "benchmark-screen-width");
+    export const benchmarkScreenHeight =
+        Library.UI.getElementById("span", "benchmark-screen-height");
     export const benchmarkDetails =
         Library.UI.getElementById("div", "benchmark-details");
     export const benchmarkPopupLabel =

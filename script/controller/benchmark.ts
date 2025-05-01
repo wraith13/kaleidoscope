@@ -94,6 +94,10 @@ export namespace Benchmark
             Features.Benchmark.measurementScoreToText(benchmark.result.fps, i => i.toFixed(2));
         UI.benchmarkScreenResolutionScore.innerText =
             Features.Benchmark.measurementScoreToText(benchmark.result.screenResolutionScore, i => i.toFixed(2));
+        UI.benchmarkScreenWidth.innerText =
+            Features.Benchmark.measurementScoreToText(benchmark.result.screenResolution, i => i.width.toFixed(2));
+        UI.benchmarkScreenHeight.innerText =
+            Features.Benchmark.measurementScoreToText(benchmark.result.screenResolution, i => i.height.toFixed(2));
         UI.benchmarkDetails.innerText = JSON.stringify(benchmark.result, null, 4);
     }
 }
