@@ -59,6 +59,7 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-display-score": string;
                 "benchmark-fps-score": string;
                 "benchmark-screen-resolution-score": string;
                 "benchmark-screen-width": string;
@@ -119,6 +120,7 @@ declare module "script/library/locale" {
                 "benchmark-spots-calculation-score": string;
                 "benchmark-lines-rendering-score": string;
                 "benchmark-spots-rendering-score": string;
+                "benchmark-display-score": string;
                 "benchmark-fps-score": string;
                 "benchmark-screen-resolution-score": string;
                 "benchmark-screen-width": string;
@@ -375,6 +377,7 @@ declare module "script/ui" {
         const benchmarkSpotsCalculationScore: HTMLSpanElement;
         const benchmarkLinesRenderingScore: HTMLSpanElement;
         const benchmarkSpotsRenderingScore: HTMLSpanElement;
+        const benchmarkDisplayScore: HTMLSpanElement;
         const benchmarkFpsScore: HTMLSpanElement;
         const benchmarkScreenResolutionScore: HTMLSpanElement;
         const benchmarkScreenWidth: HTMLSpanElement;
@@ -792,6 +795,7 @@ declare module "script/features/benchmark" {
             }>;
             screenResolutionScore: MeasurementScore<number>;
             fps: MeasurementScore<number>;
+            displayScore: MeasurementScore<number>;
             linesCalculationScore: MeasurementScore<number>;
             spotsCalculationScore: MeasurementScore<number>;
             totalCalculationScore: MeasurementScore<number>;

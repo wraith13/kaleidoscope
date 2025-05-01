@@ -140,6 +140,7 @@ define("resource/lang.en", [], {
     "benchmark-spots-calculation-score": "Calculation Score (spots)",
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
+    "benchmark-display-score": "Display Score",
     "benchmark-fps-score": "FPS",
     "benchmark-screen-resolution-score": "Screen Resolution Score",
     "benchmark-screen-width": "Screen Width",
@@ -200,6 +201,7 @@ define("resource/lang.ja", [], {
     "benchmark-spots-calculation-score": "計算スコア(spots)",
     "benchmark-lines-rendering-score": "描画スコア(lines)",
     "benchmark-spots-rendering-score": "描画スコア(spots)",
+    "benchmark-display-score": "ディスプレイスコア",
     "benchmark-fps-score": "FPS",
     "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-screen-width": "画面横幅",
@@ -285,7 +287,8 @@ define("resource/config", [], {
         "refreshRateWait": 1500,
         "endWait": 750,
         "pixelUnit": 2073600,
-        "colorDepthUnit": 24
+        "colorDepthUnit": 24,
+        "fpsUnit": 60
     }
 });
 define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
@@ -1208,6 +1211,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkSpotsCalculationScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-calculation-score");
         UI.benchmarkLinesRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-lines-rendering-score");
         UI.benchmarkSpotsRenderingScore = _library_2.Library.UI.getElementById("span", "benchmark-spots-rendering-score");
+        UI.benchmarkDisplayScore = _library_2.Library.UI.getElementById("span", "benchmark-display-score");
         UI.benchmarkFpsScore = _library_2.Library.UI.getElementById("span", "benchmark-fps-score");
         UI.benchmarkScreenResolutionScore = _library_2.Library.UI.getElementById("span", "benchmark-screen-resolution-score");
         UI.benchmarkScreenWidth = _library_2.Library.UI.getElementById("span", "benchmark-screen-width");
@@ -2939,6 +2943,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 screenResolution: "Unmeasured",
                 screenResolutionScore: "Unmeasured",
                 fps: "Unmeasured",
+                displayScore: "Unmeasured",
                 linesCalculationScore: "Unmeasured",
                 spotsCalculationScore: "Unmeasured",
                 totalCalculationScore: "Unmeasured",
@@ -3165,6 +3170,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     return phases.length <= _this.phase;
                 };
                 this.end = function () {
+                    _this.result.displayScore = Benchmark.calculateMeasurementScore(_this.result.screenResolutionScore, _this.result.fps, function (a, b) { return (a * b) / config_json_5.default.benchmark.fpsUnit; });
                     _this.result.totalCalculationScore = Benchmark.calculateMeasurementScore(_this.result.linesCalculationScore, _this.result.spotsCalculationScore, function (a, b) { return (a + b) / 2; });
                     _this.result.totalRenderingScore = Benchmark.calculateMeasurementScore(_this.result.linesRenderingScorePerFullHd, _this.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
                     _this.result.totalScore = Benchmark.isMeasuredScore(_this.result.totalRenderingScore) ?
@@ -3345,6 +3351,8 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkSpotsRenderingScore.innerText =
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
+            ui_5.UI.benchmarkDisplayScore.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.displayScore, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkFpsScore.innerText =
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.fps, function (i) { return i.toFixed(2); });
             ui_5.UI.benchmarkScreenResolutionScore.innerText =

@@ -90,6 +90,8 @@ export namespace Benchmark
             Features.Benchmark.measurementScoreToText(benchmark.result.linesRenderingScorePerFullHd, i => i.toFixed(2));
         UI.benchmarkSpotsRenderingScore.innerText =
             Features.Benchmark.measurementScoreToText(benchmark.result.spotsRenderingScorePerFullHd, i => i.toFixed(2));
+        UI.benchmarkDisplayScore.innerText =
+            Features.Benchmark.measurementScoreToText(benchmark.result.displayScore, i => i.toFixed(2));
         UI.benchmarkFpsScore.innerText =
             Features.Benchmark.measurementScoreToText(benchmark.result.fps, i => i.toFixed(2));
         UI.benchmarkScreenResolutionScore.innerText =

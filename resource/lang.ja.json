@@ -48,6 +48,7 @@
     "benchmark-spots-calculation-score": "計算スコア(spots)",
     "benchmark-lines-rendering-score": "描画スコア(lines)",
     "benchmark-spots-rendering-score": "描画スコア(spots)",
+    "benchmark-display-score": "ディスプレイスコア",
     "benchmark-fps-score": "FPS",
     "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-screen-width": "画面横幅",

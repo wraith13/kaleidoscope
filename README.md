@@ -13,6 +13,7 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 ## Feature
 
 - Kaleidoscope Animation with customizable patterns and colors
+- Color spaces: sRGB, Display P3, Rec. 2020
 - Patterns (powered by [flounder.style.js](https://github.com/wraith13/flounder.style.js)): Lines, Spots, Multi
 - Colorings: Monochrome, Primary Colors, Phi Colors (powered by [phi-colors](https://github.com/wraith13/phi-colors))
 - Adjustable Layers: 1 - 97

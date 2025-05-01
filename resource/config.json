@@ -42,6 +42,7 @@
         "refreshRateWait": 1500,
         "endWait": 750,
         "pixelUnit": 2073600,
-        "colorDepthUnit": 24
+        "colorDepthUnit": 24,
+        "fpsUnit": 60
     }
 }

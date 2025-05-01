@@ -39,6 +39,7 @@ export namespace Benchmark
         screenResolution: MeasurementScore<{ width: number; height: number; colorDepth: number; devicePixelRatio: number; }>;
         screenResolutionScore: MeasurementScore<number>;
         fps: MeasurementScore<number>;
+        displayScore: MeasurementScore<number>;
         linesCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Triline )
         spotsCalculationScore: MeasurementScore<number>; // 非表示状態で１秒間に計算可能なレイヤーの総数( Tetraspot )
         totalCalculationScore: MeasurementScore<number>; // (linesCalculationScore + spotsCalculationScore) /2
@@ -52,6 +53,7 @@ export namespace Benchmark
         screenResolution: "Unmeasured",
         screenResolutionScore: "Unmeasured",
         fps: "Unmeasured",
+        displayScore: "Unmeasured",
         linesCalculationScore: "Unmeasured",
         spotsCalculationScore: "Unmeasured",
         totalCalculationScore: "Unmeasured",
@@ -304,6 +306,12 @@ export namespace Benchmark
             phases.length <= this.phase;
         end = () =>
         {
+            this.result.displayScore = calculateMeasurementScore
+            (
+                this.result.screenResolutionScore,
+                this.result.fps,
+                (a, b) => (a *b) /config.benchmark.fpsUnit
+            );
             this.result.totalCalculationScore = calculateMeasurementScore
             (
                 this.result.linesCalculationScore,
