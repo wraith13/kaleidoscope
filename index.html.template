@@ -168,8 +168,7 @@ __STYLE__
             <span data-lang-key="benchmark-screen-color-depth"></span>
             <span id="benchmark-screen-color-depth"></span>
         </div>
-        <ul id="benchmark-description-panel">
-        </ul>
+        <ul id="benchmark-description-panel"></ul>
     </div>
     <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
 </div>

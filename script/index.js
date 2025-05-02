@@ -125,13 +125,9 @@ define("resource/lang.en", [], {
     "Show FPS": "Show FPS",
     "benchmark-abort": "Abort",
     "benchmark-close": "Close",
-    "DELETEME.benchmarking-in-progress": "Benchmarking in progress",
-    "DELETEME.benchmark-phase-preparation": "Preparation",
-    "DELETEME.benchmark-phase-screen-resolution": "Screen Resolution",
-    "DELETEME.benchmark-phase-fps": "FPS",
-    "DELETEME.benchmark-phase-calculation-score": "Calculation Score",
-    "DELETEME.benchmark-phase-rendering-score": "Rendering Score",
-    "DELETEME.benchmark-phase-finished": "Finished",
+    "benchmarking-in-progress": "Benchmarking in progress",
+    "benchmark-phase-preparation": "Preparation",
+    "benchmark-phase-screen-resolution": "Screen Resolution",
     "benchmark-report-label": "Kaleidoscope Benchmark Report",
     "benchmark-total-score": "Total Score",
     "benchmark-score-per-fullhd": "Rendering Score",
@@ -188,13 +184,9 @@ define("resource/lang.ja", [], {
     "Show FPS": "FPS 表示",
     "benchmark-abort": "中断",
     "benchmark-close": "閉じる",
-    "DELETEME.benchmarking-in-progress": "ベンチマーク計測中",
-    "DELETEME.benchmark-phase-preparation": "準備",
-    "DELETEME.benchmark-phase-screen-resolution": "画面解像度",
-    "DELETEME.benchmark-phase-fps": "FPS",
-    "DELETEME.benchmark-phase-calculation-score": "計算スコア",
-    "DELETEME.benchmark-phase-rendering-score": "描画スコア",
-    "DELETEME.benchmark-phase-finished": "完了",
+    "benchmarking-in-progress": "ベンチマーク計測中",
+    "benchmark-phase-preparation": "準備",
+    "benchmark-phase-screen-resolution": "画面解像度",
     "benchmark-report-label": "Kaleidoscope ベンチマークレポート",
     "benchmark-total-score": "総合スコア",
     "benchmark-score-per-fullhd": "描画スコア",
@@ -2989,7 +2981,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     var i = Benchmark.measureScreenResolution();
-                    ui_2.UI.benchmarkPopupLabel.textContent = "Screen Resolution:";
+                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map("benchmark-phase-screen-resolution"), ":");
                     ui_2.UI.benchmarkPopupValue.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit");
                 };
                 this.step = function (measure, now) {
@@ -3152,8 +3144,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.start = function () {
                     setProgressBarSize(phases.length);
                     setProgressBarProgress(_this.phase = -1);
-                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map("DELETEME.benchmarking-in-progress"), ":");
-                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(_library_4.Library.Locale.map("DELETEME.benchmark-phase-preparation"));
+                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map("benchmarking-in-progress"), ":");
+                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(_library_4.Library.Locale.map("benchmark-phase-preparation"));
                     _this.currentPhase = null;
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
@@ -3175,6 +3167,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     return phases.length <= _this.phase;
                 };
                 this.end = function () {
+                    var _a, _b;
                     _this.result.displayScore = Benchmark.calculateMeasurementScore(_this.result.screenResolutionScore, _this.result.fps, function (a, b) { return (a * b) / config_json_5.default.benchmark.fpsUnit; });
                     _this.result.totalCalculationScore = Benchmark.calculateMeasurementScore(_this.result.linesCalculationScore, _this.result.spotsCalculationScore, function (a, b) { return (a + b) / 2; });
                     _this.result.totalRenderingScore = Benchmark.calculateMeasurementScore(_this.result.linesRenderingScorePerFullHd, _this.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
@@ -3182,6 +3175,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                         (_this.result.totalRenderingScore / measureScreenResolutionScore()) :
                         _this.result.totalRenderingScore;
                     console.log("📈 benchmark", _this.result);
+                    console.log("window.visualViewport.scale", (_b = (_a = window.visualViewport) === null || _a === void 0 ? void 0 : _a.scale) !== null && _b !== void 0 ? _b : "null");
                 };
             }
             ;

@@ -98,7 +98,7 @@ export namespace Benchmark
         {
             this.startAt = now;
             const i = measureScreenResolution();
-            UI.benchmarkPopupLabel.textContent = `Screen Resolution:`;
+            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map("benchmark-phase-screen-resolution")}:`;
             UI.benchmarkPopupValue.textContent = `${i.width}x${i.height} ${i.devicePixelRatio}x ${i.colorDepth}bit`;
         };
         step = (measure: Measurement, now: number) =>
@@ -280,8 +280,8 @@ export namespace Benchmark
         {
             setProgressBarSize(phases.length);
             setProgressBarProgress(this.phase = -1);
-            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map("DELETEME.benchmarking-in-progress")}:`;
-            UI.benchmarkPopupValue.textContent = `${Library.Locale.map("DELETEME.benchmark-phase-preparation")}`;
+            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map("benchmarking-in-progress")}:`;
+            UI.benchmarkPopupValue.textContent = `${Library.Locale.map("benchmark-phase-preparation")}`;
             this.currentPhase = null;
             this.result = getUnmeasuredReslult();
         };
