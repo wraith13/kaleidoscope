@@ -53,6 +53,8 @@
     "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-screen-width": "画面横幅",
     "benchmark-screen-height": "画面高さ",
+    "benchmark-device-pixel-ratio": "デバイスピクセル比",
+    "benchmark-screen-color-depth": "画面色深度",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
     "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。",
     "Unmeasured": "未計測",

@@ -78,8 +78,10 @@ export namespace UI
         Library.UI.getElementById("span", "benchmark-screen-width");
     export const benchmarkScreenHeight =
         Library.UI.getElementById("span", "benchmark-screen-height");
-    export const benchmarkDetails =
-        Library.UI.getElementById("div", "benchmark-details");
+    export const benchmarkDevicePixelRatio =
+        Library.UI.getElementById("span", "benchmark-device-pixel-ratio");
+    export const benchmarkScreenColorDepth =
+        Library.UI.getElementById("span", "benchmark-screen-color-depth");
     export const benchmarkPopupLabel =
         Library.UI.getElementById("span", "benchmark-popup-label");
     export const benchmarkPopupValue =

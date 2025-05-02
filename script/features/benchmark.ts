@@ -36,7 +36,7 @@ export namespace Benchmark
         isMeasuredScore(score) ? toText(score): Library.Locale.map(score as Library.Locale.Label);
     export interface Result
     {
-        screenResolution: MeasurementScore<{ width: number; height: number; colorDepth: number; devicePixelRatio: number; }>;
+        screenResolution: MeasurementScore<{ width: number; height: number; devicePixelRatio: number; colorDepth: number; }>;
         screenResolutionScore: MeasurementScore<number>;
         fps: MeasurementScore<number>;
         displayScore: MeasurementScore<number>;
@@ -66,8 +66,8 @@ export namespace Benchmark
     ({
         width: screen.width,
         height: screen.height,
-        colorDepth: window.screen.colorDepth,
         devicePixelRatio: window.devicePixelRatio ?? 1.0,
+        colorDepth: window.screen.colorDepth,
     });
     const measureScreenResolutionScore = () =>
         (

@@ -64,6 +64,8 @@ declare module "script/library/locale" {
                 "benchmark-screen-resolution-score": string;
                 "benchmark-screen-width": string;
                 "benchmark-screen-height": string;
+                "benchmark-device-pixel-ratio": string;
+                "benchmark-screen-color-depth": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
                 Unmeasured: string;
@@ -125,6 +127,8 @@ declare module "script/library/locale" {
                 "benchmark-screen-resolution-score": string;
                 "benchmark-screen-width": string;
                 "benchmark-screen-height": string;
+                "benchmark-device-pixel-ratio": string;
+                "benchmark-screen-color-depth": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
                 Unmeasured: string;
@@ -382,7 +386,8 @@ declare module "script/ui" {
         const benchmarkScreenResolutionScore: HTMLSpanElement;
         const benchmarkScreenWidth: HTMLSpanElement;
         const benchmarkScreenHeight: HTMLSpanElement;
-        const benchmarkDetails: HTMLDivElement;
+        const benchmarkDevicePixelRatio: HTMLSpanElement;
+        const benchmarkScreenColorDepth: HTMLSpanElement;
         const benchmarkPopupLabel: HTMLSpanElement;
         const benchmarkPopupValue: HTMLSpanElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
@@ -790,8 +795,8 @@ declare module "script/features/benchmark" {
             screenResolution: MeasurementScore<{
                 width: number;
                 height: number;
-                colorDepth: number;
                 devicePixelRatio: number;
+                colorDepth: number;
             }>;
             screenResolutionScore: MeasurementScore<number>;
             fps: MeasurementScore<number>;
@@ -808,8 +813,8 @@ declare module "script/features/benchmark" {
         const measureScreenResolution: () => {
             width: number;
             height: number;
-            colorDepth: number;
             devicePixelRatio: number;
+            colorDepth: number;
         };
         interface MeasurementPhaseBase {
             start: (measure: Measurement, now: number) => void;

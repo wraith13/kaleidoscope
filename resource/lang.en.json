@@ -53,6 +53,8 @@
     "benchmark-screen-resolution-score": "Screen Resolution Score",
     "benchmark-screen-width": "Screen Width",
     "benchmark-screen-height": "Screen Height",
+    "benchmark-device-pixel-ratio": "Device Pixel Ratio",
+    "benchmark-screen-color-depth": "Screen Color Depth",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
     "Unmeasured": "Unmeasured",

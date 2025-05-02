@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Thu May 01 2025 20:45:36 GMT+0900 (日本標準時)
+    build at: Fri May 02 2025 08:29:01 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1484,7 +1484,14 @@ body.hide-ui #screen-footer #information-line:not(.show) {
             <span data-lang-key="benchmark-screen-height"></span>
             <span id="benchmark-screen-height"></span>
         </div>
-        <div id="benchmark-details"></div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-device-pixel-ratio"></span>
+            <span id="benchmark-device-pixel-ratio"></span>
+        </div>
+        <div class="benchmark-score-item">
+            <span data-lang-key="benchmark-screen-color-depth"></span>
+            <span id="benchmark-screen-color-depth"></span>
+        </div>
         <ul id="benchmark-description-panel">
         </ul>
     </div>
@@ -1510,8 +1517,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Thu May 01 2025 20:45:36 GMT+0900 (日本標準時)",
-    tick: 1746099936383
+    at: "Fri May 02 2025 08:29:01 GMT+0900 (日本標準時)",
+    tick: 1746142141263
 };
 const evilCommonjsConfig =
 {
@@ -4642,6 +4649,8 @@ define("resource/lang.en", [], {
     "benchmark-screen-resolution-score": "Screen Resolution Score",
     "benchmark-screen-width": "Screen Width",
     "benchmark-screen-height": "Screen Height",
+    "benchmark-device-pixel-ratio": "Device Pixel Ratio",
+    "benchmark-screen-color-depth": "Screen Color Depth",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
     "Unmeasured": "Unmeasured",
@@ -4703,6 +4712,8 @@ define("resource/lang.ja", [], {
     "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-screen-width": "画面横幅",
     "benchmark-screen-height": "画面高さ",
+    "benchmark-device-pixel-ratio": "デバイスピクセル比",
+    "benchmark-screen-color-depth": "画面色深度",
     "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
     "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。",
     "Unmeasured": "未計測",
@@ -5713,7 +5724,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.benchmarkScreenResolutionScore = _library_2.Library.UI.getElementById("span", "benchmark-screen-resolution-score");
         UI.benchmarkScreenWidth = _library_2.Library.UI.getElementById("span", "benchmark-screen-width");
         UI.benchmarkScreenHeight = _library_2.Library.UI.getElementById("span", "benchmark-screen-height");
-        UI.benchmarkDetails = _library_2.Library.UI.getElementById("div", "benchmark-details");
+        UI.benchmarkDevicePixelRatio = _library_2.Library.UI.getElementById("span", "benchmark-device-pixel-ratio");
+        UI.benchmarkScreenColorDepth = _library_2.Library.UI.getElementById("span", "benchmark-screen-color-depth");
         UI.benchmarkPopupLabel = _library_2.Library.UI.getElementById("span", "benchmark-popup-label");
         UI.benchmarkPopupValue = _library_2.Library.UI.getElementById("span", "benchmark-popup-value");
         UI.benchmarkAbortButton = new _library_2.Library.Control.Button({ id: "benchmark-abort-button", });
@@ -7455,8 +7467,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
             return ({
                 width: screen.width,
                 height: screen.height,
-                colorDepth: window.screen.colorDepth,
                 devicePixelRatio: (_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0,
+                colorDepth: window.screen.colorDepth,
             });
         };
         var measureScreenResolutionScore = function () {
@@ -7858,7 +7870,10 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.width.toFixed(2); });
             ui_5.UI.benchmarkScreenHeight.innerText =
                 _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.height.toFixed(2); });
-            ui_5.UI.benchmarkDetails.innerText = JSON.stringify(Benchmark.benchmark.result, null, 4);
+            ui_5.UI.benchmarkDevicePixelRatio.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.devicePixelRatio.toFixed(2); });
+            ui_5.UI.benchmarkScreenColorDepth.innerText =
+                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.colorDepth.toFixed(2); });
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });
