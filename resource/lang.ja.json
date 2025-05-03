@@ -45,7 +45,7 @@
     "benchmark-lines-rendering-score": "描画スコア(lines)",
     "benchmark-spots-rendering-score": "描画スコア(spots)",
     "benchmark-display-score": "ディスプレイスコア",
-    "benchmark-fps-score": "FPS",
+    "benchmark-fps-score": "低負荷時フレームレート",
     "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-screen-width": "画面横幅",
     "benchmark-screen-height": "画面高さ",

@@ -1,4 +1,5 @@
 import { Features } from "@features";
+import { Library } from "@library";
 import { Base } from "./base";
 import { UI } from "../ui";
 import config from "@resource/config.json";
@@ -62,7 +63,7 @@ export namespace Animation
     {
         if (UI.showFps.get())
         {
-            UI.fpsDisplay.innerText = Features.Fps.getText();
+            Library.UI.setTextContent(UI.fpsDisplay, Features.Fps.getText());
         }
     }
 }

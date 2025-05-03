@@ -177,6 +177,7 @@ declare module "script/library/ui" {
         const querySelectorAllWithFallback: <T extends HtmlTag>(tag: T, selectorss: string[], parent?: Element) => HTMLElementTagNameMap[T][];
         const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];
         const querySelector: <T extends HtmlTag>(tag: T, selectors: string, parent?: Element) => HTMLElementTagNameMap[T];
+        const setTextContent: (element: HTMLElement, text: string) => void;
     }
 }
 declare module "script/library/control" {

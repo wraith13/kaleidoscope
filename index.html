@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Fri May 02 2025 19:50:10 GMT+0900 (日本標準時)
+    build at: Sat May 03 2025 07:41:47 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1340,7 +1340,12 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 </style>
 </head>
 <body>
-<h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="https://github.com/wraith13/kaleidoscope/"><span>Kaleidoscope</span></a></h1>
+<h1 id="screen-header">
+    <a class="segment" href="https://github.com/"><span>GitHub</span></a>
+    <a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a>
+    <a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a>
+    <a class="segment" href="https://github.com/wraith13/kaleidoscope/"><span>Kaleidoscope</span></a>
+</h1>
 <div id="screen-body">
     <div id="canvas">
         <div class="layer"></div>
@@ -1516,8 +1521,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Fri May 02 2025 19:50:10 GMT+0900 (日本標準時)",
-    tick: 1746183010286
+    at: "Sat May 03 2025 07:41:47 GMT+0900 (日本標準時)",
+    tick: 1746225707689
 };
 const evilCommonjsConfig =
 {
@@ -4640,7 +4645,7 @@ define("resource/lang.en", [], {
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
     "benchmark-display-score": "Display Score",
-    "benchmark-fps-score": "FPS",
+    "benchmark-fps-score": "Low Load Frame Rate",
     "benchmark-screen-resolution-score": "Screen Resolution Score",
     "benchmark-screen-width": "Screen Width",
     "benchmark-screen-height": "Screen Height",
@@ -4699,7 +4704,7 @@ define("resource/lang.ja", [], {
     "benchmark-lines-rendering-score": "描画スコア(lines)",
     "benchmark-spots-rendering-score": "描画スコア(spots)",
     "benchmark-display-score": "ディスプレイスコア",
-    "benchmark-fps-score": "FPS",
+    "benchmark-fps-score": "低負荷時フレームレート",
     "benchmark-screen-resolution-score": "画面解像度スコア",
     "benchmark-screen-width": "画面横幅",
     "benchmark-screen-height": "画面高さ",
@@ -4787,7 +4792,8 @@ define("resource/config", [], {
         "endWait": 750,
         "pixelUnit": 2073600,
         "colorDepthUnit": 24,
-        "fpsUnit": 60
+        "fpsUnit": 60,
+        "decimalDigits": 2
     }
 });
 define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
@@ -4975,6 +4981,11 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
             }
             return result;
         };
+        UI.setTextContent = function (element, text) {
+            if (element.textContent !== text) {
+                element.textContent = text;
+            }
+        };
     })(UI || (exports.UI = UI = {}));
 });
 define("script/library/control", ["require", "exports", "script/library/ui"], function (require, exports, ui_1) {
@@ -4986,7 +4997,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
         var makeSelectOption = function (value, text) {
             var option = document.createElement("option");
             option.value = value;
-            option.innerText = text;
+            option.textContent = text;
             return option;
         };
         Control.getDom = function (data) {
@@ -5732,7 +5743,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             UI.fuseFpsSelect.reloadOptions();
             UI.languageSelect.reloadOptions();
             _library_2.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-                .forEach(function (i) { return i.innerText = _library_2.Library.Locale.map(i.getAttribute("data-lang-key")); });
+                .forEach(function (i) { return _library_2.Library.UI.setTextContent(i, _library_2.Library.Locale.map(i.getAttribute("data-lang-key"))); });
             _library_2.Library.UI.replaceChildren(UI.keyboardShortcut, _library_2.Library.Shortcuts.getDisplayList().map(function (i) {
                 return [
                     {
@@ -7484,8 +7495,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.start = function (_measure, now) {
                     _this.startAt = now;
                     var i = Benchmark.measureScreenResolution();
-                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map("benchmark-phase-screen-resolution"), ":");
-                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit");
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupLabel, "".concat(_library_4.Library.Locale.map("benchmark-phase-screen-resolution"), ":"));
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupValue, "".concat(i.width, "x").concat(i.height, " ").concat(i.devicePixelRatio, "x ").concat(i.colorDepth, "bit"));
                 };
                 this.step = function (measure, now) {
                     if (_this.startAt + config_json_5.default.benchmark.screenResolutionWait <= now) {
@@ -7506,10 +7517,10 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     _this.startAt = now;
                     _this.fpsTotal = 0;
                     _this.fpsCount = 0;
-                    ui_2.UI.benchmarkPopupLabel.textContent = "FPS:";
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupLabel, "FPS:");
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(fps_1.Fps.currentNowFps.fps.toFixed(2));
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupValue, "".concat(fps_1.Fps.currentNowFps.fps.toFixed(2)));
                     _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
                     ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
@@ -7543,7 +7554,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setCycleSpan(1000);
                     Benchmark.animator.setEasing(true);
                     _this.startPattern(measure, now);
-                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ":");
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupLabel, "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ":"));
                 };
                 this.startPattern = function (_measure, now) {
                     _this.patternStartAt = now;
@@ -7558,7 +7569,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     Benchmark.animator.setLayers(_this.layers);
                 };
                 this.step = function (measure, now) {
-                    ui_2.UI.benchmarkPopupValue.textContent = "".concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2));
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupValue, "".concat((fps_1.Fps.currentNowFps.fps * _this.layers).toFixed(2)));
                     if (_this.isNeedAdjustingLayers(now)) {
                         var layers = Math.max(Math.floor((_this.layers * fps_1.Fps.currentMinFps.fps) / _this.halfRefreshRate), _this.layers + 1);
                         _this.startLayers(now, layers);
@@ -7647,8 +7658,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 this.start = function () {
                     setProgressBarSize(phases.length);
                     setProgressBarProgress(_this.phase = -1);
-                    ui_2.UI.benchmarkPopupLabel.textContent = "".concat(_library_4.Library.Locale.map("benchmarking-in-progress"), ":");
-                    ui_2.UI.benchmarkPopupValue.textContent = "".concat(_library_4.Library.Locale.map("benchmark-phase-preparation"));
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupLabel, "".concat(_library_4.Library.Locale.map("benchmarking-in-progress"), ":"));
+                    _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupValue, "".concat(_library_4.Library.Locale.map("benchmark-phase-preparation")));
                     _this.currentPhase = null;
                     _this.result = Benchmark.getUnmeasuredReslult();
                 };
@@ -7670,7 +7681,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     return phases.length <= _this.phase;
                 };
                 this.end = function () {
-                    var _a, _b;
                     _this.result.displayScore = Benchmark.calculateMeasurementScore(_this.result.screenResolutionScore, _this.result.fps, function (a, b) { return (a * b) / config_json_5.default.benchmark.fpsUnit; });
                     _this.result.totalCalculationScore = Benchmark.calculateMeasurementScore(_this.result.linesCalculationScore, _this.result.spotsCalculationScore, function (a, b) { return (a + b) / 2; });
                     _this.result.totalRenderingScore = Benchmark.calculateMeasurementScore(_this.result.linesRenderingScorePerFullHd, _this.result.spotsRenderingScorePerFullHd, function (a, b) { return (a + b) / 2; });
@@ -7678,7 +7688,6 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                         (_this.result.totalRenderingScore / measureScreenResolutionScore()) :
                         _this.result.totalRenderingScore;
                     console.log("📈 benchmark", _this.result);
-                    console.log("window.visualViewport.scale", (_b = (_a = window.visualViewport) === null || _a === void 0 ? void 0 : _a.scale) !== null && _b !== void 0 ? _b : "null");
                 };
             }
             ;
@@ -7735,7 +7744,7 @@ define("script/controller/base", ["require", "exports", "script/library/index", 
         };
     })(Base || (exports.Base = Base = {}));
 });
-define("script/controller/animation", ["require", "exports", "script/features/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_2, base_1, ui_4, config_json_6) {
+define("script/controller/animation", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_2, _library_6, base_1, ui_4, config_json_6) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
@@ -7780,12 +7789,12 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         }); }, config_json_6.default.startWait); };
         Animation.updateFps = function () {
             if (ui_4.UI.showFps.get()) {
-                ui_4.UI.fpsDisplay.innerText = _features_2.Features.Fps.getText();
+                _library_6.Library.UI.setTextContent(ui_4.UI.fpsDisplay, _features_2.Features.Fps.getText());
             }
         };
     })(Animation || (exports.Animation = Animation = {}));
 });
-define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_3, _library_6, base_2, ui_5, config_json_7) {
+define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_3, _library_7, base_2, ui_5, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Benchmark = void 0;
@@ -7816,8 +7825,8 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.runBenchmark = function () {
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
-            if (_library_6.Library.UI.fullscreenEnabled && ui_5.UI.withFullscreen.get()) {
-                _library_6.Library.UI.requestFullscreen(document.body);
+            if (_library_7.Library.UI.fullscreenEnabled && ui_5.UI.withFullscreen.get()) {
+                _library_7.Library.UI.requestFullscreen(document.body);
             }
             setTimeout(function () {
                 return window.requestAnimationFrame(function (now) {
@@ -7836,37 +7845,32 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             base_2.Base.exitMode("benchmark");
             document.body.classList.toggle("benchmark-rendering", false);
         };
+        var numberResultToText = function (i) {
+            return i.toFixed(config_json_7.default.benchmark.decimalDigits);
+        };
+        var showMeasurementScore = function (element, score, formatter) {
+            return _library_7.Library.UI.setTextContent(element, _features_3.Features.Benchmark.measurementScoreToText(score, formatter));
+        };
+        var showNumberMeasurementScore = function (element, score) {
+            return showMeasurementScore(element, score, numberResultToText);
+        };
         Benchmark.showResult = function () {
             document.body.classList.toggle("immersive", true);
             document.body.classList.toggle("benchmark-result", true);
-            ui_5.UI.benchmarkTotalScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalScore, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkScorePerFullHD.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalRenderingScore, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkCalculationScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.totalCalculationScore, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkLinesCalculationScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesCalculationScore, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkSpotsCalculationScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsCalculationScore, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkLinesRenderingScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.linesRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkSpotsRenderingScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.spotsRenderingScorePerFullHd, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkDisplayScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.displayScore, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkFpsScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.fps, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkScreenResolutionScore.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolutionScore, function (i) { return i.toFixed(2); });
-            ui_5.UI.benchmarkScreenWidth.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.width.toFixed(2); });
-            ui_5.UI.benchmarkScreenHeight.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.height.toFixed(2); });
-            ui_5.UI.benchmarkDevicePixelRatio.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.devicePixelRatio.toFixed(2); });
-            ui_5.UI.benchmarkScreenColorDepth.innerText =
-                _features_3.Features.Benchmark.measurementScoreToText(Benchmark.benchmark.result.screenResolution, function (i) { return i.colorDepth.toFixed(2); });
+            showNumberMeasurementScore(ui_5.UI.benchmarkTotalScore, Benchmark.benchmark.result.totalScore);
+            showNumberMeasurementScore(ui_5.UI.benchmarkScorePerFullHD, Benchmark.benchmark.result.totalRenderingScore);
+            showNumberMeasurementScore(ui_5.UI.benchmarkCalculationScore, Benchmark.benchmark.result.totalCalculationScore);
+            showNumberMeasurementScore(ui_5.UI.benchmarkLinesCalculationScore, Benchmark.benchmark.result.linesCalculationScore);
+            showNumberMeasurementScore(ui_5.UI.benchmarkSpotsCalculationScore, Benchmark.benchmark.result.spotsCalculationScore);
+            showNumberMeasurementScore(ui_5.UI.benchmarkLinesRenderingScore, Benchmark.benchmark.result.linesRenderingScorePerFullHd);
+            showNumberMeasurementScore(ui_5.UI.benchmarkSpotsRenderingScore, Benchmark.benchmark.result.spotsRenderingScorePerFullHd);
+            showNumberMeasurementScore(ui_5.UI.benchmarkDisplayScore, Benchmark.benchmark.result.displayScore);
+            showNumberMeasurementScore(ui_5.UI.benchmarkFpsScore, Benchmark.benchmark.result.fps);
+            showNumberMeasurementScore(ui_5.UI.benchmarkScreenResolutionScore, Benchmark.benchmark.result.screenResolutionScore);
+            showMeasurementScore(ui_5.UI.benchmarkScreenWidth, Benchmark.benchmark.result.screenResolution, function (i) { return numberResultToText(i.width); });
+            showMeasurementScore(ui_5.UI.benchmarkScreenHeight, Benchmark.benchmark.result.screenResolution, function (i) { return numberResultToText(i.height); });
+            showMeasurementScore(ui_5.UI.benchmarkDevicePixelRatio, Benchmark.benchmark.result.screenResolution, function (i) { return numberResultToText(i.devicePixelRatio); });
+            showMeasurementScore(ui_5.UI.benchmarkScreenColorDepth, Benchmark.benchmark.result.screenResolution, function (i) { return numberResultToText(i.colorDepth); });
         };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });
@@ -7897,7 +7901,7 @@ define("script/controller/index", ["require", "exports", "script/controller/base
         };
     })(Controller || (exports.Controller = Controller = {}));
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_7, _features_4, _controller_1, ui_6, config_json_8) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_8, _features_4, _controller_1, ui_6, config_json_8) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
@@ -7994,16 +7998,16 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_6.UI.benchmarkCanvas);
                 _controller_1.Controller.Benchmark.stopBenchmark();
             });
-            var mouseMoveTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
+            var mouseMoveTimer = new _library_8.Library.UI.ToggleClassForWhileTimer();
             ui_6.UI.screenBody.addEventListener("mousemove", function (_event) {
                 if (config_json_8.default.log.mousemove && !mouseMoveTimer.isOn()) {
                     console.log("🖱️ MouseMove:", event, ui_6.UI.screenBody);
                 }
                 mouseMoveTimer.start(document.body, "mousemove", 1000);
             });
-            _library_7.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
-                .forEach(function (label) { return _library_7.Library.UI.showPickerOnLabel(label); });
-            _library_7.Library.Shortcuts.setCommandMap({
+            _library_8.Library.UI.querySelectorAllWithFallback("label", ["label[for]:has(select)", "label[for]"])
+                .forEach(function (label) { return _library_8.Library.UI.showPickerOnLabel(label); });
+            _library_8.Library.Shortcuts.setCommandMap({
                 "nop": function () { },
                 "toggleHideUI": function () {
                     document.body.classList.toggle("hide-ui");
@@ -8036,7 +8040,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
                 }
             });
-            var showShortcutsTimer = new _library_7.Library.UI.ToggleClassForWhileTimer();
+            var showShortcutsTimer = new _library_8.Library.UI.ToggleClassForWhileTimer();
             window.addEventListener("resize", function () { return updateDiagonalSize(); });
             [
                 ui_6.UI.colorspaceSelect,
@@ -8054,12 +8058,12 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_8, _tools_5, ui_7, events_1) {
+define("script/index", ["require", "exports", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _library_9, _tools_5, ui_7, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     ui_7.UI.initialize();
     events_1.Events.initialize();
-    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_8.Library.Locale.map("ago"), " )"));
+    console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_9.Library.Locale.map("ago"), " )"));
 });
 //# sourceMappingURL=script/index.js.map
 </script>

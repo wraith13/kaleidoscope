@@ -98,8 +98,8 @@ export namespace Benchmark
         {
             this.startAt = now;
             const i = measureScreenResolution();
-            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map("benchmark-phase-screen-resolution")}:`;
-            UI.benchmarkPopupValue.textContent = `${i.width}x${i.height} ${i.devicePixelRatio}x ${i.colorDepth}bit`;
+            Library.UI.setTextContent(UI.benchmarkPopupLabel, `${Library.Locale.map("benchmark-phase-screen-resolution")}:`);
+            Library.UI.setTextContent(UI.benchmarkPopupValue, `${i.width}x${i.height} ${i.devicePixelRatio}x ${i.colorDepth}bit`);
         };
         step = (measure: Measurement, now: number) =>
         {
@@ -119,11 +119,11 @@ export namespace Benchmark
             this.startAt = now;
             this.fpsTotal = 0;
             this.fpsCount = 0;
-            UI.benchmarkPopupLabel.textContent = `FPS:`;
+            Library.UI.setTextContent(UI.benchmarkPopupLabel, `FPS:`);
         };
         step = (measure: Measurement, now: number) =>
         {
-            UI.benchmarkPopupValue.textContent = `${Fps.currentNowFps.fps.toFixed(2)}`;
+            Library.UI.setTextContent(UI.benchmarkPopupValue, `${Fps.currentNowFps.fps.toFixed(2)}`);
             this.fpsTotal += Fps.currentNowFps.fps;
             ++this.fpsCount;
             if (this.startAt + config.benchmark.refreshRateWait <= now)
@@ -159,7 +159,7 @@ export namespace Benchmark
             animator.setCycleSpan(1000);
             animator.setEasing(true);
             this.startPattern(measure, now);
-            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map(this.scoreLabel)}:`;
+            Library.UI.setTextContent(UI.benchmarkPopupLabel, `${Library.Locale.map(this.scoreLabel)}:`);
         };
         startPattern = (_measure: Measurement, now: number) =>
         {
@@ -177,7 +177,7 @@ export namespace Benchmark
         }
         step = (measure: Measurement, now: number) =>
         {
-            UI.benchmarkPopupValue.textContent = `${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`;
+            Library.UI.setTextContent(UI.benchmarkPopupValue, `${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`);
             if (this.isNeedAdjustingLayers(now))
             {
                 const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate), this.layers +1);
@@ -280,8 +280,8 @@ export namespace Benchmark
         {
             setProgressBarSize(phases.length);
             setProgressBarProgress(this.phase = -1);
-            UI.benchmarkPopupLabel.textContent = `${Library.Locale.map("benchmarking-in-progress")}:`;
-            UI.benchmarkPopupValue.textContent = `${Library.Locale.map("benchmark-phase-preparation")}`;
+            Library.UI.setTextContent(UI.benchmarkPopupLabel, `${Library.Locale.map("benchmarking-in-progress")}:`);
+            Library.UI.setTextContent(UI.benchmarkPopupValue, `${Library.Locale.map("benchmark-phase-preparation")}`);
             this.currentPhase = null;
             this.result = getUnmeasuredReslult();
         };

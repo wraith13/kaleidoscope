@@ -31,7 +31,12 @@ __STYLE__
 </style>
 </head>
 <body>
-<h1 id="screen-header"><a class="segment" href="https://github.com/"><span>GitHub</span></a><a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a><a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a><a class="segment" href="__REPOSITORY_URL_"><span>Kaleidoscope</span></a></h1>
+<h1 id="screen-header">
+    <a class="segment" href="https://github.com/"><span>GitHub</span></a>
+    <a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a>
+    <a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a>
+    <a class="segment" href="__REPOSITORY_URL_"><span>Kaleidoscope</span></a>
+</h1>
 <div id="screen-body">
     <div id="canvas">
         <div class="layer"></div>

@@ -43,6 +43,7 @@
         "endWait": 750,
         "pixelUnit": 2073600,
         "colorDepthUnit": 24,
-        "fpsUnit": 60
+        "fpsUnit": 60,
+        "decimalDigits": 2
     }
 }

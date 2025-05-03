@@ -262,4 +262,11 @@ export namespace UI
         }
         return result;
     };
+    export const setTextContent = (element: HTMLElement, text: string) =>
+    {
+        if (element.textContent !== text)
+        {
+            element.textContent = text;
+        }
+    };
 }

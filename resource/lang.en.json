@@ -45,7 +45,7 @@
     "benchmark-lines-rendering-score": "Rendering Score (lines)",
     "benchmark-spots-rendering-score": "Rendering Score (spots)",
     "benchmark-display-score": "Display Score",
-    "benchmark-fps-score": "FPS",
+    "benchmark-fps-score": "Low Load Frame Rate",
     "benchmark-screen-resolution-score": "Screen Resolution Score",
     "benchmark-screen-width": "Screen Width",
     "benchmark-screen-height": "Screen Height",

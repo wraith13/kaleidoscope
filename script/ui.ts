@@ -102,7 +102,7 @@ export namespace UI
         UI.fuseFpsSelect.reloadOptions();
         UI.languageSelect.reloadOptions();
         Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
-            .forEach(i => i.innerText = Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.Label));
+            .forEach(i => Library.UI.setTextContent(i, Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.Label)));
         Library.UI.replaceChildren
         (
             UI.keyboardShortcut,

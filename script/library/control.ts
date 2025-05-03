@@ -5,7 +5,7 @@ export namespace Control
     {
         const option = document.createElement("option");
         option.value = value;
-        option.innerText = text;
+        option.textContent = text;
         return option;
     };
     export interface ArgumentsBaseDom<T extends HTMLElement>

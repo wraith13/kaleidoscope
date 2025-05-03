@@ -72,37 +72,29 @@ export namespace Benchmark
         Base.exitMode("benchmark");
         document.body.classList.toggle("benchmark-rendering", false);
     };
+    const numberResultToText = (i: number) =>
+        i.toFixed(config.benchmark.decimalDigits);
+    const showMeasurementScore = <T>(element: HTMLElement, score: Features.Benchmark.MeasurementScore<T>, formatter: (i: T) => string) =>
+        Library.UI.setTextContent(element, Features.Benchmark.measurementScoreToText(score, formatter));
+    const showNumberMeasurementScore = (element: HTMLElement, score: Features.Benchmark.MeasurementScore<number>) =>
+        showMeasurementScore(element, score, numberResultToText);
     export const showResult = () =>
     {
         document.body.classList.toggle("immersive", true);
         document.body.classList.toggle("benchmark-result", true);
-        UI.benchmarkTotalScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.totalScore, i => i.toFixed(2));
-        UI.benchmarkScorePerFullHD.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.totalRenderingScore, i => i.toFixed(2));
-        UI.benchmarkCalculationScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.totalCalculationScore, i => i.toFixed(2));
-        UI.benchmarkLinesCalculationScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.linesCalculationScore, i => i.toFixed(2));
-        UI.benchmarkSpotsCalculationScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.spotsCalculationScore, i => i.toFixed(2));
-        UI.benchmarkLinesRenderingScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.linesRenderingScorePerFullHd, i => i.toFixed(2));
-        UI.benchmarkSpotsRenderingScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.spotsRenderingScorePerFullHd, i => i.toFixed(2));
-        UI.benchmarkDisplayScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.displayScore, i => i.toFixed(2));
-        UI.benchmarkFpsScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.fps, i => i.toFixed(2));
-        UI.benchmarkScreenResolutionScore.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.screenResolutionScore, i => i.toFixed(2));
-        UI.benchmarkScreenWidth.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.screenResolution, i => i.width.toFixed(2));
-        UI.benchmarkScreenHeight.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.screenResolution, i => i.height.toFixed(2));
-        UI.benchmarkDevicePixelRatio.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.screenResolution, i => i.devicePixelRatio.toFixed(2));
-        UI.benchmarkScreenColorDepth.innerText =
-            Features.Benchmark.measurementScoreToText(benchmark.result.screenResolution, i => i.colorDepth.toFixed(2));
+        showNumberMeasurementScore(UI.benchmarkTotalScore, benchmark.result.totalScore);
+        showNumberMeasurementScore(UI.benchmarkScorePerFullHD, benchmark.result.totalRenderingScore);
+        showNumberMeasurementScore(UI.benchmarkCalculationScore, benchmark.result.totalCalculationScore);
+        showNumberMeasurementScore(UI.benchmarkLinesCalculationScore, benchmark.result.linesCalculationScore);
+        showNumberMeasurementScore(UI.benchmarkSpotsCalculationScore, benchmark.result.spotsCalculationScore);
+        showNumberMeasurementScore(UI.benchmarkLinesRenderingScore, benchmark.result.linesRenderingScorePerFullHd);
+        showNumberMeasurementScore(UI.benchmarkSpotsRenderingScore, benchmark.result.spotsRenderingScorePerFullHd);
+        showNumberMeasurementScore(UI.benchmarkDisplayScore, benchmark.result.displayScore);
+        showNumberMeasurementScore(UI.benchmarkFpsScore, benchmark.result.fps);
+        showNumberMeasurementScore(UI.benchmarkScreenResolutionScore, benchmark.result.screenResolutionScore);
+        showMeasurementScore(UI.benchmarkScreenWidth, benchmark.result.screenResolution, i => numberResultToText(i.width));
+        showMeasurementScore(UI.benchmarkScreenHeight, benchmark.result.screenResolution, i => numberResultToText(i.height));
+        showMeasurementScore(UI.benchmarkDevicePixelRatio, benchmark.result.screenResolution, i => numberResultToText(i.devicePixelRatio));
+        showMeasurementScore(UI.benchmarkScreenColorDepth, benchmark.result.screenResolution, i => numberResultToText(i.colorDepth));
     }
 }
