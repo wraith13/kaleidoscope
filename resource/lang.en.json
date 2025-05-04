@@ -53,6 +53,8 @@
     "benchmark-screen-color-depth": "Screen Color Depth",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
+    "benchmark-description-display-score": "Display score is the value obtained by multiplying the screen resolution score by the low load frame rate.",
+    "benchmark-description-screen-resolution-score": "Screen resolution score is the amount of screen information with { Screen Width: 1920, Screen Height: 1080, Device Pixel Ratio: 1, Screen Color Depth: 24 } as 1.",
     "Unmeasured": "Unmeasured",
     "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",
     "UnmeasurableRich": "Unmeasurable (Excessive Performance)"

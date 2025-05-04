@@ -176,6 +176,8 @@ __STYLE__
         <ul id="benchmark-description-panel">
             <li><span data-lang-key="benchmark-description-calculation-score"></span></li>
             <li><span data-lang-key="benchmark-description-rendering-score"></span></li>
+            <li><span data-lang-key="benchmark-description-display-score"></span></li>
+            <li><span data-lang-key="benchmark-description-screen-resolution-score"></span></li>
         </ul>
     </div>
     <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>

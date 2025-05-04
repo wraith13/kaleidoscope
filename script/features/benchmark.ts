@@ -19,7 +19,7 @@ export namespace Benchmark
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
     export const calculateMeasurementScore = <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R): MeasurementScore<R> =>
     {
-        for(var i in [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ])
+        for(const i of [ "Unmeasured", "UnmeasurablePoor", "UnmeasurableRich", ])
         {
             if (a === i || b === i)
             {
@@ -303,6 +303,7 @@ export namespace Benchmark
             setProgressBarProgress(++this.phase);
         };
         isEnd = () =>
+            ! document.hasFocus() ||
             phases.length <= this.phase;
         end = () =>
         {

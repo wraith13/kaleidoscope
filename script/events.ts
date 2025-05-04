@@ -176,6 +176,7 @@ export namespace Events
             UI.easingCheckbox,
             // UI.withFullscreen,
             UI.showFps,
-        ].forEach(i => i.fire())
+        ].forEach(i => i.fire());
+        
     };
 }

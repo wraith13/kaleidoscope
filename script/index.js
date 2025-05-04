@@ -145,6 +145,8 @@ define("resource/lang.en", [], {
     "benchmark-screen-color-depth": "Screen Color Depth",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
     "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
+    "benchmark-description-display-score": "Display score is the value obtained by multiplying the screen resolution score by the low load frame rate.",
+    "benchmark-description-screen-resolution-score": "Screen resolution score is the amount of screen information with { Screen Width: 1920, Screen Height: 1080, Device Pixel Ratio: 1, Screen Color Depth: 24 } as 1.",
     "Unmeasured": "Unmeasured",
     "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",
     "UnmeasurableRich": "Unmeasurable (Excessive Performance)"
@@ -202,8 +204,10 @@ define("resource/lang.ja", [], {
     "benchmark-screen-height": "画面高さ",
     "benchmark-device-pixel-ratio": "デバイスピクセル比",
     "benchmark-screen-color-depth": "画面色深度",
-    "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
-    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。",
+    "benchmark-description-calculation-score": "計算スコアは、非表示状態でのアニメーション処理性能です。",
+    "benchmark-description-rendering-score": "描画スコアは、表示状態でのアニメーション処理性能です。",
+    "benchmark-description-display-score": "ディスプレイスコアは、画面解像度スコアと低負荷時フレームレートを掛け合わせた値です。",
+    "benchmark-description-screen-resolution-score": "画面解像度スコアは、{ 画面横幅: 1920, 画面高さ: 1080, デバイスピクセル比: 1, 画面色深度: 24 } を 1 とした画面情報量です。",
     "Unmeasured": "未計測",
     "UnmeasurablePoor": "計測不能(性能不足)",
     "UnmeasurableRich": "計測不能(性能過剰)"
@@ -2920,7 +2924,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas, new _tools_4.Tools.Random.IndexedRandom(_tools_4.Tools.Hash.fnv1a_32, "benchmark")
             .getFunction());
         Benchmark.calculateMeasurementScore = function (a, b, calculate) {
-            for (var i in ["Unmeasured", "UnmeasurablePoor", "UnmeasurableRich",]) {
+            for (var _i = 0, _a = ["Unmeasured", "UnmeasurablePoor", "UnmeasurableRich",]; _i < _a.length; _i++) {
+                var i = _a[_i];
                 if (a === i || b === i) {
                     return i;
                 }
@@ -3165,7 +3170,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     setProgressBarProgress(++_this.phase);
                 };
                 this.isEnd = function () {
-                    return phases.length <= _this.phase;
+                    return !document.hasFocus() ||
+                        phases.length <= _this.phase;
                 };
                 this.end = function () {
                     _this.result.displayScore = Benchmark.calculateMeasurementScore(_this.result.screenResolutionScore, _this.result.fps, function (a, b) { return (a * b) / config_json_5.default.benchmark.fpsUnit; });

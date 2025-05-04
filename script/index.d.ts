@@ -64,6 +64,8 @@ declare module "script/library/locale" {
                 "benchmark-screen-color-depth": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
+                "benchmark-description-display-score": string;
+                "benchmark-description-screen-resolution-score": string;
                 Unmeasured: string;
                 UnmeasurablePoor: string;
                 UnmeasurableRich: string;
@@ -123,6 +125,8 @@ declare module "script/library/locale" {
                 "benchmark-screen-color-depth": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
+                "benchmark-description-display-score": string;
+                "benchmark-description-screen-resolution-score": string;
                 Unmeasured: string;
                 UnmeasurablePoor: string;
                 UnmeasurableRich: string;

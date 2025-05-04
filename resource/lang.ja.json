@@ -51,8 +51,10 @@
     "benchmark-screen-height": "画面高さ",
     "benchmark-device-pixel-ratio": "デバイスピクセル比",
     "benchmark-screen-color-depth": "画面色深度",
-    "benchmark-description-calculation-score": "計算性能は、非表示状態でのアニメーション処理性能です。",
-    "benchmark-description-rendering-score": "描画性能は、表示状態でのアニメーション処理性能です。",
+    "benchmark-description-calculation-score": "計算スコアは、非表示状態でのアニメーション処理性能です。",
+    "benchmark-description-rendering-score": "描画スコアは、表示状態でのアニメーション処理性能です。",
+    "benchmark-description-display-score": "ディスプレイスコアは、画面解像度スコアと低負荷時フレームレートを掛け合わせた値です。",
+    "benchmark-description-screen-resolution-score": "画面解像度スコアは、{ 画面横幅: 1920, 画面高さ: 1080, デバイスピクセル比: 1, 画面色深度: 24 } を 1 とした画面情報量です。",
     "Unmeasured": "未計測",
     "UnmeasurablePoor": "計測不能(性能不足)",
     "UnmeasurableRich": "計測不能(性能過剰)"
