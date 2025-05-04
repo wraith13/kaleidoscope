@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat May 03 2025 07:41:47 GMT+0900 (日本標準時)
+    build at: Sat May 03 2025 18:21:35 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1497,7 +1497,10 @@ body.hide-ui #screen-footer #information-line:not(.show) {
             <span data-lang-key="benchmark-screen-color-depth"></span>
             <span id="benchmark-screen-color-depth"></span>
         </div>
-        <ul id="benchmark-description-panel"></ul>
+        <ul id="benchmark-description-panel">
+            <li><span data-lang-key="benchmark-description-calculation-score"></span></li>
+            <li><span data-lang-key="benchmark-description-rendering-score"></span></li>
+        </ul>
     </div>
     <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
 </div>
@@ -1521,8 +1524,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sat May 03 2025 07:41:47 GMT+0900 (日本標準時)",
-    tick: 1746225707689
+    at: "Sat May 03 2025 18:21:35 GMT+0900 (日本標準時)",
+    tick: 1746264095247
 };
 const evilCommonjsConfig =
 {
@@ -4776,10 +4779,6 @@ define("resource/config", [], {
     "informations": [
         "informationFuseFps"
     ],
-    "benchmarkDescription": [
-        "benchmark-description-calculation-score",
-        "benchmark-description-rendering-score"
-    ],
     "maximumFractionDigits": 2,
     "startWait": 750,
     "benchmark": {
@@ -5759,7 +5758,6 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             })
                 .reduce(function (a, b) { return a.concat(b); }, []));
             _library_2.Library.UI.replaceChildren(_library_2.Library.UI.getElementById("ul", "information-list"), config_json_2.default.informations.map(function (i) { return ({ tag: "li", text: _library_2.Library.Locale.map(i), }); }));
-            _library_2.Library.UI.replaceChildren(_library_2.Library.UI.getElementById("ul", "benchmark-description-panel"), config_json_2.default.benchmarkDescription.map(function (i) { return ({ tag: "li", text: _library_2.Library.Locale.map(i), }); }));
         };
         UI.initialize = function () {
             if (!_library_2.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {

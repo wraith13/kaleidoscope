@@ -268,10 +268,6 @@ define("resource/config", [], {
     "informations": [
         "informationFuseFps"
     ],
-    "benchmarkDescription": [
-        "benchmark-description-calculation-score",
-        "benchmark-description-rendering-score"
-    ],
     "maximumFractionDigits": 2,
     "startWait": 750,
     "benchmark": {
@@ -1251,7 +1247,6 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             })
                 .reduce(function (a, b) { return a.concat(b); }, []));
             _library_2.Library.UI.replaceChildren(_library_2.Library.UI.getElementById("ul", "information-list"), config_json_2.default.informations.map(function (i) { return ({ tag: "li", text: _library_2.Library.Locale.map(i), }); }));
-            _library_2.Library.UI.replaceChildren(_library_2.Library.UI.getElementById("ul", "benchmark-description-panel"), config_json_2.default.benchmarkDescription.map(function (i) { return ({ tag: "li", text: _library_2.Library.Locale.map(i), }); }));
         };
         UI.initialize = function () {
             if (!_library_2.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {

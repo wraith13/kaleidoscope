@@ -135,13 +135,6 @@ export namespace UI
             Library.UI.getElementById("ul", "information-list"),
             config.informations.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.Label>i), }))
         );
-        Library.UI.replaceChildren
-        (
-            Library.UI.getElementById("ul", "benchmark-description-panel"),
-            config.benchmarkDescription.map(i => ({ tag: "li", text: Library.Locale.map(<Library.Locale.Label>i), }))
-        );
-
-        
     }
     export const initialize = () =>
     {

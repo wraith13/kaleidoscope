@@ -27,10 +27,6 @@
     "informations": [
         "informationFuseFps"
     ],
-    "benchmarkDescription": [
-        "benchmark-description-calculation-score",
-        "benchmark-description-rendering-score"
-    ],
     "maximumFractionDigits": 2,
     "startWait": 750,
     "benchmark": {
