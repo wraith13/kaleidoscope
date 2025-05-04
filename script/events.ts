@@ -93,8 +93,16 @@ export namespace Events
             event =>
             {
                 event.stopPropagation();
-                console.log("👆 canvas.Click: pauseAnimation", event, UI.canvas);
-                Controller.Animation.pauseAnimation();
+                if (Controller.Benchmark.isInBenchmark())
+                {
+                    console.log("👆 canvas.Click: stopBenchmark", event, UI.canvas);
+                    Controller.Benchmark.stopBenchmark();
+                }
+                else
+                {
+                    console.log("👆 canvas.Click: pauseAnimation", event, UI.canvas);
+                    Controller.Animation.pauseAnimation();
+                }
             }
         );
         UI.benchmarkCanvas.addEventListener

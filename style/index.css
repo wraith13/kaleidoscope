@@ -871,91 +871,143 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: stretch;
+  align-items: center;
 }
 #benchmark-result #benchmark-result-panel {
-  max-width: 32rem;
   padding: 0rem 1rem;
   overflow: auto;
-  gap: 0.75rem;
+  gap: 2rem;
 }
-#benchmark-result #benchmark-result-panel > div {
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: stretch;
+  gap: 0.75rem;
+  max-width: 32rem;
+  width: 100%;
+}
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-#benchmark-result #benchmark-result-panel > div {
   flex-wrap: wrap;
 }
-#benchmark-result #benchmark-result-panel > div.benchmark-main-score span:last-child {
-  font-size: 5rem;
-  line-height: 5rem;
-}
-#benchmark-result #benchmark-result-panel > div.benchmark-sub-score span:last-child {
-  font-size: 2.5rem;
-  line-height: 2.5rem;
-}
-#benchmark-result #benchmark-result-panel > div.benchmark-score-item span:last-child {
-  opacity: 0.75;
-  font-size: 1.125rem;
-  line-height: 1.125rem;
-}
-#benchmark-result #benchmark-result-panel > div span:first-child {
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:first-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:first-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:first-child {
   font-size: 0.75rem;
   line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-result #benchmark-result-panel > div span:first-child {
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:first-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:first-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:first-child {
     font-size: 0.9rem;
     line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #benchmark-result #benchmark-result-panel > div span:first-child {
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:first-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:first-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:first-child {
     font-size: 1rem;
     line-height: 1rem;
   }
 }
-#benchmark-result #benchmark-result-panel > div span:first-child {
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:first-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:first-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:first-child {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#benchmark-result #benchmark-result-panel > div span:first-child {
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:first-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:first-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:first-child {
   font-size: 1rem;
   line-height: 1rem;
   line-height: 140%;
   opacity: 0.75;
   overflow-y: visible;
 }
-#benchmark-result #benchmark-result-panel > div span:last-child {
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:last-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:last-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:last-child {
   font-size: 0.75rem;
   line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-result #benchmark-result-panel > div span:last-child {
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:last-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:last-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:last-child {
     font-size: 0.9rem;
     line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #benchmark-result #benchmark-result-panel > div span:last-child {
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:last-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:last-child,
+  #benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:last-child {
     font-size: 1rem;
     line-height: 1rem;
   }
 }
-#benchmark-result #benchmark-result-panel > div span:last-child {
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:last-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:last-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:last-child {
   font-family: monospace;
 }
-#benchmark-result #benchmark-result-panel > div span:last-child {
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:last-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:last-child,
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:last-child {
   flex-grow: 1;
   margin-left: 1rem;
   text-align: end;
 }
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-main-score span:last-child {
+  font-size: 5rem;
+  line-height: 5rem;
+  line-height: 120%;
+}
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-sub-score span:last-child {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  line-height: 120%;
+}
+#benchmark-result #benchmark-result-panel #benchmark-result-score-list .benchmark-score-item span:last-child {
+  font-size: 1.125rem;
+  line-height: 1.125rem;
+  opacity: 0.75;
+  line-height: 120%;
+}
 #benchmark-result #benchmark-result-panel #benchmark-description-panel {
-  margin-left: 1rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-result #benchmark-result-panel #benchmark-description-panel {
+    font-size: 0.9rem;
+    line-height: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-result #benchmark-result-panel #benchmark-description-panel {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+#benchmark-result #benchmark-result-panel #benchmark-description-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-result #benchmark-result-panel #benchmark-description-panel {
+  padding-left: 1rem;
   opacity: 0.5;
+  line-height: 120%;
 }
 #benchmark-result button#benchmark-result-close-button {
   margin: 1rem;

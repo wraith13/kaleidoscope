@@ -3483,8 +3483,14 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             };
             ui_6.UI.canvas.addEventListener("click", function (event) {
                 event.stopPropagation();
-                console.log("👆 canvas.Click: pauseAnimation", event, ui_6.UI.canvas);
-                _controller_1.Controller.Animation.pauseAnimation();
+                if (_controller_1.Controller.Benchmark.isInBenchmark()) {
+                    console.log("👆 canvas.Click: stopBenchmark", event, ui_6.UI.canvas);
+                    _controller_1.Controller.Benchmark.stopBenchmark();
+                }
+                else {
+                    console.log("👆 canvas.Click: pauseAnimation", event, ui_6.UI.canvas);
+                    _controller_1.Controller.Animation.pauseAnimation();
+                }
             });
             ui_6.UI.benchmarkCanvas.addEventListener("click", function (event) {
                 event.stopPropagation();

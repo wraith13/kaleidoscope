@@ -392,60 +392,74 @@
     }
     #benchmark-result-panel
     {
-        @include flex(column, start, stretch);
+        @include flex(column, start, center);
         &
         {
-            max-width: 32rem;
             padding: 0rem 1.0rem;
             overflow: auto;
-            gap: 0.75rem;
+            gap: 2rem;
         }
-        & > div
+        #benchmark-result-score-list
         {
-            @include flex(row, space-between);
-            &
+            @include flex(column, start, stretch);
+            gap: 0.75rem;
+            max-width: 32rem;
+            width: 100%;
+            .benchmark-main-score,
+            .benchmark-sub-score,
+            .benchmark-score-item
             {
+                @include flex(row, space-between);
                 flex-wrap: wrap;
+                span:first-child
+                {
+                    @include font();
+                    &
+                    {
+                        @include font-size(1rem);
+                        line-height: 140%;
+                        opacity: 0.75;
+                        overflow-y: visible;;
+                    }
+                }
+                span:last-child
+                {
+                    @include monospace-font();
+                    &
+                    {
+                        flex-grow: 1;
+                        margin-left: 1rem;
+                        text-align: end;
+                    }
+                }
             }
-            &.benchmark-main-score span:last-child
+            .benchmark-main-score span:last-child
             {
                 @include font-size(5rem);
+                line-height: 120%;
             }
-            &.benchmark-sub-score span:last-child
+            .benchmark-sub-score span:last-child
             {
                 @include font-size(2.5rem);
+                line-height: 120%;
             }
-            &.benchmark-score-item span:last-child
+            .benchmark-score-item span:last-child
             {
-                opacity: 0.75;
                 @include font-size(1.125rem);
-            }
-            span:first-child
-            {
-                @include font();
-                &
-                {
-                    @include font-size(1rem);
-                    line-height: 140%;
-                    opacity: 0.75;
-                    overflow-y: visible;;
-                }
-            }
-            span:last-child
-            {
-                @include monospace-font();
-                &
-                {
-                    flex-grow: 1;
-                    margin-left: 1rem;
-                    text-align: end;
-                }
+                opacity: 0.75;
+                line-height: 120%;
             }
         }
         #benchmark-description-panel
         {
-            margin-left: 1rem;
-            opacity: 0.5;
+            @include font();
+            &
+            {
+                //width: 100%;
+                padding-left: 1rem;
+                opacity: 0.5;
+                line-height: 120%;
+            }
         }
     }
     button#benchmark-result-close-button
