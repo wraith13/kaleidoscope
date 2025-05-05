@@ -34,6 +34,10 @@ export namespace Benchmark
     };
     export const isInBenchmark = () =>
         Base.isInMode("benchmark");
+    export const isInBenchmarkResult = () =>
+        document.body.classList.contains("benchmark-result");
+    export const isInBenchmarkOrResult = () =>
+        isInBenchmark() || isInBenchmarkResult();
     export const runBenchmark = () =>
     {
         Base.intoMode("benchmark");

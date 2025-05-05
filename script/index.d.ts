@@ -910,6 +910,8 @@ declare module "script/controller/benchmark" {
         const benchmark: Features.Benchmark.Measurement;
         const loopBenchmark: (now: number) => void;
         const isInBenchmark: () => boolean;
+        const isInBenchmarkResult: () => boolean;
+        const isInBenchmarkOrResult: () => boolean;
         const runBenchmark: () => void;
         const stopBenchmark: () => void;
         const showResult: () => void;

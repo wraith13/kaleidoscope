@@ -26,7 +26,6 @@
             transform: skewX(150deg);
             text-decoration: none !important;
             min-width: 2.25rem;
-            line-height: 100%;
             white-space: nowrap;
             &:first-child
             {
@@ -208,10 +207,6 @@
                 height: 1.5rem;
                 margin-right: 0.5rem;
             }
-            span
-            {
-                line-height: 100%;
-            }
             @media (hover: hover)
             {
                 &:hover
@@ -321,12 +316,19 @@
     }
     button#benchmark-abort-button
     {
-        line-height: 100%;
         padding: 0.5rem 1.5rem;
         border-radius: 0.5rem;
         color: black-color(0.9);
         background-color: white-color(0.7);
         width: 12rem;
+        span
+        {
+            @include font();
+            &
+            {
+                @include font-size(1rem);
+            }
+        }
         @media (hover: hover)
         {
             &:hover
@@ -374,9 +376,10 @@
     @include flex(column, start, center);
     &
     {
-        position: absolute;
+        position: fixed;
         z-index: 50;
         overflow: auto;
+        gap: 1rem;
     }
     h2
     {
@@ -409,9 +412,8 @@
                 &
                 {
                     @include font-size(1rem);
-                    line-height: 140%;
                     opacity: 0.75;
-                    overflow-y: visible;;
+                    overflow-y: visible;
                 }
             }
             span:last-child
@@ -428,29 +430,32 @@
         .benchmark-main-score span:last-child
         {
             @include font-size(5rem);
-            line-height: 120%;
         }
         .benchmark-sub-score span:last-child
         {
             @include font-size(2.5rem);
-            line-height: 120%;
         }
         .benchmark-score-item span:last-child
         {
             @include font-size(1.125rem);
             opacity: 0.75;
-            line-height: 120%;
         }
     }
     button#benchmark-result-close-button
     {
-        line-height: 100%;
         padding: 0.5rem 1.5rem;
-        margin: 1rem;
         border-radius: 0.5rem;
         color: black-color(0.9);
         background-color: white-color(0.7);
         width: 12rem;
+        span
+        {
+            @include font();
+            &
+            {
+                @include font-size(1rem);
+            }
+        }
         @media (hover: hover)
         {
             &:hover
@@ -464,10 +469,9 @@
         @include font();
         &
         {
-            //width: 100%;
+            @include font-size(1rem);
             padding: 0rem 1rem 1rem 1.75rem;
             opacity: 0.5;
-            line-height: 120%;
         }
     }
 }

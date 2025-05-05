@@ -3315,6 +3315,12 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.isInBenchmark = function () {
             return base_2.Base.isInMode("benchmark");
         };
+        Benchmark.isInBenchmarkResult = function () {
+            return document.body.classList.contains("benchmark-result");
+        };
+        Benchmark.isInBenchmarkOrResult = function () {
+            return Benchmark.isInBenchmark() || Benchmark.isInBenchmarkResult();
+        };
         Benchmark.runBenchmark = function () {
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
@@ -3536,7 +3542,9 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     updateShowFps();
                 },
                 "unknownKeyDown": function () {
-                    showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
+                    if (!_controller_1.Controller.Benchmark.isInBenchmarkOrResult()) {
+                        showShortcutsTimer.start(ui_6.UI.keyboardShortcut, "show", 3000);
+                    }
                 }
             });
             var showShortcutsTimer = new _library_8.Library.UI.ToggleClassForWhileTimer();

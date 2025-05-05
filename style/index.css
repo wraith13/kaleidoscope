@@ -3,11 +3,14 @@
   padding: 0;
   box-sizing: border-box;
   border: 0;
-  font-size: 100%;
-  line-height: 1.5;
+  line-height: 120%;
   color: inherit;
   outline: 0;
   vertical-align: baseline;
+}
+
+html {
+  -webkit-text-size-adjust: auto;
 }
 
 body {
@@ -51,19 +54,16 @@ body.hide-ui #screen-header:not(.show) {
 }
 #screen-header .segment {
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-header .segment {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-header .segment {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #screen-header .segment {
@@ -80,7 +80,6 @@ body.hide-ui #screen-header:not(.show) {
   transform: skewX(150deg);
   text-decoration: none !important;
   min-width: 2.25rem;
-  line-height: 100%;
   white-space: nowrap;
 }
 #screen-header .segment:first-child {
@@ -200,7 +199,6 @@ body.benchmark-rendering #screen-body #benchmark-canvas {
 #option-panel {
   transition: opacity 750ms, filter 750ms;
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 body.immersive #option-panel:not(.show) {
@@ -244,13 +242,11 @@ body.hide-ui #option-panel:not(.show)::before {
 @media (min-width: 1024px) and (max-width: 1599px) {
   #option-panel {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #option-panel {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #option-panel {
@@ -296,19 +292,16 @@ body.hide-ui #option-panel:not(.show)::before {
   -moz-appearance: none;
   appearance: none;
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #option-panel label select {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #option-panel label select {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #option-panel label select {
@@ -337,19 +330,16 @@ body.hide-ui #option-panel:not(.show)::before {
   justify-content: center;
   align-items: center;
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #fps {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #fps {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #fps {
@@ -407,7 +397,6 @@ body:not(.animation) #fps:not(.show)::before {
 #benchmark-panel {
   transition: opacity 750ms, filter 750ms;
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 body.immersive #benchmark-panel:not(.show) {
@@ -451,13 +440,11 @@ body.hide-ui #benchmark-panel:not(.show)::before {
 @media (min-width: 1024px) and (max-width: 1599px) {
   #benchmark-panel {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #benchmark-panel {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #benchmark-panel {
@@ -489,9 +476,6 @@ body.hide-ui #benchmark-panel:not(.show)::before {
   width: 1.5rem;
   height: 1.5rem;
   margin-right: 0.5rem;
-}
-#benchmark-panel button span {
-  line-height: 100%;
 }
 @media (hover: hover) {
   #benchmark-panel button:hover {
@@ -717,19 +701,16 @@ body.hide-ui #benchmark-popup:not(.show)::before {
   justify-content: space-between;
   align-items: center;
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #benchmark-popup #benchmark-popup-description {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #benchmark-popup #benchmark-popup-description {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #benchmark-popup #benchmark-popup-description {
@@ -740,22 +721,39 @@ body.hide-ui #benchmark-popup:not(.show)::before {
 }
 #benchmark-popup #benchmark-popup-description #benchmark-popup-label {
   font-size: 1.5rem;
-  line-height: 1.5rem;
 }
 #benchmark-popup #benchmark-popup-description #benchmark-popup-value {
   font-size: 1.5rem;
-  line-height: 1.5rem;
   flex-grow: 1;
   margin-left: 1rem;
   text-align: end;
 }
 #benchmark-popup button#benchmark-abort-button {
-  line-height: 100%;
   padding: 0.5rem 1.5rem;
   border-radius: 0.5rem;
   color: rgba(32, 28, 38, 0.9);
   background-color: rgba(230, 237, 243, 0.7);
   width: 12rem;
+}
+#benchmark-popup button#benchmark-abort-button span {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-popup button#benchmark-abort-button span {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-popup button#benchmark-abort-button span {
+    font-size: 1rem;
+  }
+}
+#benchmark-popup button#benchmark-abort-button span {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-popup button#benchmark-abort-button span {
+  font-size: 1rem;
 }
 @media (hover: hover) {
   #benchmark-popup button#benchmark-abort-button:hover {
@@ -835,25 +833,23 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 }
 
 #benchmark-result {
-  position: absolute;
+  position: fixed;
   z-index: 50;
   overflow: auto;
+  gap: 1rem;
 }
 #benchmark-result h2 {
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #benchmark-result h2 {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #benchmark-result h2 {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #benchmark-result h2 {
@@ -861,7 +857,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 }
 #benchmark-result h2 {
   font-size: 1.125rem;
-  line-height: 1.125rem;
   padding: 0.5rem 1rem;
   width: 100%;
   text-align: center;
@@ -890,7 +885,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:first-child,
 #benchmark-result #benchmark-result-score-list .benchmark-score-item span:first-child {
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
@@ -898,7 +892,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:first-child,
   #benchmark-result #benchmark-result-score-list .benchmark-score-item span:first-child {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
@@ -906,7 +899,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:first-child,
   #benchmark-result #benchmark-result-score-list .benchmark-score-item span:first-child {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #benchmark-result #benchmark-result-score-list .benchmark-main-score span:first-child,
@@ -918,8 +910,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:first-child,
 #benchmark-result #benchmark-result-score-list .benchmark-score-item span:first-child {
   font-size: 1rem;
-  line-height: 1rem;
-  line-height: 140%;
   opacity: 0.75;
   overflow-y: visible;
 }
@@ -927,7 +917,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:last-child,
 #benchmark-result #benchmark-result-score-list .benchmark-score-item span:last-child {
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
@@ -935,7 +924,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:last-child,
   #benchmark-result #benchmark-result-score-list .benchmark-score-item span:last-child {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
@@ -943,7 +931,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:last-child,
   #benchmark-result #benchmark-result-score-list .benchmark-score-item span:last-child {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #benchmark-result #benchmark-result-score-list .benchmark-main-score span:last-child,
@@ -960,28 +947,40 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 }
 #benchmark-result #benchmark-result-score-list .benchmark-main-score span:last-child {
   font-size: 5rem;
-  line-height: 5rem;
-  line-height: 120%;
 }
 #benchmark-result #benchmark-result-score-list .benchmark-sub-score span:last-child {
   font-size: 2.5rem;
-  line-height: 2.5rem;
-  line-height: 120%;
 }
 #benchmark-result #benchmark-result-score-list .benchmark-score-item span:last-child {
   font-size: 1.125rem;
-  line-height: 1.125rem;
   opacity: 0.75;
-  line-height: 120%;
 }
 #benchmark-result button#benchmark-result-close-button {
-  line-height: 100%;
   padding: 0.5rem 1.5rem;
-  margin: 1rem;
   border-radius: 0.5rem;
   color: rgba(32, 28, 38, 0.9);
   background-color: rgba(230, 237, 243, 0.7);
   width: 12rem;
+}
+#benchmark-result button#benchmark-result-close-button span {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #benchmark-result button#benchmark-result-close-button span {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #benchmark-result button#benchmark-result-close-button span {
+    font-size: 1rem;
+  }
+}
+#benchmark-result button#benchmark-result-close-button span {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#benchmark-result button#benchmark-result-close-button span {
+  font-size: 1rem;
 }
 @media (hover: hover) {
   #benchmark-result button#benchmark-result-close-button:hover {
@@ -990,28 +989,25 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 }
 #benchmark-result #benchmark-description-panel {
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #benchmark-result #benchmark-description-panel {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #benchmark-result #benchmark-description-panel {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #benchmark-result #benchmark-description-panel {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 #benchmark-result #benchmark-description-panel {
+  font-size: 1rem;
   padding: 0rem 1rem 1rem 1.75rem;
   opacity: 0.5;
-  line-height: 120%;
 }
 
 #screen-footer {
@@ -1039,7 +1035,6 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 body.immersive #screen-footer #supplementary-line #keyboard-shortcut:not(.show) {
@@ -1083,13 +1078,11 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #keyboard-shortcut {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #supplementary-line #keyboard-shortcut {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #screen-footer #supplementary-line #keyboard-shortcut {
@@ -1113,19 +1106,16 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
 }
 #screen-footer #supplementary-line #keyboard-shortcut span kbd {
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #keyboard-shortcut span kbd {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #supplementary-line #keyboard-shortcut span kbd {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #screen-footer #supplementary-line #keyboard-shortcut span kbd {
@@ -1144,19 +1134,16 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
 }
 #screen-footer #supplementary-line #keyboard-shortcut span .separator {
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #keyboard-shortcut span .separator {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #supplementary-line #keyboard-shortcut span .separator {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #screen-footer #supplementary-line #keyboard-shortcut span .separator {
@@ -1180,7 +1167,6 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 body.immersive #screen-footer #supplementary-line #powered-by:not(.show) {
@@ -1224,13 +1210,11 @@ body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show)::before {
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #supplementary-line #powered-by {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #supplementary-line #powered-by {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #screen-footer #supplementary-line #powered-by {
@@ -1293,19 +1277,16 @@ body.hide-ui #screen-footer #information-line:not(.show) {
   justify-content: center;
   align-items: center;
   font-size: 0.75rem;
-  line-height: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
   #screen-footer #information-line #information {
     font-size: 0.9rem;
-    line-height: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
   #screen-footer #information-line #information {
     font-size: 1rem;
-    line-height: 1rem;
   }
 }
 #screen-footer #information-line #information {

@@ -167,7 +167,10 @@ export namespace Events
             },
             "unknownKeyDown": () =>
             {
-                showShortcutsTimer.start(UI.keyboardShortcut, "show", 3000);
+                if ( ! Controller.Benchmark.isInBenchmarkOrResult())
+                {
+                    showShortcutsTimer.start(UI.keyboardShortcut, "show", 3000);
+                }
             }
         });
         const showShortcutsTimer = new Library.UI.ToggleClassForWhileTimer();
