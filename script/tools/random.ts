@@ -15,5 +15,9 @@ export namespace Random
             this.hash32(`${this.seed}:${(prime ?? this.prime) *(index ?? (this.index++))}`) /0xFFFFFFFF;
         public getFunction = (): Function =>
             this.get.bind(this);
+        public setIndex = (index: number) =>
+            this.index = index;
+        public resetIndex = () =>
+            this.setIndex(0);
     }
 }

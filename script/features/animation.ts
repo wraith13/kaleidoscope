@@ -383,5 +383,18 @@ export namespace Animation
                     1 -(2 *Math.pow(1 -t, 2)):
                 (t: number) => t;
         };
+        resetStep = () =>
+        {
+            this.startAt = 0;
+            this.offsetAt = 0;
+            this.layers.forEach
+            (
+                i =>
+                {
+                    i.mile = 0;
+                    i.arguments = undefined;
+                }
+            );
+        }
     }
 }

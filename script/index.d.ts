@@ -330,6 +330,8 @@ declare module "script/tools/random" {
             constructor(hash32?: (key: string) => number, seed?: number | string, prime?: number);
             get: (index?: number, prime?: number) => number;
             getFunction: () => Function;
+            setIndex: (index: number) => number;
+            resetIndex: () => number;
         }
     }
 }
@@ -782,14 +784,17 @@ declare module "script/features/animation" {
             setLayers: (newLayers: number) => void;
             setSpotsLayers: (spotsLayersRate: number) => void;
             setEasing: (enabled: boolean) => void;
+            resetStep: () => void;
         }
         export {};
     }
 }
 declare module "script/features/benchmark" {
+    import { Tools } from "script/tools/index";
     import { Library } from "script/library/index";
     import { Animation } from "script/features/animation";
     export namespace Benchmark {
+        const IndexedRandom: Tools.Random.IndexedRandom;
         const animator: Animation.Animator;
         type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
         const calculateMeasurementScore: <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R) => MeasurementScore<R>;

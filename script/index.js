@@ -959,6 +959,12 @@ define("script/tools/random", ["require", "exports", "script/tools/hash"], funct
                 this.getFunction = function () {
                     return _this.get.bind(_this);
                 };
+                this.setIndex = function (index) {
+                    return _this.index = index;
+                };
+                this.resetIndex = function () {
+                    return _this.setIndex(0);
+                };
             }
             return IndexedRandom;
         }());
@@ -2915,6 +2921,14 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             1 - (2 * Math.pow(1 - t, 2)); } :
                         function (t) { return t; };
                 };
+                this.resetStep = function () {
+                    _this.startAt = 0;
+                    _this.offsetAt = 0;
+                    _this.layers.forEach(function (i) {
+                        i.mile = 0;
+                        i.arguments = undefined;
+                    });
+                };
             }
             ;
             return Animator;
@@ -2929,8 +2943,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
     config_json_5 = __importDefault(config_json_5);
     var Benchmark;
     (function (Benchmark) {
-        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas, new _tools_4.Tools.Random.IndexedRandom(_tools_4.Tools.Hash.fnv1a_32, "benchmark")
-            .getFunction());
+        Benchmark.IndexedRandom = new _tools_4.Tools.Random.IndexedRandom(_tools_4.Tools.Hash.fnv1a_32, "benchmark");
+        Benchmark.animator = new animation_1.Animation.Animator(ui_2.UI.benchmarkCanvas, Benchmark.IndexedRandom.getFunction());
         Benchmark.calculateMeasurementScore = function (a, b, calculate) {
             for (var _i = 0, _a = ["Unmeasured", "UnmeasurablePoor", "UnmeasurableRich",]; _i < _a.length; _i++) {
                 var i = _a[_i];
@@ -3050,8 +3064,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     document.body.classList.toggle("benchmark-rendering", !_this.calculateOnly);
                     Benchmark.animator.setColorspace("Rec. 2020");
                     Benchmark.animator.setColoring("phi-colors");
-                    Benchmark.animator.setDiagonalSize(1000);
-                    Benchmark.animator.setCycleSpan(1000);
+                    Benchmark.animator.setDiagonalSize(Math.sqrt(config_json_5.default.benchmark.pixelUnit));
+                    Benchmark.animator.setCycleSpan(config_json_5.default.benchmark.adjustLayersWait);
                     Benchmark.animator.setEasing(true);
                     _this.startPattern(measure, now);
                     _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupLabel, "".concat(_library_4.Library.Locale.map(_this.scoreLabel), ":"));
@@ -3060,6 +3074,8 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     _this.patternStartAt = now;
                     Benchmark.animator.setPattern(_this.pattern);
                     _this.startLayers(now, 1);
+                    Benchmark.IndexedRandom.resetIndex();
+                    Benchmark.animator.resetStep();
                     Benchmark.animator.startStep(now);
                     fps_1.Fps.reset();
                 };

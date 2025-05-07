@@ -6,15 +6,15 @@ import { Animation } from "./animation";
 import config from "@resource/config.json";
 export namespace Benchmark
 {
+    export const IndexedRandom = new Tools.Random.IndexedRandom
+    (
+        Tools.Hash.fnv1a_32,
+        "benchmark",
+    );
     export const animator = new Animation.Animator
     (
         UI.benchmarkCanvas,
-        new Tools.Random.IndexedRandom
-        (
-            Tools.Hash.fnv1a_32,
-            "benchmark",
-        )
-        .getFunction()
+        IndexedRandom.getFunction()
     );
     export type MeasurementScore<T> = "Unmeasured" | "UnmeasurablePoor" | T | "UnmeasurableRich";
     export const calculateMeasurementScore = <A, B, R>(a: MeasurementScore<A>, b: MeasurementScore<B>, calculate: (a: A, b: B) => R): MeasurementScore<R> =>
@@ -155,8 +155,8 @@ export namespace Benchmark
             document.body.classList.toggle("benchmark-rendering", ! this.calculateOnly);
             animator.setColorspace("Rec. 2020");
             animator.setColoring("phi-colors");
-            animator.setDiagonalSize(1000);
-            animator.setCycleSpan(1000);
+            animator.setDiagonalSize(Math.sqrt(config.benchmark.pixelUnit));
+            animator.setCycleSpan(config.benchmark.adjustLayersWait);
             animator.setEasing(true);
             this.startPattern(measure, now);
             Library.UI.setTextContent(UI.benchmarkPopupLabel, `${Library.Locale.map(this.scoreLabel)}:`);
@@ -166,6 +166,8 @@ export namespace Benchmark
             this.patternStartAt = now;
             animator.setPattern(this.pattern);
             this.startLayers(now, 1);
+            IndexedRandom.resetIndex();
+            animator.resetStep();
             animator.startStep(now);
             Fps.reset();
         };
@@ -180,7 +182,11 @@ export namespace Benchmark
             Library.UI.setTextContent(UI.benchmarkPopupValue, `${(Fps.currentNowFps.fps *this.layers).toFixed(2)}`);
             if (this.isNeedAdjustingLayers(now))
             {
-                const layers = Math.max(Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate), this.layers +1);
+                const layers = Math.max
+                (
+                    Math.floor((this.layers *Fps.currentMinFps.fps) /this.halfRefreshRate),
+                    this.layers +1
+                );
                 this.startLayers(now, layers);
             }
             if (this.isEnd(now))
