@@ -354,11 +354,11 @@
             height: 0.5rem;
             &.on
             {
-                background-color: #44DD88EE;
+                background-color: #33CC66AA;
             }
             &.now
             {
-                background-color: #44DD8877;
+                background-color: #44EE88EE;
             }
             // &:not(.on):not(.now)
             // {
@@ -470,13 +470,17 @@
         flex-grow: 1;
         ul
         {
-            @include font();
-            &
+            padding: 0rem 1rem 2rem 1.75rem;
+            opacity: 0.5;
+            max-width: 64rem;
+            li span
             {
-                @include font-size(1rem);
-                padding: 0rem 1rem 2rem 1.75rem;
-                opacity: 0.5;
-                max-width: 64rem;
+                @include font();
+                &
+                {
+                    @include font-size(1rem);
+                    line-height: 1.5rem;
+                }
             }
         }
     }

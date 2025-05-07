@@ -284,10 +284,10 @@ define("resource/config", [], {
     "startWait": 750,
     "benchmark": {
         "startWait": 1500,
-        "stableWait": 1000,
+        "stableWait": 1500,
         "adjustLayersWait": 300,
         "nextPatternWait": 1000,
-        "screenResolutionWait": 500,
+        "screenResolutionWait": 1000,
         "refreshRateWait": 1500,
         "endWait": 750,
         "pixelUnit": 2073600,
@@ -3029,16 +3029,12 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 var _this = this;
                 this.start = function (_measure, now) {
                     _this.startAt = now;
-                    _this.fpsTotal = 0;
-                    _this.fpsCount = 0;
                     _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupLabel, "FPS:");
                 };
                 this.step = function (measure, now) {
                     _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupValue, "".concat(fps_1.Fps.currentNowFps.fps.toFixed(2)));
-                    _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
-                    ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
-                        measure.result.fps = _this.fpsTotal / _this.fpsCount;
+                        measure.result.fps = fps_1.Fps.averageFps;
                         measure.next();
                     }
                 };
@@ -3348,7 +3344,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.runBenchmark = function () {
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
-            if (_library_7.Library.UI.fullscreenEnabled && ui_5.UI.withFullscreen.get()) {
+            if (_library_7.Library.UI.fullscreenEnabled) {
                 _library_7.Library.UI.requestFullscreen(document.body);
             }
             setTimeout(function () {

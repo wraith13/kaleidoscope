@@ -42,7 +42,7 @@ export namespace Benchmark
     {
         Base.intoMode("benchmark");
         benchmark.start();
-        if (Library.UI.fullscreenEnabled && UI.withFullscreen.get())
+        if (Library.UI.fullscreenEnabled)
         {
             Library.UI.requestFullscreen(document.body);
         }

@@ -117,18 +117,14 @@ export namespace Benchmark
         start = (_measure: Measurement, now: number) =>
         {
             this.startAt = now;
-            this.fpsTotal = 0;
-            this.fpsCount = 0;
             Library.UI.setTextContent(UI.benchmarkPopupLabel, `FPS:`);
         };
         step = (measure: Measurement, now: number) =>
         {
             Library.UI.setTextContent(UI.benchmarkPopupValue, `${Fps.currentNowFps.fps.toFixed(2)}`);
-            this.fpsTotal += Fps.currentNowFps.fps;
-            ++this.fpsCount;
             if (this.startAt + config.benchmark.refreshRateWait <= now)
             {
-                measure.result.fps = this.fpsTotal / this.fpsCount;
+                measure.result.fps = Fps.averageFps;
                 measure.next();
             }
         };

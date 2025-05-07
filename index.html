@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Wed May 07 2025 15:08:57 GMT+0900 (日本標準時)
+    build at: Wed May 07 2025 22:29:48 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -840,10 +840,10 @@ body:not(.benchmark) #benchmark-popup #benchmark-progress-bar:not(.show) {
   height: 0.5rem;
 }
 #benchmark-popup #benchmark-progress-bar .progress-block.on {
-  background-color: rgba(68, 221, 136, 0.9333333333);
+  background-color: rgba(51, 204, 102, 0.6666666667);
 }
 #benchmark-popup #benchmark-progress-bar .progress-block.now {
-  background-color: rgba(68, 221, 136, 0.4666666667);
+  background-color: rgba(68, 238, 136, 0.9333333333);
 }
 
 #benchmark-result {
@@ -1047,24 +1047,30 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   flex-grow: 1;
 }
 #benchmark-result #benchmark-description-panel ul {
+  padding: 0rem 1rem 2rem 1.75rem;
+  opacity: 0.5;
+  max-width: 64rem;
+}
+#benchmark-result #benchmark-description-panel ul li span {
   font-size: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-result #benchmark-description-panel ul {
+  #benchmark-result #benchmark-description-panel ul li span {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #benchmark-result #benchmark-description-panel ul {
+  #benchmark-result #benchmark-description-panel ul li span {
     font-size: 1rem;
   }
 }
-#benchmark-result #benchmark-description-panel ul {
+#benchmark-result #benchmark-description-panel ul li span {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#benchmark-result #benchmark-description-panel ul {
+#benchmark-result #benchmark-description-panel ul li span {
   font-size: 1rem;
+  line-height: 2rem;
   padding: 0rem 1rem 2rem 1.75rem;
   opacity: 0.5;
   max-width: 64rem;
@@ -1563,8 +1569,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Wed May 07 2025 15:08:57 GMT+0900 (日本標準時)",
-    tick: 1746598137534
+    at: "Wed May 07 2025 22:29:48 GMT+0900 (日本標準時)",
+    tick: 1746624588146
 };
 const evilCommonjsConfig =
 {
@@ -4834,10 +4840,10 @@ define("resource/config", [], {
     "startWait": 750,
     "benchmark": {
         "startWait": 1500,
-        "stableWait": 1000,
+        "stableWait": 1500,
         "adjustLayersWait": 300,
         "nextPatternWait": 1000,
-        "screenResolutionWait": 500,
+        "screenResolutionWait": 1000,
         "refreshRateWait": 1500,
         "endWait": 750,
         "pixelUnit": 2073600,
@@ -7579,16 +7585,12 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                 var _this = this;
                 this.start = function (_measure, now) {
                     _this.startAt = now;
-                    _this.fpsTotal = 0;
-                    _this.fpsCount = 0;
                     _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupLabel, "FPS:");
                 };
                 this.step = function (measure, now) {
                     _library_4.Library.UI.setTextContent(ui_2.UI.benchmarkPopupValue, "".concat(fps_1.Fps.currentNowFps.fps.toFixed(2)));
-                    _this.fpsTotal += fps_1.Fps.currentNowFps.fps;
-                    ++_this.fpsCount;
                     if (_this.startAt + config_json_5.default.benchmark.refreshRateWait <= now) {
-                        measure.result.fps = _this.fpsTotal / _this.fpsCount;
+                        measure.result.fps = fps_1.Fps.averageFps;
                         measure.next();
                     }
                 };
@@ -7898,7 +7900,7 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
         Benchmark.runBenchmark = function () {
             base_2.Base.intoMode("benchmark");
             Benchmark.benchmark.start();
-            if (_library_7.Library.UI.fullscreenEnabled && ui_5.UI.withFullscreen.get()) {
+            if (_library_7.Library.UI.fullscreenEnabled) {
                 _library_7.Library.UI.requestFullscreen(document.body);
             }
             setTimeout(function () {
