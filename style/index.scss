@@ -466,12 +466,18 @@
     }
     #benchmark-description-panel
     {
-        @include font();
-        &
+        @include flex(column, center);
+        flex-grow: 1;
+        ul
         {
-            @include font-size(1rem);
-            padding: 0rem 1rem 1rem 1.75rem;
-            opacity: 0.5;
+            @include font();
+            &
+            {
+                @include font-size(1rem);
+                padding: 0rem 1rem 2rem 1.75rem;
+                opacity: 0.5;
+                max-width: 64rem;
+            }
         }
     }
 }

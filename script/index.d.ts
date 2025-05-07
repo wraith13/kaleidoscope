@@ -62,6 +62,10 @@ declare module "script/library/locale" {
                 "benchmark-screen-height": string;
                 "benchmark-device-pixel-ratio": string;
                 "benchmark-screen-color-depth": string;
+                "benchmark-description-device-pixel-ratio": string;
+                "benchmark-description-machine-web-browser": string;
+                "benchmark-description-score-unit": string;
+                "benchmark-description-total-score": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
                 "benchmark-description-display-score": string;
@@ -123,6 +127,10 @@ declare module "script/library/locale" {
                 "benchmark-screen-height": string;
                 "benchmark-device-pixel-ratio": string;
                 "benchmark-screen-color-depth": string;
+                "benchmark-description-device-pixel-ratio": string;
+                "benchmark-description-machine-web-browser": string;
+                "benchmark-description-score-unit": string;
+                "benchmark-description-total-score": string;
                 "benchmark-description-calculation-score": string;
                 "benchmark-description-rendering-score": string;
                 "benchmark-description-display-score": string;

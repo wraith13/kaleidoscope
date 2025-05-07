@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon May 05 2025 18:01:54 GMT+0900 (日本標準時)
+    build at: Tue May 06 2025 20:41:42 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1040,26 +1040,34 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   }
 }
 #benchmark-result #benchmark-description-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+#benchmark-result #benchmark-description-panel ul {
   font-size: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-result #benchmark-description-panel {
+  #benchmark-result #benchmark-description-panel ul {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #benchmark-result #benchmark-description-panel {
+  #benchmark-result #benchmark-description-panel ul {
     font-size: 1rem;
   }
 }
-#benchmark-result #benchmark-description-panel {
+#benchmark-result #benchmark-description-panel ul {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#benchmark-result #benchmark-description-panel {
+#benchmark-result #benchmark-description-panel ul {
   font-size: 1rem;
-  padding: 0rem 1rem 1rem 1.75rem;
+  padding: 0rem 1rem 2rem 1.75rem;
   opacity: 0.5;
+  max-width: 64rem;
 }
 
 #screen-footer {
@@ -1522,12 +1530,18 @@ body.hide-ui #screen-footer #information-line:not(.show) {
         </div>
     </div>
     <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
-    <ul id="benchmark-description-panel">
-        <li><span data-lang-key="benchmark-description-calculation-score"></span></li>
-        <li><span data-lang-key="benchmark-description-rendering-score"></span></li>
-        <li><span data-lang-key="benchmark-description-display-score"></span></li>
-        <li><span data-lang-key="benchmark-description-screen-resolution-score"></span></li>
-    </ul>
+    <div id="benchmark-description-panel">
+        <ul>
+            <li><span data-lang-key="benchmark-description-device-pixel-ratio"></span></li>
+            <li><span data-lang-key="benchmark-description-machine-web-browser"></span></li>
+            <li><span data-lang-key="benchmark-description-score-unit"></span></li>
+            <li><span data-lang-key="benchmark-description-total-score"></span></li>
+            <li><span data-lang-key="benchmark-description-calculation-score"></span></li>
+            <li><span data-lang-key="benchmark-description-rendering-score"></span></li>
+            <li><span data-lang-key="benchmark-description-display-score"></span></li>
+            <li><span data-lang-key="benchmark-description-screen-resolution-score"></span></li>
+        </ul>
+    </div>
 </div>
 <div id="screen-footer">
     <div id="supplementary-line">
@@ -1549,8 +1563,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Mon May 05 2025 18:01:54 GMT+0900 (日本標準時)",
-    tick: 1746435714557
+    at: "Tue May 06 2025 20:41:42 GMT+0900 (日本標準時)",
+    tick: 1746531702171
 };
 const evilCommonjsConfig =
 {
@@ -4679,8 +4693,12 @@ define("resource/lang.en", [], {
     "benchmark-screen-height": "Screen Height",
     "benchmark-device-pixel-ratio": "Device Pixel Ratio",
     "benchmark-screen-color-depth": "Screen Color Depth",
-    "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state.",
-    "benchmark-description-rendering-score": "Rendering score is the performance of animation processing in a visible state.",
+    "benchmark-description-device-pixel-ratio": "The actual device pixel ratio may not be obtained accurately depending on the environment. For example, if it should be 1.2, it may be rounded up to 2. In this case, all values except the total score and low load frame rate will not be accurate, so please adjust the display screen resolution and scaling settings to make the device pixel ratio correct.",
+    "benchmark-description-machine-web-browser": "The measurement will be the machine performance + web browser performance, so even on the same machine, using a different web browser can result in completely different results.",
+    "benchmark-description-score-unit": "The unit of total score, rendering score, and calculation score is the number of layers x frame rate, which is the number of layers that can be processed in one second.",
+    "benchmark-description-total-score": "Total score is the value obtained by dividing the rendering score by the screen resolution score. The better the display, the higher the rendering load, so the total score decreases.",
+    "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state. Rendering score is the performance of animation processing in a visible state.",
+    "benchmark-description-rendering-score": "Rendering score is the measured value multiplied by the screen resolution score. Since this is the score when the display is Full HD, this value is more suitable for comparing rendering performance with other machines than the total score.",
     "benchmark-description-display-score": "Display score is the value obtained by multiplying the screen resolution score by the low load frame rate.",
     "benchmark-description-screen-resolution-score": "Screen resolution score is the amount of screen information with { Screen Width: 1920, Screen Height: 1080, Device Pixel Ratio: 1, Screen Color Depth: 24 } as 1.",
     "Unmeasured": "Unmeasured",
@@ -4740,8 +4758,12 @@ define("resource/lang.ja", [], {
     "benchmark-screen-height": "画面高さ",
     "benchmark-device-pixel-ratio": "デバイスピクセル比",
     "benchmark-screen-color-depth": "画面色深度",
-    "benchmark-description-calculation-score": "計算スコアは、非表示状態でのアニメーション処理性能です。",
-    "benchmark-description-rendering-score": "描画スコアは、表示状態でのアニメーション処理性能です。",
+    "benchmark-description-device-pixel-ratio": "環境によっては正確なデバイスピクセル比を取得できません。例えば、本来であれば 1.2 なのに端数が切り上げられて 2 となる事があります。この場合、総合スコアと低負荷時フレームレート以外は正確な値とならないので、デバイスピクセル比が正しくなる様にディスプレイの画面解像度やスケーリングの設定を調整してください。",
+    "benchmark-description-machine-web-browser": "マシン性能+Webブラウザ性能の計測になるので、同じマシン上でも別のWebブラウザを使うと全然異なる結果になり得ます。",
+    "benchmark-description-score-unit": "総合スコア、描画スコア、計算スコアの単位はレイヤー数xフレームレートで、一秒間に処理可能なレイヤー数となります。",
+    "benchmark-description-total-score": "総合スコアは、描画スコアを画面解像度スコアで割った値です。良いディスプレイである程、レンダリングの負荷が上がる為に総合スコアは低下します。",
+    "benchmark-description-calculation-score": "計算スコアは、非表示状態でのアニメーション処理性能です。描画スコアは、表示状態でのアニメーション処理性能です。",
+    "benchmark-description-rendering-score": "描画スコアは、実測値に画面解像度スコアをかけた値です。ディスプレイが Full HD の場合のスコアとなるので、他のマシンと描画性能を比較したい時に総合スコアよりこちらの値が適しています。",
     "benchmark-description-display-score": "ディスプレイスコアは、画面解像度スコアと低負荷時フレームレートを掛け合わせた値です。",
     "benchmark-description-screen-resolution-score": "画面解像度スコアは、{ 画面横幅: 1920, 画面高さ: 1080, デバイスピクセル比: 1, 画面色深度: 24 } を 1 とした画面情報量です。",
     "Unmeasured": "未計測",

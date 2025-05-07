@@ -175,12 +175,18 @@ __STYLE__
         </div>
     </div>
     <button id="benchmark-result-close-button"><span data-lang-key="benchmark-close"></span></button>
-    <ul id="benchmark-description-panel">
-        <li><span data-lang-key="benchmark-description-calculation-score"></span></li>
-        <li><span data-lang-key="benchmark-description-rendering-score"></span></li>
-        <li><span data-lang-key="benchmark-description-display-score"></span></li>
-        <li><span data-lang-key="benchmark-description-screen-resolution-score"></span></li>
-    </ul>
+    <div id="benchmark-description-panel">
+        <ul>
+            <li><span data-lang-key="benchmark-description-device-pixel-ratio"></span></li>
+            <li><span data-lang-key="benchmark-description-machine-web-browser"></span></li>
+            <li><span data-lang-key="benchmark-description-score-unit"></span></li>
+            <li><span data-lang-key="benchmark-description-total-score"></span></li>
+            <li><span data-lang-key="benchmark-description-calculation-score"></span></li>
+            <li><span data-lang-key="benchmark-description-rendering-score"></span></li>
+            <li><span data-lang-key="benchmark-description-display-score"></span></li>
+            <li><span data-lang-key="benchmark-description-screen-resolution-score"></span></li>
+        </ul>
+    </div>
 </div>
 <div id="screen-footer">
     <div id="supplementary-line">
