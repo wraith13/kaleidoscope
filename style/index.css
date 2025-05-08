@@ -995,33 +995,40 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
   flex-grow: 1;
 }
 #benchmark-result #benchmark-description-panel ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 1rem;
   padding: 0rem 1rem 2rem 1.75rem;
   opacity: 0.5;
   max-width: 64rem;
 }
-#benchmark-result #benchmark-description-panel ul li span {
+#benchmark-result #benchmark-description-panel ul li,
+#benchmark-result #benchmark-description-panel ul span {
   font-size: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #benchmark-result #benchmark-description-panel ul li span {
+  #benchmark-result #benchmark-description-panel ul li,
+  #benchmark-result #benchmark-description-panel ul span {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #benchmark-result #benchmark-description-panel ul li span {
+  #benchmark-result #benchmark-description-panel ul li,
+  #benchmark-result #benchmark-description-panel ul span {
     font-size: 1rem;
   }
 }
-#benchmark-result #benchmark-description-panel ul li span {
+#benchmark-result #benchmark-description-panel ul li,
+#benchmark-result #benchmark-description-panel ul span {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#benchmark-result #benchmark-description-panel ul li span {
+#benchmark-result #benchmark-description-panel ul li,
+#benchmark-result #benchmark-description-panel ul span {
   font-size: 1rem;
-  line-height: 2rem;
-  padding: 0rem 1rem 2rem 1.75rem;
-  opacity: 0.5;
-  max-width: 64rem;
+  line-height: 1.5rem;
 }
 
 #screen-footer {
