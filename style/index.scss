@@ -316,26 +316,7 @@
     }
     button#benchmark-abort-button
     {
-        padding: 0.5rem 1.5rem;
-        border-radius: 0.5rem;
-        color: black-color(0.9);
-        background-color: white-color(0.7);
-        width: 12rem;
-        span
-        {
-            @include font();
-            &
-            {
-                @include font-size(1rem);
-            }
-        }
-        @media (hover: hover)
-        {
-            &:hover
-            {
-                background-color: white-color(0.9);
-            }
-        }
+        @include default-button();
     }
     #benchmark-progress-bar
     {
@@ -443,26 +424,7 @@
     }
     button#benchmark-result-close-button
     {
-        padding: 0.5rem 1.5rem;
-        border-radius: 0.5rem;
-        color: black-color(0.9);
-        background-color: white-color(0.7);
-        width: 12rem;
-        span
-        {
-            @include font();
-            &
-            {
-                @include font-size(1rem);
-            }
-        }
-        @media (hover: hover)
-        {
-            &:hover
-            {
-                background-color: white-color(0.9);
-            }
-        }
+        @include default-button();
     }
     #benchmark-description-panel
     {
