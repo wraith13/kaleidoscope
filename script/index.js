@@ -102,6 +102,7 @@ define("resource/lang.en", [], {
     "spots-layers-label": "Layers(spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
+    "low-load-mode-label": "Low Load Mode:",
     "easing-label": "Easing:",
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
@@ -167,6 +168,7 @@ define("resource/lang.ja", [], {
     "spots-layers-label": "レイヤー数(spots):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
+    "low-load-mode-label": "低負荷モード:",
     "easing-label": "イージング:",
     "with-fullscreen-label": "フルスクリーン:",
     "show-fps-label": "FPS を表示:",
@@ -1157,6 +1159,10 @@ define("resource/control", [], {
         ],
         "default": 7.5
     },
+    "lowLoadMode": {
+        "id": "low-load-mode",
+        "default": false
+    },
     "easing": {
         "id": "easing",
         "default": true
@@ -1207,6 +1213,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.spotslayersSelect = new _library_2.Library.Control.Select(control_json_1.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.cycleSpanSelect = new _library_2.Library.Control.Select(control_json_1.default.cycleSpan, { makeLabel: _tools_1.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_2.Library.Control.Select(control_json_1.default.fuseFps);
+        UI.lowLoadModeCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.lowLoadMode);
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);
         UI.withFullscreen = new _library_2.Library.Control.Checkbox(control_json_1.default.withFullscreen);
         UI.showFps = new _library_2.Library.Control.Checkbox(control_json_1.default.showFPS);

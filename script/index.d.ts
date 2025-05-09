@@ -21,6 +21,7 @@ declare module "script/library/locale" {
                 "spots-layers-label": string;
                 "cycle-span-label": string;
                 "fuse-fps-label": string;
+                "low-load-mode-label": string;
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
@@ -86,6 +87,7 @@ declare module "script/library/locale" {
                 "spots-layers-label": string;
                 "cycle-span-label": string;
                 "fuse-fps-label": string;
+                "low-load-mode-label": string;
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
@@ -373,6 +375,7 @@ declare module "script/ui" {
         const spotslayersSelect: Library.Control.Select<number>;
         const cycleSpanSelect: Library.Control.Select<number>;
         const fuseFpsSelect: Library.Control.Select<number>;
+        const lowLoadModeCheckbox: Library.Control.Checkbox;
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;

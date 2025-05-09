@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Thu May 08 2025 18:22:35 GMT+0900 (日本標準時)
+    build at: Fri May 09 2025 06:32:49 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1431,6 +1431,10 @@ body.hide-ui #screen-footer #information-line:not(.show) {
         <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
         <select id="fuse-fps"></select>
     </label>
+    <label for="low-load-mode">
+        <span data-lang-key="low-load-mode-label">Show FPS:</span>
+        <input id="low-load-mode" type="checkbox">
+    </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>
         <input id="easing" type="checkbox">
@@ -1576,8 +1580,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Thu May 08 2025 18:22:35 GMT+0900 (日本標準時)",
-    tick: 1746696155619
+    at: "Fri May 09 2025 06:32:49 GMT+0900 (日本標準時)",
+    tick: 1746739969819
 };
 const evilCommonjsConfig =
 {
@@ -4665,6 +4669,7 @@ define("resource/lang.en", [], {
     "spots-layers-label": "Layers(spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
+    "low-load-mode-label": "Low Load Mode:",
     "easing-label": "Easing:",
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
@@ -4730,6 +4735,7 @@ define("resource/lang.ja", [], {
     "spots-layers-label": "レイヤー数(spots):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
+    "low-load-mode-label": "低負荷モード:",
     "easing-label": "イージング:",
     "with-fullscreen-label": "フルスクリーン:",
     "show-fps-label": "FPS を表示:",
@@ -5720,6 +5726,10 @@ define("resource/control", [], {
         ],
         "default": 7.5
     },
+    "lowLoadMode": {
+        "id": "low-load-mode",
+        "default": false
+    },
     "easing": {
         "id": "easing",
         "default": true
@@ -5770,6 +5780,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.spotslayersSelect = new _library_2.Library.Control.Select(control_json_1.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.cycleSpanSelect = new _library_2.Library.Control.Select(control_json_1.default.cycleSpan, { makeLabel: _tools_1.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_2.Library.Control.Select(control_json_1.default.fuseFps);
+        UI.lowLoadModeCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.lowLoadMode);
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);
         UI.withFullscreen = new _library_2.Library.Control.Checkbox(control_json_1.default.withFullscreen);
         UI.showFps = new _library_2.Library.Control.Checkbox(control_json_1.default.showFPS);

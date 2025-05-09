@@ -29,6 +29,8 @@ export namespace UI
         new Library.Control.Select(control.cycleSpan, { makeLabel: Tools.Timespan.toDisplayString });
     export const fuseFpsSelect =
         new Library.Control.Select(control.fuseFps);
+    export const lowLoadModeCheckbox =
+        new Library.Control.Checkbox(control.lowLoadMode);
     export const easingCheckbox =
         new Library.Control.Checkbox(control.easing);
     export const withFullscreen =

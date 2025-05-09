@@ -78,6 +78,10 @@ __STYLE__
         <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
         <select id="fuse-fps"></select>
     </label>
+    <label for="low-load-mode">
+        <span data-lang-key="low-load-mode-label">Show FPS:</span>
+        <input id="low-load-mode" type="checkbox">
+    </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>
         <input id="easing" type="checkbox">

@@ -145,6 +145,10 @@
         ],
         "default": 7.5
     },
+    "lowLoadMode": {
+        "id": "low-load-mode",
+        "default": false
+    },
     "easing": {
         "id": "easing",
         "default": true

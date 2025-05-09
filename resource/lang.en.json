@@ -10,6 +10,7 @@
     "spots-layers-label": "Layers(spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
+    "low-load-mode-label": "Low Load Mode:",
     "easing-label": "Easing:",
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
