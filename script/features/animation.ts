@@ -154,6 +154,8 @@ export namespace Animation
         pattern: typeof control.pattern.enum[number] = control.pattern.default;
         startAt = 0;
         offsetAt = 0;
+        universalStep = 0;
+        currentLayerIndex = 0;
         cycleSpan = control.cycleSpan.default;
         diagonalSize = 0;
         constructor(public canvas: HTMLDivElement, public random: Tools.Random.Function = new Tools.Random.IndexedRandom().getFunction(), public phiColoring: PhiColoring = new PhiColoring())
@@ -223,7 +225,7 @@ export namespace Animation
         makeBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
             this.makeColor(this.makeBackgroundRgb(mile, offset, ix));
         isStarted = () => 0 < this.startAt;
-        getStep = (universalStep: number, layer: Layer) => universalStep -(layer.mile +layer.offset);
+        getStep = (layer: Layer) => this.universalStep -(layer.mile +layer.offset);
         getSpotsIndex = (ix: number) =>
             Math.floor(ix *this.spotsLayersRate);
         isValidSpotLayer = (ix: number) =>
@@ -231,57 +233,57 @@ export namespace Animation
         isValidLayer = (ix: number) =>
             "lines" === Pattern.getTypeCategory(this.layers[ix].arguments?.type ?? "stripe") ||
             this.isValidSpotLayer(ix);
+        stepLayer = (i: Layer, ix: number) =>
+        {
+            let step = this.getStep(i);
+            if (0 <= step)
+            {
+                if (1.0 <= step || undefined === i.arguments)
+                {
+                    while(1.0 <= step)
+                    {
+                        ++i.mile;
+                        step = this.getStep(i);
+                    }
+                    i.arguments = Object.assign
+                    (
+                        { },
+                        this.layers[ix -1]?.arguments ?? this.makeRandomArguments(i.mile),
+                        {
+                            foregroundColor: this.makeForegroundColor(i.mile, i.offset, ix),
+                            backgroundColor: i.arguments?.foregroundColor ?? this.makeBackgroundColor(i.mile, i.offset, ix),
+                        }
+                    );
+                    if ( ! this.isValidLayer(ix))
+                    {
+                        i.arguments.foregroundColor = i.arguments.backgroundColor ?? "black";
+                        FlounderStyle.setStyle
+                        (
+                            i.layer,
+                            {
+                                "background-color": i.arguments.foregroundColor,
+                                "background-image": undefined,
+                                "background-size":undefined,
+                                "background-position": undefined,
+                            }
+                        );
+                    }
+                }
+                if (this.isValidLayer(ix))
+                {
+                    i.arguments.depth = this.easing(step);
+                    FlounderStyle.setStyle(i.layer, i.arguments);
+                }
+            }
+        };
         step = (now: number) =>
         {
             this.offsetAt = now -this.startAt;
-            const universalStep = this.offsetAt /this.cycleSpan;
-            this.layers.forEach
-            (
-                (i, ix) =>
-                {
-                    let step = this.getStep(universalStep, i);
-                    if (0 <= step)
-                    {
-                        if (1.0 <= step || undefined === i.arguments)
-                        {
-                            while(1.0 <= step)
-                            {
-                                ++i.mile;
-                                step = this.getStep(universalStep, i);
-                            }
-                            i.arguments = Object.assign
-                            (
-                                { },
-                                this.layers[ix -1]?.arguments ?? this.makeRandomArguments(i.mile),
-                                {
-                                    foregroundColor: this.makeForegroundColor(i.mile, i.offset, ix),
-                                    backgroundColor: i.arguments?.foregroundColor ?? this.makeBackgroundColor(i.mile, i.offset, ix),
-                                }
-                            );
-                            if ( ! this.isValidLayer(ix))
-                            {
-                                i.arguments.foregroundColor = i.arguments.backgroundColor ?? "black";
-                                FlounderStyle.setStyle
-                                (
-                                    i.layer,
-                                    {
-                                        "background-color": i.arguments.foregroundColor,
-                                        "background-image": undefined,
-                                        "background-size":undefined,
-                                        "background-position": undefined,
-                                    }
-                                );
-                            }
-                        }
-                        if (this.isValidLayer(ix))
-                        {
-                            i.arguments.depth = this.easing(step);
-                            FlounderStyle.setStyle(i.layer, i.arguments);
-                        }
-                    }
-                }
-            );
+            this.universalStep = this.offsetAt /this.cycleSpan;
+            this.layers.forEach((i, ix) => this.stepLayer(i, ix));
         };
+        getStepDifference = (now: number) =>
+            ((now -this.startAt) /this.cycleSpan) -this.universalStep;
         update = () =>
             this.step(this.startAt +this.offsetAt);
         setColorspace = (colorspace: typeof control.colorspace.enum[number]) =>
@@ -387,6 +389,8 @@ export namespace Animation
         {
             this.startAt = 0;
             this.offsetAt = 0;
+            this.universalStep = 0;
+            this.currentLayerIndex = 0;
             this.layers.forEach
             (
                 i =>

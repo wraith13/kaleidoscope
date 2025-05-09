@@ -2742,6 +2742,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.pattern = control_json_2.default.pattern.default;
                 this.startAt = 0;
                 this.offsetAt = 0;
+                this.universalStep = 0;
+                this.currentLayerIndex = 0;
                 this.cycleSpan = control_json_2.default.cycleSpan.default;
                 this.diagonalSize = 0;
                 this.getDiagonalSize = function () { var _a, _b; return Math.sqrt(Math.pow((_a = _this.canvas.clientWidth) !== null && _a !== void 0 ? _a : 0, 2) + Math.pow((_b = _this.canvas.clientHeight) !== null && _b !== void 0 ? _b : 0, 2)); };
@@ -2797,7 +2799,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return _this.makeColor(_this.makeBackgroundRgb(mile, offset, ix));
                 };
                 this.isStarted = function () { return 0 < _this.startAt; };
-                this.getStep = function (universalStep, layer) { return universalStep - (layer.mile + layer.offset); };
+                this.getStep = function (layer) { return _this.universalStep - (layer.mile + layer.offset); };
                 this.getSpotsIndex = function (ix) {
                     return Math.floor(ix * _this.spotsLayersRate);
                 };
@@ -2809,38 +2811,42 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return "lines" === Pattern.getTypeCategory((_b = (_a = _this.layers[ix].arguments) === null || _a === void 0 ? void 0 : _a.type) !== null && _b !== void 0 ? _b : "stripe") ||
                         _this.isValidSpotLayer(ix);
                 };
-                this.step = function (now) {
-                    _this.offsetAt = now - _this.startAt;
-                    var universalStep = _this.offsetAt / _this.cycleSpan;
-                    _this.layers.forEach(function (i, ix) {
-                        var _a, _b, _c, _d, _e;
-                        var step = _this.getStep(universalStep, i);
-                        if (0 <= step) {
-                            if (1.0 <= step || undefined === i.arguments) {
-                                while (1.0 <= step) {
-                                    ++i.mile;
-                                    step = _this.getStep(universalStep, i);
-                                }
-                                i.arguments = Object.assign({}, (_b = (_a = _this.layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : _this.makeRandomArguments(i.mile), {
-                                    foregroundColor: _this.makeForegroundColor(i.mile, i.offset, ix),
-                                    backgroundColor: (_d = (_c = i.arguments) === null || _c === void 0 ? void 0 : _c.foregroundColor) !== null && _d !== void 0 ? _d : _this.makeBackgroundColor(i.mile, i.offset, ix),
-                                });
-                                if (!_this.isValidLayer(ix)) {
-                                    i.arguments.foregroundColor = (_e = i.arguments.backgroundColor) !== null && _e !== void 0 ? _e : "black";
-                                    flounder_style_js_1.FlounderStyle.setStyle(i.layer, {
-                                        "background-color": i.arguments.foregroundColor,
-                                        "background-image": undefined,
-                                        "background-size": undefined,
-                                        "background-position": undefined,
-                                    });
-                                }
+                this.stepLayer = function (i, ix) {
+                    var _a, _b, _c, _d, _e;
+                    var step = _this.getStep(i);
+                    if (0 <= step) {
+                        if (1.0 <= step || undefined === i.arguments) {
+                            while (1.0 <= step) {
+                                ++i.mile;
+                                step = _this.getStep(i);
                             }
-                            if (_this.isValidLayer(ix)) {
-                                i.arguments.depth = _this.easing(step);
-                                flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
+                            i.arguments = Object.assign({}, (_b = (_a = _this.layers[ix - 1]) === null || _a === void 0 ? void 0 : _a.arguments) !== null && _b !== void 0 ? _b : _this.makeRandomArguments(i.mile), {
+                                foregroundColor: _this.makeForegroundColor(i.mile, i.offset, ix),
+                                backgroundColor: (_d = (_c = i.arguments) === null || _c === void 0 ? void 0 : _c.foregroundColor) !== null && _d !== void 0 ? _d : _this.makeBackgroundColor(i.mile, i.offset, ix),
+                            });
+                            if (!_this.isValidLayer(ix)) {
+                                i.arguments.foregroundColor = (_e = i.arguments.backgroundColor) !== null && _e !== void 0 ? _e : "black";
+                                flounder_style_js_1.FlounderStyle.setStyle(i.layer, {
+                                    "background-color": i.arguments.foregroundColor,
+                                    "background-image": undefined,
+                                    "background-size": undefined,
+                                    "background-position": undefined,
+                                });
                             }
                         }
-                    });
+                        if (_this.isValidLayer(ix)) {
+                            i.arguments.depth = _this.easing(step);
+                            flounder_style_js_1.FlounderStyle.setStyle(i.layer, i.arguments);
+                        }
+                    }
+                };
+                this.step = function (now) {
+                    _this.offsetAt = now - _this.startAt;
+                    _this.universalStep = _this.offsetAt / _this.cycleSpan;
+                    _this.layers.forEach(function (i, ix) { return _this.stepLayer(i, ix); });
+                };
+                this.getStepDifference = function (now) {
+                    return ((now - _this.startAt) / _this.cycleSpan) - _this.universalStep;
                 };
                 this.update = function () {
                     return _this.step(_this.startAt + _this.offsetAt);
@@ -2931,6 +2937,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.resetStep = function () {
                     _this.startAt = 0;
                     _this.offsetAt = 0;
+                    _this.universalStep = 0;
+                    _this.currentLayerIndex = 0;
                     _this.layers.forEach(function (i) {
                         i.mile = 0;
                         i.arguments = undefined;
@@ -3298,7 +3306,9 @@ define("script/controller/animation", ["require", "exports", "script/features/in
                     Animation.pauseAnimation();
                 }
                 else {
-                    Animation.animator.step(now);
+                    if (!ui_4.UI.lowLoadModeCheckbox.get() || 0.03 <= Animation.animator.getStepDifference(now)) {
+                        Animation.animator.step(now);
+                    }
                     window.requestAnimationFrame(Animation.loopAnimation);
                 }
             }

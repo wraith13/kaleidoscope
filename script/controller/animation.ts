@@ -42,7 +42,10 @@ export namespace Animation
             }
             else
             {
-                animator.step(now);
+                if ( ! UI.lowLoadModeCheckbox.get() || 0.03 <= animator.getStepDifference(now))
+                {
+                    animator.step(now);
+                }
                 window.requestAnimationFrame(loopAnimation);
             }
         }

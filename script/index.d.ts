@@ -757,6 +757,8 @@ declare module "script/features/animation" {
             pattern: typeof control.pattern.enum[number];
             startAt: number;
             offsetAt: number;
+            universalStep: number;
+            currentLayerIndex: number;
             cycleSpan: number;
             diagonalSize: number;
             constructor(canvas: HTMLDivElement, random?: Tools.Random.Function, phiColoring?: PhiColoring);
@@ -772,11 +774,13 @@ declare module "script/features/animation" {
             makeForegroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
             makeBackgroundColor: (mile: number, offset: number, ix: number) => FlounderStyle.Type.Color;
             isStarted: () => boolean;
-            getStep: (universalStep: number, layer: Layer) => number;
+            getStep: (layer: Layer) => number;
             getSpotsIndex: (ix: number) => number;
             isValidSpotLayer: (ix: number) => boolean;
             isValidLayer: (ix: number) => boolean;
+            stepLayer: (i: Layer, ix: number) => void;
             step: (now: number) => void;
+            getStepDifference: (now: number) => number;
             update: () => void;
             setColorspace: (colorspace: (typeof control.colorspace.enum)[number]) => void;
             setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, offset: number, _ix: number) => phiColors.Rgb;
