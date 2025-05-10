@@ -2848,6 +2848,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.getStepDifference = function (now) {
                     return ((now - _this.startAt) / _this.cycleSpan) - _this.universalStep;
                 };
+                this.getNowDifference = function (now) {
+                    return (now - _this.startAt) - _this.offsetAt;
+                };
                 this.update = function () {
                     return _this.step(_this.startAt + _this.offsetAt);
                 };
@@ -3298,6 +3301,11 @@ define("script/controller/animation", ["require", "exports", "script/features/in
             }
             base_1.Base.exitMode("animation");
         };
+        Animation.isAnimationStepTiming = function (now) {
+            return !ui_4.UI.lowLoadModeCheckbox.get() ||
+                5 < Animation.animator.getNowDifference(now) * Animation.animator.getStepDifference(now) / Animation.animator.layers.length ||
+                3000 < Animation.animator.getNowDifference(now);
+        };
         Animation.loopAnimation = function (now) {
             if (Animation.isInAnimation()) {
                 _features_2.Features.Fps.step(now);
@@ -3306,7 +3314,7 @@ define("script/controller/animation", ["require", "exports", "script/features/in
                     Animation.pauseAnimation();
                 }
                 else {
-                    if (!ui_4.UI.lowLoadModeCheckbox.get() || 0.03 <= Animation.animator.getStepDifference(now)) {
+                    if (Animation.isAnimationStepTiming(now)) {
                         Animation.animator.step(now);
                     }
                     window.requestAnimationFrame(Animation.loopAnimation);

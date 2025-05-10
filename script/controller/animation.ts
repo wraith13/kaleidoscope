@@ -30,6 +30,10 @@ export namespace Animation
         }
         Base.exitMode("animation");
     };
+    export const isAnimationStepTiming = (now: number) =>
+        ! UI.lowLoadModeCheckbox.get() ||
+        5 < animator.getNowDifference(now) *animator.getStepDifference(now) /animator.layers.length ||
+        3000 < animator.getNowDifference(now);
     export const loopAnimation = (now: number) =>
     {
         if (isInAnimation())
@@ -42,7 +46,7 @@ export namespace Animation
             }
             else
             {
-                if ( ! UI.lowLoadModeCheckbox.get() || 0.03 <= animator.getStepDifference(now))
+                if (isAnimationStepTiming(now))
                 {
                     animator.step(now);
                 }

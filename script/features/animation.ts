@@ -284,6 +284,8 @@ export namespace Animation
         };
         getStepDifference = (now: number) =>
             ((now -this.startAt) /this.cycleSpan) -this.universalStep;
+        getNowDifference = (now: number) =>
+            (now -this.startAt) -this.offsetAt;
         update = () =>
             this.step(this.startAt +this.offsetAt);
         setColorspace = (colorspace: typeof control.colorspace.enum[number]) =>

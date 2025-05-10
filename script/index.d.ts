@@ -781,6 +781,7 @@ declare module "script/features/animation" {
             stepLayer: (i: Layer, ix: number) => void;
             step: (now: number) => void;
             getStepDifference: (now: number) => number;
+            getNowDifference: (now: number) => number;
             update: () => void;
             setColorspace: (colorspace: (typeof control.colorspace.enum)[number]) => void;
             setColoring: (coloring: (typeof control.coloring.enum)[number]) => (mile: number, offset: number, _ix: number) => phiColors.Rgb;
@@ -919,6 +920,7 @@ declare module "script/controller/animation" {
         const isInAnimation: () => boolean;
         const playAnimation: () => void;
         const pauseAnimation: () => void;
+        const isAnimationStepTiming: (now: number) => boolean;
         const loopAnimation: (now: number) => void;
         const start: () => number;
         const updateFps: () => void;
