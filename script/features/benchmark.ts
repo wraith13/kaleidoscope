@@ -64,8 +64,11 @@ export namespace Benchmark
     });
     export const measureScreenResolution = () =>
     ({
-        width: screen.width,
-        height: screen.height,
+        // The area obtained with screen.width x screen.height may not be usable if full-screen mode cannot be achieved, so screen.width x screen.height is not used.
+        // width: screen.width,
+        // height: screen.height,
+        width: UI.screenBody.clientWidth,
+        height: UI.screenBody.clientHeight,
         devicePixelRatio: window.devicePixelRatio ?? 1.0,
         colorDepth: window.screen.colorDepth,
     });

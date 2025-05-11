@@ -29,6 +29,10 @@
     ],
     "maximumFractionDigits": 2,
     "startWait": 750,
+    "lowLoadMode": {
+        "stepSkipThreshold": 5,
+        "maxSkipMillisecond": 3000
+    },
     "benchmark": {
         "startWait": 1500,
         "stableWait": 1500,

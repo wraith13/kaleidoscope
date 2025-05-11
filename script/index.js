@@ -284,6 +284,10 @@ define("resource/config", [], {
     ],
     "maximumFractionDigits": 2,
     "startWait": 750,
+    "lowLoadMode": {
+        "stepSkipThreshold": 5,
+        "maxSkipMillisecond": 3000
+    },
     "benchmark": {
         "startWait": 1500,
         "stableWait": 1500,
@@ -2999,8 +3003,11 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
         Benchmark.measureScreenResolution = function () {
             var _a;
             return ({
-                width: screen.width,
-                height: screen.height,
+                // The area obtained with screen.width x screen.height may not be usable if full-screen mode cannot be achieved, so screen.width x screen.height is not used.
+                // width: screen.width,
+                // height: screen.height,
+                width: ui_2.UI.screenBody.clientWidth,
+                height: ui_2.UI.screenBody.clientHeight,
                 devicePixelRatio: (_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1.0,
                 colorDepth: window.screen.colorDepth,
             });
@@ -3303,8 +3310,8 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         };
         Animation.isAnimationStepTiming = function (now) {
             return !ui_4.UI.lowLoadModeCheckbox.get() ||
-                5 < Animation.animator.getNowDifference(now) * Animation.animator.getStepDifference(now) / Animation.animator.layers.length ||
-                3000 < Animation.animator.getNowDifference(now);
+                config_json_6.default.lowLoadMode.stepSkipThreshold <= Animation.animator.getNowDifference(now) * Animation.animator.getStepDifference(now) / Animation.animator.layers.length ||
+                config_json_6.default.lowLoadMode.maxSkipMillisecond <= Animation.animator.getNowDifference(now);
         };
         Animation.loopAnimation = function (now) {
             if (Animation.isInAnimation()) {
@@ -3314,9 +3321,13 @@ define("script/controller/animation", ["require", "exports", "script/features/in
                     Animation.pauseAnimation();
                 }
                 else {
-                    if (Animation.isAnimationStepTiming(now)) {
+                    if (100 < Animation.animator.getNowDifference(now)) {
                         Animation.animator.step(now);
                     }
+                    // if (isAnimationStepTiming(now))
+                    // {
+                    //     animator.step(now);
+                    // }
                     window.requestAnimationFrame(Animation.loopAnimation);
                 }
             }
