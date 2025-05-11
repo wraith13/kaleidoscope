@@ -10,7 +10,7 @@
     "spots-layers-label": "レイヤー数(spots):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
-    "low-load-mode-label": "低負荷モード:",
+    "frame-delay-label": "フレーム遅延:",
     "easing-label": "イージング:",
     "with-fullscreen-label": "フルスクリーン:",
     "show-fps-label": "FPS を表示:",

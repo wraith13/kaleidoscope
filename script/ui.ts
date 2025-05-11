@@ -29,8 +29,20 @@ export namespace UI
         new Library.Control.Select(control.cycleSpan, { makeLabel: Tools.Timespan.toDisplayString });
     export const fuseFpsSelect =
         new Library.Control.Select(control.fuseFps);
-    export const lowLoadModeCheckbox =
-        new Library.Control.Checkbox(control.lowLoadMode);
+    export const getLoadLabel = (i: number) =>
+    {
+        switch(true)
+        {
+            case i <= 100:
+                return "HighLoad";
+            case 500 <= i:
+                return "LowLoad";
+            default:
+                return "NormalLoad";
+        }
+    };
+    export const frameDelaySelect =
+        new Library.Control.Select(control.frameDelay, { makeLabel: i => `${i} ms ( ${getLoadLabel(i)} )` });
     export const easingCheckbox =
         new Library.Control.Checkbox(control.easing);
     export const withFullscreen =

@@ -31,9 +31,7 @@ export namespace Animation
         Base.exitMode("animation");
     };
     export const isAnimationStepTiming = (now: number) =>
-        ! UI.lowLoadModeCheckbox.get() ||
-        config.lowLoadMode.stepSkipThreshold <= animator.getNowDifference(now) *animator.getStepDifference(now) /animator.layers.length ||
-        config.lowLoadMode.maxSkipMillisecond <= animator.getNowDifference(now);
+        parseInt(UI.frameDelaySelect.get()) <= animator.getNowDifference(now);
     export const loopAnimation = (now: number) =>
     {
         if (isInAnimation())

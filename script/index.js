@@ -102,7 +102,7 @@ define("resource/lang.en", [], {
     "spots-layers-label": "Layers(spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
-    "low-load-mode-label": "Low Load Mode:",
+    "frame-delay-label": "Frame Delay:",
     "easing-label": "Easing:",
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
@@ -168,7 +168,7 @@ define("resource/lang.ja", [], {
     "spots-layers-label": "レイヤー数(spots):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
-    "low-load-mode-label": "低負荷モード:",
+    "frame-delay-label": "フレーム遅延:",
     "easing-label": "イージング:",
     "with-fullscreen-label": "フルスクリーン:",
     "show-fps-label": "FPS を表示:",
@@ -1163,6 +1163,28 @@ define("resource/control", [], {
         ],
         "default": 7.5
     },
+    "frameDelay": {
+        "id": "frame-delay",
+        "enum": [
+            0,
+            25,
+            50,
+            75,
+            100,
+            125,
+            150,
+            200,
+            250,
+            300,
+            350,
+            500,
+            750,
+            1000,
+            1250,
+            1500
+        ],
+        "default": 0
+    },
     "lowLoadMode": {
         "id": "low-load-mode",
         "default": false
@@ -1217,7 +1239,17 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.spotslayersSelect = new _library_2.Library.Control.Select(control_json_1.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.cycleSpanSelect = new _library_2.Library.Control.Select(control_json_1.default.cycleSpan, { makeLabel: _tools_1.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_2.Library.Control.Select(control_json_1.default.fuseFps);
-        UI.lowLoadModeCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.lowLoadMode);
+        UI.getLoadLabel = function (i) {
+            switch (true) {
+                case i <= 100:
+                    return "HighLoad";
+                case 500 <= i:
+                    return "LowLoad";
+                default:
+                    return "NormalLoad";
+            }
+        };
+        UI.frameDelaySelect = new _library_2.Library.Control.Select(control_json_1.default.frameDelay, { makeLabel: function (i) { return "".concat(i, " ms ( ").concat(UI.getLoadLabel(i), " )"); } });
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);
         UI.withFullscreen = new _library_2.Library.Control.Checkbox(control_json_1.default.withFullscreen);
         UI.showFps = new _library_2.Library.Control.Checkbox(control_json_1.default.showFPS);
@@ -2802,7 +2834,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                 this.makeBackgroundColor = function (mile, offset, ix) {
                     return _this.makeColor(_this.makeBackgroundRgb(mile, offset, ix));
                 };
-                this.isStarted = function () { return 0 < _this.startAt; };
+                this.isStarted = function () {
+                    return 0 !== _this.startAt || 0 !== _this.offsetAt;
+                };
                 this.getStep = function (layer) { return _this.universalStep - (layer.mile + layer.offset); };
                 this.getSpotsIndex = function (ix) {
                     return Math.floor(ix * _this.spotsLayersRate);
@@ -3309,9 +3343,7 @@ define("script/controller/animation", ["require", "exports", "script/features/in
             base_1.Base.exitMode("animation");
         };
         Animation.isAnimationStepTiming = function (now) {
-            return !ui_4.UI.lowLoadModeCheckbox.get() ||
-                config_json_6.default.lowLoadMode.stepSkipThreshold <= Animation.animator.getNowDifference(now) * Animation.animator.getStepDifference(now) / Animation.animator.layers.length ||
-                config_json_6.default.lowLoadMode.maxSkipMillisecond <= Animation.animator.getNowDifference(now);
+            return parseInt(ui_4.UI.frameDelaySelect.get()) <= Animation.animator.getNowDifference(now);
         };
         Animation.loopAnimation = function (now) {
             if (Animation.isInAnimation()) {
@@ -3321,13 +3353,9 @@ define("script/controller/animation", ["require", "exports", "script/features/in
                     Animation.pauseAnimation();
                 }
                 else {
-                    if (100 < Animation.animator.getNowDifference(now)) {
+                    if (Animation.isAnimationStepTiming(now)) {
                         Animation.animator.step(now);
                     }
-                    // if (isAnimationStepTiming(now))
-                    // {
-                    //     animator.step(now);
-                    // }
                     window.requestAnimationFrame(Animation.loopAnimation);
                 }
             }

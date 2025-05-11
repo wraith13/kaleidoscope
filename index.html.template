@@ -78,9 +78,9 @@ __STYLE__
         <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
         <select id="fuse-fps"></select>
     </label>
-    <label for="low-load-mode">
-        <span data-lang-key="low-load-mode-label">Show FPS:</span>
-        <input id="low-load-mode" type="checkbox">
+    <label for="frame-delay">
+        <span data-lang-key="frame-delay-label">Fuse FPS:</span>
+        <select id="frame-delay"></select>
     </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>

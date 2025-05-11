@@ -224,7 +224,8 @@ export namespace Animation
             this.makeColor(this.makeForegroundRgb(mile, offset, ix));
         makeBackgroundColor = (mile: number, offset: number, ix: number): FlounderStyle.Type.Color =>
             this.makeColor(this.makeBackgroundRgb(mile, offset, ix));
-        isStarted = () => 0 < this.startAt;
+        isStarted = () =>
+            0 !== this.startAt || 0 !== this.offsetAt;
         getStep = (layer: Layer) => this.universalStep -(layer.mile +layer.offset);
         getSpotsIndex = (ix: number) =>
             Math.floor(ix *this.spotsLayersRate);
