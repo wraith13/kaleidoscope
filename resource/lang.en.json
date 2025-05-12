@@ -62,5 +62,9 @@
     "benchmark-description-screen-resolution-score": "Screen resolution score is the amount of screen information with { Screen Width: 1920, Screen Height: 1080, Device Pixel Ratio: 1, Screen Color Depth: 24 } as 1.",
     "Unmeasured": "Unmeasured",
     "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",
-    "UnmeasurableRich": "Unmeasurable (Excessive Performance)"
+    "UnmeasurableRich": "Unmeasurable (Excessive Performance)",
+    "FullPower": "Full Power",
+    "HighLoad": "High Load",
+    "MediumLoad": "Medium Load",
+    "LowLoad": "Low Load"
 }

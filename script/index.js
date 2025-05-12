@@ -154,7 +154,11 @@ define("resource/lang.en", [], {
     "benchmark-description-screen-resolution-score": "Screen resolution score is the amount of screen information with { Screen Width: 1920, Screen Height: 1080, Device Pixel Ratio: 1, Screen Color Depth: 24 } as 1.",
     "Unmeasured": "Unmeasured",
     "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",
-    "UnmeasurableRich": "Unmeasurable (Excessive Performance)"
+    "UnmeasurableRich": "Unmeasurable (Excessive Performance)",
+    "FullPower": "Full Power",
+    "HighLoad": "High Load",
+    "MediumLoad": "Medium Load",
+    "LowLoad": "Low Load"
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -220,7 +224,11 @@ define("resource/lang.ja", [], {
     "benchmark-description-screen-resolution-score": "画面解像度スコアは { 画面横幅: 1920, 画面高さ: 1080, デバイスピクセル比: 1, 画面色深度: 24 } を 1 とした画面情報量です。",
     "Unmeasured": "未計測",
     "UnmeasurablePoor": "計測不能(性能不足)",
-    "UnmeasurableRich": "計測不能(性能過剰)"
+    "UnmeasurableRich": "計測不能(性能過剰)",
+    "FullPower": "フルパワー",
+    "HighLoad": "高負荷",
+    "MediumLoad": "中負荷",
+    "LowLoad": "低負荷"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -1241,15 +1249,17 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
         UI.fuseFpsSelect = new _library_2.Library.Control.Select(control_json_1.default.fuseFps);
         UI.getLoadLabel = function (i) {
             switch (true) {
-                case i <= 100:
+                case i <= 0:
+                    return "FullPower";
+                case i < 100:
                     return "HighLoad";
-                case 500 <= i:
+                case 350 < i:
                     return "LowLoad";
                 default:
-                    return "NormalLoad";
+                    return "MediumLoad";
             }
         };
-        UI.getFrameDelayLabel = function (i) { return "".concat(_tools_1.Tools.Timespan.toDisplayString(i), " ").concat(UI.getLoadLabel(i)); };
+        UI.getFrameDelayLabel = function (i) { return "".concat(_library_2.Library.Locale.map(UI.getLoadLabel(i)), " ").concat(_tools_1.Tools.Timespan.toDisplayString(i)); };
         UI.frameDelaySelect = new _library_2.Library.Control.Select(control_json_1.default.frameDelay, { makeLabel: UI.getFrameDelayLabel });
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);
         UI.withFullscreen = new _library_2.Library.Control.Checkbox(control_json_1.default.withFullscreen);
@@ -1291,6 +1301,7 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
             UI.layersSelect.reloadOptions();
             UI.cycleSpanSelect.reloadOptions();
             UI.fuseFpsSelect.reloadOptions();
+            UI.frameDelaySelect.reloadOptions();
             UI.languageSelect.reloadOptions();
             _library_2.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
                 .forEach(function (i) { return _library_2.Library.UI.setTextContent(i, _library_2.Library.Locale.map(i.getAttribute("data-lang-key"))); });

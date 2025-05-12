@@ -62,5 +62,9 @@
     "benchmark-description-screen-resolution-score": "画面解像度スコアは { 画面横幅: 1920, 画面高さ: 1080, デバイスピクセル比: 1, 画面色深度: 24 } を 1 とした画面情報量です。",
     "Unmeasured": "未計測",
     "UnmeasurablePoor": "計測不能(性能不足)",
-    "UnmeasurableRich": "計測不能(性能過剰)"
+    "UnmeasurableRich": "計測不能(性能過剰)",
+    "FullPower": "フルパワー",
+    "HighLoad": "高負荷",
+    "MediumLoad": "中負荷",
+    "LowLoad": "低負荷"
 }

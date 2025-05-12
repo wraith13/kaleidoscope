@@ -29,19 +29,21 @@ export namespace UI
         new Library.Control.Select(control.cycleSpan, { makeLabel: Tools.Timespan.toDisplayString });
     export const fuseFpsSelect =
         new Library.Control.Select(control.fuseFps);
-    export const getLoadLabel = (i: number) =>
+    export const getLoadLabel = (i: number): Library.Locale.Label =>
     {
         switch(true)
         {
-            case i <= 100:
-                return "HighLoad";
-            case 500 <= i:
-                return "LowLoad";
-            default:
-                return "NormalLoad";
+        case i <= 0:
+            return "FullPower";
+        case i < 100:
+            return "HighLoad";
+        case 350 < i:
+            return "LowLoad";
+        default:
+            return "MediumLoad";
         }
     };
-    export const getFrameDelayLabel = (i: number) => `${Tools.Timespan.toDisplayString(i)} ${getLoadLabel(i)}`;
+    export const getFrameDelayLabel = (i: number) => `${Library.Locale.map(getLoadLabel(i))} ${Tools.Timespan.toDisplayString(i)}`;
     export const frameDelaySelect =
         new Library.Control.Select(control.frameDelay, { makeLabel: getFrameDelayLabel });
     export const easingCheckbox =
@@ -115,6 +117,7 @@ export namespace UI
         UI.layersSelect.reloadOptions();
         UI.cycleSpanSelect.reloadOptions();
         UI.fuseFpsSelect.reloadOptions();
+        UI.frameDelaySelect.reloadOptions();
         UI.languageSelect.reloadOptions();
         Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
             .forEach(i => Library.UI.setTextContent(i, Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.Label)));

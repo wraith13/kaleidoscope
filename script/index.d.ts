@@ -74,6 +74,10 @@ declare module "script/library/locale" {
                 Unmeasured: string;
                 UnmeasurablePoor: string;
                 UnmeasurableRich: string;
+                FullPower: string;
+                HighLoad: string;
+                MediumLoad: string;
+                LowLoad: string;
             };
             ja: {
                 "lang-label": string;
@@ -140,6 +144,10 @@ declare module "script/library/locale" {
                 Unmeasured: string;
                 UnmeasurablePoor: string;
                 UnmeasurableRich: string;
+                FullPower: string;
+                HighLoad: string;
+                MediumLoad: string;
+                LowLoad: string;
             };
         };
         type Label = keyof typeof localeEn & keyof typeof localeJa;
@@ -375,7 +383,7 @@ declare module "script/ui" {
         const spotslayersSelect: Library.Control.Select<number>;
         const cycleSpanSelect: Library.Control.Select<number>;
         const fuseFpsSelect: Library.Control.Select<number>;
-        const getLoadLabel: (i: number) => "HighLoad" | "LowLoad" | "NormalLoad";
+        const getLoadLabel: (i: number) => Library.Locale.Label;
         const getFrameDelayLabel: (i: number) => string;
         const frameDelaySelect: Library.Control.Select<number>;
         const easingCheckbox: Library.Control.Checkbox;
