@@ -376,6 +376,7 @@ declare module "script/ui" {
         const cycleSpanSelect: Library.Control.Select<number>;
         const fuseFpsSelect: Library.Control.Select<number>;
         const getLoadLabel: (i: number) => "HighLoad" | "LowLoad" | "NormalLoad";
+        const getFrameDelayLabel: (i: number) => string;
         const frameDelaySelect: Library.Control.Select<number>;
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;

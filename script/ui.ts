@@ -41,8 +41,9 @@ export namespace UI
                 return "NormalLoad";
         }
     };
+    export const getFrameDelayLabel = (i: number) => `${Tools.Timespan.toDisplayString(i)} ${getLoadLabel(i)}`;
     export const frameDelaySelect =
-        new Library.Control.Select(control.frameDelay, { makeLabel: i => `${i} ms ( ${getLoadLabel(i)} )` });
+        new Library.Control.Select(control.frameDelay, { makeLabel: getFrameDelayLabel });
     export const easingCheckbox =
         new Library.Control.Checkbox(control.easing);
     export const withFullscreen =

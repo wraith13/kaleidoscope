@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun May 11 2025 18:04:26 GMT+0900 (日本標準時)
+    build at: Mon May 12 2025 02:32:02 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1580,8 +1580,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sun May 11 2025 18:04:26 GMT+0900 (日本標準時)",
-    tick: 1746954266185
+    at: "Mon May 12 2025 02:32:02 GMT+0900 (日本標準時)",
+    tick: 1746984722438
 };
 const evilCommonjsConfig =
 {
@@ -5816,7 +5816,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
                     return "NormalLoad";
             }
         };
-        UI.frameDelaySelect = new _library_2.Library.Control.Select(control_json_1.default.frameDelay, { makeLabel: function (i) { return "".concat(i, " ms ( ").concat(UI.getLoadLabel(i), " )"); } });
+        UI.getFrameDelayLabel = function (i) { return "".concat(_tools_1.Tools.Timespan.toDisplayString(i), " ").concat(UI.getLoadLabel(i)); };
+        UI.frameDelaySelect = new _library_2.Library.Control.Select(control_json_1.default.frameDelay, { makeLabel: UI.getFrameDelayLabel });
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);
         UI.withFullscreen = new _library_2.Library.Control.Checkbox(control_json_1.default.withFullscreen);
         UI.showFps = new _library_2.Library.Control.Checkbox(control_json_1.default.showFPS);

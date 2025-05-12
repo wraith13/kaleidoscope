@@ -1249,7 +1249,8 @@ define("script/ui", ["require", "exports", "script/library/index", "script/tools
                     return "NormalLoad";
             }
         };
-        UI.frameDelaySelect = new _library_2.Library.Control.Select(control_json_1.default.frameDelay, { makeLabel: function (i) { return "".concat(i, " ms ( ").concat(UI.getLoadLabel(i), " )"); } });
+        UI.getFrameDelayLabel = function (i) { return "".concat(_tools_1.Tools.Timespan.toDisplayString(i), " ").concat(UI.getLoadLabel(i)); };
+        UI.frameDelaySelect = new _library_2.Library.Control.Select(control_json_1.default.frameDelay, { makeLabel: UI.getFrameDelayLabel });
         UI.easingCheckbox = new _library_2.Library.Control.Checkbox(control_json_1.default.easing);
         UI.withFullscreen = new _library_2.Library.Control.Checkbox(control_json_1.default.withFullscreen);
         UI.showFps = new _library_2.Library.Control.Checkbox(control_json_1.default.showFPS);
