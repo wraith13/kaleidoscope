@@ -52,6 +52,8 @@ export namespace UI
         new Library.Control.Checkbox(control.withFullscreen);
     export const showFps =
         new Library.Control.Checkbox(control.showFPS);
+    export const showClock =
+        new Library.Control.Checkbox(control.showClock);
     export const languageSelect =
         new Library.Control.Select
         (
@@ -65,6 +67,12 @@ export namespace UI
         );
     export const fpsDisplay =
         Library.UI.getElementById("div", "fps");
+    export const clockDisplay =
+        Library.UI.getElementById("div", "clock");
+    export const date =
+        Library.UI.getElementById("span", "date");
+    export const time =
+        Library.UI.getElementById("span", "time");
     export const benchmarkProgressBar =
         Library.UI.getElementById("div", "benchmark-progress-bar");
     export const benchmarkCanvas =

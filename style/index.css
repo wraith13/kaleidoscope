@@ -617,6 +617,100 @@ body:not(.immersive) #play-button #pause-icon {
   display: none;
 }
 
+#clock {
+  transition: opacity 750ms, filter 750ms;
+}
+body:not(.animation) #clock:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body:not(.animation) #clock:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+#clock.hide:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+#clock.hide:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+#clock {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+#clock #time {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #clock #time {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #clock #time {
+    font-size: 1rem;
+  }
+}
+#clock #time {
+  font-family: monospace;
+}
+#clock #time {
+  font-size: 10vw;
+  display: block;
+  color: white;
+}
+#clock #date {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #clock #date {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #clock #date {
+    font-size: 1rem;
+  }
+}
+#clock #date {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#clock #date {
+  font-size: 3vw;
+  display: block;
+  color: white;
+  padding-right: 1rem;
+  text-align: right;
+}
+
 #benchmark-popup {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);

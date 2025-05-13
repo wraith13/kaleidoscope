@@ -277,6 +277,40 @@
         display: none;
     }
 }
+#clock
+{
+    @include fade-transition("body:not(.animation)", "&.hide");
+    &
+    {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        mix-blend-mode: difference;
+        #time
+        {
+            @include monospace-font();
+            &
+            {
+                @include font-size(10vw);
+                display: block;
+                color: white;
+            }
+        }
+        #date
+        {
+            @include font();
+            &
+            {
+                @include font-size(3vw);
+                display: block;
+                color: white;
+                padding-right: 1rem;
+                text-align: right
+            }
+        }
+    }
+}
 #benchmark-popup
 {
     @include black-pop-panel-style();

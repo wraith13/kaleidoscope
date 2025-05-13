@@ -94,6 +94,10 @@ __STYLE__
         <span data-lang-key="show-fps-label">Show FPS:</span>
         <input id="show-fps" type="checkbox">
     </label>
+    <label for="show-clock">
+        <span data-lang-key="show-clock-label">Show Clock:</span>
+        <input id="show-clock" type="checkbox">
+    </label>
     <label for="language">
         <span data-lang-key="language-label">Language:</span>
         <select id="language"></select>
@@ -105,7 +109,10 @@ __STYLE__
         __ELAPSED_ICON__
         <span data-lang-key="run-benchmark-label"></span>
     </button>
-<div id="run-benchmark-report"></div>
+</div>
+<div id="clock">
+    <span id="time"></span>
+    <span id="date"></span>
 </div>
 <button id="play-button">
     __IMAGES__

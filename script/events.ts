@@ -48,6 +48,8 @@ export namespace Events
         update(() => Controller.Animation.animator.setEasing(UI.easingCheckbox.get()));
     const updateShowFps = () =>
         UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
+    const updateShowClock = () =>
+        UI.clockDisplay.classList.toggle("hide", ! UI.showClock.get());
     export const initialize = () =>
     {
         UI.playButton.data.click = (event, button) =>
@@ -73,6 +75,7 @@ export namespace Events
         UI.easingCheckbox.setChange(updateEasing);
         // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);
+        UI.showClock.setChange(updateShowClock);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
             event?.stopPropagation();

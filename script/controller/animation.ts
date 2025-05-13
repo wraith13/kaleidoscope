@@ -36,6 +36,10 @@ export namespace Animation
     {
         if (isInAnimation())
         {
+            if (UI.showClock.get())
+            {
+                Features.Clock.update(Library.Locale.getLocale());
+            }
             Features.Fps.step(now);
             updateFps();
             if (Features.Fps.isUnderFuseFps())

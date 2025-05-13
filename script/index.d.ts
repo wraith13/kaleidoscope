@@ -25,6 +25,7 @@ declare module "script/library/locale" {
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
+                "show-clock-label": string;
                 "language-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
@@ -95,6 +96,7 @@ declare module "script/library/locale" {
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
+                "show-clock-label": string;
                 "language-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
@@ -389,8 +391,12 @@ declare module "script/ui" {
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;
+        const showClock: Library.Control.Checkbox;
         const languageSelect: Library.Control.Select<string>;
         const fpsDisplay: HTMLDivElement;
+        const clockDisplay: HTMLDivElement;
+        const date: HTMLSpanElement;
+        const time: HTMLSpanElement;
         const benchmarkProgressBar: HTMLDivElement;
         const benchmarkCanvas: HTMLDivElement;
         const keyboardShortcut: HTMLDivElement;
@@ -807,6 +813,13 @@ declare module "script/features/animation" {
         export {};
     }
 }
+declare module "script/features/clock" {
+    export namespace Clock {
+        const makeDate: (local: string) => string;
+        const makeTime: (local: string) => string;
+        const update: (local: string) => void;
+    }
+}
 declare module "script/features/benchmark" {
     import { Tools } from "script/tools/index";
     import { Library } from "script/library/index";
@@ -908,10 +921,12 @@ declare module "script/features/benchmark" {
 declare module "script/features/index" {
     import * as ImportedFps from "script/features/fps";
     import * as ImportedAnimation from "script/features/animation";
+    import * as ImportedClock from "script/features/clock";
     import * as ImportedBenchmark from "script/features/benchmark";
     export namespace Features {
         export import Fps = ImportedFps.Fps;
         export import Animation = ImportedAnimation.Animation;
+        export import Clock = ImportedClock.Clock;
         export import Benchmark = ImportedBenchmark.Benchmark;
     }
 }
