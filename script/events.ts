@@ -191,6 +191,5 @@ export namespace Events
             // UI.withFullscreen,
             UI.showFps,
         ].forEach(i => i.fire());
-        
     };
 }

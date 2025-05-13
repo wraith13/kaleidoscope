@@ -74,7 +74,7 @@
             2,
             1
         ],
-        "default": 17
+        "default": 7
     },
     "spotsLayers": {
         "id": "spotsLayers",
@@ -165,7 +165,7 @@
             1250,
             1500
         ],
-        "default": 150
+        "default": 0
     },
     "lowLoadMode": {
         "id": "low-load-mode",

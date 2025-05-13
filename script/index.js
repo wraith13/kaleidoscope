@@ -1102,7 +1102,7 @@ define("resource/control", [], {
             2,
             1
         ],
-        "default": 17
+        "default": 7
     },
     "spotsLayers": {
         "id": "spotsLayers",
@@ -1193,7 +1193,7 @@ define("resource/control", [], {
             1250,
             1500
         ],
-        "default": 150
+        "default": 0
     },
     "lowLoadMode": {
         "id": "low-load-mode",
@@ -3020,20 +3020,15 @@ define("script/features/clock", ["require", "exports", "script/library/index", "
     exports.Clock = void 0;
     var Clock;
     (function (Clock) {
-        Clock.makeDate = function (local) {
-            return new Date().toLocaleDateString(local);
+        Clock.makeDate = function () {
+            return new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         };
-        Clock.makeTime = function (local) {
-            return new Date().toLocaleTimeString(local, {
-                hour12: false,
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-            });
+        Clock.makeTime = function () {
+            return new Date().toLocaleTimeString();
         };
-        Clock.update = function (local) {
-            library_1.Library.UI.setTextContent(ui_2.UI.date, Clock.makeDate(local));
-            library_1.Library.UI.setTextContent(ui_2.UI.time, Clock.makeTime(local));
+        Clock.update = function (_local) {
+            library_1.Library.UI.setTextContent(ui_2.UI.date, Clock.makeDate());
+            library_1.Library.UI.setTextContent(ui_2.UI.time, Clock.makeTime());
         };
     })(Clock || (exports.Clock = Clock = {}));
 });

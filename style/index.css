@@ -663,6 +663,13 @@ body:not(.animation) #clock:not(.show)::before {
   left: 50%;
   transform: translate(-50%, -50%);
   mix-blend-mode: difference;
+  user-select: none;
+  pointer-events: none;
+}
+#clock span {
+  display: block;
+  color: white;
+  text-align: center;
 }
 #clock #time {
   font-size: 0.75rem;
@@ -682,9 +689,7 @@ body:not(.animation) #clock:not(.show)::before {
   font-family: monospace;
 }
 #clock #time {
-  font-size: 10vw;
-  display: block;
-  color: white;
+  font-size: 15vw;
 }
 #clock #date {
   font-size: 0.75rem;
@@ -705,10 +710,6 @@ body:not(.animation) #clock:not(.show)::before {
 }
 #clock #date {
   font-size: 3vw;
-  display: block;
-  color: white;
-  padding-right: 1rem;
-  text-align: right;
 }
 
 #benchmark-popup {

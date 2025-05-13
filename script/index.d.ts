@@ -815,9 +815,9 @@ declare module "script/features/animation" {
 }
 declare module "script/features/clock" {
     export namespace Clock {
-        const makeDate: (local: string) => string;
-        const makeTime: (local: string) => string;
-        const update: (local: string) => void;
+        const makeDate: () => string;
+        const makeTime: () => string;
+        const update: (_local: string) => void;
     }
 }
 declare module "script/features/benchmark" {

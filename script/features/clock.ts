@@ -2,22 +2,17 @@ import { Library } from "../library";
 import { UI } from "../ui";
 export namespace Clock
 {
-    export const makeDate = (local: string): string =>
-        new Date().toLocaleDateString(local);
-    export const makeTime = (local: string): string =>
-        new Date().toLocaleTimeString
+    export const makeDate = (): string =>
+        new Date().toLocaleDateString
         (
-            local,
-            {
-                hour12: false,
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-            }
+            undefined,
+            { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
         );
-    export const update = (local: string): void =>
+    export const makeTime = (): string =>
+        new Date().toLocaleTimeString();
+    export const update = (_local: string): void =>
     {
-        Library.UI.setTextContent(UI.date, makeDate(local));
-        Library.UI.setTextContent(UI.time, makeTime(local));
+        Library.UI.setTextContent(UI.date, makeDate());
+        Library.UI.setTextContent(UI.time, makeTime());
     };
 }

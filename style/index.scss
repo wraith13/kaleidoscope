@@ -287,14 +287,20 @@
         left: 50%;
         transform: translate(-50%, -50%);
         mix-blend-mode: difference;
+        user-select: none;
+        pointer-events: none;
+        span
+        {
+            display: block;
+            color: white;
+            text-align: center;
+        }
         #time
         {
             @include monospace-font();
             &
             {
-                @include font-size(10vw);
-                display: block;
-                color: white;
+                @include font-size(15vw);
             }
         }
         #date
@@ -303,10 +309,6 @@
             &
             {
                 @include font-size(3vw);
-                display: block;
-                color: white;
-                padding-right: 1rem;
-                text-align: right
             }
         }
     }
