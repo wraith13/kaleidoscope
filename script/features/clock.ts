@@ -1,18 +1,23 @@
 import { Library } from "../library";
 import { UI } from "../ui";
+import config from "@resource/config.json";
 export namespace Clock
 {
-    export const makeDate = (): string =>
+    export const makeDate = (local: string | undefined): string =>
         new Date().toLocaleDateString
         (
-            undefined,
-            { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+            local,
+            config.clock.dateFormat as Intl.DateTimeFormatOptions
         );
-    export const makeTime = (): string =>
-        new Date().toLocaleTimeString();
-    export const update = (_local: string): void =>
+    export const makeTime = (local: string | undefined): string =>
+        new Date().toLocaleTimeString
+        (
+            local,
+            config.clock.timeFormat as Intl.DateTimeFormatOptions
+        );
+    export const update = (local: string | undefined): void =>
     {
-        Library.UI.setTextContent(UI.date, makeDate());
-        Library.UI.setTextContent(UI.time, makeTime());
+        Library.UI.setTextContent(UI.date, makeDate(local));
+        Library.UI.setTextContent(UI.time, makeTime(local));
     };
 }

@@ -300,7 +300,8 @@
             @include monospace-font();
             &
             {
-                @include font-size(15vw);
+                @include font-size(13.5vw);
+                white-space: nowrap;
             }
         }
         #date
@@ -309,6 +310,7 @@
             &
             {
                 @include font-size(3vw);
+                white-space: nowrap;
             }
         }
     }

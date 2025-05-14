@@ -689,7 +689,8 @@ body:not(.animation) #clock:not(.show)::before {
   font-family: monospace;
 }
 #clock #time {
-  font-size: 15vw;
+  font-size: 13.5vw;
+  white-space: nowrap;
 }
 #clock #date {
   font-size: 0.75rem;
@@ -710,6 +711,7 @@ body:not(.animation) #clock:not(.show)::before {
 }
 #clock #date {
   font-size: 3vw;
+  white-space: nowrap;
 }
 
 #benchmark-popup {

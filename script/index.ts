@@ -1,3 +1,5 @@
+import { Controller } from "@controller";
+import { Features } from "@features";
 import { Library } from "@library";
 import { Tools } from "@tools";
 import { UI } from "./ui";
@@ -11,3 +13,15 @@ interface BuildInformation
 }
 declare var build: BuildInformation;
 console.log(`📦 BUILD AT: ${build.at} ( ${Tools.Timespan.toDisplayString(new Date().getTime() -build.tick, 1)} ${Library.Locale.map("ago")} )`);
+const consoleInterface = globalThis as any;
+const modules =
+{
+    Controller,
+    Features,
+    Library,
+    Tools,
+    UI,
+    Events
+};
+Object.entries(modules).forEach(([ name, module ]) => consoleInterface[name] = module);
+console.log(`📦 Available modules: ${Object.keys(modules).join(", ")}`);

@@ -370,58 +370,6 @@ declare module "script/tools/index" {
         export import Hash = ImportedHash.Hash;
     }
 }
-declare module "script/ui" {
-    import { Library } from "script/library/index";
-    export namespace UI {
-        const screenBody: HTMLDivElement;
-        const canvas: HTMLDivElement;
-        const playButton: Library.Control.Button<HTMLElement>;
-        const runBenchmarkButton: Library.Control.Button<HTMLElement>;
-        const colorspaceSelect: Library.Control.Select<string>;
-        const coloringSelect: Library.Control.Select<string>;
-        const patternSelect: Library.Control.Select<string>;
-        const canvasSizeSelect: Library.Control.Select<number>;
-        const layersSelect: Library.Control.Select<number>;
-        const spotslayersSelect: Library.Control.Select<number>;
-        const cycleSpanSelect: Library.Control.Select<number>;
-        const fuseFpsSelect: Library.Control.Select<number>;
-        const getLoadLabel: (i: number) => Library.Locale.Label;
-        const getFrameDelayLabel: (i: number) => string;
-        const frameDelaySelect: Library.Control.Select<number>;
-        const easingCheckbox: Library.Control.Checkbox;
-        const withFullscreen: Library.Control.Checkbox;
-        const showFps: Library.Control.Checkbox;
-        const showClock: Library.Control.Checkbox;
-        const languageSelect: Library.Control.Select<string>;
-        const fpsDisplay: HTMLDivElement;
-        const clockDisplay: HTMLDivElement;
-        const date: HTMLSpanElement;
-        const time: HTMLSpanElement;
-        const benchmarkProgressBar: HTMLDivElement;
-        const benchmarkCanvas: HTMLDivElement;
-        const keyboardShortcut: HTMLDivElement;
-        const benchmarkTotalScore: HTMLSpanElement;
-        const benchmarkScorePerFullHD: HTMLSpanElement;
-        const benchmarkCalculationScore: HTMLSpanElement;
-        const benchmarkLinesCalculationScore: HTMLSpanElement;
-        const benchmarkSpotsCalculationScore: HTMLSpanElement;
-        const benchmarkLinesRenderingScore: HTMLSpanElement;
-        const benchmarkSpotsRenderingScore: HTMLSpanElement;
-        const benchmarkDisplayScore: HTMLSpanElement;
-        const benchmarkFpsScore: HTMLSpanElement;
-        const benchmarkScreenResolutionScore: HTMLSpanElement;
-        const benchmarkScreenWidth: HTMLSpanElement;
-        const benchmarkScreenHeight: HTMLSpanElement;
-        const benchmarkDevicePixelRatio: HTMLSpanElement;
-        const benchmarkScreenColorDepth: HTMLSpanElement;
-        const benchmarkPopupLabel: HTMLSpanElement;
-        const benchmarkPopupValue: HTMLSpanElement;
-        const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
-        const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
-        const updateLanguage: () => void;
-        const initialize: () => void;
-    }
-}
 declare module "script/features/fps" {
     export namespace Fps {
         export class OnlineStandardDeviation {
@@ -813,11 +761,63 @@ declare module "script/features/animation" {
         export {};
     }
 }
+declare module "script/ui" {
+    import { Library } from "script/library/index";
+    export namespace UI {
+        const screenBody: HTMLDivElement;
+        const canvas: HTMLDivElement;
+        const playButton: Library.Control.Button<HTMLElement>;
+        const runBenchmarkButton: Library.Control.Button<HTMLElement>;
+        const colorspaceSelect: Library.Control.Select<string>;
+        const coloringSelect: Library.Control.Select<string>;
+        const patternSelect: Library.Control.Select<string>;
+        const canvasSizeSelect: Library.Control.Select<number>;
+        const layersSelect: Library.Control.Select<number>;
+        const spotslayersSelect: Library.Control.Select<number>;
+        const cycleSpanSelect: Library.Control.Select<number>;
+        const fuseFpsSelect: Library.Control.Select<number>;
+        const getLoadLabel: (i: number) => Library.Locale.Label;
+        const getFrameDelayLabel: (i: number) => string;
+        const frameDelaySelect: Library.Control.Select<number>;
+        const easingCheckbox: Library.Control.Checkbox;
+        const withFullscreen: Library.Control.Checkbox;
+        const showFps: Library.Control.Checkbox;
+        const showClock: Library.Control.Checkbox;
+        const languageSelect: Library.Control.Select<string>;
+        const fpsDisplay: HTMLDivElement;
+        const clockDisplay: HTMLDivElement;
+        const date: HTMLSpanElement;
+        const time: HTMLSpanElement;
+        const benchmarkProgressBar: HTMLDivElement;
+        const benchmarkCanvas: HTMLDivElement;
+        const keyboardShortcut: HTMLDivElement;
+        const benchmarkTotalScore: HTMLSpanElement;
+        const benchmarkScorePerFullHD: HTMLSpanElement;
+        const benchmarkCalculationScore: HTMLSpanElement;
+        const benchmarkLinesCalculationScore: HTMLSpanElement;
+        const benchmarkSpotsCalculationScore: HTMLSpanElement;
+        const benchmarkLinesRenderingScore: HTMLSpanElement;
+        const benchmarkSpotsRenderingScore: HTMLSpanElement;
+        const benchmarkDisplayScore: HTMLSpanElement;
+        const benchmarkFpsScore: HTMLSpanElement;
+        const benchmarkScreenResolutionScore: HTMLSpanElement;
+        const benchmarkScreenWidth: HTMLSpanElement;
+        const benchmarkScreenHeight: HTMLSpanElement;
+        const benchmarkDevicePixelRatio: HTMLSpanElement;
+        const benchmarkScreenColorDepth: HTMLSpanElement;
+        const benchmarkPopupLabel: HTMLSpanElement;
+        const benchmarkPopupValue: HTMLSpanElement;
+        const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
+        const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
+        const updateLanguage: () => void;
+        const initialize: () => void;
+    }
+}
 declare module "script/features/clock" {
     export namespace Clock {
-        const makeDate: () => string;
-        const makeTime: () => string;
-        const update: (_local: string) => void;
+        const makeDate: (local: string | undefined) => string;
+        const makeTime: (local: string | undefined) => string;
+        const update: (local: string | undefined) => void;
     }
 }
 declare module "script/features/benchmark" {
@@ -942,6 +942,7 @@ declare module "script/controller/animation" {
     import { Features } from "script/features/index";
     export namespace Animation {
         const animator: Features.Animation.Animator;
+        let cloclLocale: string | undefined;
         const isInAnimation: () => boolean;
         const playAnimation: () => void;
         const pauseAnimation: () => void;

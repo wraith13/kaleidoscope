@@ -6,6 +6,7 @@ import config from "@resource/config.json";
 export namespace Animation
 {
     export const animator = new Features.Animation.Animator(UI.canvas, Math.random);
+    export let cloclLocale: string | undefined = undefined;
     export const isInAnimation = () =>
         Base.isInMode("animation");
     export const playAnimation = () =>
@@ -38,7 +39,7 @@ export namespace Animation
         {
             if (UI.showClock.get())
             {
-                Features.Clock.update(Library.Locale.getLocale());
+                Features.Clock.update(cloclLocale);
             }
             Features.Fps.step(now);
             updateFps();

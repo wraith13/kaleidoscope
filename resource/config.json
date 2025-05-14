@@ -29,10 +29,6 @@
     ],
     "maximumFractionDigits": 2,
     "startWait": 750,
-    "lowLoadMode": {
-        "stepSkipThreshold": 5,
-        "maxSkipMillisecond": 3000
-    },
     "benchmark": {
         "startWait": 1500,
         "stableWait": 1500,
@@ -45,5 +41,19 @@
         "colorDepthUnit": 24,
         "fpsUnit": 60,
         "decimalDigits": 2
+    },
+    "clock":
+    {
+        "dateFormat": {
+            "weekday": "long",
+            "year": "numeric",
+            "month": "long",
+            "day": "numeric"
+        },
+        "timeFormat": {
+            "hour": "2-digit",
+            "minute": "2-digit",
+            "second": "2-digit"
+        }
     }
 }
