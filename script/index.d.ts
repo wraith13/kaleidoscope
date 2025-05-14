@@ -963,6 +963,7 @@ declare module "script/controller/benchmark" {
         const runBenchmark: () => void;
         const stopBenchmark: () => void;
         const showResult: () => void;
+        const abortBenchmark: () => void;
     }
 }
 declare module "script/controller/index" {

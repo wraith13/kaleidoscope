@@ -101,4 +101,13 @@ export namespace Benchmark
         showMeasurementScore(UI.benchmarkDevicePixelRatio, benchmark.result.screenResolution, i => numberResultToText(i.devicePixelRatio));
         showMeasurementScore(UI.benchmarkScreenColorDepth, benchmark.result.screenResolution, i => numberResultToText(i.colorDepth));
     }
+    export const abortBenchmark = () =>
+    {
+        if (isInBenchmark() && ! benchmark.isEnd())
+        {
+            benchmark.end();
+            stopBenchmark();
+            showResult();
+        }
+    }
 }

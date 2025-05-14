@@ -95,6 +95,14 @@ body.hide-ui #screen-header:not(.show) {
 #screen-header .segment > * {
   transform: skewX(-150deg);
 }
+@media (max-width: 496px) {
+  #screen-header .segment:not(:last-child) {
+    display: none;
+  }
+  #screen-header .segment + .segment {
+    border-left-style: none;
+  }
+}
 @media (hover: hover) {
   #screen-header .segment[href]:hover {
     background-color: rgba(32, 28, 38, 0.95);

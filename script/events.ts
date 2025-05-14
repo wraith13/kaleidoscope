@@ -191,5 +191,14 @@ export namespace Events
             // UI.withFullscreen,
             UI.showFps,
         ].forEach(i => i.fire());
+        document.addEventListener
+        (
+            "visibilitychange", () =>
+            {
+                console.log(`👀 visibilitychange: document.hidden: ${document.hidden}`);
+                Controller.Benchmark.abortBenchmark();
+                Features.Fps.reset();
+            }
+        );
     };
 }

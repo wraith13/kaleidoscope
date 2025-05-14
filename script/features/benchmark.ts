@@ -308,7 +308,6 @@ export namespace Benchmark
             setProgressBarProgress(++this.phase);
         };
         isEnd = () =>
-            ! document.hasFocus() ||
             phases.length <= this.phase;
         end = () =>
         {

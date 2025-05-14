@@ -43,6 +43,17 @@
             {
                 transform: skewX(-150deg);
             }
+            @media (max-width: 496px)
+            {
+                &:not(:last-child)
+                {
+                    display: none;
+                }
+                & + .segment
+                {
+                    border-left-style: none;
+                }
+            }
             @media (hover: hover)
             {
                 &[href]:hover

@@ -264,7 +264,7 @@ define("script/library/locale", ["require", "exports", "resource/lang.en", "reso
     })(Locale || (exports.Locale = Locale = {}));
 });
 define("resource/config", [], {
-    "applicationTitle": "Kaleidoscope",
+    "applicationTitle": "Kaleidoscope Web Screensaver",
     "repositoryUrl": "https://github.com/wraith13/kaleidoscope/",
     "log": {
         "mousemove": false,
@@ -3299,8 +3299,7 @@ define("script/features/benchmark", ["require", "exports", "script/tools/index",
                     setProgressBarProgress(++_this.phase);
                 };
                 this.isEnd = function () {
-                    return !document.hasFocus() ||
-                        phases.length <= _this.phase;
+                    return phases.length <= _this.phase;
                 };
                 this.end = function () {
                     _this.result.displayScore = Benchmark.calculateMeasurementScore(_this.result.screenResolutionScore, _this.result.fps, function (a, b) { return (a * b) / config_json_6.default.benchmark.fpsUnit; });
@@ -3511,6 +3510,13 @@ define("script/controller/benchmark", ["require", "exports", "script/features/in
             showMeasurementScore(ui_6.UI.benchmarkDevicePixelRatio, Benchmark.benchmark.result.screenResolution, function (i) { return numberResultToText(i.devicePixelRatio); });
             showMeasurementScore(ui_6.UI.benchmarkScreenColorDepth, Benchmark.benchmark.result.screenResolution, function (i) { return numberResultToText(i.colorDepth); });
         };
+        Benchmark.abortBenchmark = function () {
+            if (Benchmark.isInBenchmark() && !Benchmark.benchmark.isEnd()) {
+                Benchmark.benchmark.end();
+                Benchmark.stopBenchmark();
+                Benchmark.showResult();
+            }
+        };
     })(Benchmark || (exports.Benchmark = Benchmark = {}));
 });
 define("script/controller/index", ["require", "exports", "script/controller/base", "script/controller/animation", "script/controller/benchmark"], function (require, exports, ImportedBase, ImportedAnimation, ImportedBenchmark) {
@@ -3539,6 +3545,23 @@ define("script/controller/index", ["require", "exports", "script/controller/base
             }
         };
     })(Controller || (exports.Controller = Controller = {}));
+});
+define("resource/evil-commonjs.config", [], {
+    "log": {
+        "config": false,
+        "load": false,
+        "define": false,
+        "readyToCapture": false,
+        "results": false
+    },
+    "loadingTimeout": 500
+});
+define("resource/evil-timer.js.config", [], {
+    "debug": true
+});
+define("resource/images", [], {
+    "play-icon": "./image/play.svg",
+    "pause-icon": "./image/pause.svg"
 });
 define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_8, _features_4, _controller_1, ui_7, config_json_9) {
     "use strict";
@@ -3706,23 +3729,49 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 // UI.withFullscreen,
                 ui_7.UI.showFps,
             ].forEach(function (i) { return i.fire(); });
+            document.addEventListener("visibilitychange", function () {
+                console.log("\uD83D\uDC40 visibilitychange: document.hidden: ".concat(document.hidden));
+                _controller_1.Controller.Benchmark.abortBenchmark();
+                _features_4.Features.Fps.reset();
+            });
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/controller/index", "script/features/index", "script/library/index", "script/tools/index", "script/ui", "script/events"], function (require, exports, _controller_2, _features_5, _library_9, _tools_5, ui_8, events_1) {
+define("script/index", ["require", "exports", "script/controller/index", "script/features/index", "script/library/index", "script/tools/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/ui", "script/events"], function (require, exports, _controller_2, _features_5, _library_9, _tools_5, config_json_10, control_json_3, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, ui_8, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    config_json_10 = __importDefault(config_json_10);
+    control_json_3 = __importDefault(control_json_3);
+    evil_commonjs_config_json_1 = __importDefault(evil_commonjs_config_json_1);
+    evil_timer_js_config_json_1 = __importDefault(evil_timer_js_config_json_1);
+    images_json_1 = __importDefault(images_json_1);
+    lang_en_json_2 = __importDefault(lang_en_json_2);
+    lang_ja_json_2 = __importDefault(lang_ja_json_2);
+    powered_by_json_2 = __importDefault(powered_by_json_2);
+    shortcuts_json_2 = __importDefault(shortcuts_json_2);
     ui_8.UI.initialize();
     events_1.Events.initialize();
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_9.Library.Locale.map("ago"), " )"));
     var consoleInterface = globalThis;
+    var Resource = {
+        config: config_json_10.default,
+        control: control_json_3.default,
+        evilCommonJsConfig: evil_commonjs_config_json_1.default,
+        evilTimerJsConfig: evil_timer_js_config_json_1.default,
+        images: images_json_1.default,
+        localeEn: lang_en_json_2.default,
+        localeJa: lang_ja_json_2.default,
+        poweredBy: powered_by_json_2.default,
+        shortcuts: shortcuts_json_2.default
+    };
     var modules = {
         Controller: _controller_2.Controller,
         Features: _features_5.Features,
         Library: _library_9.Library,
         Tools: _tools_5.Tools,
         UI: ui_8.UI,
-        Events: events_1.Events
+        Events: events_1.Events,
+        Resource: Resource
     };
     Object.entries(modules).forEach(function (_a) {
         var name = _a[0], module = _a[1];
