@@ -265,6 +265,8 @@ body.hide-ui #option-panel:not(.show)::before {
   z-index: 80;
   top: 3.25rem;
   left: 0.5rem;
+  overflow: auto;
+  max-height: 70vh;
 }
 #option-panel label {
   backdrop-filter: blur(1rem);
@@ -597,8 +599,6 @@ body.hide-ui #play-button:not(.show)::before {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 30vw;
-  max-height: 30vw;
   z-index: 50;
 }
 #play-button svg {

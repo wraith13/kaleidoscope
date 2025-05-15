@@ -1,7 +1,12 @@
-declare module "script/library/type-guards" {
+declare module "script/tools/type-guards" {
     export namespace TypeGuards {
         const hasValue: <T>(value: T | null | undefined) => value is T;
         const has: <KeyType extends string | string[]>(keyOrKeys: KeyType) => <ObjectType>(object: ObjectType | undefined) => object is ObjectType & (KeyType extends string ? { [PropertyName in KeyType]: Exclude<PropertyName extends keyof ObjectType ? ObjectType[PropertyName] : any, undefined>; } : KeyType extends string[] ? { [Prop in KeyType[number]]: Exclude<Prop extends keyof ObjectType ? ObjectType[Prop] : any, undefined>; } : never);
+    }
+}
+declare module "script/tools/number" {
+    export namespace Number {
+        const toString: (value: number, maximumFractionDigits?: number) => string;
     }
 }
 declare module "script/library/locale" {
@@ -204,6 +209,20 @@ declare module "script/library/ui" {
         const setTextContent: (element: HTMLElement, text: string) => void;
     }
 }
+declare module "script/tools/math" {
+    export namespace Math {
+        const scale: (min: number, max: number) => (r: number) => number;
+        const sum: (numbers: number[]) => number;
+        const mod: (n: number, m: number) => number;
+    }
+}
+declare module "script/tools/array" {
+    export namespace Array {
+        const cycleSelect: <T extends unknown[], Index extends number>(list: T, ix: Index) => T[Index] extends never ? undefined : T[Index];
+        const joinable: <T>(value: T, condition?: boolean) => T[];
+        const uniqueFilter: <T>(i: T, ix: number, list: T[]) => boolean;
+    }
+}
 declare module "script/library/control" {
     export namespace Control {
         interface ArgumentsBaseDom<T extends HTMLElement> {
@@ -214,9 +233,15 @@ declare module "script/library/control" {
         }
         type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
         const getDom: <T extends HTMLElement>(data: ArgumentsBase<T>) => T;
-        const eventLog: <T extends HTMLElement>(control: {
-            data: ArgumentsBase<T>;
-        }, event: Event, message: string) => void;
+        const getDomId: <T extends HTMLElement>(data: ArgumentsBase<T>) => string | undefined;
+        const eventLog: <T extends HTMLElement>(data: {
+            control: {
+                data: ArgumentsBase<T>;
+            };
+            event: Event;
+            message: string;
+            value?: any;
+        }) => void;
         interface ButtonArgumentsBase<T extends HTMLElement> {
             click?: (event: Event | null, select: Button<T>) => unknown;
         }
@@ -294,34 +319,20 @@ declare module "script/library/shortcuts" {
     }
 }
 declare module "script/library/index" {
-    import * as ImportedTypeGuards from "script/library/type-guards";
     import * as ImportedLocale from "script/library/locale";
     import * as ImportedUI from "script/library/ui";
     import * as ImportedControl from "script/library/control";
     import * as ImportedShortcuts from "script/library/shortcuts";
     export namespace Library {
-        export import TypeGuards = ImportedTypeGuards.TypeGuards;
         export import Locale = ImportedLocale.Locale;
         export import UI = ImportedUI.UI;
         export import Control = ImportedControl.Control;
         export import Shortcuts = ImportedShortcuts.Shortcuts;
     }
 }
-declare module "script/tools/number" {
-    export namespace Number {
-        const toString: (value: number, maximumFractionDigits?: number) => string;
-    }
-}
 declare module "script/tools/timespan" {
     export namespace Timespan {
         const toDisplayString: (value: number, maximumFractionDigits?: number) => string;
-    }
-}
-declare module "script/tools/math" {
-    export namespace Math {
-        const scale: (min: number, max: number) => (r: number) => number;
-        const sum: (numbers: number[]) => number;
-        const mod: (n: number, m: number) => number;
     }
 }
 declare module "script/tools/hash" {
@@ -347,14 +358,8 @@ declare module "script/tools/random" {
         }
     }
 }
-declare module "script/tools/array" {
-    export namespace Array {
-        const cycleSelect: <T extends unknown[], Index extends number>(list: T, ix: Index) => T[Index] extends never ? undefined : T[Index];
-        const joinable: <T>(value: T, condition?: boolean) => T[];
-        const uniqueFilter: <T>(i: T, ix: number, list: T[]) => boolean;
-    }
-}
 declare module "script/tools/index" {
+    import * as ImportedTypeGuards from "script/tools/type-guards";
     import * as ImportedNumber from "script/tools/number";
     import * as ImportedTimespan from "script/tools/timespan";
     import * as ImportedMath from "script/tools/math";
@@ -362,6 +367,7 @@ declare module "script/tools/index" {
     import * as ImportedArray from "script/tools/array";
     import * as ImportedHash from "script/tools/hash";
     export namespace Tools {
+        export import TypeGuards = ImportedTypeGuards.TypeGuards;
         export import Number = ImportedNumber.Number;
         export import Timespan = ImportedTimespan.Timespan;
         export import Math = ImportedMath.Math;

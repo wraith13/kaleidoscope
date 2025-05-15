@@ -1,7 +1,7 @@
-import { Controller } from "@controller";
-import { Features } from "@features";
-import { Library } from "@library";
 import { Tools } from "@tools";
+import { Library } from "@library";
+import { Features } from "@features";
+import { Controller } from "@controller";
 import config from "@resource/config.json";
 import control from "@resource/control.json";
 import evilCommonJsConfig from "@resource/evil-commonjs.config.json";
@@ -37,10 +37,10 @@ const Resource =
 };
 const modules =
 {
-    Controller,
-    Features,
-    Library,
     Tools,
+    Library,
+    Features,
+    Controller,
     UI,
     Events,
     Resource

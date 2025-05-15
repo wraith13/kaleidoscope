@@ -326,8 +326,8 @@ export namespace Animation
             const list = this.layers
                 .map(i => i.arguments)
                 .concat(this.argumentHistory);
-            list.filter(Library.TypeGuards.has("intervalSize")).forEach(i => i.intervalSize *= fixRate);
-            list.filter(Library.TypeGuards.has("maxPatternSize")).forEach(i => i.maxPatternSize *= fixRate);
+            list.filter(Tools.TypeGuards.has("intervalSize")).forEach(i => i.intervalSize *= fixRate);
+            list.filter(Tools.TypeGuards.has("maxPatternSize")).forEach(i => i.maxPatternSize *= fixRate);
         };
         updateDiagonalSize = () =>
             this.setDiagonalSize(this.getDiagonalSize());

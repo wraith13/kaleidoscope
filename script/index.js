@@ -69,7 +69,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define("script/library/type-guards", ["require", "exports"], function (require, exports) {
+define("script/tools/type-guards", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.TypeGuards = void 0;
@@ -89,6 +89,17 @@ define("script/library/type-guards", ["require", "exports"], function (require, 
             };
         };
     })(TypeGuards || (exports.TypeGuards = TypeGuards = {}));
+});
+define("script/tools/number", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Number = void 0;
+    var Number;
+    (function (Number) {
+        Number.toString = function (value, maximumFractionDigits) {
+            return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: maximumFractionDigits, });
+        };
+    })(Number || (exports.Number = Number = {}));
 });
 define("resource/lang.en", [], {
     "lang-label": "English",
@@ -321,7 +332,7 @@ define("resource/config", [], {
         }
     }
 });
-define("script/library/ui", ["require", "exports", "resource/config", "script/library/type-guards"], function (require, exports, config_json_1, type_guards_1) {
+define("script/library/ui", ["require", "exports", "resource/config", "script/tools/type-guards"], function (require, exports, config_json_1, type_guards_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UI = void 0;
@@ -513,7 +524,43 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/li
         };
     })(UI || (exports.UI = UI = {}));
 });
-define("script/library/control", ["require", "exports", "script/library/ui"], function (require, exports, ui_1) {
+define("script/tools/math", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Math = void 0;
+    var Math;
+    (function (Math) {
+        Math.scale = function (min, max) {
+            return function (r) { return min + ((max - min) * r); };
+        };
+        Math.sum = function (numbers) {
+            return numbers.reduce(function (a, v) { return a + v; }, 0);
+        };
+        Math.mod = function (n, m) {
+            return m === 0 ? n : ((n % m) + m) % m;
+        };
+    })(Math || (exports.Math = Math = {}));
+});
+define("script/tools/array", ["require", "exports", "script/tools/type-guards", "script/tools/math"], function (require, exports, type_guards_2, math_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Array = void 0;
+    var Array;
+    (function (Array) {
+        Array.cycleSelect = function (list, ix) {
+            return (0 < list.length ?
+                list[math_1.Math.mod(ix, list.length)] :
+                undefined);
+        };
+        Array.joinable = function (value, condition) {
+            return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
+        };
+        Array.uniqueFilter = function (i, ix, list) {
+            return ix === list.indexOf(i);
+        };
+    })(Array || (exports.Array = Array = {}));
+});
+define("script/library/control", ["require", "exports", "script/tools/array", "script/library/ui"], function (require, exports, array_1, ui_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Control = void 0;
@@ -537,13 +584,16 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
             }
             return result;
         };
-        Control.eventLog = function (control, event, message) {
-            if ("id" in control.data) {
-                console.log(message, control.data.id, event, control);
-            }
-            else {
-                console.log(message, event, control);
-            }
+        Control.getDomId = function (data) {
+            return "id" in data ? data.id :
+                "dom" in data ? data.dom.id :
+                    undefined;
+        };
+        Control.eventLog = function (data) {
+            return console.log.apply(console, __spreadArray([data.message], __spreadArray(__spreadArray(__spreadArray([], array_1.Array.joinable(Control.getDomId(data.control.data)), true), [
+                data.event,
+                data.control
+            ], false), array_1.Array.joinable(data.value), true), false));
         };
         var Button = /** @class */ (function () {
             function Button(data) {
@@ -556,7 +606,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 this.dom = Control.getDom(data);
                 this.dom.addEventListener("click", function (event) {
                     var _a, _b;
-                    Control.eventLog(_this, event, "👆 Button.Click:");
+                    Control.eventLog({ control: _this, event: event, message: "👆 Button.Click:" });
                     (_b = (_a = _this.data).click) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
@@ -604,7 +654,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 this.reloadOptions(this.data.default);
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
-                    Control.eventLog(_this, event, "👆 Select.Change:");
+                    Control.eventLog({ control: _this, event: event, message: "👆 Select.Change:", value: _this.get() });
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
@@ -638,7 +688,7 @@ define("script/library/control", ["require", "exports", "script/library/ui"], fu
                 }
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b;
-                    Control.eventLog(_this, event, "👆 Checkbox.Change:");
+                    Control.eventLog({ control: _this, event: event, message: "👆 Checkbox.Change:", value: _this.get() });
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
                 });
             }
@@ -876,34 +926,21 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
         };
     })(Shortcuts || (exports.Shortcuts = Shortcuts = {}));
 });
-define("script/library/index", ["require", "exports", "script/library/type-guards", "script/library/locale", "script/library/ui", "script/library/control", "script/library/shortcuts"], function (require, exports, ImportedTypeGuards, ImportedLocale, ImportedUI, ImportedControl, ImportedShortcuts) {
+define("script/library/index", ["require", "exports", "script/library/locale", "script/library/ui", "script/library/control", "script/library/shortcuts"], function (require, exports, ImportedLocale, ImportedUI, ImportedControl, ImportedShortcuts) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Library = void 0;
-    ImportedTypeGuards = __importStar(ImportedTypeGuards);
     ImportedLocale = __importStar(ImportedLocale);
     ImportedUI = __importStar(ImportedUI);
     ImportedControl = __importStar(ImportedControl);
     ImportedShortcuts = __importStar(ImportedShortcuts);
     var Library;
     (function (Library) {
-        Library.TypeGuards = ImportedTypeGuards.TypeGuards;
         Library.Locale = ImportedLocale.Locale;
         Library.UI = ImportedUI.UI;
         Library.Control = ImportedControl.Control;
         Library.Shortcuts = ImportedShortcuts.Shortcuts;
     })(Library || (exports.Library = Library = {}));
-});
-define("script/tools/number", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Number = void 0;
-    var Number;
-    (function (Number) {
-        Number.toString = function (value, maximumFractionDigits) {
-            return value.toLocaleString("en-US", { useGrouping: false, maximumFractionDigits: maximumFractionDigits, });
-        };
-    })(Number || (exports.Number = Number = {}));
 });
 define("script/tools/timespan", ["require", "exports", "script/library/index", "script/tools/number"], function (require, exports, _library_1, number_1) {
     "use strict";
@@ -919,23 +956,6 @@ define("script/tools/timespan", ["require", "exports", "script/library/index", "
                             "".concat(number_1.Number.toString(value / (24 * 60 * 60 * 1000), maximumFractionDigits), " ").concat(_library_1.Library.Locale.map("timeUnitD"));
         };
     })(Timespan || (exports.Timespan = Timespan = {}));
-});
-define("script/tools/math", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Math = void 0;
-    var Math;
-    (function (Math) {
-        Math.scale = function (min, max) {
-            return function (r) { return min + ((max - min) * r); };
-        };
-        Math.sum = function (numbers) {
-            return numbers.reduce(function (a, v) { return a + v; }, 0);
-        };
-        Math.mod = function (n, m) {
-            return m === 0 ? n : ((n % m) + m) % m;
-        };
-    })(Math || (exports.Math = Math = {}));
 });
 define("script/tools/hash", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -996,29 +1016,11 @@ define("script/tools/random", ["require", "exports", "script/tools/hash"], funct
         Random.IndexedRandom = IndexedRandom;
     })(Random || (exports.Random = Random = {}));
 });
-define("script/tools/array", ["require", "exports", "script/library/type-guards", "script/tools/math"], function (require, exports, type_guards_2, math_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Array = void 0;
-    var Array;
-    (function (Array) {
-        Array.cycleSelect = function (list, ix) {
-            return (0 < list.length ?
-                list[math_1.Math.mod(ix, list.length)] :
-                undefined);
-        };
-        Array.joinable = function (value, condition) {
-            return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
-        };
-        Array.uniqueFilter = function (i, ix, list) {
-            return ix === list.indexOf(i);
-        };
-    })(Array || (exports.Array = Array = {}));
-});
-define("script/tools/index", ["require", "exports", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array", "script/tools/hash"], function (require, exports, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray, ImportedHash) {
+define("script/tools/index", ["require", "exports", "script/tools/type-guards", "script/tools/number", "script/tools/timespan", "script/tools/math", "script/tools/random", "script/tools/array", "script/tools/hash"], function (require, exports, ImportedTypeGuards, ImportedNumber, ImportedTimespan, ImportedMath, ImportedRandom, ImportedArray, ImportedHash) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Tools = void 0;
+    ImportedTypeGuards = __importStar(ImportedTypeGuards);
     ImportedNumber = __importStar(ImportedNumber);
     ImportedTimespan = __importStar(ImportedTimespan);
     ImportedMath = __importStar(ImportedMath);
@@ -1027,6 +1029,7 @@ define("script/tools/index", ["require", "exports", "script/tools/number", "scri
     ImportedHash = __importStar(ImportedHash);
     var Tools;
     (function (Tools) {
+        Tools.TypeGuards = ImportedTypeGuards.TypeGuards;
         Tools.Number = ImportedNumber.Number;
         Tools.Timespan = ImportedTimespan.Timespan;
         Tools.Math = ImportedMath.Math;
@@ -2836,8 +2839,8 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     var list = _this.layers
                         .map(function (i) { return i.arguments; })
                         .concat(_this.argumentHistory);
-                    list.filter(_library_2.Library.TypeGuards.has("intervalSize")).forEach(function (i) { return i.intervalSize *= fixRate; });
-                    list.filter(_library_2.Library.TypeGuards.has("maxPatternSize")).forEach(function (i) { return i.maxPatternSize *= fixRate; });
+                    list.filter(_tools_2.Tools.TypeGuards.has("intervalSize")).forEach(function (i) { return i.intervalSize *= fixRate; });
+                    list.filter(_tools_2.Tools.TypeGuards.has("maxPatternSize")).forEach(function (i) { return i.maxPatternSize *= fixRate; });
                 };
                 this.updateDiagonalSize = function () {
                     return _this.setDiagonalSize(_this.getDiagonalSize());
@@ -2912,7 +2915,7 @@ define("resource/powered-by", [], {
     "flounder.style.js": "https://github.com/wraith13/flounder.style.js",
     "phi-colors": "https://github.com/wraith13/phi-colors"
 });
-define("script/ui", ["require", "exports", "script/library/index", "script/tools/index", "resource/config", "resource/control", "resource/powered-by"], function (require, exports, _library_3, _tools_3, config_json_4, control_json_2, powered_by_json_1) {
+define("script/ui", ["require", "exports", "script/tools/index", "script/library/index", "resource/config", "resource/control", "resource/powered-by"], function (require, exports, _tools_3, _library_3, config_json_4, control_json_2, powered_by_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UI = void 0;
@@ -3737,7 +3740,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/controller/index", "script/features/index", "script/library/index", "script/tools/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/ui", "script/events"], function (require, exports, _controller_2, _features_5, _library_9, _tools_5, config_json_10, control_json_3, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, ui_8, events_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/ui", "script/events"], function (require, exports, _tools_5, _library_9, _features_5, _controller_2, config_json_10, control_json_3, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, ui_8, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
@@ -3765,10 +3768,10 @@ define("script/index", ["require", "exports", "script/controller/index", "script
         shortcuts: shortcuts_json_2.default
     };
     var modules = {
-        Controller: _controller_2.Controller,
-        Features: _features_5.Features,
-        Library: _library_9.Library,
         Tools: _tools_5.Tools,
+        Library: _library_9.Library,
+        Features: _features_5.Features,
+        Controller: _controller_2.Controller,
         UI: ui_8.UI,
         Events: events_1.Events,
         Resource: Resource

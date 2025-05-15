@@ -1,4 +1,4 @@
-import { TypeGuards } from "@library/type-guards";
+import { TypeGuards } from "./type-guards";
 import { Math } from "./math";
 export namespace Array
 {

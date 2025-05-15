@@ -1,5 +1,5 @@
-import { Library } from "@library";
 import { Tools } from "@tools";
+import { Library } from "@library";
 import config from "@resource/config.json";
 import control from "@resource/control.json";
 import poweredBy from "@resource/powered-by.json";

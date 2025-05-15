@@ -1,5 +1,5 @@
 import config from "@resource/config.json";
-import { TypeGuards } from "@library/type-guards";
+import { TypeGuards } from "@tools/type-guards";
 export namespace UI
 {
     export const showPickerOnLabel = (label: HTMLLabelElement) =>

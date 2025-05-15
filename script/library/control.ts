@@ -1,3 +1,4 @@
+import { Array as ToolsArray } from "@tools/array";
 import { UI } from "./ui";
 export namespace Control
 {
@@ -33,17 +34,22 @@ export namespace Control
         }
         return result;
     }
-    export const eventLog = <T extends HTMLElement>(control: { data: ArgumentsBase<T> }, event: Event, message: string) =>
-    {
-        if ("id" in control.data)
-        {
-            console.log(message, control.data.id, event, control);
-        }
-        else
-        {
-            console.log(message, event, control);
-        }
-    }
+    export const getDomId = <T extends HTMLElement>(data: ArgumentsBase<T>): string | undefined =>
+        "id" in data ? data.id:
+        "dom" in data ? data.dom.id:
+            undefined;
+    export const eventLog = <T extends HTMLElement>(data: {control: { data: ArgumentsBase<T> }, event: Event, message: string, value?: any}) =>
+        console.log
+        (
+            data.message,
+            ...
+            [
+                ...ToolsArray.joinable(getDomId(data.control.data)),
+                data.event,
+                data.control,
+                ...ToolsArray.joinable(data.value),
+            ]
+        );
     export interface ButtonArgumentsBase<T extends HTMLElement>
     {
         click?: (event: Event | null, select: Button<T>) => unknown;
@@ -60,7 +66,7 @@ export namespace Control
                 "click",
                 event =>
                 {
-                    eventLog(this, event, "👆 Button.Click:");
+                    eventLog({ control:this, event, message:"👆 Button.Click:"});
                     this.data.click?.(event, this);
                 }
             );
@@ -97,7 +103,7 @@ export namespace Control
             (
                 "change", event =>
                 {
-                    eventLog(this, event, "👆 Select.Change:");
+                    eventLog({ control:this, event, message:"👆 Select.Change:", value: this.get() });
                     this.options?.change?.(event, this);
                 }
             );
@@ -169,7 +175,7 @@ export namespace Control
                 "change",
                 event =>
                 {
-                    eventLog(this, event, "👆 Checkbox.Change:");
+                    eventLog({ control:this, event, message:"👆 Checkbox.Change:", value: this.get() });
                     this.options?.change?.(event, this);
                 }
             );

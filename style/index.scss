@@ -123,6 +123,8 @@
         z-index: 80;
         top: 3.25rem;
         left: 0.5rem;
+        overflow: auto;
+        max-height: 70vh;
         label
         {
             @include black-pop-panel-style();
@@ -257,8 +259,6 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        max-width: 30vw;
-        max-height: 30vw;
         z-index: 50;
     }
     svg
