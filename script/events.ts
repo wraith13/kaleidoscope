@@ -50,6 +50,20 @@ export namespace Events
         UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
     const updateShowClock = () =>
         UI.clockDisplay.classList.toggle("hide", ! UI.showClock.get());
+    export const getFrameDelayLoadLabel = (i: number): Library.Locale.Label =>
+    {
+        switch(true)
+        {
+        case i <= 0:
+            return "FullPower";
+        case i < 100:
+            return "HighLoad";
+        case 350 < i:
+            return "LowLoad";
+        default:
+            return "MediumLoad";
+        }
+    };
     export const initialize = () =>
     {
         UI.playButton.data.click = (event, button) =>
@@ -72,6 +86,7 @@ export namespace Events
         UI.spotslayersSelect.setChange(updateSpotsLayers);
         UI.cycleSpanSelect.setChange(updateCycleSpan);
         UI.fuseFpsSelect.setChange(updateFuseFps);
+        UI.frameDelaySelect.setChange((_,i) => Library.UI.setTextContent(UI.frameDelayLoadStatus, Library.Locale.map(getFrameDelayLoadLabel(parseInt(i.get())))));
         UI.easingCheckbox.setChange(updateEasing);
         // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);

@@ -122,13 +122,14 @@
         position: absolute;
         z-index: 80;
         top: 3.25rem;
-        left: 0.5rem;
-        overflow: auto;
+        left: 0.75rem;
+        overflow: visible;
         max-height: 70vh;
         label
         {
             @include black-pop-panel-style();
             @include flex(row, space-between);
+            position: relative;
             cursor: pointer;
             padding: 0.125rem 0.5rem;
             margin-bottom: 1px;
@@ -171,6 +172,20 @@
                         background-color: black-color(1.0);
                         text-align: right;
                     }
+                }
+            }
+            .load-status
+            {
+                @include black-pop-panel-style();
+                border-radius: 0.25rem;
+                position: absolute;
+                text-align: center;
+                left: calc(100% + 0.25rem);
+                word-break: keep-all;
+                padding: 0.125rem 0.25rem;
+                &:empty
+                {
+                    display: none;
                 }
             }
         }

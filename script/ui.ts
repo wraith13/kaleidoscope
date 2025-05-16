@@ -29,23 +29,11 @@ export namespace UI
         new Library.Control.Select(control.cycleSpan, { makeLabel: Tools.Timespan.toDisplayString });
     export const fuseFpsSelect =
         new Library.Control.Select(control.fuseFps);
-    export const getLoadLabel = (i: number): Library.Locale.Label =>
-    {
-        switch(true)
-        {
-        case i <= 0:
-            return "FullPower";
-        case i < 100:
-            return "HighLoad";
-        case 350 < i:
-            return "LowLoad";
-        default:
-            return "MediumLoad";
-        }
-    };
-    export const getFrameDelayLabel = (i: number) => `${Library.Locale.map(getLoadLabel(i))} ${Tools.Timespan.toDisplayString(i)}`;
+    export const getFrameDelayLabel = (i: number) => Tools.Timespan.toDisplayString(i);
     export const frameDelaySelect =
         new Library.Control.Select(control.frameDelay, { makeLabel: getFrameDelayLabel });
+    export const frameDelayLoadStatus =
+        Library.UI.getElementById("span", "frame-delay-load-status");
     export const easingCheckbox =
         new Library.Control.Checkbox(control.easing);
     export const withFullscreen =

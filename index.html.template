@@ -49,58 +49,72 @@ __STYLE__
     <label for="colorspace">
         <span data-lang-key="colorspace-label">Color Space:</span>
         <select id="colorspace"></select>
+        <span class="load-status" id="colorspace-load-status"></span>
     </label>
     <label for="coloring">
         <span data-lang-key="coloring-label">Coloring:</span>
         <select id="coloring"></select>
+        <span class="load-status" id="coloring-load-status"></span>
     </label>
     <label for="pattern">
         <span data-lang-key="pattern-label">Pattern:</span>
         <select id="pattern"></select>
+        <span class="load-status" id="pattern-load-status"></span>
     </label>
     <label for="canvas-size">
         <span data-lang-key="canvas-size-label">Canvas Size:</span>
         <select id="canvas-size"></select>
+        <span class="load-status" id="canvas-size-load-status"></span>
     </label>
     <label for="layers">
         <span data-lang-key="layers-label">Layers:</span>
         <select id="layers"></select>
+        <span class="load-status" id="layers-load-status"></span>
     </label>
     <label for="spotsLayers">
         <span data-lang-key="spots-layers-label">Layers:</span>
         <select id="spotsLayers"></select>
+        <span class="load-status" id="spotsLayers-load-status"></span>
     </label>
     <label for="cycle-span">
         <span data-lang-key="cycle-span-label">Cycle Span:</span>
         <select id="cycle-span"></select>
+        <span class="load-status" id="cycle-span-load-status"></span>
     </label>
     <label for="fuse-fps">
         <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
         <select id="fuse-fps"></select>
+        <span class="load-status" id="fuse-fps-load-status"></span>
     </label>
     <label for="frame-delay">
         <span data-lang-key="frame-delay-label">Fuse FPS:</span>
         <select id="frame-delay"></select>
+        <span class="load-status" id="frame-delay-load-status">dummy</span>
     </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>
         <input id="easing" type="checkbox">
+        <span class="load-status" id="easing-load-status"></span>
     </label>
     <label for="with-fullscreen">
         <span data-lang-key="with-fullscreen-label">FullScreen:</span>
         <input id="with-fullscreen" type="checkbox">
+        <span class="load-status" id="with-fullscreen-load-status"></span>
     </label>
     <label for="show-fps">
         <span data-lang-key="show-fps-label">Show FPS:</span>
         <input id="show-fps" type="checkbox">
+        <span class="load-status" id="show-fps-load-status"></span>
     </label>
     <label for="show-clock">
         <span data-lang-key="show-clock-label">Show Clock:</span>
         <input id="show-clock" type="checkbox">
+        <span class="load-status" id="show-clock-load-status"></span>
     </label>
     <label for="language">
         <span data-lang-key="language-label">Language:</span>
         <select id="language"></select>
+        <span class="load-status" id="language-load-status"></span>
     </label>
 </div>
 <div id="fps"></div>

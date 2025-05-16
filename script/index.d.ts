@@ -782,9 +782,9 @@ declare module "script/ui" {
         const spotslayersSelect: Library.Control.Select<number>;
         const cycleSpanSelect: Library.Control.Select<number>;
         const fuseFpsSelect: Library.Control.Select<number>;
-        const getLoadLabel: (i: number) => Library.Locale.Label;
         const getFrameDelayLabel: (i: number) => string;
         const frameDelaySelect: Library.Control.Select<number>;
+        const frameDelayLoadStatus: HTMLSpanElement;
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;
@@ -984,7 +984,9 @@ declare module "script/controller/index" {
     }
 }
 declare module "script/events" {
+    import { Library } from "script/library/index";
     export namespace Events {
+        const getFrameDelayLoadLabel: (i: number) => Library.Locale.Label;
         const initialize: () => void;
     }
 }

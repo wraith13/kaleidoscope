@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Thu May 15 2025 08:19:21 GMT+0900 (日本標準時)
+    build at: Fri May 16 2025 00:22:32 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -316,8 +316,8 @@ body.hide-ui #option-panel:not(.show)::before {
   position: absolute;
   z-index: 80;
   top: 3.25rem;
-  left: 0.5rem;
-  overflow: auto;
+  left: 0.75rem;
+  overflow: visible;
   max-height: 70vh;
 }
 #option-panel label {
@@ -328,6 +328,7 @@ body.hide-ui #option-panel:not(.show)::before {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   cursor: pointer;
   padding: 0.125rem 0.5rem;
   margin-bottom: 1px;
@@ -381,6 +382,20 @@ body.hide-ui #option-panel:not(.show)::before {
 #option-panel label select option {
   background-color: rgb(32, 28, 38);
   text-align: right;
+}
+#option-panel label .load-status {
+  backdrop-filter: blur(1rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  border-radius: 0.25rem;
+  position: absolute;
+  text-align: center;
+  left: calc(100% + 0.25rem);
+  word-break: keep-all;
+  padding: 0.125rem 0.25rem;
+}
+#option-panel label .load-status:empty {
+  display: none;
 }
 
 #fps {
@@ -1507,58 +1522,72 @@ body.hide-ui #screen-footer #information-line:not(.show) {
     <label for="colorspace">
         <span data-lang-key="colorspace-label">Color Space:</span>
         <select id="colorspace"></select>
+        <span class="load-status" id="colorspace-load-status"></span>
     </label>
     <label for="coloring">
         <span data-lang-key="coloring-label">Coloring:</span>
         <select id="coloring"></select>
+        <span class="load-status" id="coloring-load-status"></span>
     </label>
     <label for="pattern">
         <span data-lang-key="pattern-label">Pattern:</span>
         <select id="pattern"></select>
+        <span class="load-status" id="pattern-load-status"></span>
     </label>
     <label for="canvas-size">
         <span data-lang-key="canvas-size-label">Canvas Size:</span>
         <select id="canvas-size"></select>
+        <span class="load-status" id="canvas-size-load-status"></span>
     </label>
     <label for="layers">
         <span data-lang-key="layers-label">Layers:</span>
         <select id="layers"></select>
+        <span class="load-status" id="layers-load-status"></span>
     </label>
     <label for="spotsLayers">
         <span data-lang-key="spots-layers-label">Layers:</span>
         <select id="spotsLayers"></select>
+        <span class="load-status" id="spotsLayers-load-status"></span>
     </label>
     <label for="cycle-span">
         <span data-lang-key="cycle-span-label">Cycle Span:</span>
         <select id="cycle-span"></select>
+        <span class="load-status" id="cycle-span-load-status"></span>
     </label>
     <label for="fuse-fps">
         <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
         <select id="fuse-fps"></select>
+        <span class="load-status" id="fuse-fps-load-status"></span>
     </label>
     <label for="frame-delay">
         <span data-lang-key="frame-delay-label">Fuse FPS:</span>
         <select id="frame-delay"></select>
+        <span class="load-status" id="frame-delay-load-status">dummy</span>
     </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>
         <input id="easing" type="checkbox">
+        <span class="load-status" id="easing-load-status"></span>
     </label>
     <label for="with-fullscreen">
         <span data-lang-key="with-fullscreen-label">FullScreen:</span>
         <input id="with-fullscreen" type="checkbox">
+        <span class="load-status" id="with-fullscreen-load-status"></span>
     </label>
     <label for="show-fps">
         <span data-lang-key="show-fps-label">Show FPS:</span>
         <input id="show-fps" type="checkbox">
+        <span class="load-status" id="show-fps-load-status"></span>
     </label>
     <label for="show-clock">
         <span data-lang-key="show-clock-label">Show Clock:</span>
         <input id="show-clock" type="checkbox">
+        <span class="load-status" id="show-clock-load-status"></span>
     </label>
     <label for="language">
         <span data-lang-key="language-label">Language:</span>
         <select id="language"></select>
+        <span class="load-status" id="language-load-status"></span>
     </label>
 </div>
 <div id="fps"></div>
@@ -1692,8 +1721,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Thu May 15 2025 08:19:21 GMT+0900 (日本標準時)",
-    tick: 1747264761603
+    at: "Fri May 16 2025 00:22:32 GMT+0900 (日本標準時)",
+    tick: 1747322552874
 };
 const evilCommonjsConfig =
 {
@@ -7615,20 +7644,9 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.spotslayersSelect = new _library_3.Library.Control.Select(control_json_2.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_3.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
-        UI.getLoadLabel = function (i) {
-            switch (true) {
-                case i <= 0:
-                    return "FullPower";
-                case i < 100:
-                    return "HighLoad";
-                case 350 < i:
-                    return "LowLoad";
-                default:
-                    return "MediumLoad";
-            }
-        };
-        UI.getFrameDelayLabel = function (i) { return "".concat(_library_3.Library.Locale.map(UI.getLoadLabel(i)), " ").concat(_tools_3.Tools.Timespan.toDisplayString(i)); };
+        UI.getFrameDelayLabel = function (i) { return _tools_3.Tools.Timespan.toDisplayString(i); };
         UI.frameDelaySelect = new _library_3.Library.Control.Select(control_json_2.default.frameDelay, { makeLabel: UI.getFrameDelayLabel });
+        UI.frameDelayLoadStatus = _library_3.Library.UI.getElementById("span", "frame-delay-load-status");
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
@@ -8301,6 +8319,18 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         var updateShowClock = function () {
             return ui_7.UI.clockDisplay.classList.toggle("hide", !ui_7.UI.showClock.get());
         };
+        Events.getFrameDelayLoadLabel = function (i) {
+            switch (true) {
+                case i <= 0:
+                    return "FullPower";
+                case i < 100:
+                    return "HighLoad";
+                case 350 < i:
+                    return "LowLoad";
+                default:
+                    return "MediumLoad";
+            }
+        };
         Events.initialize = function () {
             ui_7.UI.playButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
@@ -8320,6 +8350,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_7.UI.spotslayersSelect.setChange(updateSpotsLayers);
             ui_7.UI.cycleSpanSelect.setChange(updateCycleSpan);
             ui_7.UI.fuseFpsSelect.setChange(updateFuseFps);
+            ui_7.UI.frameDelaySelect.setChange(function (_, i) { return _library_8.Library.UI.setTextContent(ui_7.UI.frameDelayLoadStatus, _library_8.Library.Locale.map(Events.getFrameDelayLoadLabel(parseInt(i.get())))); });
             ui_7.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
             ui_7.UI.showFps.setChange(updateShowFps);

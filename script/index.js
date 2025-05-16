@@ -2936,20 +2936,9 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.spotslayersSelect = new _library_3.Library.Control.Select(control_json_2.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_3.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
-        UI.getLoadLabel = function (i) {
-            switch (true) {
-                case i <= 0:
-                    return "FullPower";
-                case i < 100:
-                    return "HighLoad";
-                case 350 < i:
-                    return "LowLoad";
-                default:
-                    return "MediumLoad";
-            }
-        };
-        UI.getFrameDelayLabel = function (i) { return "".concat(_library_3.Library.Locale.map(UI.getLoadLabel(i)), " ").concat(_tools_3.Tools.Timespan.toDisplayString(i)); };
+        UI.getFrameDelayLabel = function (i) { return _tools_3.Tools.Timespan.toDisplayString(i); };
         UI.frameDelaySelect = new _library_3.Library.Control.Select(control_json_2.default.frameDelay, { makeLabel: UI.getFrameDelayLabel });
+        UI.frameDelayLoadStatus = _library_3.Library.UI.getElementById("span", "frame-delay-load-status");
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
@@ -3622,6 +3611,18 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         var updateShowClock = function () {
             return ui_7.UI.clockDisplay.classList.toggle("hide", !ui_7.UI.showClock.get());
         };
+        Events.getFrameDelayLoadLabel = function (i) {
+            switch (true) {
+                case i <= 0:
+                    return "FullPower";
+                case i < 100:
+                    return "HighLoad";
+                case 350 < i:
+                    return "LowLoad";
+                default:
+                    return "MediumLoad";
+            }
+        };
         Events.initialize = function () {
             ui_7.UI.playButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
@@ -3641,6 +3642,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_7.UI.spotslayersSelect.setChange(updateSpotsLayers);
             ui_7.UI.cycleSpanSelect.setChange(updateCycleSpan);
             ui_7.UI.fuseFpsSelect.setChange(updateFuseFps);
+            ui_7.UI.frameDelaySelect.setChange(function (_, i) { return _library_8.Library.UI.setTextContent(ui_7.UI.frameDelayLoadStatus, _library_8.Library.Locale.map(Events.getFrameDelayLoadLabel(parseInt(i.get())))); });
             ui_7.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
             ui_7.UI.showFps.setChange(updateShowFps);
