@@ -177,12 +177,12 @@
             .load-status
             {
                 @include black-pop-panel-style();
-                border-radius: 0.25rem;
                 position: absolute;
-                text-align: center;
                 left: calc(100% + 0.25rem);
+                padding: 0.125rem 0.5rem;
+                border-radius: 1rem;
                 word-break: keep-all;
-                padding: 0.125rem 0.25rem;
+                white-space: nowrap;
                 &:empty
                 {
                     display: none;

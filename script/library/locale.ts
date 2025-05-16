@@ -8,8 +8,10 @@ export namespace Locale
         ja: localeJa,
     };
     export type Label =
+    (
         keyof typeof localeEn &
-        keyof typeof localeJa;
+        keyof typeof localeJa
+    ) | "";
     export type Language = keyof typeof master;
     const supportedLangs = ["ja", "en"] as const;
     const systemLang = navigator.language.split("-")[0] as Language;
@@ -29,5 +31,6 @@ export namespace Locale
             break;
         }
     }
-    export const map = (key: Label, l?: Language) => master[l ?? lang][key];
+    export const map = (key: Label, l?: Language) =>
+        "" === key ? "" : master[l ?? lang][key];
 }

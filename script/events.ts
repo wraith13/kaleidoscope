@@ -86,7 +86,7 @@ export namespace Events
         UI.spotslayersSelect.setChange(updateSpotsLayers);
         UI.cycleSpanSelect.setChange(updateCycleSpan);
         UI.fuseFpsSelect.setChange(updateFuseFps);
-        UI.frameDelaySelect.setChange((_,i) => Library.UI.setTextContent(UI.frameDelayLoadStatus, Library.Locale.map(getFrameDelayLoadLabel(parseInt(i.get())))));
+        UI.frameDelaySelect.setChange((_,i) => UI.setAndUpdateLabel(UI.frameDelayLoadStatus, getFrameDelayLoadLabel(parseInt(i.get()))));
         UI.easingCheckbox.setChange(updateEasing);
         // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);

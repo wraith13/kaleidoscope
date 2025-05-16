@@ -157,7 +157,7 @@ declare module "script/library/locale" {
                 LowLoad: string;
             };
         };
-        type Label = keyof typeof localeEn & keyof typeof localeJa;
+        type Label = (keyof typeof localeEn & keyof typeof localeJa) | "";
         type Language = keyof typeof master;
         const getLocale: () => "ja" | "en";
         const setLocale: (locale?: Language | "Auto") => void;
@@ -817,6 +817,9 @@ declare module "script/ui" {
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
         const updateLanguage: () => void;
         const initialize: () => void;
+        const updateLabel: (element: HTMLSpanElement) => void;
+        const setLabel: (element: HTMLSpanElement, label: Library.Locale.Label) => void;
+        const setAndUpdateLabel: (element: HTMLSpanElement, label: Library.Locale.Label) => void;
     }
 }
 declare module "script/features/clock" {

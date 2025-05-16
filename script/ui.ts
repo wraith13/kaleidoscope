@@ -116,7 +116,7 @@ export namespace UI
         UI.frameDelaySelect.reloadOptions();
         UI.languageSelect.reloadOptions();
         Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
-            .forEach(i => Library.UI.setTextContent(i, Library.Locale.map(i.getAttribute("data-lang-key") as Library.Locale.Label)));
+            .forEach(i => updateLabel(i));
         Library.UI.replaceChildren
         (
             UI.keyboardShortcut,
@@ -165,5 +165,14 @@ export namespace UI
             )
         );
         updateLanguage();
+    };
+    export const updateLabel = (element: HTMLSpanElement) =>
+        Library.UI.setTextContent(element, Library.Locale.map(element.getAttribute("data-lang-key") as Library.Locale.Label));
+    export const setLabel = (element: HTMLSpanElement, label: Library.Locale.Label) =>
+        element.setAttribute("data-lang-key", label);
+    export const setAndUpdateLabel = (element: HTMLSpanElement, label: Library.Locale.Label) =>
+    {
+        setLabel(element, label);
+        updateLabel(element);
     };
 }

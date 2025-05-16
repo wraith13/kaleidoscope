@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Fri May 16 2025 00:22:32 GMT+0900 (日本標準時)
+    build at: Fri May 16 2025 10:34:51 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -387,12 +387,12 @@ body.hide-ui #option-panel:not(.show)::before {
   backdrop-filter: blur(1rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
-  border-radius: 0.25rem;
   position: absolute;
-  text-align: center;
   left: calc(100% + 0.25rem);
+  padding: 0.125rem 0.5rem;
+  border-radius: 1rem;
   word-break: keep-all;
-  padding: 0.125rem 0.25rem;
+  white-space: nowrap;
 }
 #option-panel label .load-status:empty {
   display: none;
@@ -1562,7 +1562,7 @@ body.hide-ui #screen-footer #information-line:not(.show) {
     <label for="frame-delay">
         <span data-lang-key="frame-delay-label">Fuse FPS:</span>
         <select id="frame-delay"></select>
-        <span class="load-status" id="frame-delay-load-status">dummy</span>
+        <span class="load-status" id="frame-delay-load-status"></span>
     </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>
@@ -1721,8 +1721,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Fri May 16 2025 00:22:32 GMT+0900 (日本標準時)",
-    tick: 1747322552874
+    at: "Fri May 16 2025 10:34:51 GMT+0900 (日本標準時)",
+    tick: 1747359291574
 };
 const evilCommonjsConfig =
 {
@@ -4979,7 +4979,9 @@ define("script/library/locale", ["require", "exports", "resource/lang.en", "reso
                     break;
             }
         };
-        Locale.map = function (key, l) { return Locale.master[l !== null && l !== void 0 ? l : lang][key]; };
+        Locale.map = function (key, l) {
+            return "" === key ? "" : Locale.master[l !== null && l !== void 0 ? l : lang][key];
+        };
     })(Locale || (exports.Locale = Locale = {}));
 });
 define("resource/config", [], {
@@ -7694,7 +7696,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             UI.frameDelaySelect.reloadOptions();
             UI.languageSelect.reloadOptions();
             _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-                .forEach(function (i) { return _library_3.Library.UI.setTextContent(i, _library_3.Library.Locale.map(i.getAttribute("data-lang-key"))); });
+                .forEach(function (i) { return UI.updateLabel(i); });
             _library_3.Library.UI.replaceChildren(UI.keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
                 return [
                     {
@@ -7720,6 +7722,16 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
                 return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
             }));
             UI.updateLanguage();
+        };
+        UI.updateLabel = function (element) {
+            return _library_3.Library.UI.setTextContent(element, _library_3.Library.Locale.map(element.getAttribute("data-lang-key")));
+        };
+        UI.setLabel = function (element, label) {
+            return element.setAttribute("data-lang-key", label);
+        };
+        UI.setAndUpdateLabel = function (element, label) {
+            UI.setLabel(element, label);
+            UI.updateLabel(element);
         };
     })(UI || (exports.UI = UI = {}));
 });
@@ -8350,7 +8362,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_7.UI.spotslayersSelect.setChange(updateSpotsLayers);
             ui_7.UI.cycleSpanSelect.setChange(updateCycleSpan);
             ui_7.UI.fuseFpsSelect.setChange(updateFuseFps);
-            ui_7.UI.frameDelaySelect.setChange(function (_, i) { return _library_8.Library.UI.setTextContent(ui_7.UI.frameDelayLoadStatus, _library_8.Library.Locale.map(Events.getFrameDelayLoadLabel(parseInt(i.get())))); });
+            ui_7.UI.frameDelaySelect.setChange(function (_, i) { return ui_7.UI.setAndUpdateLabel(ui_7.UI.frameDelayLoadStatus, Events.getFrameDelayLoadLabel(parseInt(i.get()))); });
             ui_7.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
             ui_7.UI.showFps.setChange(updateShowFps);

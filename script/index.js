@@ -271,7 +271,9 @@ define("script/library/locale", ["require", "exports", "resource/lang.en", "reso
                     break;
             }
         };
-        Locale.map = function (key, l) { return Locale.master[l !== null && l !== void 0 ? l : lang][key]; };
+        Locale.map = function (key, l) {
+            return "" === key ? "" : Locale.master[l !== null && l !== void 0 ? l : lang][key];
+        };
     })(Locale || (exports.Locale = Locale = {}));
 });
 define("resource/config", [], {
@@ -2986,7 +2988,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             UI.frameDelaySelect.reloadOptions();
             UI.languageSelect.reloadOptions();
             _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
-                .forEach(function (i) { return _library_3.Library.UI.setTextContent(i, _library_3.Library.Locale.map(i.getAttribute("data-lang-key"))); });
+                .forEach(function (i) { return UI.updateLabel(i); });
             _library_3.Library.UI.replaceChildren(UI.keyboardShortcut, _library_3.Library.Shortcuts.getDisplayList().map(function (i) {
                 return [
                     {
@@ -3012,6 +3014,16 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
                 return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
             }));
             UI.updateLanguage();
+        };
+        UI.updateLabel = function (element) {
+            return _library_3.Library.UI.setTextContent(element, _library_3.Library.Locale.map(element.getAttribute("data-lang-key")));
+        };
+        UI.setLabel = function (element, label) {
+            return element.setAttribute("data-lang-key", label);
+        };
+        UI.setAndUpdateLabel = function (element, label) {
+            UI.setLabel(element, label);
+            UI.updateLabel(element);
         };
     })(UI || (exports.UI = UI = {}));
 });
@@ -3642,7 +3654,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_7.UI.spotslayersSelect.setChange(updateSpotsLayers);
             ui_7.UI.cycleSpanSelect.setChange(updateCycleSpan);
             ui_7.UI.fuseFpsSelect.setChange(updateFuseFps);
-            ui_7.UI.frameDelaySelect.setChange(function (_, i) { return _library_8.Library.UI.setTextContent(ui_7.UI.frameDelayLoadStatus, _library_8.Library.Locale.map(Events.getFrameDelayLoadLabel(parseInt(i.get())))); });
+            ui_7.UI.frameDelaySelect.setChange(function (_, i) { return ui_7.UI.setAndUpdateLabel(ui_7.UI.frameDelayLoadStatus, Events.getFrameDelayLoadLabel(parseInt(i.get()))); });
             ui_7.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
             ui_7.UI.showFps.setChange(updateShowFps);

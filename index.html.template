@@ -89,7 +89,7 @@ __STYLE__
     <label for="frame-delay">
         <span data-lang-key="frame-delay-label">Fuse FPS:</span>
         <select id="frame-delay"></select>
-        <span class="load-status" id="frame-delay-load-status">dummy</span>
+        <span class="load-status" id="frame-delay-load-status"></span>
     </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>
