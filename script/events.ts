@@ -16,12 +16,22 @@ export namespace Events
     };
     const updateDiagonalSize = () =>
         update(() => Controller.Animation.animator.updateDiagonalSize());
-    const updateColorspace = (): unknown =>
+    const updateColorspace = () =>
+    {
         update(() => Controller.Animation.animator.setColorspace(UI.colorspaceSelect.get()));
+        updateColorspaceLoadStatus();
+    };
+    const updateColorspaceLoadStatus = () =>
+        UI.setAndUpdateLabel(UI.colorspaceLoadStatus, LoadStatus.getColorspaceLabel(UI.colorspaceSelect.get()));
     const updateColoring = (): unknown =>
         update(() => Controller.Animation.animator.setColoring(UI.coloringSelect.get()));
-    const updatePattern = (): unknown =>
+    const updatePattern = () =>
+    {
         update(() => Controller.Animation.animator.setPattern(UI.patternSelect.get()));
+        updatePatternLoadStatus();
+    };
+    const updatePatternLoadStatus = () =>
+        UI.setAndUpdateLabel(UI.patternLoadStatus, LoadStatus.getPatternLabel(UI.patternSelect.get()));
     const updateLayers = (): void =>
         update(() => Controller.Animation.animator.setLayers(parseInt(UI.layersSelect.get())));
     const updateSpotsLayers = (): void =>
@@ -49,6 +59,8 @@ export namespace Events
         UI.setAndUpdateLabel(UI.frameDelayLoadStatus, LoadStatus.getFrameDelayLabel(parseInt(UI.frameDelaySelect.get())));
     const updateEasing = () =>
         update(() => Controller.Animation.animator.setEasing(UI.easingCheckbox.get()));
+    const updateWithFullscreen = () =>
+        UI.setAndUpdateLabel(UI.withFullscreenLoadStatus, LoadStatus.getWithFullscreenLabel(UI.withFullscreen.get()));
     const updateShowFps = () =>
     {
         UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
@@ -87,7 +99,7 @@ export namespace Events
         UI.fuseFpsSelect.setChange(updateFuseFps);
         UI.frameDelaySelect.setChange(updateFrameDelayLoadStatus);
         UI.easingCheckbox.setChange(updateEasing);
-        // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
+        UI.withFullscreen.setChange(updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);
         UI.showClock.setChange(updateShowClock);
         UI.benchmarkAbortButton.data.click = (event, button) =>
@@ -214,7 +226,10 @@ export namespace Events
                 Features.Fps.reset();
             }
         );
+        updateColorspaceLoadStatus();
+        updatePatternLoadStatus();
         updateFrameDelayLoadStatus();
+        updateWithFullscreen();
         updateShowFpsLoadStatus();
         updateShowClockLoadStatus();
     };

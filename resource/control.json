@@ -22,9 +22,9 @@
         "enum": [
             "lines",
             "spots",
-            "all"
+            "both"
         ],
-        "default": "all"
+        "default": "both"
     },
     "canvasSize": {
         "id": "canvas-size",
@@ -179,7 +179,7 @@
         "id": "with-fullscreen",
         "default": false
     },
-    "showFPS": {
+    "showFps": {
         "id": "show-fps",
         "default": false
     },

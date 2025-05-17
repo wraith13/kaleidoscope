@@ -777,11 +777,16 @@ declare module "script/ui" {
         const playButton: Library.Control.Button<HTMLElement>;
         const runBenchmarkButton: Library.Control.Button<HTMLElement>;
         const colorspaceSelect: Library.Control.Select<string>;
+        const colorspaceLoadStatus: HTMLSpanElement;
         const coloringSelect: Library.Control.Select<string>;
         const patternSelect: Library.Control.Select<string>;
+        const patternLoadStatus: HTMLSpanElement;
         const canvasSizeSelect: Library.Control.Select<number>;
+        const canvasSizeLoadStatus: HTMLSpanElement;
         const layersSelect: Library.Control.Select<number>;
+        const layersLoadStatus: HTMLSpanElement;
         const spotslayersSelect: Library.Control.Select<number>;
+        const spotslayersLoadStatus: HTMLSpanElement;
         const cycleSpanSelect: Library.Control.Select<number>;
         const fuseFpsSelect: Library.Control.Select<number>;
         const getFrameDelayLabel: (i: number) => string;
@@ -789,6 +794,7 @@ declare module "script/ui" {
         const frameDelayLoadStatus: HTMLSpanElement;
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
+        const withFullscreenLoadStatus: HTMLSpanElement;
         const showFps: Library.Control.Checkbox;
         const showFpsLoadStatus: HTMLSpanElement;
         const showClock: Library.Control.Checkbox;
@@ -994,7 +1000,28 @@ declare module "script/controller/index" {
 declare module "script/loadstatus" {
     import { Library } from "script/library/index";
     export namespace LoadStatus {
+        interface BooleanLoadStatus {
+            id: string;
+            type: "boolean";
+            mapping: {
+                "true": Library.Locale.Label;
+                "false": Library.Locale.Label;
+            };
+        }
+        interface EnumLoadStatus {
+            id: string;
+            type: "enum";
+            mapping: {
+                [key: string]: Library.Locale.Label;
+            };
+            default: Library.Locale.Label;
+        }
+        const getBoolLabel: (config: BooleanLoadStatus) => (i: boolean) => Library.Locale.Label;
+        const getEnumLabel: (config: EnumLoadStatus) => (i: string) => Library.Locale.Label;
+        const getColorspaceLabel: (i: string) => Library.Locale.Label;
+        const getPatternLabel: (i: string) => Library.Locale.Label;
         const getFrameDelayLabel: (i: number) => Library.Locale.Label;
+        const getWithFullscreenLabel: (i: boolean) => Library.Locale.Label;
         const getShowFpsLabel: (i: boolean) => Library.Locale.Label;
         const getShowClockLabel: (i: boolean) => Library.Locale.Label;
     }

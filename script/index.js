@@ -2371,9 +2371,9 @@ define("resource/control", [], {
         "enum": [
             "lines",
             "spots",
-            "all"
+            "both"
         ],
-        "default": "all"
+        "default": "both"
     },
     "canvasSize": {
         "id": "canvas-size",
@@ -2528,7 +2528,7 @@ define("resource/control", [], {
         "id": "with-fullscreen",
         "default": false
     },
-    "showFPS": {
+    "showFps": {
         "id": "show-fps",
         "default": false
     },
@@ -2658,7 +2658,7 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                             makeRandomTrispotArguments,
                             makeRandomTetraspotArguments,
                         ];
-                    case "all":
+                    case "both":
                     default:
                         return [
                             makeRandomStripeArguments,
@@ -2933,11 +2933,16 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
         UI.runBenchmarkButton = new _library_3.Library.Control.Button({ id: "run-benchmark", });
         UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
+        UI.colorspaceLoadStatus = _library_3.Library.UI.getElementById("span", "colorspace-load-status");
         UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
         UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern);
+        UI.patternLoadStatus = _library_3.Library.UI.getElementById("span", "pattern-load-status");
         UI.canvasSizeSelect = new _library_3.Library.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); } });
+        UI.canvasSizeLoadStatus = _library_3.Library.UI.getElementById("span", "canvas-size-load-status");
         UI.layersSelect = new _library_3.Library.Control.Select(control_json_2.default.layers);
+        UI.layersLoadStatus = _library_3.Library.UI.getElementById("span", "layers-load-status");
         UI.spotslayersSelect = new _library_3.Library.Control.Select(control_json_2.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
+        UI.spotslayersLoadStatus = _library_3.Library.UI.getElementById("span", "spotslayers-load-status");
         UI.cycleSpanSelect = new _library_3.Library.Control.Select(control_json_2.default.cycleSpan, { makeLabel: _tools_3.Tools.Timespan.toDisplayString });
         UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
         UI.getFrameDelayLabel = function (i) { return _tools_3.Tools.Timespan.toDisplayString(i); };
@@ -2945,7 +2950,8 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.frameDelayLoadStatus = _library_3.Library.UI.getElementById("span", "frame-delay-load-status");
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
-        UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
+        UI.withFullscreenLoadStatus = _library_3.Library.UI.getElementById("span", "with-fullscreen-load-status");
+        UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFps);
         UI.showFpsLoadStatus = _library_3.Library.UI.getElementById("span", "show-fps-load-status");
         UI.showClock = new _library_3.Library.Control.Checkbox(control_json_2.default.showClock);
         UI.showClockLoadStatus = _library_3.Library.UI.getElementById("span", "show-clock-load-status");
@@ -3574,12 +3580,69 @@ define("resource/images", [], {
     "play-icon": "./image/play.svg",
     "pause-icon": "./image/pause.svg"
 });
-define("script/loadstatus", ["require", "exports"], function (require, exports) {
+define("resource/loadstatus", [], {
+    "colorspace": {
+        "id": "colorspace-load-status",
+        "type": "enum",
+        "mapping": {
+            "sRGB": "LowLoad",
+            "Display P3": "HighLoad",
+            "Rec. 2020": "HighLoad"
+        },
+        "default": ""
+    },
+    "pattern": {
+        "id": "pattern-load-status",
+        "type": "enum",
+        "mapping": {
+            "lines": "LowLoad",
+            "spots": "HighLoad",
+            "both": "MediumLoad"
+        },
+        "default": ""
+    },
+    "withFullscreen": {
+        "id": "with-fullscreen-load-status",
+        "type": "boolean",
+        "mapping": {
+            "true": "HighLoad",
+            "false": ""
+        }
+    },
+    "showFps": {
+        "id": "show-fps-load-status",
+        "type": "boolean",
+        "mapping": {
+            "true": "HighLoad",
+            "false": ""
+        }
+    },
+    "showClock": {
+        "id": "show-clock-load-status",
+        "type": "boolean",
+        "mapping": {
+            "true": "HighLoad",
+            "false": ""
+        }
+    }
+});
+define("script/loadstatus", ["require", "exports", "resource/loadstatus"], function (require, exports, loadstatus_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.LoadStatus = void 0;
+    loadstatus_json_1 = __importDefault(loadstatus_json_1);
     var LoadStatus;
     (function (LoadStatus) {
+        LoadStatus.getBoolLabel = function (config) {
+            return function (i) {
+                return i ? config.mapping["true"] : config.mapping["false"];
+            };
+        };
+        LoadStatus.getEnumLabel = function (config) {
+            return function (i) { var _a; return (_a = config.mapping[i]) !== null && _a !== void 0 ? _a : config.default; };
+        };
+        LoadStatus.getColorspaceLabel = LoadStatus.getEnumLabel(loadstatus_json_1.default.colorspace);
+        LoadStatus.getPatternLabel = LoadStatus.getEnumLabel(loadstatus_json_1.default.pattern);
         LoadStatus.getFrameDelayLabel = function (i) {
             switch (true) {
                 case i <= 0:
@@ -3592,12 +3655,9 @@ define("script/loadstatus", ["require", "exports"], function (require, exports) 
                     return "MediumLoad";
             }
         };
-        LoadStatus.getShowFpsLabel = function (i) {
-            return i ? "WithLoad" : "";
-        };
-        LoadStatus.getShowClockLabel = function (i) {
-            return i ? "WithLoad" : "";
-        };
+        LoadStatus.getWithFullscreenLabel = LoadStatus.getBoolLabel(loadstatus_json_1.default.withFullscreen);
+        LoadStatus.getShowFpsLabel = LoadStatus.getBoolLabel(loadstatus_json_1.default.showFps);
+        LoadStatus.getShowClockLabel = LoadStatus.getBoolLabel(loadstatus_json_1.default.showClock);
     })(LoadStatus || (exports.LoadStatus = LoadStatus = {}));
 });
 define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "resource/config"], function (require, exports, _library_8, _features_4, _controller_1, ui_7, loadstatus_1, config_json_9) {
@@ -3617,13 +3677,21 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             return update(function () { return _controller_1.Controller.Animation.animator.updateDiagonalSize(); });
         };
         var updateColorspace = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setColorspace(ui_7.UI.colorspaceSelect.get()); });
+            update(function () { return _controller_1.Controller.Animation.animator.setColorspace(ui_7.UI.colorspaceSelect.get()); });
+            updateColorspaceLoadStatus();
+        };
+        var updateColorspaceLoadStatus = function () {
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.colorspaceLoadStatus, loadstatus_1.LoadStatus.getColorspaceLabel(ui_7.UI.colorspaceSelect.get()));
         };
         var updateColoring = function () {
             return update(function () { return _controller_1.Controller.Animation.animator.setColoring(ui_7.UI.coloringSelect.get()); });
         };
         var updatePattern = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setPattern(ui_7.UI.patternSelect.get()); });
+            update(function () { return _controller_1.Controller.Animation.animator.setPattern(ui_7.UI.patternSelect.get()); });
+            updatePatternLoadStatus();
+        };
+        var updatePatternLoadStatus = function () {
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.patternLoadStatus, loadstatus_1.LoadStatus.getPatternLabel(ui_7.UI.patternSelect.get()));
         };
         var updateLayers = function () {
             return update(function () { return _controller_1.Controller.Animation.animator.setLayers(parseInt(ui_7.UI.layersSelect.get())); });
@@ -3652,6 +3720,9 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
         var updateEasing = function () {
             return update(function () { return _controller_1.Controller.Animation.animator.setEasing(ui_7.UI.easingCheckbox.get()); });
+        };
+        var updateWithFullscreen = function () {
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.withFullscreenLoadStatus, loadstatus_1.LoadStatus.getWithFullscreenLabel(ui_7.UI.withFullscreen.get()));
         };
         var updateShowFps = function () {
             ui_7.UI.fpsDisplay.classList.toggle("hide", !ui_7.UI.showFps.get());
@@ -3688,7 +3759,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_7.UI.fuseFpsSelect.setChange(updateFuseFps);
             ui_7.UI.frameDelaySelect.setChange(updateFrameDelayLoadStatus);
             ui_7.UI.easingCheckbox.setChange(updateEasing);
-            // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
+            ui_7.UI.withFullscreen.setChange(updateWithFullscreen);
             ui_7.UI.showFps.setChange(updateShowFps);
             ui_7.UI.showClock.setChange(updateShowClock);
             ui_7.UI.benchmarkAbortButton.data.click = function (event, button) {
@@ -3783,7 +3854,10 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 _controller_1.Controller.Benchmark.abortBenchmark();
                 _features_4.Features.Fps.reset();
             });
+            updateColorspaceLoadStatus();
+            updatePatternLoadStatus();
             updateFrameDelayLoadStatus();
+            updateWithFullscreen();
             updateShowFpsLoadStatus();
             updateShowClockLoadStatus();
         };

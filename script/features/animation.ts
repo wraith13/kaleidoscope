@@ -113,7 +113,7 @@ export namespace Animation
                     makeRandomTrispotArguments,
                     makeRandomTetraspotArguments,
                 ];
-            case "all":
+            case "both":
             default:
                 return [
                     makeRandomStripeArguments,

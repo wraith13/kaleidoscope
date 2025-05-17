@@ -1,0 +1,46 @@
+{
+    "colorspace": {
+        "id": "colorspace-load-status",
+        "type": "enum",
+        "mapping": {
+            "sRGB": "LowLoad",
+            "Display P3": "HighLoad",
+            "Rec. 2020": "HighLoad"
+        },
+        "default": ""
+    },
+    "pattern": {
+        "id": "pattern-load-status",
+        "type": "enum",
+        "mapping": {
+            "lines": "LowLoad",
+            "spots": "HighLoad",
+            "both": "MediumLoad"
+        },
+        "default": ""
+    },
+    "withFullscreen": {
+        "id": "with-fullscreen-load-status",
+        "type": "boolean",
+        "mapping": {
+            "true": "HighLoad",
+            "false": ""
+        }
+    },
+    "showFps": {
+        "id": "show-fps-load-status",
+        "type": "boolean",
+        "mapping": {
+            "true": "HighLoad",
+            "false": ""
+        }
+    },
+    "showClock": {
+        "id": "show-clock-load-status",
+        "type": "boolean",
+        "mapping": {
+            "true": "HighLoad",
+            "false": ""
+        }
+    }
+}
