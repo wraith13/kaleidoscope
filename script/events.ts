@@ -2,6 +2,7 @@ import { Library } from "@library";
 import { Features } from "@features";
 import { Controller } from "@controller";
 import { UI } from "./ui";
+import { LoadStatus } from "./loadstatus"
 import config from "@resource/config.json";
 export namespace Events
 {
@@ -45,7 +46,7 @@ export namespace Events
     const updateFuseFps = (): number =>
         Features.Fps.fuseFps = parseFloat(UI.fuseFpsSelect.get());
     const updateFrameDelayLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.frameDelayLoadStatus, getFrameDelayLoadLabel(parseInt(UI.frameDelaySelect.get())));
+        UI.setAndUpdateLabel(UI.frameDelayLoadStatus, LoadStatus.getFrameDelayLabel(parseInt(UI.frameDelaySelect.get())));
     const updateEasing = () =>
         update(() => Controller.Animation.animator.setEasing(UI.easingCheckbox.get()));
     const updateShowFps = () =>
@@ -54,28 +55,14 @@ export namespace Events
         updateShowFpsLoadStatus();
     }
     const updateShowFpsLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.showFpsLoadStatus, UI.showFps.get() ? "WithLoad": "");
+        UI.setAndUpdateLabel(UI.showFpsLoadStatus, LoadStatus.getShowFpsLabel(UI.showFps.get()));
     const updateShowClock = () =>
     {
         UI.clockDisplay.classList.toggle("hide", ! UI.showClock.get());
         updateShowClockLoadStatus();
     };
     const updateShowClockLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.showClockLoadStatus, UI.showClock.get() ? "WithLoad": "");
-    export const getFrameDelayLoadLabel = (i: number): Library.Locale.Label =>
-    {
-        switch(true)
-        {
-        case i <= 0:
-            return "FullPower";
-        case i < 100:
-            return "HighLoad";
-        case 350 < i:
-            return "LowLoad";
-        default:
-            return "MediumLoad";
-        }
-    };
+        UI.setAndUpdateLabel(UI.showClockLoadStatus, LoadStatus.getShowClockLabel(UI.showClock.get()));
     export const initialize = () =>
     {
         UI.playButton.data.click = (event, button) =>

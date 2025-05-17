@@ -170,8 +170,10 @@ export namespace UI
         );
         updateLanguage();
     };
+    export const getDataLangKey = (element: HTMLSpanElement) =>
+        element.getAttribute("data-lang-key") as Library.Locale.Label;
     export const updateLabel = (element: HTMLSpanElement) =>
-        Library.UI.setTextContent(element, Library.Locale.map(element.getAttribute("data-lang-key") as Library.Locale.Label));
+        Library.UI.setTextContent(element, Library.Locale.map(getDataLangKey(element)));
     export const setLabel = (element: HTMLSpanElement, label: Library.Locale.Label) =>
         element.setAttribute("data-lang-key", label);
     export const setAndUpdateLabel = (element: HTMLSpanElement, label: Library.Locale.Label) =>

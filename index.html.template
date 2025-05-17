@@ -236,10 +236,10 @@ const build =
     at: "__BUILD_TIMESTAMP__",
     tick: __BUILD_TIMESTAMP_TICK__
 };
-const evilCommonjsConfig =
-__EVIL_COMMONJS_CONFIG__; // "./resource/evil-commonjs.config.json"
-const evilTimerConfig =
-__EVIL_TIMER_CONFIG__; // "./resource/evil-timer.js.config.json"
+const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
+__EVIL_COMMONJS_CONFIG__;
+const evilTimerConfig = // "./resource/evil-timer.js.config.json"
+__EVIL_TIMER_CONFIG__;
 __EVIL_COMMONJS__
 __EVIL_TIMER__
 __FLOUNDER_STYLE_JS__

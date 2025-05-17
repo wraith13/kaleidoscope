@@ -821,6 +821,7 @@ declare module "script/ui" {
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
         const updateLanguage: () => void;
         const initialize: () => void;
+        const getDataLangKey: (element: HTMLSpanElement) => Library.Locale.Label;
         const updateLabel: (element: HTMLSpanElement) => void;
         const setLabel: (element: HTMLSpanElement, label: Library.Locale.Label) => void;
         const setAndUpdateLabel: (element: HTMLSpanElement, label: Library.Locale.Label) => void;
@@ -990,10 +991,16 @@ declare module "script/controller/index" {
         const toggleAnimation: () => void;
     }
 }
-declare module "script/events" {
+declare module "script/loadstatus" {
     import { Library } from "script/library/index";
+    export namespace LoadStatus {
+        const getFrameDelayLabel: (i: number) => Library.Locale.Label;
+        const getShowFpsLabel: (i: boolean) => Library.Locale.Label;
+        const getShowClockLabel: (i: boolean) => Library.Locale.Label;
+    }
+}
+declare module "script/events" {
     export namespace Events {
-        const getFrameDelayLoadLabel: (i: number) => Library.Locale.Label;
         const initialize: () => void;
     }
 }

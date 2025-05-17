@@ -3019,8 +3019,11 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             }));
             UI.updateLanguage();
         };
+        UI.getDataLangKey = function (element) {
+            return element.getAttribute("data-lang-key");
+        };
         UI.updateLabel = function (element) {
-            return _library_3.Library.UI.setTextContent(element, _library_3.Library.Locale.map(element.getAttribute("data-lang-key")));
+            return _library_3.Library.UI.setTextContent(element, _library_3.Library.Locale.map(UI.getDataLangKey(element)));
         };
         UI.setLabel = function (element, label) {
             return element.setAttribute("data-lang-key", label);
@@ -3571,7 +3574,33 @@ define("resource/images", [], {
     "play-icon": "./image/play.svg",
     "pause-icon": "./image/pause.svg"
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "resource/config"], function (require, exports, _library_8, _features_4, _controller_1, ui_7, config_json_9) {
+define("script/loadstatus", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.LoadStatus = void 0;
+    var LoadStatus;
+    (function (LoadStatus) {
+        LoadStatus.getFrameDelayLabel = function (i) {
+            switch (true) {
+                case i <= 0:
+                    return "FullPower";
+                case i < 100:
+                    return "HighLoad";
+                case 350 < i:
+                    return "LowLoad";
+                default:
+                    return "MediumLoad";
+            }
+        };
+        LoadStatus.getShowFpsLabel = function (i) {
+            return i ? "WithLoad" : "";
+        };
+        LoadStatus.getShowClockLabel = function (i) {
+            return i ? "WithLoad" : "";
+        };
+    })(LoadStatus || (exports.LoadStatus = LoadStatus = {}));
+});
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "resource/config"], function (require, exports, _library_8, _features_4, _controller_1, ui_7, loadstatus_1, config_json_9) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
@@ -3619,7 +3648,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             return _features_4.Features.Fps.fuseFps = parseFloat(ui_7.UI.fuseFpsSelect.get());
         };
         var updateFrameDelayLoadStatus = function () {
-            return ui_7.UI.setAndUpdateLabel(ui_7.UI.frameDelayLoadStatus, Events.getFrameDelayLoadLabel(parseInt(ui_7.UI.frameDelaySelect.get())));
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.frameDelayLoadStatus, loadstatus_1.LoadStatus.getFrameDelayLabel(parseInt(ui_7.UI.frameDelaySelect.get())));
         };
         var updateEasing = function () {
             return update(function () { return _controller_1.Controller.Animation.animator.setEasing(ui_7.UI.easingCheckbox.get()); });
@@ -3629,26 +3658,14 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             updateShowFpsLoadStatus();
         };
         var updateShowFpsLoadStatus = function () {
-            return ui_7.UI.setAndUpdateLabel(ui_7.UI.showFpsLoadStatus, ui_7.UI.showFps.get() ? "WithLoad" : "");
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.showFpsLoadStatus, loadstatus_1.LoadStatus.getShowFpsLabel(ui_7.UI.showFps.get()));
         };
         var updateShowClock = function () {
             ui_7.UI.clockDisplay.classList.toggle("hide", !ui_7.UI.showClock.get());
             updateShowClockLoadStatus();
         };
         var updateShowClockLoadStatus = function () {
-            return ui_7.UI.setAndUpdateLabel(ui_7.UI.showClockLoadStatus, ui_7.UI.showClock.get() ? "WithLoad" : "");
-        };
-        Events.getFrameDelayLoadLabel = function (i) {
-            switch (true) {
-                case i <= 0:
-                    return "FullPower";
-                case i < 100:
-                    return "HighLoad";
-                case 350 < i:
-                    return "LowLoad";
-                default:
-                    return "MediumLoad";
-            }
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.showClockLoadStatus, loadstatus_1.LoadStatus.getShowClockLabel(ui_7.UI.showClock.get()));
         };
         Events.initialize = function () {
             ui_7.UI.playButton.data.click = function (event, button) {
