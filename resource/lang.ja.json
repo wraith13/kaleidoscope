@@ -67,5 +67,6 @@
     "FullPower": "フルパワー",
     "HighLoad": "高負荷",
     "MediumLoad": "中負荷",
-    "LowLoad": "低負荷"
+    "LowLoad": "低負荷",
+    "WithLoad": "負荷あり"
 }

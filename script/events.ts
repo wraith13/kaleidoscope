@@ -44,12 +44,24 @@ export namespace Events
         update(() => Controller.Animation.animator.setCycleSpan(parseInt(UI.cycleSpanSelect.get())));
     const updateFuseFps = (): number =>
         Features.Fps.fuseFps = parseFloat(UI.fuseFpsSelect.get());
+    const updateFrameDelayLoadStatus = () =>
+        UI.setAndUpdateLabel(UI.frameDelayLoadStatus, getFrameDelayLoadLabel(parseInt(UI.frameDelaySelect.get())));
     const updateEasing = () =>
         update(() => Controller.Animation.animator.setEasing(UI.easingCheckbox.get()));
     const updateShowFps = () =>
+    {
         UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
+        updateShowFpsLoadStatus();
+    }
+    const updateShowFpsLoadStatus = () =>
+        UI.setAndUpdateLabel(UI.showFpsLoadStatus, UI.showFps.get() ? "WithLoad": "");
     const updateShowClock = () =>
+    {
         UI.clockDisplay.classList.toggle("hide", ! UI.showClock.get());
+        updateShowClockLoadStatus();
+    };
+    const updateShowClockLoadStatus = () =>
+        UI.setAndUpdateLabel(UI.showClockLoadStatus, UI.showClock.get() ? "WithLoad": "");
     export const getFrameDelayLoadLabel = (i: number): Library.Locale.Label =>
     {
         switch(true)
@@ -86,7 +98,7 @@ export namespace Events
         UI.spotslayersSelect.setChange(updateSpotsLayers);
         UI.cycleSpanSelect.setChange(updateCycleSpan);
         UI.fuseFpsSelect.setChange(updateFuseFps);
-        UI.frameDelaySelect.setChange((_,i) => UI.setAndUpdateLabel(UI.frameDelayLoadStatus, getFrameDelayLoadLabel(parseInt(i.get()))));
+        UI.frameDelaySelect.setChange(updateFrameDelayLoadStatus);
         UI.easingCheckbox.setChange(updateEasing);
         // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);
@@ -215,5 +227,8 @@ export namespace Events
                 Features.Fps.reset();
             }
         );
+        updateFrameDelayLoadStatus();
+        updateShowFpsLoadStatus();
+        updateShowClockLoadStatus();
     };
 }

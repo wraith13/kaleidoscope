@@ -40,8 +40,12 @@ export namespace UI
         new Library.Control.Checkbox(control.withFullscreen);
     export const showFps =
         new Library.Control.Checkbox(control.showFPS);
+    export const showFpsLoadStatus =
+        Library.UI.getElementById("span", "show-fps-load-status");
     export const showClock =
         new Library.Control.Checkbox(control.showClock);
+    export const showClockLoadStatus =
+        Library.UI.getElementById("span", "show-clock-load-status");
     export const languageSelect =
         new Library.Control.Select
         (

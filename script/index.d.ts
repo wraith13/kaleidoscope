@@ -84,6 +84,7 @@ declare module "script/library/locale" {
                 HighLoad: string;
                 MediumLoad: string;
                 LowLoad: string;
+                WithLoad: string;
             };
             ja: {
                 "lang-label": string;
@@ -155,6 +156,7 @@ declare module "script/library/locale" {
                 HighLoad: string;
                 MediumLoad: string;
                 LowLoad: string;
+                WithLoad: string;
             };
         };
         type Label = (keyof typeof localeEn & keyof typeof localeJa) | "";
@@ -788,7 +790,9 @@ declare module "script/ui" {
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;
+        const showFpsLoadStatus: HTMLSpanElement;
         const showClock: Library.Control.Checkbox;
+        const showClockLoadStatus: HTMLSpanElement;
         const languageSelect: Library.Control.Select<string>;
         const fpsDisplay: HTMLDivElement;
         const clockDisplay: HTMLDivElement;

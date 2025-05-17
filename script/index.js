@@ -170,7 +170,8 @@ define("resource/lang.en", [], {
     "FullPower": "Full Power",
     "HighLoad": "High Load",
     "MediumLoad": "Medium Load",
-    "LowLoad": "Low Load"
+    "LowLoad": "Low Load",
+    "WithLoad": "With Load"
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
@@ -241,7 +242,8 @@ define("resource/lang.ja", [], {
     "FullPower": "フルパワー",
     "HighLoad": "高負荷",
     "MediumLoad": "中負荷",
-    "LowLoad": "低負荷"
+    "LowLoad": "低負荷",
+    "WithLoad": "負荷あり"
 });
 define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
     "use strict";
@@ -2944,7 +2946,9 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFPS);
+        UI.showFpsLoadStatus = _library_3.Library.UI.getElementById("span", "show-fps-load-status");
         UI.showClock = new _library_3.Library.Control.Checkbox(control_json_2.default.showClock);
+        UI.showClockLoadStatus = _library_3.Library.UI.getElementById("span", "show-clock-load-status");
         UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
             makeLabel: function (i) { return "Auto" === i ?
                 _library_3.Library.Locale.map("Auto") :
@@ -3614,14 +3618,25 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         var updateFuseFps = function () {
             return _features_4.Features.Fps.fuseFps = parseFloat(ui_7.UI.fuseFpsSelect.get());
         };
+        var updateFrameDelayLoadStatus = function () {
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.frameDelayLoadStatus, Events.getFrameDelayLoadLabel(parseInt(ui_7.UI.frameDelaySelect.get())));
+        };
         var updateEasing = function () {
             return update(function () { return _controller_1.Controller.Animation.animator.setEasing(ui_7.UI.easingCheckbox.get()); });
         };
         var updateShowFps = function () {
-            return ui_7.UI.fpsDisplay.classList.toggle("hide", !ui_7.UI.showFps.get());
+            ui_7.UI.fpsDisplay.classList.toggle("hide", !ui_7.UI.showFps.get());
+            updateShowFpsLoadStatus();
+        };
+        var updateShowFpsLoadStatus = function () {
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.showFpsLoadStatus, ui_7.UI.showFps.get() ? "WithLoad" : "");
         };
         var updateShowClock = function () {
-            return ui_7.UI.clockDisplay.classList.toggle("hide", !ui_7.UI.showClock.get());
+            ui_7.UI.clockDisplay.classList.toggle("hide", !ui_7.UI.showClock.get());
+            updateShowClockLoadStatus();
+        };
+        var updateShowClockLoadStatus = function () {
+            return ui_7.UI.setAndUpdateLabel(ui_7.UI.showClockLoadStatus, ui_7.UI.showClock.get() ? "WithLoad" : "");
         };
         Events.getFrameDelayLoadLabel = function (i) {
             switch (true) {
@@ -3654,7 +3669,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_7.UI.spotslayersSelect.setChange(updateSpotsLayers);
             ui_7.UI.cycleSpanSelect.setChange(updateCycleSpan);
             ui_7.UI.fuseFpsSelect.setChange(updateFuseFps);
-            ui_7.UI.frameDelaySelect.setChange(function (_, i) { return ui_7.UI.setAndUpdateLabel(ui_7.UI.frameDelayLoadStatus, Events.getFrameDelayLoadLabel(parseInt(i.get()))); });
+            ui_7.UI.frameDelaySelect.setChange(updateFrameDelayLoadStatus);
             ui_7.UI.easingCheckbox.setChange(updateEasing);
             // UI.withFullscreen.setChange(Controller.Animation.updateWithFullscreen);
             ui_7.UI.showFps.setChange(updateShowFps);
@@ -3751,6 +3766,9 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 _controller_1.Controller.Benchmark.abortBenchmark();
                 _features_4.Features.Fps.reset();
             });
+            updateFrameDelayLoadStatus();
+            updateShowFpsLoadStatus();
+            updateShowClockLoadStatus();
         };
     })(Events || (exports.Events = Events = {}));
 });

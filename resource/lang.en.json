@@ -67,5 +67,6 @@
     "FullPower": "Full Power",
     "HighLoad": "High Load",
     "MediumLoad": "Medium Load",
-    "LowLoad": "Low Load"
+    "LowLoad": "Low Load",
+    "WithLoad": "With Load"
 }
