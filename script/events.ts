@@ -4,6 +4,7 @@ import { Controller } from "@controller";
 import { UI } from "./ui";
 import { LoadStatus } from "./loadstatus"
 import config from "@resource/config.json";
+import loadStatusJson from "@resource/loadstatus.json";
 export namespace Events
 {
     const update = (setter?: () => unknown) =>
@@ -22,7 +23,7 @@ export namespace Events
         updateColorspaceLoadStatus();
     };
     const updateColorspaceLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.colorspaceLoadStatus, LoadStatus.getColorspaceLabel(UI.colorspaceSelect.get()));
+        LoadStatus.setEnumLabel(loadStatusJson.colorspace as LoadStatus.EnumLoadStatus, UI.colorspaceSelect.get());
     const updateColoring = (): unknown =>
         update(() => Controller.Animation.animator.setColoring(UI.coloringSelect.get()));
     const updatePattern = () =>
@@ -31,7 +32,7 @@ export namespace Events
         updatePatternLoadStatus();
     };
     const updatePatternLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.patternLoadStatus, LoadStatus.getPatternLabel(UI.patternSelect.get()));
+        LoadStatus.setEnumLabel(loadStatusJson.pattern as LoadStatus.EnumLoadStatus, UI.patternSelect.get());
     const updateLayers = (): void =>
         update(() => Controller.Animation.animator.setLayers(parseInt(UI.layersSelect.get())));
     const updateSpotsLayers = (): void =>
@@ -56,25 +57,25 @@ export namespace Events
     const updateFuseFps = (): number =>
         Features.Fps.fuseFps = parseFloat(UI.fuseFpsSelect.get());
     const updateFrameDelayLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.frameDelayLoadStatus, LoadStatus.getFrameDelayLabel(parseInt(UI.frameDelaySelect.get())));
+        LoadStatus.setIntegerLabel(loadStatusJson.frameDelay as LoadStatus.IntegerLoadStatus, UI.frameDelaySelect.get());
     const updateEasing = () =>
         update(() => Controller.Animation.animator.setEasing(UI.easingCheckbox.get()));
     const updateWithFullscreen = () =>
-        UI.setAndUpdateLabel(UI.withFullscreenLoadStatus, LoadStatus.getWithFullscreenLabel(UI.withFullscreen.get()));
+        LoadStatus.setBoolLabel(loadStatusJson.withFullscreen as LoadStatus.BooleanLoadStatus, UI.withFullscreen.get());
     const updateShowFps = () =>
     {
         UI.fpsDisplay.classList.toggle("hide", ! UI.showFps.get());
         updateShowFpsLoadStatus();
     }
     const updateShowFpsLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.showFpsLoadStatus, LoadStatus.getShowFpsLabel(UI.showFps.get()));
+        LoadStatus.setBoolLabel(loadStatusJson.showFps as LoadStatus.BooleanLoadStatus, UI.showFps.get());
     const updateShowClock = () =>
     {
         UI.clockDisplay.classList.toggle("hide", ! UI.showClock.get());
         updateShowClockLoadStatus();
     };
     const updateShowClockLoadStatus = () =>
-        UI.setAndUpdateLabel(UI.showClockLoadStatus, LoadStatus.getShowClockLabel(UI.showClock.get()));
+        LoadStatus.setBoolLabel(loadStatusJson.showClock as LoadStatus.BooleanLoadStatus, UI.showClock.get());
     export const initialize = () =>
     {
         UI.playButton.data.click = (event, button) =>

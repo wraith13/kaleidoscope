@@ -777,16 +777,11 @@ declare module "script/ui" {
         const playButton: Library.Control.Button<HTMLElement>;
         const runBenchmarkButton: Library.Control.Button<HTMLElement>;
         const colorspaceSelect: Library.Control.Select<string>;
-        const colorspaceLoadStatus: HTMLSpanElement;
         const coloringSelect: Library.Control.Select<string>;
         const patternSelect: Library.Control.Select<string>;
-        const patternLoadStatus: HTMLSpanElement;
         const canvasSizeSelect: Library.Control.Select<number>;
-        const canvasSizeLoadStatus: HTMLSpanElement;
         const layersSelect: Library.Control.Select<number>;
-        const layersLoadStatus: HTMLSpanElement;
         const spotslayersSelect: Library.Control.Select<number>;
-        const spotslayersLoadStatus: HTMLSpanElement;
         const cycleSpanSelect: Library.Control.Select<number>;
         const fuseFpsSelect: Library.Control.Select<number>;
         const getFrameDelayLabel: (i: number) => string;
@@ -794,11 +789,8 @@ declare module "script/ui" {
         const frameDelayLoadStatus: HTMLSpanElement;
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
-        const withFullscreenLoadStatus: HTMLSpanElement;
         const showFps: Library.Control.Checkbox;
-        const showFpsLoadStatus: HTMLSpanElement;
         const showClock: Library.Control.Checkbox;
-        const showClockLoadStatus: HTMLSpanElement;
         const languageSelect: Library.Control.Select<string>;
         const fpsDisplay: HTMLDivElement;
         const clockDisplay: HTMLDivElement;
@@ -1014,16 +1006,24 @@ declare module "script/loadstatus" {
             mapping: {
                 [key: string]: Library.Locale.Label;
             };
-            default: Library.Locale.Label;
+            default?: Library.Locale.Label;
+        }
+        interface IntegerLoadStatus {
+            id: string;
+            type: "integer";
+            direction: "ascending" | "descending";
+            mapping: {
+                number: number;
+                label: Library.Locale.Label;
+            }[];
+            default?: Library.Locale.Label;
         }
         const getBoolLabel: (config: BooleanLoadStatus) => (i: boolean) => Library.Locale.Label;
         const getEnumLabel: (config: EnumLoadStatus) => (i: string) => Library.Locale.Label;
-        const getColorspaceLabel: (i: string) => Library.Locale.Label;
-        const getPatternLabel: (i: string) => Library.Locale.Label;
-        const getFrameDelayLabel: (i: number) => Library.Locale.Label;
-        const getWithFullscreenLabel: (i: boolean) => Library.Locale.Label;
-        const getShowFpsLabel: (i: boolean) => Library.Locale.Label;
-        const getShowClockLabel: (i: boolean) => Library.Locale.Label;
+        const getInteerLabel: (config: IntegerLoadStatus) => (i: string) => Library.Locale.Label;
+        const setEnumLabel: (config: EnumLoadStatus, i: string) => void;
+        const setBoolLabel: (config: BooleanLoadStatus, i: boolean) => void;
+        const setIntegerLabel: (config: IntegerLoadStatus, i: string) => void;
     }
 }
 declare module "script/events" {

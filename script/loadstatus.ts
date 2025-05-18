@@ -1,5 +1,5 @@
 import { Library } from "@library";
-import loadStatusJson from "@resource/loadstatus.json";
+import { UI } from "./ui";
 export namespace LoadStatus
 {
     export interface BooleanLoadStatus
@@ -20,31 +20,38 @@ export namespace LoadStatus
         {
             [key: string]: Library.Locale.Label;
         };
-        default: Library.Locale.Label;
+        default?: Library.Locale.Label;
+    }
+    export interface IntegerLoadStatus
+    {
+        id: string;
+        type: "integer";
+        direction: "ascending" | "descending";
+        mapping:
+        {
+            number: number;
+            label: Library.Locale.Label;
+        }[];
+        default?: Library.Locale.Label;
     }
     export const getBoolLabel = (config: BooleanLoadStatus) =>
         (i: boolean) : Library.Locale.Label =>
             i ? config.mapping["true"]: config.mapping["false"];
     export const getEnumLabel = (config: EnumLoadStatus) =>
         (i: string) : Library.Locale.Label =>
-            config.mapping[i] ?? config.default;
-    export const getColorspaceLabel = getEnumLabel(loadStatusJson.colorspace as EnumLoadStatus);
-    export const getPatternLabel = getEnumLabel(loadStatusJson.pattern as EnumLoadStatus);
-    export const getFrameDelayLabel = (i: number): Library.Locale.Label =>
-    {
-        switch(true)
+            config.mapping[i] ?? config.default ?? "";
+    export const getInteerLabel = (config: IntegerLoadStatus) =>
+        (i: string) : Library.Locale.Label =>
         {
-        case i <= 0:
-            return "FullPower";
-        case i < 100:
-            return "HighLoad";
-        case 350 < i:
-            return "LowLoad";
-        default:
-            return "MediumLoad";
+            const value = parseInt(i);
+            return config.direction === "ascending" ?
+                config.mapping.find((e) => value <= e.number)?.label ?? config.default ?? "":
+                config.mapping.find((e) => e.number <= value)?.label ?? config.default ?? "";
         }
-    };
-    export const getWithFullscreenLabel = getBoolLabel(loadStatusJson.withFullscreen as BooleanLoadStatus);
-    export const getShowFpsLabel = getBoolLabel(loadStatusJson.showFps as BooleanLoadStatus);
-    export const getShowClockLabel = getBoolLabel(loadStatusJson.showClock as BooleanLoadStatus);
+    export const setEnumLabel = (config: EnumLoadStatus, i: string) =>
+        UI.setAndUpdateLabel(Library.UI.getElementById("span", config.id), getEnumLabel(config)(i));
+    export const setBoolLabel = (config: BooleanLoadStatus, i: boolean) =>
+        UI.setAndUpdateLabel(Library.UI.getElementById("span", config.id), getBoolLabel(config)(i));
+    export const setIntegerLabel = (config: IntegerLoadStatus, i: string) =>
+        UI.setAndUpdateLabel(Library.UI.getElementById("span", config.id), getInteerLabel(config)(i));
 }

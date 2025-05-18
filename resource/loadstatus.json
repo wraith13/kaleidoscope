@@ -19,6 +19,27 @@
         },
         "default": ""
     },
+    "frameDelay": {
+        "id": "frame-delay-load-status",
+        "type": "integer",
+        "direction": "ascending",
+        "mapping":
+        [
+            {
+                "number": 0,
+                "label": "FullPower"
+            },
+            {
+                "number": 99,
+                "label": "HighLoad"
+            },
+            {
+                "number": 350,
+                "label": "MediumLoad"
+            }
+        ],
+        "default": "LowLoad"
+    },
     "withFullscreen": {
         "id": "with-fullscreen-load-status",
         "type": "boolean",

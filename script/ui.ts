@@ -15,26 +15,16 @@ export namespace UI
         new Library.Control.Button({ id: "run-benchmark", });
     export const colorspaceSelect =
         new Library.Control.Select(control.colorspace);
-    export const colorspaceLoadStatus =
-        Library.UI.getElementById("span", "colorspace-load-status");
     export const coloringSelect =
         new Library.Control.Select(control.coloring);
     export const patternSelect =
         new Library.Control.Select(control.pattern);
-    export const patternLoadStatus =
-        Library.UI.getElementById("span", "pattern-load-status");
     export const canvasSizeSelect =
         new Library.Control.Select(control.canvasSize, { makeLabel: i => `${i} %` });
-    export const canvasSizeLoadStatus =
-        Library.UI.getElementById("span", "canvas-size-load-status");
     export const layersSelect =
         new Library.Control.Select(control.layers);
-    export const layersLoadStatus =
-        Library.UI.getElementById("span", "layers-load-status");
     export const spotslayersSelect =
         new Library.Control.Select(control.spotsLayers, { makeLabel: i => `${i} %` });
-    export const spotslayersLoadStatus =
-        Library.UI.getElementById("span", "spotslayers-load-status");
     export const cycleSpanSelect =
         new Library.Control.Select(control.cycleSpan, { makeLabel: Tools.Timespan.toDisplayString });
     export const fuseFpsSelect =
@@ -42,22 +32,14 @@ export namespace UI
     export const getFrameDelayLabel = (i: number) => Tools.Timespan.toDisplayString(i);
     export const frameDelaySelect =
         new Library.Control.Select(control.frameDelay, { makeLabel: getFrameDelayLabel });
-    export const frameDelayLoadStatus =
-        Library.UI.getElementById("span", "frame-delay-load-status");
     export const easingCheckbox =
         new Library.Control.Checkbox(control.easing);
     export const withFullscreen =
         new Library.Control.Checkbox(control.withFullscreen);
-    export const withFullscreenLoadStatus =
-        Library.UI.getElementById("span", "with-fullscreen-load-status");
     export const showFps =
         new Library.Control.Checkbox(control.showFps);
-    export const showFpsLoadStatus =
-        Library.UI.getElementById("span", "show-fps-load-status");
     export const showClock =
         new Library.Control.Checkbox(control.showClock);
-    export const showClockLoadStatus =
-        Library.UI.getElementById("span", "show-clock-load-status");
     export const languageSelect =
         new Library.Control.Select
         (
