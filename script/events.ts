@@ -27,16 +27,21 @@ export namespace Events
     const updateColoring = (): unknown =>
         update(() => Controller.Animation.animator.setColoring(UI.coloringSelect.get()));
     const updatePattern = () =>
-    {
         update(() => Controller.Animation.animator.setPattern(UI.patternSelect.get()));
-        updatePatternLoadStatus();
-    };
-    const updatePatternLoadStatus = () =>
-        LoadStatus.setEnumLabel(loadStatusJson.pattern as LoadStatus.EnumLoadStatus, UI.patternSelect.get());
-    const updateLayers = (): void =>
+    const updateLayers = () =>
+    {
         update(() => Controller.Animation.animator.setLayers(parseInt(UI.layersSelect.get())));
-    const updateSpotsLayers = (): void =>
+        updateLayersLoadStatus();
+    };
+    const updateLayersLoadStatus = () =>
+        LoadStatus.setIntegerLabel(loadStatusJson.layers as LoadStatus.IntegerLoadStatus, UI.layersSelect.get());
+    const updateSpotsLayers = () =>
+    {
         update(() => Controller.Animation.animator.setSpotsLayers(parseInt(UI.spotslayersSelect.get()) /100.0));
+        updateSpotsLayersLoadStatus();
+    };
+    const updateSpotsLayersLoadStatus = () =>
+        LoadStatus.setIntegerLabel(loadStatusJson.spotsLayers as LoadStatus.IntegerLoadStatus, UI.spotslayersSelect.get());
     const setCanvasSize = (size: string) =>
     {
         [ "width", "height", ].forEach
@@ -228,7 +233,8 @@ export namespace Events
             }
         );
         updateColorspaceLoadStatus();
-        updatePatternLoadStatus();
+        updateLayersLoadStatus();
+        updateSpotsLayersLoadStatus();
         updateFrameDelayLoadStatus();
         updateWithFullscreen();
         updateShowFpsLoadStatus();

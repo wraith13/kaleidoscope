@@ -9,15 +9,39 @@
         },
         "default": ""
     },
-    "pattern": {
-        "id": "pattern-load-status",
-        "type": "enum",
-        "mapping": {
-            "lines": "LowLoad",
-            "spots": "HighLoad",
-            "both": "MediumLoad"
-        },
-        "default": ""
+    "layers": {
+        "id": "layers-load-status",
+        "type": "integer",
+        "direction": "descending",
+        "mapping":
+        [
+            {
+                "number": 31,
+                "label": "HighLoad"
+            },
+            {
+                "number": 11,
+                "label": "MediumLoad"
+            }
+        ],
+        "default": "LowLoad"
+    },
+    "spotsLayers": {
+        "id": "spots-layers-load-status",
+        "type": "integer",
+        "direction": "descending",
+        "mapping":
+        [
+            {
+                "number": 40,
+                "label": "HighLoad"
+            },
+            {
+                "number": 20,
+                "label": "MediumLoad"
+            }
+        ],
+        "default": "LowLoad"
     },
     "frameDelay": {
         "id": "frame-delay-load-status",
@@ -52,7 +76,7 @@
         "id": "show-fps-load-status",
         "type": "boolean",
         "mapping": {
-            "true": "HighLoad",
+            "true": "WithLoad",
             "false": ""
         }
     },
@@ -60,7 +84,7 @@
         "id": "show-clock-load-status",
         "type": "boolean",
         "mapping": {
-            "true": "HighLoad",
+            "true": "WithLoad",
             "false": ""
         }
     }

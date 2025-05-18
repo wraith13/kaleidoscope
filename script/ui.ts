@@ -18,7 +18,7 @@ export namespace UI
     export const coloringSelect =
         new Library.Control.Select(control.coloring);
     export const patternSelect =
-        new Library.Control.Select(control.pattern);
+        new Library.Control.Select(control.pattern, { makeLabel: i => Library.Locale.map(i as Library.Locale.Label), });
     export const canvasSizeSelect =
         new Library.Control.Select(control.canvasSize, { makeLabel: i => `${i} %` });
     export const layersSelect =

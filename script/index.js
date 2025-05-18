@@ -108,9 +108,12 @@ define("resource/lang.en", [], {
     "colorspace-label": "Color Space:",
     "coloring-label": "Coloring:",
     "pattern-label": "Pattern:",
+    "lines": "Lines",
+    "spots": "Spots",
+    "both": "Both",
     "canvas-size-label": "Canvas Size:",
     "layers-label": "Layers:",
-    "spots-layers-label": "Layers(spots):",
+    "spots-layers-label": "Layers(Spots):",
     "cycle-span-label": "Cycle Span:",
     "fuse-fps-label": "Fuse FPS:",
     "frame-delay-label": "Frame Delay:",
@@ -180,9 +183,12 @@ define("resource/lang.ja", [], {
     "colorspace-label": "色空間:",
     "coloring-label": "カラーリング:",
     "pattern-label": "パターン:",
+    "lines": "ライン",
+    "spots": "スポット",
+    "both": "両方",
     "canvas-size-label": "キャンバスサイズ:",
     "layers-label": "レイヤー数:",
-    "spots-layers-label": "レイヤー数(spots):",
+    "spots-layers-label": "レイヤー数(スポット):",
     "cycle-span-label": "サイクルスパン:",
     "fuse-fps-label": "フューズ FPS:",
     "frame-delay-label": "フレーム遅延:",
@@ -2810,7 +2816,9 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     return (now - _this.startAt) - _this.offsetAt;
                 };
                 this.update = function () {
-                    return _this.step(_this.startAt + _this.offsetAt);
+                    if (_this.isStarted()) {
+                        _this.step(_this.startAt + _this.offsetAt);
+                    }
                 };
                 this.setColorspace = function (colorspace) {
                     switch (colorspace) {
@@ -2934,7 +2942,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.runBenchmarkButton = new _library_3.Library.Control.Button({ id: "run-benchmark", });
         UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
         UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
-        UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern);
+        UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { makeLabel: function (i) { return _library_3.Library.Locale.map(i); }, });
         UI.canvasSizeSelect = new _library_3.Library.Control.Select(control_json_2.default.canvasSize, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.layersSelect = new _library_3.Library.Control.Select(control_json_2.default.layers);
         UI.spotslayersSelect = new _library_3.Library.Control.Select(control_json_2.default.spotsLayers, { makeLabel: function (i) { return "".concat(i, " %"); } });
@@ -2942,7 +2950,6 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.fuseFpsSelect = new _library_3.Library.Control.Select(control_json_2.default.fuseFps);
         UI.getFrameDelayLabel = function (i) { return _tools_3.Tools.Timespan.toDisplayString(i); };
         UI.frameDelaySelect = new _library_3.Library.Control.Select(control_json_2.default.frameDelay, { makeLabel: UI.getFrameDelayLabel });
-        UI.frameDelayLoadStatus = _library_3.Library.UI.getElementById("span", "frame-delay-load-status");
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFps);
@@ -3617,15 +3624,37 @@ define("resource/loadstatus", [], {
         },
         "default": ""
     },
-    "pattern": {
-        "id": "pattern-load-status",
-        "type": "enum",
-        "mapping": {
-            "lines": "LowLoad",
-            "spots": "HighLoad",
-            "both": "MediumLoad"
-        },
-        "default": ""
+    "layers": {
+        "id": "layers-load-status",
+        "type": "integer",
+        "direction": "descending",
+        "mapping": [
+            {
+                "number": 31,
+                "label": "HighLoad"
+            },
+            {
+                "number": 11,
+                "label": "MediumLoad"
+            }
+        ],
+        "default": "LowLoad"
+    },
+    "spotsLayers": {
+        "id": "spots-layers-load-status",
+        "type": "integer",
+        "direction": "descending",
+        "mapping": [
+            {
+                "number": 40,
+                "label": "HighLoad"
+            },
+            {
+                "number": 20,
+                "label": "MediumLoad"
+            }
+        ],
+        "default": "LowLoad"
     },
     "frameDelay": {
         "id": "frame-delay-load-status",
@@ -3659,7 +3688,7 @@ define("resource/loadstatus", [], {
         "id": "show-fps-load-status",
         "type": "boolean",
         "mapping": {
-            "true": "HighLoad",
+            "true": "WithLoad",
             "false": ""
         }
     },
@@ -3667,7 +3696,7 @@ define("resource/loadstatus", [], {
         "id": "show-clock-load-status",
         "type": "boolean",
         "mapping": {
-            "true": "HighLoad",
+            "true": "WithLoad",
             "false": ""
         }
     }
@@ -3700,17 +3729,21 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             return update(function () { return _controller_1.Controller.Animation.animator.setColoring(ui_8.UI.coloringSelect.get()); });
         };
         var updatePattern = function () {
-            update(function () { return _controller_1.Controller.Animation.animator.setPattern(ui_8.UI.patternSelect.get()); });
-            updatePatternLoadStatus();
-        };
-        var updatePatternLoadStatus = function () {
-            return loadstatus_1.LoadStatus.setEnumLabel(loadstatus_json_1.default.pattern, ui_8.UI.patternSelect.get());
+            return update(function () { return _controller_1.Controller.Animation.animator.setPattern(ui_8.UI.patternSelect.get()); });
         };
         var updateLayers = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setLayers(parseInt(ui_8.UI.layersSelect.get())); });
+            update(function () { return _controller_1.Controller.Animation.animator.setLayers(parseInt(ui_8.UI.layersSelect.get())); });
+            updateLayersLoadStatus();
+        };
+        var updateLayersLoadStatus = function () {
+            return loadstatus_1.LoadStatus.setIntegerLabel(loadstatus_json_1.default.layers, ui_8.UI.layersSelect.get());
         };
         var updateSpotsLayers = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setSpotsLayers(parseInt(ui_8.UI.spotslayersSelect.get()) / 100.0); });
+            update(function () { return _controller_1.Controller.Animation.animator.setSpotsLayers(parseInt(ui_8.UI.spotslayersSelect.get()) / 100.0); });
+            updateSpotsLayersLoadStatus();
+        };
+        var updateSpotsLayersLoadStatus = function () {
+            return loadstatus_1.LoadStatus.setIntegerLabel(loadstatus_json_1.default.spotsLayers, ui_8.UI.spotslayersSelect.get());
         };
         var setCanvasSize = function (size) {
             ["width", "height",].forEach(function (i) { return ui_8.UI.canvas.style.setProperty(i, size); });
@@ -3868,7 +3901,8 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 _features_4.Features.Fps.reset();
             });
             updateColorspaceLoadStatus();
-            updatePatternLoadStatus();
+            updateLayersLoadStatus();
+            updateSpotsLayersLoadStatus();
             updateFrameDelayLoadStatus();
             updateWithFullscreen();
             updateShowFpsLoadStatus();

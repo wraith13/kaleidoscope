@@ -8,6 +8,8 @@ Kaleidoscope Web Screen Saver is a web-based screen saver that displays kaleidos
 
 By increasing the number of layers, users can create even more beautiful and intricate visuals. However, please note that higher layer counts may also increase the computational load, which could affect performance on less powerful devices.
 
+In addition, Kaleidoscope Web Screen Saver includes a benchmark feature that measures the overall performance of your device and web browser together.
+
 This software can be hosted and shared using GitHub Pages, making it easy to use for personal enjoyment or demonstrations.
 
 ## Feature
@@ -20,6 +22,7 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 - Adjustable Layers: 1 - 97
 - Cycle Span: 1s - 1h
 - Fullscreen Support
+- Clock Display
 - Multi-language Support: English, Japanese
 - Device Compatibility: PCs, Smartphones, Tablets
 - Keyboard Shortcuts Support for easier operation

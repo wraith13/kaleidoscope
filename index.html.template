@@ -74,7 +74,7 @@ __STYLE__
     <label for="spotsLayers">
         <span data-lang-key="spots-layers-label">Layers:</span>
         <select id="spotsLayers"></select>
-        <span class="load-status" id="spotsLayers-load-status"></span>
+        <span class="load-status" id="spots-layers-load-status"></span>
     </label>
     <label for="cycle-span">
         <span data-lang-key="cycle-span-label">Cycle Span:</span>

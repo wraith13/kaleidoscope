@@ -21,6 +21,9 @@ declare module "script/library/locale" {
                 "colorspace-label": string;
                 "coloring-label": string;
                 "pattern-label": string;
+                lines: string;
+                spots: string;
+                both: string;
                 "canvas-size-label": string;
                 "layers-label": string;
                 "spots-layers-label": string;
@@ -93,6 +96,9 @@ declare module "script/library/locale" {
                 "colorspace-label": string;
                 "coloring-label": string;
                 "pattern-label": string;
+                lines: string;
+                spots: string;
+                both: string;
                 "canvas-size-label": string;
                 "layers-label": string;
                 "spots-layers-label": string;
@@ -786,7 +792,6 @@ declare module "script/ui" {
         const fuseFpsSelect: Library.Control.Select<number>;
         const getFrameDelayLabel: (i: number) => string;
         const frameDelaySelect: Library.Control.Select<number>;
-        const frameDelayLoadStatus: HTMLSpanElement;
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;
