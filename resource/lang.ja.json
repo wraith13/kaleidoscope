@@ -23,6 +23,7 @@
     "white": "ホワイト",
     "black": "ブラック",
     "system": "システム",
+    "rainbow": "レインボー",
     "language-label": "言語:",
     "run-benchmark-label": "ベンチマーク実行",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",

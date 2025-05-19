@@ -23,6 +23,7 @@
     "white": "White",
     "black": "Black",
     "system": "System",
+    "rainbow": "Rainbow",
     "language-label": "Language:",
     "run-benchmark-label": "Run Benchmark",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",

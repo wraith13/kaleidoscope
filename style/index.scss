@@ -322,44 +322,29 @@
         &.blend
         {
             mix-blend-mode: difference;
-            span
-            {
-                //color: white;
-                color: black;
-                filter: drop-shadow(0px 0px 0.25rem white);
-            }
+            color: white;
         }
         &.white
         {
-            span
+            color: white;
+            filter: drop-shadow(0px 0px 0.25rem black);
+        }
+        &.black
+        {
+            color: black;
+            filter: drop-shadow(0px 0px 0.25rem white);
+        }
+        &.system
+        {
+            @media (prefers-color-scheme: light)
             {
                 color: white;
                 filter: drop-shadow(0px 0px 0.25rem black);
             }
-        }
-        &.black
-        {
-            span
+            @media (prefers-color-scheme: dark)
             {
                 color: black;
                 filter: drop-shadow(0px 0px 0.25rem white);
-            }
-        }
-        &.system
-        {
-            @media (prefers-color-scheme: light) {
-                span
-                {
-                    color: white;
-                    filter: drop-shadow(0px 0px 0.25rem black);
-                }
-            }
-            @media (prefers-color-scheme: dark) {
-                span
-                {
-                    color: black;
-                    filter: drop-shadow(0px 0px 0.25rem white);
-                }
             }
         }
         #time

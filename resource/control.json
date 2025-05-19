@@ -190,7 +190,8 @@
             "blend",
             "white",
             "black",
-            "system"
+            "system",
+            "rainbow"
         ],
         "default": "hide"
     },
