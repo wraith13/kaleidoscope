@@ -37,7 +37,7 @@ export namespace Animation
     {
         if (isInAnimation())
         {
-            if (UI.showClock.get())
+            if (UI.clockSelect.get())
             {
                 Features.Clock.update(cloclLocale);
             }

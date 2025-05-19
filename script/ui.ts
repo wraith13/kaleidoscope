@@ -38,8 +38,8 @@ export namespace UI
         new Library.Control.Checkbox(control.withFullscreen);
     export const showFps =
         new Library.Control.Checkbox(control.showFps);
-    export const showClock =
-        new Library.Control.Checkbox(control.showClock);
+    export const clockSelect =
+        new Library.Control.Select(control.clock, { makeLabel: i => Library.Locale.map(i as Library.Locale.Label), });
     export const languageSelect =
         new Library.Control.Select
         (
@@ -54,7 +54,7 @@ export namespace UI
     export const fpsDisplay =
         Library.UI.getElementById("div", "fps");
     export const clockDisplay =
-        Library.UI.getElementById("div", "clock");
+        Library.UI.getElementById("div", "clock-panel");
     export const date =
         Library.UI.getElementById("span", "date");
     export const time =
@@ -112,6 +112,7 @@ export namespace UI
         UI.cycleSpanSelect.reloadOptions();
         UI.fuseFpsSelect.reloadOptions();
         UI.frameDelaySelect.reloadOptions();
+        UI.clockSelect.reloadOptions();
         UI.languageSelect.reloadOptions();
         Library.UI.querySelectorAllWithFallback("span", [ "[data-lang-key]" ])
             .forEach(i => updateLabel(i));

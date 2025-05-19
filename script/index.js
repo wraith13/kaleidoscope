@@ -120,7 +120,12 @@ define("resource/lang.en", [], {
     "easing-label": "Easing:",
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
-    "show-clock-label": "Show Clock:",
+    "clock-label": "Clock:",
+    "hide": "Hide",
+    "blend": "Blend",
+    "white": "White",
+    "black": "Black",
+    "system": "System",
     "language-label": "Language:",
     "run-benchmark-label": "Run Benchmark",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
@@ -195,7 +200,12 @@ define("resource/lang.ja", [], {
     "easing-label": "イージング:",
     "with-fullscreen-label": "フルスクリーン:",
     "show-fps-label": "FPS を表示:",
-    "show-clock-label": "時計を表示:",
+    "clock-label": "時計:",
+    "hide": "非表示",
+    "blend": "ブレンド",
+    "white": "ホワイト",
+    "black": "ブラック",
+    "system": "システム",
     "language-label": "言語:",
     "run-benchmark-label": "ベンチマーク実行",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
@@ -2538,9 +2548,16 @@ define("resource/control", [], {
         "id": "show-fps",
         "default": false
     },
-    "showClock": {
-        "id": "show-clock",
-        "default": false
+    "clock": {
+        "id": "clock",
+        "enum": [
+            "hide",
+            "blend",
+            "white",
+            "black",
+            "system"
+        ],
+        "default": "hide"
     },
     "language": {
         "id": "language",
@@ -2953,7 +2970,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.easingCheckbox = new _library_3.Library.Control.Checkbox(control_json_2.default.easing);
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFps);
-        UI.showClock = new _library_3.Library.Control.Checkbox(control_json_2.default.showClock);
+        UI.clockSelect = new _library_3.Library.Control.Select(control_json_2.default.clock, { makeLabel: function (i) { return _library_3.Library.Locale.map(i); }, });
         UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
             makeLabel: function (i) { return "Auto" === i ?
                 _library_3.Library.Locale.map("Auto") :
@@ -2961,7 +2978,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             change: function () { return UI.updateLanguage(); },
         });
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
-        UI.clockDisplay = _library_3.Library.UI.getElementById("div", "clock");
+        UI.clockDisplay = _library_3.Library.UI.getElementById("div", "clock-panel");
         UI.date = _library_3.Library.UI.getElementById("span", "date");
         UI.time = _library_3.Library.UI.getElementById("span", "time");
         UI.benchmarkProgressBar = _library_3.Library.UI.getElementById("div", "benchmark-progress-bar");
@@ -2995,6 +3012,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             UI.cycleSpanSelect.reloadOptions();
             UI.fuseFpsSelect.reloadOptions();
             UI.frameDelaySelect.reloadOptions();
+            UI.clockSelect.reloadOptions();
             UI.languageSelect.reloadOptions();
             _library_3.Library.UI.querySelectorAllWithFallback("span", ["[data-lang-key]"])
                 .forEach(function (i) { return UI.updateLabel(i); });
@@ -3415,7 +3433,7 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         };
         Animation.loopAnimation = function (now) {
             if (Animation.isInAnimation()) {
-                if (ui_5.UI.showClock.get()) {
+                if (ui_5.UI.clockSelect.get()) {
                     _features_2.Features.Clock.update(Animation.cloclLocale);
                 }
                 _features_2.Features.Fps.step(now);
@@ -3692,20 +3710,25 @@ define("resource/loadstatus", [], {
             "false": ""
         }
     },
-    "showClock": {
-        "id": "show-clock-load-status",
-        "type": "boolean",
+    "clock": {
+        "id": "clock-load-status",
+        "type": "enum",
         "mapping": {
-            "true": "WithLoad",
-            "false": ""
-        }
+            "hide": "",
+            "blend": "WithLoad",
+            "white": "WithLoad",
+            "black": "WithLoad",
+            "system": "WithLoad"
+        },
+        "default": ""
     }
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "resource/config", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_1, ui_8, loadstatus_1, config_json_9, loadstatus_json_1) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "resource/config", "resource/control", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_1, ui_8, loadstatus_1, config_json_9, control_json_3, loadstatus_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
     config_json_9 = __importDefault(config_json_9);
+    control_json_3 = __importDefault(control_json_3);
     loadstatus_json_1 = __importDefault(loadstatus_json_1);
     var Events;
     (function (Events) {
@@ -3777,12 +3800,14 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         var updateShowFpsLoadStatus = function () {
             return loadstatus_1.LoadStatus.setBoolLabel(loadstatus_json_1.default.showFps, ui_8.UI.showFps.get());
         };
-        var updateShowClock = function () {
-            ui_8.UI.clockDisplay.classList.toggle("hide", !ui_8.UI.showClock.get());
-            updateShowClockLoadStatus();
+        var updateClock = function () {
+            control_json_3.default.clock.enum.forEach(function (i) {
+                return ui_8.UI.clockDisplay.classList.toggle(i, i === ui_8.UI.clockSelect.get());
+            });
+            updateClockLoadStatus();
         };
-        var updateShowClockLoadStatus = function () {
-            return loadstatus_1.LoadStatus.setBoolLabel(loadstatus_json_1.default.showClock, ui_8.UI.showClock.get());
+        var updateClockLoadStatus = function () {
+            return loadstatus_1.LoadStatus.setEnumLabel(loadstatus_json_1.default.clock, ui_8.UI.clockSelect.get());
         };
         Events.initialize = function () {
             ui_8.UI.playButton.data.click = function (event, button) {
@@ -3807,7 +3832,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_8.UI.easingCheckbox.setChange(updateEasing);
             ui_8.UI.withFullscreen.setChange(updateWithFullscreen);
             ui_8.UI.showFps.setChange(updateShowFps);
-            ui_8.UI.showClock.setChange(updateShowClock);
+            ui_8.UI.clockSelect.setChange(updateClock);
             ui_8.UI.benchmarkAbortButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
@@ -3906,15 +3931,15 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             updateFrameDelayLoadStatus();
             updateWithFullscreen();
             updateShowFpsLoadStatus();
-            updateShowClockLoadStatus();
+            updateClock();
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/ui", "script/events"], function (require, exports, _tools_5, _library_10, _features_5, _controller_2, config_json_10, control_json_3, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, ui_9, events_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/ui", "script/events"], function (require, exports, _tools_5, _library_10, _features_5, _controller_2, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, ui_9, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
-    control_json_3 = __importDefault(control_json_3);
+    control_json_4 = __importDefault(control_json_4);
     evil_commonjs_config_json_1 = __importDefault(evil_commonjs_config_json_1);
     evil_timer_js_config_json_1 = __importDefault(evil_timer_js_config_json_1);
     images_json_1 = __importDefault(images_json_1);
@@ -3928,7 +3953,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     var consoleInterface = globalThis;
     var Resource = {
         config: config_json_10.default,
-        control: control_json_3.default,
+        control: control_json_4.default,
         evilCommonJsConfig: evil_commonjs_config_json_1.default,
         evilTimerJsConfig: evil_timer_js_config_json_1.default,
         images: images_json_1.default,

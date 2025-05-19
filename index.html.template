@@ -93,23 +93,23 @@ __STYLE__
     </label>
     <label for="easing">
         <span data-lang-key="easing-label">Easing:</span>
-        <input id="easing" type="checkbox">
+        <input id="easing" type="checkbox" />
         <span class="load-status" id="easing-load-status"></span>
     </label>
     <label for="with-fullscreen">
         <span data-lang-key="with-fullscreen-label">FullScreen:</span>
-        <input id="with-fullscreen" type="checkbox">
+        <input id="with-fullscreen" type="checkbox" />
         <span class="load-status" id="with-fullscreen-load-status"></span>
     </label>
     <label for="show-fps">
         <span data-lang-key="show-fps-label">Show FPS:</span>
-        <input id="show-fps" type="checkbox">
+        <input id="show-fps" type="checkbox" />
         <span class="load-status" id="show-fps-load-status"></span>
     </label>
-    <label for="show-clock">
-        <span data-lang-key="show-clock-label">Show Clock:</span>
-        <input id="show-clock" type="checkbox">
-        <span class="load-status" id="show-clock-load-status"></span>
+    <label for="clock">
+        <span data-lang-key="clock-label">Clock:</span>
+        <select id="clock"></select>
+        <span class="load-status" id="clock-load-status"></span>
     </label>
     <label for="language">
         <span data-lang-key="language-label">Language:</span>
@@ -124,7 +124,7 @@ __STYLE__
         <span data-lang-key="run-benchmark-label"></span>
     </button>
 </div>
-<div id="clock">
+<div id="clock-panel">
     <span id="time"></span>
     <span id="date"></span>
 </div>

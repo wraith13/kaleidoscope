@@ -640,16 +640,16 @@ body:not(.immersive) #play-button #pause-icon {
   display: none;
 }
 
-#clock {
+#clock-panel {
   transition: opacity 750ms, filter 750ms;
 }
-body:not(.animation) #clock:not(.show) {
+body:not(.animation) #clock-panel:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body:not(.animation) #clock:not(.show)::before {
+body:not(.animation) #clock-panel:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -662,13 +662,13 @@ body:not(.animation) #clock:not(.show)::before {
   transition: filter 750ms;
 }
 
-#clock.hide:not(.show) {
+#clock-panel.hide:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-#clock.hide:not(.show)::before {
+#clock-panel.hide:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -680,59 +680,84 @@ body:not(.animation) #clock:not(.show)::before {
   z-index: -1;
   transition: filter 750ms;
 }
-#clock {
+#clock-panel {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
   user-select: none;
   pointer-events: none;
 }
-#clock span {
+#clock-panel span {
   display: block;
-  color: white;
   text-align: center;
 }
-#clock #time {
+#clock-panel.blend {
+  mix-blend-mode: difference;
+}
+#clock-panel.blend span {
+  color: black;
+  filter: drop-shadow(0px 0px 0.25rem white);
+}
+#clock-panel.white span {
+  color: white;
+  filter: drop-shadow(0px 0px 0.25rem black);
+}
+#clock-panel.black span {
+  color: black;
+  filter: drop-shadow(0px 0px 0.25rem white);
+}
+@media (prefers-color-scheme: light) {
+  #clock-panel.system span {
+    color: white;
+    filter: drop-shadow(0px 0px 0.25rem black);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  #clock-panel.system span {
+    color: black;
+    filter: drop-shadow(0px 0px 0.25rem white);
+  }
+}
+#clock-panel #time {
   font-size: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #clock #time {
+  #clock-panel #time {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #clock #time {
+  #clock-panel #time {
     font-size: 1rem;
   }
 }
-#clock #time {
+#clock-panel #time {
   font-family: monospace;
 }
-#clock #time {
+#clock-panel #time {
   font-size: 13.5vw;
   white-space: nowrap;
 }
-#clock #date {
+#clock-panel #date {
   font-size: 0.75rem;
   font-weight: 400;
 }
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #clock #date {
+  #clock-panel #date {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #clock #date {
+  #clock-panel #date {
     font-size: 1rem;
   }
 }
-#clock #date {
+#clock-panel #date {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#clock #date {
+#clock-panel #date {
   font-size: 3vw;
   white-space: nowrap;
 }

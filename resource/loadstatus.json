@@ -80,12 +80,16 @@
             "false": ""
         }
     },
-    "showClock": {
-        "id": "show-clock-load-status",
-        "type": "boolean",
+    "clock": {
+        "id": "clock-load-status",
+        "type": "enum",
         "mapping": {
-            "true": "WithLoad",
-            "false": ""
-        }
+            "hide": "",
+            "blend": "WithLoad",
+            "white": "WithLoad",
+            "black": "WithLoad",
+            "system": "WithLoad"
+        },
+        "default": ""
     }
 }

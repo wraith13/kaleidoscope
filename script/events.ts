@@ -4,6 +4,7 @@ import { Controller } from "@controller";
 import { UI } from "./ui";
 import { LoadStatus } from "./loadstatus"
 import config from "@resource/config.json";
+import control from "@resource/control.json";
 import loadStatusJson from "@resource/loadstatus.json";
 export namespace Events
 {
@@ -74,13 +75,15 @@ export namespace Events
     }
     const updateShowFpsLoadStatus = () =>
         LoadStatus.setBoolLabel(loadStatusJson.showFps as LoadStatus.BooleanLoadStatus, UI.showFps.get());
-    const updateShowClock = () =>
+    const updateClock = () =>
     {
-        UI.clockDisplay.classList.toggle("hide", ! UI.showClock.get());
-        updateShowClockLoadStatus();
+        control.clock.enum.forEach(i =>
+            UI.clockDisplay.classList.toggle(i, i === UI.clockSelect.get())
+        );
+        updateClockLoadStatus();
     };
-    const updateShowClockLoadStatus = () =>
-        LoadStatus.setBoolLabel(loadStatusJson.showClock as LoadStatus.BooleanLoadStatus, UI.showClock.get());
+    const updateClockLoadStatus = () =>
+        LoadStatus.setEnumLabel(loadStatusJson.clock as LoadStatus.EnumLoadStatus, UI.clockSelect.get());
     export const initialize = () =>
     {
         UI.playButton.data.click = (event, button) =>
@@ -107,7 +110,7 @@ export namespace Events
         UI.easingCheckbox.setChange(updateEasing);
         UI.withFullscreen.setChange(updateWithFullscreen);
         UI.showFps.setChange(updateShowFps);
-        UI.showClock.setChange(updateShowClock);
+        UI.clockSelect.setChange(updateClock);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
             event?.stopPropagation();
@@ -238,6 +241,6 @@ export namespace Events
         updateFrameDelayLoadStatus();
         updateWithFullscreen();
         updateShowFpsLoadStatus();
-        updateShowClockLoadStatus();
+        updateClock();
     };
 }

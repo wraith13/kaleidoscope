@@ -33,7 +33,12 @@ declare module "script/library/locale" {
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
-                "show-clock-label": string;
+                "clock-label": string;
+                hide: string;
+                blend: string;
+                white: string;
+                black: string;
+                system: string;
                 "language-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
@@ -108,7 +113,12 @@ declare module "script/library/locale" {
                 "easing-label": string;
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
-                "show-clock-label": string;
+                "clock-label": string;
+                hide: string;
+                blend: string;
+                white: string;
+                black: string;
+                system: string;
                 "language-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
@@ -795,7 +805,7 @@ declare module "script/ui" {
         const easingCheckbox: Library.Control.Checkbox;
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;
-        const showClock: Library.Control.Checkbox;
+        const clockSelect: Library.Control.Select<string>;
         const languageSelect: Library.Control.Select<string>;
         const fpsDisplay: HTMLDivElement;
         const clockDisplay: HTMLDivElement;

@@ -183,9 +183,16 @@
         "id": "show-fps",
         "default": false
     },
-    "showClock": {
-        "id": "show-clock",
-        "default": false
+    "clock": {
+        "id": "clock",
+        "enum": [
+            "hide",
+            "blend",
+            "white",
+            "black",
+            "system"
+        ],
+        "default": "hide"
     },
     "language": {
         "id": "language",
