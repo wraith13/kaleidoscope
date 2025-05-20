@@ -39,6 +39,7 @@ declare module "script/library/locale" {
                 white: string;
                 black: string;
                 system: string;
+                rainbow: string;
                 "language-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
@@ -119,6 +120,7 @@ declare module "script/library/locale" {
                 white: string;
                 black: string;
                 system: string;
+                rainbow: string;
                 "language-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
@@ -225,6 +227,7 @@ declare module "script/library/ui" {
         const getElementById: <T extends HtmlTag>(tag: T, id: string) => HTMLElementTagNameMap[T];
         const querySelector: <T extends HtmlTag>(tag: T, selectors: string, parent?: Element) => HTMLElementTagNameMap[T];
         const setTextContent: (element: HTMLElement, text: string) => void;
+        const setStyle: (element: HTMLElement, name: string, value: string | undefined) => void;
     }
 }
 declare module "script/tools/math" {
@@ -845,6 +848,7 @@ declare module "script/features/clock" {
         const makeDate: (local: string | undefined) => string;
         const makeTime: (local: string | undefined) => string;
         const update: (local: string | undefined) => void;
+        const setColor: (color: string | undefined) => void;
     }
 }
 declare module "script/features/benchmark" {

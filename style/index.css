@@ -694,27 +694,32 @@ body:not(.animation) #clock-panel:not(.show)::before {
 }
 #clock-panel.blend {
   mix-blend-mode: difference;
+}
+#clock-panel.blend span {
   color: white;
 }
-#clock-panel.white {
+#clock-panel.white span {
   color: white;
   filter: drop-shadow(0px 0px 0.25rem black);
 }
-#clock-panel.black {
+#clock-panel.black span {
   color: black;
   filter: drop-shadow(0px 0px 0.25rem white);
 }
 @media (prefers-color-scheme: light) {
-  #clock-panel.system {
+  #clock-panel.system span {
     color: white;
     filter: drop-shadow(0px 0px 0.25rem black);
   }
 }
 @media (prefers-color-scheme: dark) {
-  #clock-panel.system {
+  #clock-panel.system span {
     color: black;
     filter: drop-shadow(0px 0px 0.25rem white);
   }
+}
+#clock-panel.rainbow span {
+  filter: drop-shadow(0px 0px 0.25rem black);
 }
 #clock-panel #time {
   font-size: 0.75rem;

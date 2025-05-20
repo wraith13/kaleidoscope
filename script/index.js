@@ -126,6 +126,7 @@ define("resource/lang.en", [], {
     "white": "White",
     "black": "Black",
     "system": "System",
+    "rainbow": "Rainbow",
     "language-label": "Language:",
     "run-benchmark-label": "Run Benchmark",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
@@ -206,6 +207,7 @@ define("resource/lang.ja", [], {
     "white": "ホワイト",
     "black": "ブラック",
     "system": "システム",
+    "rainbow": "レインボー",
     "language-label": "言語:",
     "run-benchmark-label": "ベンチマーク実行",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
@@ -540,6 +542,17 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
         UI.setTextContent = function (element, text) {
             if (element.textContent !== text) {
                 element.textContent = text;
+            }
+        };
+        UI.setStyle = function (element, name, value) {
+            var _a;
+            if (((_a = element.style.getPropertyValue(name)) !== null && _a !== void 0 ? _a : "") !== (value !== null && value !== void 0 ? value : "")) {
+                if (undefined === value || null === value || "" === value) {
+                    element.style.removeProperty(name);
+                }
+                else {
+                    element.style.setProperty(name, value);
+                }
             }
         };
     })(UI || (exports.UI = UI = {}));
@@ -2555,7 +2568,8 @@ define("resource/control", [], {
             "blend",
             "white",
             "black",
-            "system"
+            "system",
+            "rainbow"
         ],
         "default": "hide"
     },
@@ -3074,6 +3088,10 @@ define("script/features/clock", ["require", "exports", "script/library/index", "
             library_1.Library.UI.setTextContent(ui_2.UI.date, Clock.makeDate(local));
             library_1.Library.UI.setTextContent(ui_2.UI.time, Clock.makeTime(local));
         };
+        Clock.setColor = function (color) {
+            library_1.Library.UI.setStyle(ui_2.UI.date, "color", color);
+            library_1.Library.UI.setStyle(ui_2.UI.time, "color", color);
+        };
     })(Clock || (exports.Clock = Clock = {}));
 });
 define("script/features/benchmark", ["require", "exports", "script/tools/index", "script/library/index", "script/ui", "script/features/fps", "script/features/animation", "resource/config"], function (require, exports, _tools_4, _library_4, ui_3, fps_1, animation_1, config_json_6) {
@@ -3401,7 +3419,7 @@ define("script/controller/base", ["require", "exports", "script/library/index", 
         };
     })(Base || (exports.Base = Base = {}));
 });
-define("script/controller/animation", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_2, _library_6, base_1, ui_5, config_json_7) {
+define("script/controller/animation", ["require", "exports", "phi-colors", "script/features/index", "script/library/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, phi_colors_2, _features_2, _library_6, base_1, ui_5, config_json_7) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Animation = void 0;
@@ -3433,8 +3451,17 @@ define("script/controller/animation", ["require", "exports", "script/features/in
         };
         Animation.loopAnimation = function (now) {
             if (Animation.isInAnimation()) {
-                if (ui_5.UI.clockSelect.get()) {
+                var clockOption = ui_5.UI.clockSelect.get();
+                if ("hide" !== clockOption) {
                     _features_2.Features.Clock.update(Animation.cloclLocale);
+                    switch (clockOption) {
+                        case "rainbow":
+                            _features_2.Features.Clock.setColor(Animation.animator.phiColoring.makeSrgbColor(Animation.animator.phiColoring.makeRgb(Animation.animator.universalStep / phi_colors_2.phiColors.phi)));
+                            break;
+                        default:
+                            _features_2.Features.Clock.setColor(undefined);
+                            break;
+                    }
                 }
                 _features_2.Features.Fps.step(now);
                 Animation.updateFps();
