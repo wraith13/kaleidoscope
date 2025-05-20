@@ -39,6 +39,7 @@ declare module "script/library/locale" {
                 white: string;
                 black: string;
                 system: string;
+                alternate: string;
                 rainbow: string;
                 "language-label": string;
                 "run-benchmark-label": string;
@@ -120,6 +121,7 @@ declare module "script/library/locale" {
                 white: string;
                 black: string;
                 system: string;
+                alternate: string;
                 rainbow: string;
                 "language-label": string;
                 "run-benchmark-label": string;

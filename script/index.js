@@ -126,6 +126,7 @@ define("resource/lang.en", [], {
     "white": "White",
     "black": "Black",
     "system": "System",
+    "alternate": "Alternate",
     "rainbow": "Rainbow",
     "language-label": "Language:",
     "run-benchmark-label": "Run Benchmark",
@@ -207,6 +208,7 @@ define("resource/lang.ja", [], {
     "white": "ホワイト",
     "black": "ブラック",
     "system": "システム",
+    "alternate": "交互",
     "rainbow": "レインボー",
     "language-label": "言語:",
     "run-benchmark-label": "ベンチマーク実行",
@@ -341,6 +343,9 @@ define("resource/config", [], {
         "decimalDigits": 2
     },
     "clock": {
+        "alternate": {
+            "span": 293000
+        },
         "dateFormat": {
             "weekday": "long",
             "year": "numeric",
@@ -2569,6 +2574,7 @@ define("resource/control", [], {
             "white",
             "black",
             "system",
+            "alternate",
             "rainbow"
         ],
         "default": "hide"
@@ -3455,6 +3461,12 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
                 if ("hide" !== clockOption) {
                     _features_2.Features.Clock.update(Animation.cloclLocale);
                     switch (clockOption) {
+                        case "alternate":
+                            var isWhite = (new Date().getTime() / config_json_7.default.clock.alternate.span) % 2 < 1.0;
+                            ui_5.UI.clockDisplay.classList.toggle("white", isWhite);
+                            ui_5.UI.clockDisplay.classList.toggle("black", !isWhite);
+                            _features_2.Features.Clock.setColor(undefined);
+                            break;
                         case "rainbow":
                             _features_2.Features.Clock.setColor(Animation.animator.phiColoring.makeSrgbColor(Animation.animator.phiColoring.makeRgb(Animation.animator.universalStep / phi_colors_2.phiColors.phi)));
                             break;

@@ -44,6 +44,12 @@ export namespace Animation
                 Features.Clock.update(cloclLocale);
                 switch(clockOption)
                 {
+                case "alternate":
+                    const isWhite = (new Date().getTime() /config.clock.alternate.span) %2 < 1.0;
+                    UI.clockDisplay.classList.toggle("white", isWhite);
+                    UI.clockDisplay.classList.toggle("black", ! isWhite);
+                    Features.Clock.setColor(undefined);
+                    break;
                 case "rainbow":
                     Features.Clock.setColor
                     (

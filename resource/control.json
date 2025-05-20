@@ -191,6 +191,7 @@
             "white",
             "black",
             "system",
+            "alternate",
             "rainbow"
         ],
         "default": "hide"

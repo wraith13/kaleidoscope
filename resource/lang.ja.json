@@ -23,6 +23,7 @@
     "white": "ホワイト",
     "black": "ブラック",
     "system": "システム",
+    "alternate": "交互",
     "rainbow": "レインボー",
     "language-label": "言語:",
     "run-benchmark-label": "ベンチマーク実行",

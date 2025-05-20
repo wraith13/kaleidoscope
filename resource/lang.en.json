@@ -23,6 +23,7 @@
     "white": "White",
     "black": "Black",
     "system": "System",
+    "alternate": "Alternate",
     "rainbow": "Rainbow",
     "language-label": "Language:",
     "run-benchmark-label": "Run Benchmark",

@@ -44,6 +44,10 @@
     },
     "clock":
     {
+        "alternate":
+        {
+            "span": 293000
+        },
         "dateFormat": {
             "weekday": "long",
             "year": "numeric",
