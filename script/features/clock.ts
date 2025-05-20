@@ -20,4 +20,9 @@ export namespace Clock
         Library.UI.setTextContent(UI.date, makeDate(local));
         Library.UI.setTextContent(UI.time, makeTime(local));
     };
+    export const setColor = (color: string | undefined): void =>
+    {
+        Library.UI.setStyle(UI.date, "color", color);
+        Library.UI.setStyle(UI.time, "color", color);
+    };
 }

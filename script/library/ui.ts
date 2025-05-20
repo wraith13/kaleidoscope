@@ -269,4 +269,18 @@ export namespace UI
             element.textContent = text;
         }
     };
+    export const setStyle = (element: HTMLElement, name: string, value: string | undefined) =>
+    {
+        if ((element.style.getPropertyValue(name) ?? "") !== (value ?? ""))
+        {
+            if (undefined === value || null === value || "" === value)
+            {
+                element.style.removeProperty(name);
+            }
+            else
+            {
+                element.style.setProperty(name, value);
+            }
+        }
+    };
 }

@@ -1,3 +1,4 @@
+import { phiColors } from "phi-colors"
 import { Features } from "@features";
 import { Library } from "@library";
 import { Base } from "./base";
@@ -37,9 +38,25 @@ export namespace Animation
     {
         if (isInAnimation())
         {
-            if (UI.clockSelect.get())
+            const clockOption = UI.clockSelect.get();
+            if ("hide" !== clockOption)
             {
                 Features.Clock.update(cloclLocale);
+                switch(clockOption)
+                {
+                case "rainbow":
+                    Features.Clock.setColor
+                    (
+                        animator.phiColoring.makeSrgbColor
+                        (
+                            animator.phiColoring.makeRgb(animator.universalStep /phiColors.phi)
+                        )
+                    );
+                    break;
+                default:
+                    Features.Clock.setColor(undefined);
+                    break;
+                }
             }
             Features.Fps.step(now);
             updateFps();
