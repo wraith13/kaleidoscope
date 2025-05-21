@@ -184,6 +184,8 @@ export namespace Events
             "switchColoringBackward": () => UI.coloringSelect.switch(false),
             "switchPatternForward": () => UI.patternSelect.switch(true),
             "switchPatternBackward": () => UI.patternSelect.switch(false),
+            "increaseFrameDelay": () => UI.frameDelaySelect.switch(false),
+            "decreaseFrameDelay": () => UI.frameDelaySelect.switch(true),
             "increaseCanvasSize": () => UI.canvasSizeSelect.switch(true),
             "decreaseCanvasSize": () => UI.canvasSizeSelect.switch(false),
             "increaseLayer": () => UI.layersSelect.switch(true),

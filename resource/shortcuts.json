@@ -86,6 +86,27 @@
         ]
     },
     {
+        "description": "Increase / Decrease Frame Delay",
+        "shortcuts": [
+            {
+                "command": "increaseFrameDelay",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "ArrowLeft"
+                ]
+            },
+            {
+                "command": "decreaseFrameDelay",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "ArrowRight"
+                ]
+            }
+        ]
+    },
+    {
         "description": "Increase / Decrease Layer",
         "shortcuts": [
             {

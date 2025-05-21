@@ -142,6 +142,7 @@ define("resource/lang.en", [], {
     "Switch Pattern": "Switch Pattern",
     "Switch Coloring": "Switch Coloring",
     "Scaling Canvas Size": "Scaling Canvas Size",
+    "Increase / Decrease Frame Delay": "Increase / Decrease Frame Delay",
     "Increase / Decrease Layer": "Increase / Decrease Layer",
     "Speed Down / Up": "Speed Down / Up",
     "FullScreen": "FullScreen",
@@ -224,6 +225,7 @@ define("resource/lang.ja", [], {
     "Switch Pattern": "パターン切り替え",
     "Switch Coloring": "カラーリング切り替え",
     "Scaling Canvas Size": "キャンバスサイズ拡大縮小",
+    "Increase / Decrease Frame Delay": "フレーム遅延増減",
     "Increase / Decrease Layer": "レイヤー増減",
     "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
@@ -818,6 +820,27 @@ define("resource/shortcuts", [], [
                 "keys": [
                     "Shift",
                     "ArrowDown"
+                ]
+            }
+        ]
+    },
+    {
+        "description": "Increase / Decrease Frame Delay",
+        "shortcuts": [
+            {
+                "command": "increaseFrameDelay",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "ArrowLeft"
+                ]
+            },
+            {
+                "command": "decreaseFrameDelay",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "ArrowRight"
                 ]
             }
         ]
@@ -3922,6 +3945,8 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 "switchColoringBackward": function () { return ui_8.UI.coloringSelect.switch(false); },
                 "switchPatternForward": function () { return ui_8.UI.patternSelect.switch(true); },
                 "switchPatternBackward": function () { return ui_8.UI.patternSelect.switch(false); },
+                "increaseFrameDelay": function () { return ui_8.UI.frameDelaySelect.switch(false); },
+                "decreaseFrameDelay": function () { return ui_8.UI.frameDelaySelect.switch(true); },
                 "increaseCanvasSize": function () { return ui_8.UI.canvasSizeSelect.switch(true); },
                 "decreaseCanvasSize": function () { return ui_8.UI.canvasSizeSelect.switch(false); },
                 "increaseLayer": function () { return ui_8.UI.layersSelect.switch(true); },

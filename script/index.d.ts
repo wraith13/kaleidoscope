@@ -55,6 +55,7 @@ declare module "script/library/locale" {
                 "Switch Pattern": string;
                 "Switch Coloring": string;
                 "Scaling Canvas Size": string;
+                "Increase / Decrease Frame Delay": string;
                 "Increase / Decrease Layer": string;
                 "Speed Down / Up": string;
                 FullScreen: string;
@@ -137,6 +138,7 @@ declare module "script/library/locale" {
                 "Switch Pattern": string;
                 "Switch Coloring": string;
                 "Scaling Canvas Size": string;
+                "Increase / Decrease Frame Delay": string;
                 "Increase / Decrease Layer": string;
                 "Speed Down / Up": string;
                 FullScreen: string;
