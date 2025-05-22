@@ -77,8 +77,9 @@ export namespace Events
         LoadStatus.setBoolLabel(loadStatusJson.showFps as LoadStatus.BooleanLoadStatus, UI.showFps.get());
     const updateClock = () =>
     {
-        control.clock.enum.forEach(i =>
-            UI.clockDisplay.classList.toggle(i, i === UI.clockSelect.get())
+        control.clock.enum.forEach
+        (
+            i => UI.clockDisplay.classList.toggle(i, i === UI.clockSelect.get())
         );
         updateClockLoadStatus();
     };
@@ -180,10 +181,10 @@ export namespace Events
                 }
             },
             "toggleAnimation": () => Controller.toggleAnimation(),
-            "switchColoringForward": () => UI.coloringSelect.switch(true),
-            "switchColoringBackward": () => UI.coloringSelect.switch(false),
-            "switchPatternForward": () => UI.patternSelect.switch(true),
-            "switchPatternBackward": () => UI.patternSelect.switch(false),
+            "switchColoringForward": () => UI.coloringSelect.loopSwitch(true),
+            "switchColoringBackward": () => UI.coloringSelect.loopSwitch(false),
+            "switchPatternForward": () => UI.patternSelect.loopSwitch(true),
+            "switchPatternBackward": () => UI.patternSelect.loopSwitch(false),
             "increaseFrameDelay": () => UI.frameDelaySelect.switch(false),
             "decreaseFrameDelay": () => UI.frameDelaySelect.switch(true),
             "increaseCanvasSize": () => UI.canvasSizeSelect.switch(true),
@@ -205,6 +206,8 @@ export namespace Events
                 UI.showFps.toggle();
                 updateShowFps();
             },
+            "switchClockForward": () => UI.clockSelect.loopSwitch(false),
+            "switchClockBackward": () => UI.clockSelect.loopSwitch(true),
             "unknownKeyDown": () =>
             {
                 if ( ! Controller.Benchmark.isInBenchmarkOrResult())

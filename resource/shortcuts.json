@@ -167,5 +167,25 @@
                 ]
             }
         ]
+    },
+    {
+        "description": "Switch Clock",
+        "shortcuts": [
+            {
+                "command": "switchClockForward",
+                "type": "onKeyDown",
+                "keys": [
+                    "T"
+                ]
+            },
+            {
+                "command": "switchClockBackward",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "T"
+                ]
+            }
+        ]
     }
 ]

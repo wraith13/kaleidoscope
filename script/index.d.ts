@@ -60,6 +60,7 @@ declare module "script/library/locale" {
                 "Speed Down / Up": string;
                 FullScreen: string;
                 "Show FPS": string;
+                "Switch Clock": string;
                 "benchmark-abort": string;
                 "benchmark-close": string;
                 "benchmarking-in-progress": string;
@@ -143,6 +144,7 @@ declare module "script/library/locale" {
                 "Speed Down / Up": string;
                 FullScreen: string;
                 "Show FPS": string;
+                "Switch Clock": string;
                 "benchmark-abort": string;
                 "benchmark-close": string;
                 "benchmarking-in-progress": string;
@@ -301,6 +303,7 @@ declare module "script/library/control" {
             };
             reloadOptions: (value?: T) => void;
             switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") => void;
+            loopSwitch: (direction: boolean, preventOnChange?: "preventOnChange") => void;
             get: () => string;
             fire: () => unknown;
         }

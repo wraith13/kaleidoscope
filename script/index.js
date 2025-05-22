@@ -147,6 +147,7 @@ define("resource/lang.en", [], {
     "Speed Down / Up": "Speed Down / Up",
     "FullScreen": "FullScreen",
     "Show FPS": "Show FPS",
+    "Switch Clock": "Switch Clock",
     "benchmark-abort": "Abort",
     "benchmark-close": "Close",
     "benchmarking-in-progress": "Benchmarking in progress",
@@ -230,6 +231,7 @@ define("resource/lang.ja", [], {
     "Speed Down / Up": "スピード ダウン/アップ",
     "FullScreen": "フルスクリーン",
     "Show FPS": "FPS 表示",
+    "Switch Clock": "時計切り替え",
     "benchmark-abort": "中断",
     "benchmark-close": "閉じる",
     "benchmarking-in-progress": "ベンチマーク計測中",
@@ -685,6 +687,19 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                         _this.fire();
                     }
                 };
+                this.loopSwitch = function (direction, preventOnChange) {
+                    var options = Array.from(_this.dom.getElementsByTagName("option"));
+                    var optionValues = options.map(function (i) { return i.value; });
+                    var index = optionValues.indexOf(_this.dom.value);
+                    var nextIndex = (index + (direction ? -1 : 1) + optionValues.length) % optionValues.length;
+                    var nextValue = optionValues[nextIndex];
+                    if (undefined !== nextValue) {
+                        _this.dom.value = nextValue;
+                    }
+                    if (undefined === preventOnChange) {
+                        _this.fire();
+                    }
+                };
                 this.get = function () { return _this.dom.value; };
                 this.fire = function () { var _a, _b; return (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
                 this.dom = Control.getDom(data);
@@ -903,6 +918,26 @@ define("resource/shortcuts", [], [
                 "type": "onKeyDown",
                 "keys": [
                     "S"
+                ]
+            }
+        ]
+    },
+    {
+        "description": "Switch Clock",
+        "shortcuts": [
+            {
+                "command": "switchClockForward",
+                "type": "onKeyDown",
+                "keys": [
+                    "T"
+                ]
+            },
+            {
+                "command": "switchClockBackward",
+                "type": "onKeyDown",
+                "keys": [
+                    "Shift",
+                    "T"
                 ]
             }
         ]
@@ -3941,10 +3976,10 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     }
                 },
                 "toggleAnimation": function () { return _controller_1.Controller.toggleAnimation(); },
-                "switchColoringForward": function () { return ui_8.UI.coloringSelect.switch(true); },
-                "switchColoringBackward": function () { return ui_8.UI.coloringSelect.switch(false); },
-                "switchPatternForward": function () { return ui_8.UI.patternSelect.switch(true); },
-                "switchPatternBackward": function () { return ui_8.UI.patternSelect.switch(false); },
+                "switchColoringForward": function () { return ui_8.UI.coloringSelect.loopSwitch(true); },
+                "switchColoringBackward": function () { return ui_8.UI.coloringSelect.loopSwitch(false); },
+                "switchPatternForward": function () { return ui_8.UI.patternSelect.loopSwitch(true); },
+                "switchPatternBackward": function () { return ui_8.UI.patternSelect.loopSwitch(false); },
                 "increaseFrameDelay": function () { return ui_8.UI.frameDelaySelect.switch(false); },
                 "decreaseFrameDelay": function () { return ui_8.UI.frameDelaySelect.switch(true); },
                 "increaseCanvasSize": function () { return ui_8.UI.canvasSizeSelect.switch(true); },
@@ -3963,6 +3998,8 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     ui_8.UI.showFps.toggle();
                     updateShowFps();
                 },
+                "switchClockForward": function () { return ui_8.UI.clockSelect.loopSwitch(false); },
+                "switchClockBackward": function () { return ui_8.UI.clockSelect.loopSwitch(true); },
                 "unknownKeyDown": function () {
                     if (!_controller_1.Controller.Benchmark.isInBenchmarkOrResult()) {
                         showShortcutsTimer.start(ui_8.UI.keyboardShortcut, "show", 3000);

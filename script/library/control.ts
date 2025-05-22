@@ -20,7 +20,7 @@ export namespace Control
     export type ArgumentsBase<T extends HTMLElement> = ArgumentsBaseDom<T> | ArgumentsBaseId;
     export const getDom = <T extends HTMLElement>(data: ArgumentsBase<T>): T =>
     {
-        const result ="dom" in data ?
+        const result = "dom" in data ?
             data.dom:
             <T>document.getElementById(data.id);
         if (null == result || undefined === result)
@@ -38,7 +38,7 @@ export namespace Control
         "id" in data ? data.id:
         "dom" in data ? data.dom.id:
             undefined;
-    export const eventLog = <T extends HTMLElement>(data: {control: { data: ArgumentsBase<T> }, event: Event, message: string, value?: any}) =>
+    export const eventLog = <T extends HTMLElement>(data: { control: { data: ArgumentsBase<T> }, event: Event, message: string, value?: any }) =>
         console.log
         (
             data.message,
@@ -66,7 +66,7 @@ export namespace Control
                 "click",
                 event =>
                 {
-                    eventLog({ control:this, event, message:"👆 Button.Click:"});
+                    eventLog({ control: this, event, message: "👆 Button.Click:" });
                     this.data.click?.(event, this);
                 }
             );
@@ -103,7 +103,7 @@ export namespace Control
             (
                 "change", event =>
                 {
-                    eventLog({ control:this, event, message:"👆 Select.Change:", value: this.get() });
+                    eventLog({ control: this, event, message: "👆 Select.Change:", value: this.get() });
                     this.options?.change?.(event, this);
                 }
             );
@@ -143,6 +143,22 @@ export namespace Control
                 this.fire();
             }
         };
+        loopSwitch = (direction: boolean, preventOnChange?: "preventOnChange") =>
+        {
+            const options = Array.from(this.dom.getElementsByTagName("option"));
+            const optionValues = options.map(i => i.value);
+            const index = optionValues.indexOf(this.dom.value);
+            const nextIndex = (index +(direction ? -1: 1) +optionValues.length) %optionValues.length;
+            const nextValue = optionValues[nextIndex];
+            if (undefined !== nextValue)
+            {
+                this.dom.value = nextValue;
+            }
+            if (undefined === preventOnChange)
+            {
+                this.fire();
+            }
+        };
         get = () => this.dom.value;
         fire = () => this.options?.change?.(null, this);
     }
@@ -168,14 +184,14 @@ export namespace Control
             }
             if (undefined !== this.data.default)
             {
-                this.toggle(this.data.default, [preventOnChange][false !== this.options?.preventOnChangeWhenNew ?0:1]);
+                this.toggle(this.data.default, [preventOnChange][false !== this.options?.preventOnChangeWhenNew ? 0: 1]);
             }
             this.dom.addEventListener
             (
                 "change",
                 event =>
                 {
-                    eventLog({ control:this, event, message:"👆 Checkbox.Change:", value: this.get() });
+                    eventLog({ control: this, event, message: "👆 Checkbox.Change:", value: this.get() });
                     this.options?.change?.(event, this);
                 }
             );
