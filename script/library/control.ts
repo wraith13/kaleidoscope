@@ -120,14 +120,26 @@ export namespace Control
             );
             this.switch(oldValue, preventOnChange);
         };
-        switch = (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") =>
+        private getNextIndexClamp = (length: number, index: number, direction: boolean) =>
+        {
+            const next = index + (direction ? -1 : 1);
+            return next < 0 || next >= length ? index: next;
+        };
+        private getNextIndexCycle = (length: number, index: number, direction: boolean) =>
+            (index + (direction ? -1 : 1) + length) % length;
+        switch =
+        (
+            valueOrDirection: T | boolean,
+            preventOnChange?: "preventOnChange",
+            getNextIndex: (length: number, index: number, direction: boolean) => number = this.getNextIndexClamp
+        ) =>
         {
             if ("boolean" === typeof valueOrDirection)
             {
                 const options = Array.from(this.dom.getElementsByTagName("option"));
                 const optionValues = options.map(i => i.value);
                 const index = optionValues.indexOf(this.dom.value);
-                const nextIndex = index +(valueOrDirection ? -1: 1);
+                const nextIndex = getNextIndex(optionValues.length, index, valueOrDirection);
                 const nextValue = optionValues[nextIndex];
                 if (undefined !== nextValue)
                 {
@@ -143,22 +155,12 @@ export namespace Control
                 this.fire();
             }
         };
-        loopSwitch = (direction: boolean, preventOnChange?: "preventOnChange") =>
-        {
-            const options = Array.from(this.dom.getElementsByTagName("option"));
-            const optionValues = options.map(i => i.value);
-            const index = optionValues.indexOf(this.dom.value);
-            const nextIndex = (index +(direction ? -1: 1) +optionValues.length) %optionValues.length;
-            const nextValue = optionValues[nextIndex];
-            if (undefined !== nextValue)
-            {
-                this.dom.value = nextValue;
-            }
-            if (undefined === preventOnChange)
-            {
-                this.fire();
-            }
-        };
+        cycle = (direction: boolean, preventOnChange?: "preventOnChange") => this.switch
+        (
+            direction,
+            preventOnChange,
+            this.getNextIndexCycle
+        );
         get = () => this.dom.value;
         fire = () => this.options?.change?.(null, this);
     }

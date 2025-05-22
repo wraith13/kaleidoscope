@@ -181,10 +181,10 @@ export namespace Events
                 }
             },
             "toggleAnimation": () => Controller.toggleAnimation(),
-            "switchColoringForward": () => UI.coloringSelect.loopSwitch(true),
-            "switchColoringBackward": () => UI.coloringSelect.loopSwitch(false),
-            "switchPatternForward": () => UI.patternSelect.loopSwitch(true),
-            "switchPatternBackward": () => UI.patternSelect.loopSwitch(false),
+            "switchColoringForward": () => UI.coloringSelect.cycle(true),
+            "switchColoringBackward": () => UI.coloringSelect.cycle(false),
+            "switchPatternForward": () => UI.patternSelect.cycle(true),
+            "switchPatternBackward": () => UI.patternSelect.cycle(false),
             "increaseFrameDelay": () => UI.frameDelaySelect.switch(false),
             "decreaseFrameDelay": () => UI.frameDelaySelect.switch(true),
             "increaseCanvasSize": () => UI.canvasSizeSelect.switch(true),
@@ -206,8 +206,8 @@ export namespace Events
                 UI.showFps.toggle();
                 updateShowFps();
             },
-            "switchClockForward": () => UI.clockSelect.loopSwitch(false),
-            "switchClockBackward": () => UI.clockSelect.loopSwitch(true),
+            "switchClockForward": () => UI.clockSelect.cycle(false),
+            "switchClockBackward": () => UI.clockSelect.cycle(true),
             "unknownKeyDown": () =>
             {
                 if ( ! Controller.Benchmark.isInBenchmarkOrResult())

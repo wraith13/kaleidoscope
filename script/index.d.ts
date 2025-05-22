@@ -302,8 +302,10 @@ declare module "script/library/control" {
                 preventOnChangeWhenNew?: boolean;
             };
             reloadOptions: (value?: T) => void;
-            switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange") => void;
-            loopSwitch: (direction: boolean, preventOnChange?: "preventOnChange") => void;
+            private getNextIndexClamp;
+            private getNextIndexCycle;
+            switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange", getNextIndex?: (length: number, index: number, direction: boolean) => number) => void;
+            cycle: (direction: boolean, preventOnChange?: "preventOnChange") => void;
             get: () => string;
             fire: () => unknown;
         }

@@ -669,12 +669,20 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                     ui_1.UI.replaceChildren(_this.dom, _this.data.enum.map(function (i) { var _a, _b, _c; return makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i)); }));
                     _this.switch(oldValue, Control.preventOnChange);
                 };
-                this.switch = function (valueOrDirection, preventOnChange) {
+                this.getNextIndexClamp = function (length, index, direction) {
+                    var next = index + (direction ? -1 : 1);
+                    return next < 0 || next >= length ? index : next;
+                };
+                this.getNextIndexCycle = function (length, index, direction) {
+                    return (index + (direction ? -1 : 1) + length) % length;
+                };
+                this.switch = function (valueOrDirection, preventOnChange, getNextIndex) {
+                    if (getNextIndex === void 0) { getNextIndex = _this.getNextIndexClamp; }
                     if ("boolean" === typeof valueOrDirection) {
                         var options = Array.from(_this.dom.getElementsByTagName("option"));
                         var optionValues = options.map(function (i) { return i.value; });
                         var index = optionValues.indexOf(_this.dom.value);
-                        var nextIndex = index + (valueOrDirection ? -1 : 1);
+                        var nextIndex = getNextIndex(optionValues.length, index, valueOrDirection);
                         var nextValue = optionValues[nextIndex];
                         if (undefined !== nextValue) {
                             _this.dom.value = nextValue;
@@ -687,19 +695,7 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                         _this.fire();
                     }
                 };
-                this.loopSwitch = function (direction, preventOnChange) {
-                    var options = Array.from(_this.dom.getElementsByTagName("option"));
-                    var optionValues = options.map(function (i) { return i.value; });
-                    var index = optionValues.indexOf(_this.dom.value);
-                    var nextIndex = (index + (direction ? -1 : 1) + optionValues.length) % optionValues.length;
-                    var nextValue = optionValues[nextIndex];
-                    if (undefined !== nextValue) {
-                        _this.dom.value = nextValue;
-                    }
-                    if (undefined === preventOnChange) {
-                        _this.fire();
-                    }
-                };
+                this.cycle = function (direction, preventOnChange) { return _this.switch(direction, preventOnChange, _this.getNextIndexCycle); };
                 this.get = function () { return _this.dom.value; };
                 this.fire = function () { var _a, _b; return (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
                 this.dom = Control.getDom(data);
@@ -3898,9 +3894,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             return loadstatus_1.LoadStatus.setBoolLabel(loadstatus_json_1.default.showFps, ui_8.UI.showFps.get());
         };
         var updateClock = function () {
-            control_json_3.default.clock.enum.forEach(function (i) {
-                return ui_8.UI.clockDisplay.classList.toggle(i, i === ui_8.UI.clockSelect.get());
-            });
+            control_json_3.default.clock.enum.forEach(function (i) { return ui_8.UI.clockDisplay.classList.toggle(i, i === ui_8.UI.clockSelect.get()); });
             updateClockLoadStatus();
         };
         var updateClockLoadStatus = function () {
@@ -3976,10 +3970,10 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     }
                 },
                 "toggleAnimation": function () { return _controller_1.Controller.toggleAnimation(); },
-                "switchColoringForward": function () { return ui_8.UI.coloringSelect.loopSwitch(true); },
-                "switchColoringBackward": function () { return ui_8.UI.coloringSelect.loopSwitch(false); },
-                "switchPatternForward": function () { return ui_8.UI.patternSelect.loopSwitch(true); },
-                "switchPatternBackward": function () { return ui_8.UI.patternSelect.loopSwitch(false); },
+                "switchColoringForward": function () { return ui_8.UI.coloringSelect.cycle(true); },
+                "switchColoringBackward": function () { return ui_8.UI.coloringSelect.cycle(false); },
+                "switchPatternForward": function () { return ui_8.UI.patternSelect.cycle(true); },
+                "switchPatternBackward": function () { return ui_8.UI.patternSelect.cycle(false); },
                 "increaseFrameDelay": function () { return ui_8.UI.frameDelaySelect.switch(false); },
                 "decreaseFrameDelay": function () { return ui_8.UI.frameDelaySelect.switch(true); },
                 "increaseCanvasSize": function () { return ui_8.UI.canvasSizeSelect.switch(true); },
@@ -3998,8 +3992,8 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                     ui_8.UI.showFps.toggle();
                     updateShowFps();
                 },
-                "switchClockForward": function () { return ui_8.UI.clockSelect.loopSwitch(false); },
-                "switchClockBackward": function () { return ui_8.UI.clockSelect.loopSwitch(true); },
+                "switchClockForward": function () { return ui_8.UI.clockSelect.cycle(false); },
+                "switchClockBackward": function () { return ui_8.UI.clockSelect.cycle(true); },
                 "unknownKeyDown": function () {
                     if (!_controller_1.Controller.Benchmark.isInBenchmarkOrResult()) {
                         showShortcutsTimer.start(ui_8.UI.keyboardShortcut, "show", 3000);
