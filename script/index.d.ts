@@ -302,6 +302,7 @@ declare module "script/library/control" {
                 preventOnChangeWhenNew?: boolean;
             };
             reloadOptions: (value?: T) => void;
+            private getNextIndex;
             private getNextIndexClamp;
             private getNextIndexCycle;
             switch: (valueOrDirection: T | boolean, preventOnChange?: "preventOnChange", getNextIndex?: (length: number, index: number, direction: boolean) => number) => void;

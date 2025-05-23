@@ -120,13 +120,15 @@ export namespace Control
             );
             this.switch(oldValue, preventOnChange);
         };
+        private getNextIndex = (index: number, direction: boolean) =>
+            index + (direction ? -1 : 1);
         private getNextIndexClamp = (length: number, index: number, direction: boolean) =>
         {
-            const next = index + (direction ? -1 : 1);
-            return next < 0 || next >= length ? index: next;
+            const next = this.getNextIndex(index, direction);
+            return 0 <= next && next < length ? next: index;
         };
         private getNextIndexCycle = (length: number, index: number, direction: boolean) =>
-            (index + (direction ? -1 : 1) + length) % length;
+            (this.getNextIndex(index, direction) + length) % length;
         switch =
         (
             valueOrDirection: T | boolean,

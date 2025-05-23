@@ -669,12 +669,15 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                     ui_1.UI.replaceChildren(_this.dom, _this.data.enum.map(function (i) { var _a, _b, _c; return makeSelectOption("".concat(i), (_c = (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.makeLabel) === null || _b === void 0 ? void 0 : _b.call(_a, i)) !== null && _c !== void 0 ? _c : "".concat(i)); }));
                     _this.switch(oldValue, Control.preventOnChange);
                 };
+                this.getNextIndex = function (index, direction) {
+                    return index + (direction ? -1 : 1);
+                };
                 this.getNextIndexClamp = function (length, index, direction) {
-                    var next = index + (direction ? -1 : 1);
-                    return next < 0 || next >= length ? index : next;
+                    var next = _this.getNextIndex(index, direction);
+                    return 0 <= next && next < length ? next : index;
                 };
                 this.getNextIndexCycle = function (length, index, direction) {
-                    return (index + (direction ? -1 : 1) + length) % length;
+                    return (_this.getNextIndex(index, direction) + length) % length;
                 };
                 this.switch = function (valueOrDirection, preventOnChange, getNextIndex) {
                     if (getNextIndex === void 0) { getNextIndex = _this.getNextIndexClamp; }
