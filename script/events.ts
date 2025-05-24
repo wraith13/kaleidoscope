@@ -2,7 +2,8 @@ import { Library } from "@library";
 import { Features } from "@features";
 import { Controller } from "@controller";
 import { UI } from "./ui";
-import { LoadStatus } from "./loadstatus"
+import { LoadStatus } from "./loadstatus";
+import { Url } from "./url";
 import config from "@resource/config.json";
 import control from "@resource/control.json";
 import loadStatusJson from "@resource/loadstatus.json";
@@ -87,6 +88,7 @@ export namespace Events
         LoadStatus.setEnumLabel(loadStatusJson.clock as LoadStatus.EnumLoadStatus, UI.clockSelect.get());
     export const initialize = () =>
     {
+        const params = Url.parseParameter(window.location.href);
         UI.playButton.data.click = (event, button) =>
         {
             event?.stopPropagation();
@@ -99,19 +101,19 @@ export namespace Events
             button.dom.blur();
             Controller.Benchmark.runBenchmark();
         };
-        UI.colorspaceSelect.setChange(updateColorspace);
-        UI.coloringSelect.setChange(updateColoring);
-        UI.patternSelect.setChange(updatePattern);
-        UI.canvasSizeSelect.setChange(updateCanvasSize);
-        UI.layersSelect.setChange(updateLayers);
-        UI.spotslayersSelect.setChange(updateSpotsLayers);
-        UI.cycleSpanSelect.setChange(updateCycleSpan);
-        UI.fuseFpsSelect.setChange(updateFuseFps);
-        UI.frameDelaySelect.setChange(updateFrameDelayLoadStatus);
-        UI.easingCheckbox.setChange(updateEasing);
-        UI.withFullscreen.setChange(updateWithFullscreen);
-        UI.showFps.setChange(updateShowFps);
-        UI.clockSelect.setChange(updateClock);
+        UI.colorspaceSelect.loadParameter(params).setChange(updateColorspace);
+        UI.coloringSelect.loadParameter(params).setChange(updateColoring);
+        UI.patternSelect.loadParameter(params).setChange(updatePattern);
+        UI.canvasSizeSelect.loadParameter(params).setChange(updateCanvasSize);
+        UI.layersSelect.loadParameter(params).setChange(updateLayers);
+        UI.spotslayersSelect.loadParameter(params).setChange(updateSpotsLayers);
+        UI.cycleSpanSelect.loadParameter(params).setChange(updateCycleSpan);
+        UI.fuseFpsSelect.loadParameter(params).setChange(updateFuseFps);
+        UI.frameDelaySelect.loadParameter(params).setChange(updateFrameDelayLoadStatus);
+        UI.easingCheckbox.loadParameter(params).setChange(updateEasing);
+        UI.withFullscreen.loadParameter(params).setChange(updateWithFullscreen);
+        UI.showFps.loadParameter(params).setChange(updateShowFps);
+        UI.clockSelect.loadParameter(params).setChange(updateClock);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
             event?.stopPropagation();

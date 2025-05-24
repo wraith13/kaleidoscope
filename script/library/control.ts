@@ -165,6 +165,15 @@ export namespace Control
         );
         get = () => this.dom.value;
         fire = () => this.options?.change?.(null, this);
+        loadParameter = (params: Record<string, string>) =>
+        {
+            const value = params[this.dom.id];
+            if (undefined !== value)
+            {
+                this.switch(value as T);
+            }
+            return this;
+        }
     }
     export interface CheckboxArgumentsBase
     {
@@ -212,5 +221,14 @@ export namespace Control
         };
         get = () => this.dom.checked;
         fire = () => this.options?.change?.(null, this);
+        loadParameter = (params: Record<string, string>) =>
+        {
+            const value = params[this.dom.id];
+            if (undefined !== value)
+            {
+                this.toggle("true" === value);
+            }
+            return this;
+        }
     }
 }

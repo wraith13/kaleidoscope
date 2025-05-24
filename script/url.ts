@@ -5,10 +5,10 @@ export namespace Url
         const result: Record<string, string> = {};
         const urlObj = new URL(url);
         const params = urlObj.searchParams;
-        for (const [ key, value ] of params.entries())
-        {
-            result[key] = value;
-        }
+        params.forEach
+        (
+            (value, key) => result[key] = value
+        );
         return result;
     }
     export const update = (params: Record<string, string>): void =>
@@ -18,7 +18,7 @@ export namespace Url
         {
             url.searchParams.set(key, value);
         }
-        window.history.pushState({}, "", url.toString());
+        window.history.replaceState({}, "", url.toString());
     }
     export const addParameter = (params: Record<string, string>, key: string, value: string): Record<string, string> =>
     {
