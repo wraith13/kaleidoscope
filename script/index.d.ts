@@ -295,7 +295,9 @@ declare module "script/library/control" {
             data: SelectArguments<T>;
             options?: SelectOptions<T> | undefined;
             dom: HTMLSelectElement;
+            saveParameter?: (key: string, value: string) => unknown;
             constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
+            getId: () => string | undefined;
             setChange: (change: (event: Event | null, select: Select<T>) => unknown) => {
                 change: (event: Event | null, select: Select<T>) => unknown;
                 makeLabel?: ((value: T) => string) | undefined;
@@ -309,6 +311,7 @@ declare module "script/library/control" {
             cycle: (direction: boolean, preventOnChange?: "preventOnChange") => void;
             get: () => string;
             fire: () => unknown;
+            loadParameter: (params: Record<string, string>, saveParameter: (key: string, value: string) => unknown) => this;
         }
         interface CheckboxArgumentsBase {
             default?: boolean;
@@ -322,7 +325,9 @@ declare module "script/library/control" {
             data: CheckboxArguments;
             options?: CheckboxOptions | undefined;
             dom: HTMLInputElement;
+            saveParameter?: (key: string, value: string) => unknown;
             constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
+            getId: () => string | undefined;
             setChange: (change: (event: Event | null, checked: Checkbox) => unknown) => {
                 change: (event: Event | null, checked: Checkbox) => unknown;
                 preventOnChangeWhenNew?: boolean;
@@ -330,6 +335,7 @@ declare module "script/library/control" {
             toggle: (checked?: boolean, preventOnChange?: "preventOnChange") => void;
             get: () => boolean;
             fire: () => unknown;
+            loadParameter: (params: Record<string, string>, saveParameter: (key: string, value: string) => unknown) => this;
         }
     }
 }
@@ -1053,6 +1059,14 @@ declare module "script/loadstatus" {
         const setEnumLabel: (config: EnumLoadStatus, i: string) => void;
         const setBoolLabel: (config: BooleanLoadStatus, i: boolean) => void;
         const setIntegerLabel: (config: IntegerLoadStatus, i: string) => void;
+    }
+}
+declare module "script/url" {
+    export namespace Url {
+        const parseParameter: (url: string) => Record<string, string>;
+        const update: (params: Record<string, string>) => void;
+        const addParameter: (params: Record<string, string>, key: string, value: string) => Record<string, string>;
+        const applyParam: (key: string, value: string) => void;
     }
 }
 declare module "script/events" {

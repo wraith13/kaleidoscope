@@ -661,6 +661,7 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 var _this = this;
                 this.data = data;
                 this.options = options;
+                this.getId = function () { return Control.getDomId(_this.data); };
                 this.setChange = function (change) {
                     return _this.options = __assign(__assign({}, _this.options), { change: change });
                 };
@@ -701,15 +702,24 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 this.cycle = function (direction, preventOnChange) { return _this.switch(direction, preventOnChange, _this.getNextIndexCycle); };
                 this.get = function () { return _this.dom.value; };
                 this.fire = function () { var _a, _b; return (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
+                this.loadParameter = function (params, saveParameter) {
+                    var value = params[_this.dom.id];
+                    if (undefined !== value) {
+                        _this.switch(value);
+                    }
+                    _this.saveParameter = saveParameter;
+                    return _this;
+                };
                 this.dom = Control.getDom(data);
                 if (!(this.dom instanceof HTMLSelectElement)) {
                     console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
                 }
                 this.reloadOptions(this.data.default);
                 this.dom.addEventListener("change", function (event) {
-                    var _a, _b;
+                    var _a, _b, _c;
                     Control.eventLog({ control: _this, event: event, message: "👆 Select.Change:", value: _this.get() });
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
+                    (_c = _this.saveParameter) === null || _c === void 0 ? void 0 : _c.call(_this, _this.getId(), _this.get());
                 });
             }
             return Select;
@@ -721,6 +731,7 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 var _a;
                 this.data = data;
                 this.options = options;
+                this.getId = function () { return Control.getDomId(_this.data); };
                 this.setChange = function (change) {
                     return _this.options = __assign(__assign({}, _this.options), { change: change });
                 };
@@ -733,6 +744,14 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 };
                 this.get = function () { return _this.dom.checked; };
                 this.fire = function () { var _a, _b; return (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
+                this.loadParameter = function (params, saveParameter) {
+                    var value = params[_this.dom.id];
+                    if (undefined !== value) {
+                        _this.toggle("true" === value);
+                    }
+                    _this.saveParameter = saveParameter;
+                    return _this;
+                };
                 this.dom = Control.getDom(data);
                 if (!(this.dom instanceof HTMLInputElement) || "checkbox" !== this.dom.type.toLowerCase()) {
                     console.error("🦋 FIXME: Contorl.Checkbox.InvalidDom", data, this.dom);
@@ -741,9 +760,10 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                     this.toggle(this.data.default, [Control.preventOnChange][false !== ((_a = this.options) === null || _a === void 0 ? void 0 : _a.preventOnChangeWhenNew) ? 0 : 1]);
                 }
                 this.dom.addEventListener("change", function (event) {
-                    var _a, _b;
+                    var _a, _b, _c;
                     Control.eventLog({ control: _this, event: event, message: "👆 Checkbox.Change:", value: _this.get() });
                     (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
+                    (_c = _this.saveParameter) === null || _c === void 0 ? void 0 : _c.call(_this, _this.getId(), _this.get() ? "true" : "false");
                 });
             }
             return Checkbox;
@@ -3727,6 +3747,36 @@ define("script/loadstatus", ["require", "exports", "script/library/index", "scri
         };
     })(LoadStatus || (exports.LoadStatus = LoadStatus = {}));
 });
+define("script/url", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Url = void 0;
+    var Url;
+    (function (Url) {
+        Url.parseParameter = function (url) {
+            var result = {};
+            var urlObj = new URL(url);
+            var params = urlObj.searchParams;
+            params.forEach(function (value, key) { return result[key] = value; });
+            return result;
+        };
+        Url.update = function (params) {
+            var url = new URL(window.location.href);
+            for (var _i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
+                var _b = _a[_i], key = _b[0], value = _b[1];
+                url.searchParams.set(key, value);
+            }
+            window.history.replaceState({}, "", url.toString());
+        };
+        Url.addParameter = function (params, key, value) {
+            params[key] = value;
+            return params;
+        };
+        Url.applyParam = function (key, value) {
+            return Url.update(Url.addParameter(Url.parseParameter(window.location.href), key, value));
+        };
+    })(Url || (exports.Url = Url = {}));
+});
 define("resource/loadstatus", [], {
     "colorspace": {
         "id": "colorspace-load-status",
@@ -3819,7 +3869,7 @@ define("resource/loadstatus", [], {
         "default": ""
     }
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "resource/config", "resource/control", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_1, ui_8, loadstatus_1, config_json_9, control_json_3, loadstatus_json_1) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "script/url", "resource/config", "resource/control", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_1, ui_8, loadstatus_1, url_1, config_json_9, control_json_3, loadstatus_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
@@ -3904,6 +3954,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             return loadstatus_1.LoadStatus.setEnumLabel(loadstatus_json_1.default.clock, ui_8.UI.clockSelect.get());
         };
         Events.initialize = function () {
+            var params = url_1.Url.parseParameter(window.location.href);
             ui_8.UI.playButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
@@ -3914,19 +3965,19 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 button.dom.blur();
                 _controller_1.Controller.Benchmark.runBenchmark();
             };
-            ui_8.UI.colorspaceSelect.setChange(updateColorspace);
-            ui_8.UI.coloringSelect.setChange(updateColoring);
-            ui_8.UI.patternSelect.setChange(updatePattern);
-            ui_8.UI.canvasSizeSelect.setChange(updateCanvasSize);
-            ui_8.UI.layersSelect.setChange(updateLayers);
-            ui_8.UI.spotslayersSelect.setChange(updateSpotsLayers);
-            ui_8.UI.cycleSpanSelect.setChange(updateCycleSpan);
-            ui_8.UI.fuseFpsSelect.setChange(updateFuseFps);
-            ui_8.UI.frameDelaySelect.setChange(updateFrameDelayLoadStatus);
-            ui_8.UI.easingCheckbox.setChange(updateEasing);
-            ui_8.UI.withFullscreen.setChange(updateWithFullscreen);
-            ui_8.UI.showFps.setChange(updateShowFps);
-            ui_8.UI.clockSelect.setChange(updateClock);
+            ui_8.UI.colorspaceSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateColorspace);
+            ui_8.UI.coloringSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateColoring);
+            ui_8.UI.patternSelect.loadParameter(params, url_1.Url.applyParam).setChange(updatePattern);
+            ui_8.UI.canvasSizeSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateCanvasSize);
+            ui_8.UI.layersSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateLayers);
+            ui_8.UI.spotslayersSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateSpotsLayers);
+            ui_8.UI.cycleSpanSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateCycleSpan);
+            ui_8.UI.fuseFpsSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateFuseFps);
+            ui_8.UI.frameDelaySelect.loadParameter(params, url_1.Url.applyParam).setChange(updateFrameDelayLoadStatus);
+            ui_8.UI.easingCheckbox.loadParameter(params, url_1.Url.applyParam).setChange(updateEasing);
+            ui_8.UI.withFullscreen.loadParameter(params, url_1.Url.applyParam).setChange(updateWithFullscreen);
+            ui_8.UI.showFps.loadParameter(params, url_1.Url.applyParam).setChange(updateShowFps);
+            ui_8.UI.clockSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateClock);
             ui_8.UI.benchmarkAbortButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();

@@ -91,6 +91,7 @@ export namespace Control
     export class Select<T>
     {
         public dom: HTMLSelectElement;
+        public saveParameter?: (key: string, value: string) => unknown;
         constructor(public data: SelectArguments<T>, public options?: SelectOptions<T>)
         {
             this.dom = getDom(data);
@@ -105,9 +106,11 @@ export namespace Control
                 {
                     eventLog({ control: this, event, message: "👆 Select.Change:", value: this.get() });
                     this.options?.change?.(event, this);
+                    this.saveParameter?.(this.getId() as string, this.get());
                 }
             );
         }
+        getId = () => getDomId(this.data);
         setChange = (change: (event: Event | null, select: Select<T>) => unknown) =>
             this.options = { ...this.options, change };
         reloadOptions = (value?: T) =>
@@ -165,13 +168,14 @@ export namespace Control
         );
         get = () => this.dom.value;
         fire = () => this.options?.change?.(null, this);
-        loadParameter = (params: Record<string, string>) =>
+        loadParameter = (params: Record<string, string>, saveParameter: (key: string, value: string) => unknown) =>
         {
             const value = params[this.dom.id];
             if (undefined !== value)
             {
                 this.switch(value as T);
             }
+            this.saveParameter = saveParameter;
             return this;
         }
     }
@@ -188,6 +192,7 @@ export namespace Control
     export class Checkbox
     {
         public dom: HTMLInputElement;
+        public saveParameter?: (key: string, value: string) => unknown;
         constructor(public data: CheckboxArguments, public options?: CheckboxOptions)
         {
             this.dom = getDom(data);
@@ -197,7 +202,11 @@ export namespace Control
             }
             if (undefined !== this.data.default)
             {
-                this.toggle(this.data.default, [preventOnChange][false !== this.options?.preventOnChangeWhenNew ? 0: 1]);
+                this.toggle
+                (
+                    this.data.default,
+                    [preventOnChange][false !== this.options?.preventOnChangeWhenNew ? 0: 1]
+                );
             }
             this.dom.addEventListener
             (
@@ -206,9 +215,11 @@ export namespace Control
                 {
                     eventLog({ control: this, event, message: "👆 Checkbox.Change:", value: this.get() });
                     this.options?.change?.(event, this);
+                    this.saveParameter?.(this.getId() as string, this.get() ? "true": "false");
                 }
             );
         }
+        getId = () => getDomId(this.data);
         setChange = (change: (event: Event | null, checked: Checkbox) => unknown) =>
             this.options = { ...this.options, change };
         toggle = (checked?: boolean, preventOnChange?: "preventOnChange") =>
@@ -221,13 +232,14 @@ export namespace Control
         };
         get = () => this.dom.checked;
         fire = () => this.options?.change?.(null, this);
-        loadParameter = (params: Record<string, string>) =>
+        loadParameter = (params: Record<string, string>, saveParameter: (key: string, value: string) => unknown) =>
         {
             const value = params[this.dom.id];
             if (undefined !== value)
             {
                 this.toggle("true" === value);
             }
+            this.saveParameter = saveParameter;
             return this;
         }
     }

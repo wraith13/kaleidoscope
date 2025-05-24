@@ -101,19 +101,19 @@ export namespace Events
             button.dom.blur();
             Controller.Benchmark.runBenchmark();
         };
-        UI.colorspaceSelect.loadParameter(params).setChange(updateColorspace);
-        UI.coloringSelect.loadParameter(params).setChange(updateColoring);
-        UI.patternSelect.loadParameter(params).setChange(updatePattern);
-        UI.canvasSizeSelect.loadParameter(params).setChange(updateCanvasSize);
-        UI.layersSelect.loadParameter(params).setChange(updateLayers);
-        UI.spotslayersSelect.loadParameter(params).setChange(updateSpotsLayers);
-        UI.cycleSpanSelect.loadParameter(params).setChange(updateCycleSpan);
-        UI.fuseFpsSelect.loadParameter(params).setChange(updateFuseFps);
-        UI.frameDelaySelect.loadParameter(params).setChange(updateFrameDelayLoadStatus);
-        UI.easingCheckbox.loadParameter(params).setChange(updateEasing);
-        UI.withFullscreen.loadParameter(params).setChange(updateWithFullscreen);
-        UI.showFps.loadParameter(params).setChange(updateShowFps);
-        UI.clockSelect.loadParameter(params).setChange(updateClock);
+        UI.colorspaceSelect.loadParameter(params, Url.applyParam).setChange(updateColorspace);
+        UI.coloringSelect.loadParameter(params, Url.applyParam).setChange(updateColoring);
+        UI.patternSelect.loadParameter(params, Url.applyParam).setChange(updatePattern);
+        UI.canvasSizeSelect.loadParameter(params, Url.applyParam).setChange(updateCanvasSize);
+        UI.layersSelect.loadParameter(params, Url.applyParam).setChange(updateLayers);
+        UI.spotslayersSelect.loadParameter(params, Url.applyParam).setChange(updateSpotsLayers);
+        UI.cycleSpanSelect.loadParameter(params, Url.applyParam).setChange(updateCycleSpan);
+        UI.fuseFpsSelect.loadParameter(params, Url.applyParam).setChange(updateFuseFps);
+        UI.frameDelaySelect.loadParameter(params, Url.applyParam).setChange(updateFrameDelayLoadStatus);
+        UI.easingCheckbox.loadParameter(params, Url.applyParam).setChange(updateEasing);
+        UI.withFullscreen.loadParameter(params, Url.applyParam).setChange(updateWithFullscreen);
+        UI.showFps.loadParameter(params, Url.applyParam).setChange(updateShowFps);
+        UI.clockSelect.loadParameter(params, Url.applyParam).setChange(updateClock);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
             event?.stopPropagation();
