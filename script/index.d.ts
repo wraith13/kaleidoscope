@@ -828,6 +828,7 @@ declare module "script/ui" {
         const showFps: Library.Control.Checkbox;
         const clockSelect: Library.Control.Select<string>;
         const languageSelect: Library.Control.Select<string>;
+        const urlAnchor: HTMLAnchorElement;
         const fpsDisplay: HTMLDivElement;
         const clockDisplay: HTMLDivElement;
         const date: HTMLSpanElement;
@@ -1066,9 +1067,8 @@ declare module "script/loadstatus" {
 declare module "script/url" {
     export namespace Url {
         const parseParameter: (url: string) => Record<string, string>;
-        const update: (params: Record<string, string>) => void;
+        const make: (params: Record<string, string>) => string;
         const addParameter: (params: Record<string, string>, key: string, value: string) => Record<string, string>;
-        const applyParam: (key: string, value: string) => void;
     }
 }
 declare module "script/events" {

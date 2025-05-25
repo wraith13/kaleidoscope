@@ -3076,6 +3076,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
                 _library_3.Library.Locale.map("lang-label", i); },
             change: function () { return UI.updateLanguage(); },
         });
+        UI.urlAnchor = _library_3.Library.UI.getElementById("a", "url");
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
         UI.clockDisplay = _library_3.Library.UI.getElementById("div", "clock-panel");
         UI.date = _library_3.Library.UI.getElementById("span", "date");
@@ -3762,21 +3763,22 @@ define("script/url", ["require", "exports"], function (require, exports) {
             params.forEach(function (value, key) { return result[key] = value; });
             return result;
         };
-        Url.update = function (params) {
+        Url.make = function (params) {
             var url = new URL(window.location.href);
             for (var _i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
                 var _b = _a[_i], key = _b[0], value = _b[1];
                 url.searchParams.set(key, value);
             }
-            window.history.replaceState({}, "", url.toString());
+            return url.toString();
         };
+        // export const update = (params: Record<string, string>): void =>
+        //     window.history.replaceState({}, "", make(params));
         Url.addParameter = function (params, key, value) {
             params[key] = value;
             return params;
         };
-        Url.applyParam = function (key, value) {
-            return Url.update(Url.addParameter(Url.parseParameter(window.location.href), key, value));
-        };
+        // export const applyParam = (key: string, value: string): void =>
+        //     update(addParameter(parseParameter(window.location.href), key, value));
     })(Url || (exports.Url = Url = {}));
 });
 define("resource/loadstatus", [], {
@@ -3957,6 +3959,10 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
         Events.initialize = function () {
             var params = url_1.Url.parseParameter(window.location.href);
+            var applyParam = function (key, value) {
+                url_1.Url.addParameter(params, key, value);
+                ui_8.UI.urlAnchor.href = url_1.Url.make(params);
+            };
             ui_8.UI.playButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
@@ -3967,19 +3973,19 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 button.dom.blur();
                 _controller_1.Controller.Benchmark.runBenchmark();
             };
-            ui_8.UI.colorspaceSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateColorspace);
-            ui_8.UI.coloringSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateColoring);
-            ui_8.UI.patternSelect.loadParameter(params, url_1.Url.applyParam).setChange(updatePattern);
-            ui_8.UI.canvasSizeSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateCanvasSize);
-            ui_8.UI.layersSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateLayers);
-            ui_8.UI.spotslayersSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateSpotsLayers);
-            ui_8.UI.cycleSpanSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateCycleSpan);
-            ui_8.UI.fuseFpsSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateFuseFps);
-            ui_8.UI.frameDelaySelect.loadParameter(params, url_1.Url.applyParam).setChange(updateFrameDelayLoadStatus);
-            ui_8.UI.easingCheckbox.loadParameter(params, url_1.Url.applyParam).setChange(updateEasing);
-            ui_8.UI.withFullscreen.loadParameter(params, url_1.Url.applyParam).setChange(updateWithFullscreen);
-            ui_8.UI.showFps.loadParameter(params, url_1.Url.applyParam).setChange(updateShowFps);
-            ui_8.UI.clockSelect.loadParameter(params, url_1.Url.applyParam).setChange(updateClock);
+            ui_8.UI.colorspaceSelect.loadParameter(params, applyParam).setChange(updateColorspace);
+            ui_8.UI.coloringSelect.loadParameter(params, applyParam).setChange(updateColoring);
+            ui_8.UI.patternSelect.loadParameter(params, applyParam).setChange(updatePattern);
+            ui_8.UI.canvasSizeSelect.loadParameter(params, applyParam).setChange(updateCanvasSize);
+            ui_8.UI.layersSelect.loadParameter(params, applyParam).setChange(updateLayers);
+            ui_8.UI.spotslayersSelect.loadParameter(params, applyParam).setChange(updateSpotsLayers);
+            ui_8.UI.cycleSpanSelect.loadParameter(params, applyParam).setChange(updateCycleSpan);
+            ui_8.UI.fuseFpsSelect.loadParameter(params, applyParam).setChange(updateFuseFps);
+            ui_8.UI.frameDelaySelect.loadParameter(params, applyParam).setChange(updateFrameDelayLoadStatus);
+            ui_8.UI.easingCheckbox.loadParameter(params, applyParam).setChange(updateEasing);
+            ui_8.UI.withFullscreen.loadParameter(params, applyParam).setChange(updateWithFullscreen);
+            ui_8.UI.showFps.loadParameter(params, applyParam).setChange(updateShowFps);
+            ui_8.UI.clockSelect.loadParameter(params, applyParam).setChange(updateClock);
             ui_8.UI.benchmarkAbortButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();

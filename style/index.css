@@ -345,6 +345,12 @@ body.hide-ui #option-panel:not(.show)::before {
 #option-panel label .load-status:empty {
   display: none;
 }
+#option-panel label[for=url]:not(:hover) {
+  background-color: rgba(32, 28, 38, 0.4);
+}
+#option-panel label[for=url]:not(:hover) a {
+  width: 100%;
+}
 
 #fps {
   backdrop-filter: blur(1rem);
