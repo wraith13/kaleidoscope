@@ -42,6 +42,7 @@ declare module "script/library/locale" {
                 alternate: string;
                 rainbow: string;
                 "language-label": string;
+                "url-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
                 timeUnitMs: string;
@@ -126,6 +127,7 @@ declare module "script/library/locale" {
                 alternate: string;
                 rainbow: string;
                 "language-label": string;
+                "url-label": string;
                 "run-benchmark-label": string;
                 informationFuseFps: string;
                 timeUnitMs: string;

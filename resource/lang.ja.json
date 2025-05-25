@@ -26,6 +26,7 @@
     "alternate": "交互",
     "rainbow": "レインボー",
     "language-label": "言語:",
+    "url-label": "この設定のリンク",
     "run-benchmark-label": "ベンチマーク実行",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
     "timeUnitMs": "ミリ秒",

@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat May 24 2025 14:12:34 GMT+0900 (日本標準時)
+    build at: Sun May 25 2025 00:49:09 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1616,6 +1616,10 @@ body.hide-ui #screen-footer #information-line:not(.show) {
         <select id="language"></select>
         <span class="load-status" id="language-load-status"></span>
     </label>
+    <label for="url">
+        <a id="url" href="?"><span data-lang-key="url-label"></span></a>
+    </label>
+
 </div>
 <div id="fps"></div>
 <div id="benchmark-panel">
@@ -1748,8 +1752,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sat May 24 2025 14:12:34 GMT+0900 (日本標準時)",
-    tick: 1748063554877
+    at: "Sun May 25 2025 00:49:09 GMT+0900 (日本標準時)",
+    tick: 1748101749313
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -4864,6 +4868,7 @@ define("resource/lang.en", [], {
     "alternate": "Alternate",
     "rainbow": "Rainbow",
     "language-label": "Language:",
+    "url-label": "Link to this setting",
     "run-benchmark-label": "Run Benchmark",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
     "timeUnitMs": "ms",
@@ -4948,6 +4953,7 @@ define("resource/lang.ja", [], {
     "alternate": "交互",
     "rainbow": "レインボー",
     "language-label": "言語:",
+    "url-label": "この設定のリンク",
     "run-benchmark-label": "ベンチマーク実行",
     "informationFuseFps": "⚠️ Web ブラウザや OS がクラッシュする事を避ける為に FPS(Max) が \"フューズ FPS\" を下回ると自動停止します。",
     "timeUnitMs": "ミリ秒",

@@ -116,6 +116,10 @@ __STYLE__
         <select id="language"></select>
         <span class="load-status" id="language-load-status"></span>
     </label>
+    <label for="url">
+        <a id="url" href="?"><span data-lang-key="url-label"></span></a>
+    </label>
+
 </div>
 <div id="fps"></div>
 <div id="benchmark-panel">

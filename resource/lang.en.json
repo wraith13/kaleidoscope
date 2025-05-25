@@ -26,6 +26,7 @@
     "alternate": "Alternate",
     "rainbow": "Rainbow",
     "language-label": "Language:",
+    "url-label": "Link to this setting",
     "run-benchmark-label": "Run Benchmark",
     "informationFuseFps": "⚠️ Automatically stops if FPS(Max) drops below \"Fuse FPS\" to avoid crashing the web browser or OS.",
     "timeUnitMs": "ms",
