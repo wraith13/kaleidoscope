@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun May 25 2025 17:50:57 GMT+0900 (日本標準時)
+    build at: Mon May 26 2025 13:22:44 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1625,7 +1625,6 @@ body.hide-ui #screen-footer #information-line:not(.show) {
     <label for="url">
         <a id="url" href="?"><span data-lang-key="url-label"></span></a>
     </label>
-
 </div>
 <div id="fps"></div>
 <div id="benchmark-panel">
@@ -1758,8 +1757,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Sun May 25 2025 17:50:57 GMT+0900 (日本標準時)",
-    tick: 1748163057044
+    at: "Mon May 26 2025 13:22:44 GMT+0900 (日本標準時)",
+    tick: 1748233364836
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -7774,6 +7773,13 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                         i.arguments = undefined;
                     });
                 };
+                this.shuffleStep = function () {
+                    var stepIncrement = _this.cycleSpan * (Math.random() + 1.0);
+                    var now = performance.now();
+                    _this.offsetAt = _this.offsetAt + stepIncrement;
+                    _this.startStep(now);
+                    _this.update();
+                };
             }
             ;
             return Animator;
@@ -8322,6 +8328,9 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
                 _library_6.Library.UI.setTextContent(ui_5.UI.fpsDisplay, _features_2.Features.Fps.getText());
             }
         };
+        Animation.shuffleAnimation = function () {
+            return Animation.animator.shuffleStep();
+        };
     })(Animation || (exports.Animation = Animation = {}));
 });
 define("script/controller/benchmark", ["require", "exports", "script/features/index", "script/library/index", "script/controller/base", "script/ui", "resource/config"], function (require, exports, _features_3, _library_7, base_2, ui_6, config_json_8) {
@@ -8526,6 +8535,31 @@ define("script/url", ["require", "exports"], function (require, exports) {
         //     update(addParameter(parseParameter(window.location.href), key, value));
     })(Url || (exports.Url = Url = {}));
 });
+define("script/screenshot", ["require", "exports", "script/controller/index"], function (require, exports, _controller_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Screenshot = void 0;
+    var Screenshot;
+    (function (Screenshot) {
+        Screenshot.initialize = function (params) {
+            var screenshot = params["screenshot"];
+            switch (screenshot) {
+                case "favicon":
+                    Screenshot.shuffleAnimation();
+                    break;
+                case "twitter-card":
+                    Screenshot.shuffleAnimation();
+                    break;
+                case "sample":
+                    Screenshot.shuffleAnimation();
+                    break;
+            }
+        };
+        Screenshot.shuffleAnimation = function () {
+            _controller_1.Controller.Animation.shuffleAnimation();
+        };
+    })(Screenshot || (exports.Screenshot = Screenshot = {}));
+});
 define("resource/loadstatus", [], {
     "colorspace": {
         "id": "colorspace-load-status",
@@ -8618,7 +8652,7 @@ define("resource/loadstatus", [], {
         "default": ""
     }
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "script/url", "resource/config", "resource/control", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_1, ui_8, loadstatus_1, url_1, config_json_9, control_json_3, loadstatus_json_1) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "script/url", "script/screenshot", "resource/config", "resource/control", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_2, ui_8, loadstatus_1, url_1, screenshot_1, config_json_9, control_json_3, loadstatus_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
@@ -8629,35 +8663,35 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
     (function (Events) {
         var update = function (setter) {
             setter === null || setter === void 0 ? void 0 : setter();
-            if (!_controller_1.Controller.Animation.isInAnimation()) {
-                _controller_1.Controller.Animation.animator.update();
+            if (!_controller_2.Controller.Animation.isInAnimation()) {
+                _controller_2.Controller.Animation.animator.update();
             }
         };
         var updateDiagonalSize = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.updateDiagonalSize(); });
+            return update(function () { return _controller_2.Controller.Animation.animator.updateDiagonalSize(); });
         };
         var updateColorspace = function () {
-            update(function () { return _controller_1.Controller.Animation.animator.setColorspace(ui_8.UI.colorspaceSelect.get()); });
+            update(function () { return _controller_2.Controller.Animation.animator.setColorspace(ui_8.UI.colorspaceSelect.get()); });
             updateColorspaceLoadStatus();
         };
         var updateColorspaceLoadStatus = function () {
             return loadstatus_1.LoadStatus.setEnumLabel(loadstatus_json_1.default.colorspace, ui_8.UI.colorspaceSelect.get());
         };
         var updateColoring = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setColoring(ui_8.UI.coloringSelect.get()); });
+            return update(function () { return _controller_2.Controller.Animation.animator.setColoring(ui_8.UI.coloringSelect.get()); });
         };
         var updatePattern = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setPattern(ui_8.UI.patternSelect.get()); });
+            return update(function () { return _controller_2.Controller.Animation.animator.setPattern(ui_8.UI.patternSelect.get()); });
         };
         var updateLayers = function () {
-            update(function () { return _controller_1.Controller.Animation.animator.setLayers(parseInt(ui_8.UI.layersSelect.get())); });
+            update(function () { return _controller_2.Controller.Animation.animator.setLayers(parseInt(ui_8.UI.layersSelect.get())); });
             updateLayersLoadStatus();
         };
         var updateLayersLoadStatus = function () {
             return loadstatus_1.LoadStatus.setIntegerLabel(loadstatus_json_1.default.layers, ui_8.UI.layersSelect.get());
         };
         var updateSpotsLayers = function () {
-            update(function () { return _controller_1.Controller.Animation.animator.setSpotsLayers(parseInt(ui_8.UI.spotslayersSelect.get()) / 100.0); });
+            update(function () { return _controller_2.Controller.Animation.animator.setSpotsLayers(parseInt(ui_8.UI.spotslayersSelect.get()) / 100.0); });
             updateSpotsLayersLoadStatus();
         };
         var updateSpotsLayersLoadStatus = function () {
@@ -8674,7 +8708,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             setCanvasSize("".concat(canvasSize, "%"));
         };
         var updateCycleSpan = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setCycleSpan(parseInt(ui_8.UI.cycleSpanSelect.get())); });
+            return update(function () { return _controller_2.Controller.Animation.animator.setCycleSpan(parseInt(ui_8.UI.cycleSpanSelect.get())); });
         };
         var updateFuseFps = function () {
             return _features_4.Features.Fps.fuseFps = parseFloat(ui_8.UI.fuseFpsSelect.get());
@@ -8683,7 +8717,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             return loadstatus_1.LoadStatus.setIntegerLabel(loadstatus_json_1.default.frameDelay, ui_8.UI.frameDelaySelect.get());
         };
         var updateEasing = function () {
-            return update(function () { return _controller_1.Controller.Animation.animator.setEasing(ui_8.UI.easingCheckbox.get()); });
+            return update(function () { return _controller_2.Controller.Animation.animator.setEasing(ui_8.UI.easingCheckbox.get()); });
         };
         var updateWithFullscreen = function () {
             return loadstatus_1.LoadStatus.setBoolLabel(loadstatus_json_1.default.withFullscreen, ui_8.UI.withFullscreen.get());
@@ -8711,12 +8745,12 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_8.UI.playButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
-                _controller_1.Controller.toggleAnimation();
+                _controller_2.Controller.toggleAnimation();
             };
             ui_8.UI.runBenchmarkButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
-                _controller_1.Controller.Benchmark.runBenchmark();
+                _controller_2.Controller.Benchmark.runBenchmark();
             };
             ui_8.UI.colorspaceSelect.loadParameter(params, applyParam).setChange(updateColorspace);
             ui_8.UI.coloringSelect.loadParameter(params, applyParam).setChange(updateColoring);
@@ -8734,7 +8768,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_8.UI.benchmarkAbortButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
-                _controller_1.Controller.Benchmark.stopBenchmark();
+                _controller_2.Controller.Benchmark.stopBenchmark();
             };
             ui_8.UI.benchmarkResultCloseButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
@@ -8745,19 +8779,19 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             };
             ui_8.UI.canvas.addEventListener("click", function (event) {
                 event.stopPropagation();
-                if (_controller_1.Controller.Benchmark.isInBenchmark()) {
+                if (_controller_2.Controller.Benchmark.isInBenchmark()) {
                     console.log("👆 canvas.Click: stopBenchmark", event, ui_8.UI.canvas);
-                    _controller_1.Controller.Benchmark.stopBenchmark();
+                    _controller_2.Controller.Benchmark.stopBenchmark();
                 }
                 else {
                     console.log("👆 canvas.Click: pauseAnimation", event, ui_8.UI.canvas);
-                    _controller_1.Controller.Animation.pauseAnimation();
+                    _controller_2.Controller.Animation.pauseAnimation();
                 }
             });
             ui_8.UI.benchmarkCanvas.addEventListener("click", function (event) {
                 event.stopPropagation();
                 console.log("👆 benchmarkCanvas.Click: stopBenchmark", event, ui_8.UI.benchmarkCanvas);
-                _controller_1.Controller.Benchmark.stopBenchmark();
+                _controller_2.Controller.Benchmark.stopBenchmark();
             });
             var mouseMoveTimer = new _library_9.Library.UI.ToggleClassForWhileTimer();
             ui_8.UI.screenBody.addEventListener("mousemove", function (_event) {
@@ -8776,7 +8810,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                         ui_8.UI.keyboardShortcut.classList.toggle("show", false);
                     }
                 },
-                "toggleAnimation": function () { return _controller_1.Controller.toggleAnimation(); },
+                "toggleAnimation": function () { return _controller_2.Controller.toggleAnimation(); },
                 "switchColoringForward": function () { return ui_8.UI.coloringSelect.cycle(true); },
                 "switchColoringBackward": function () { return ui_8.UI.coloringSelect.cycle(false); },
                 "switchPatternForward": function () { return ui_8.UI.patternSelect.cycle(true); },
@@ -8791,8 +8825,8 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 "speedUp": function () { return ui_8.UI.cycleSpanSelect.switch(false); },
                 "toggleFullScreen": function () {
                     ui_8.UI.withFullscreen.toggle();
-                    if (_controller_1.Controller.Animation.isInAnimation()) {
-                        _controller_1.Controller.Base.updateFullscreenState();
+                    if (_controller_2.Controller.Animation.isInAnimation()) {
+                        _controller_2.Controller.Base.updateFullscreenState();
                     }
                 },
                 "toggleShowFps": function () {
@@ -8802,7 +8836,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 "switchClockForward": function () { return ui_8.UI.clockSelect.cycle(false); },
                 "switchClockBackward": function () { return ui_8.UI.clockSelect.cycle(true); },
                 "unknownKeyDown": function () {
-                    if (!_controller_1.Controller.Benchmark.isInBenchmarkOrResult()) {
+                    if (!_controller_2.Controller.Benchmark.isInBenchmarkOrResult()) {
                         showShortcutsTimer.start(ui_8.UI.keyboardShortcut, "show", 3000);
                     }
                 }
@@ -8824,7 +8858,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ].forEach(function (i) { return i.fire(); });
             document.addEventListener("visibilitychange", function () {
                 console.log("\uD83D\uDC40 visibilitychange: document.hidden: ".concat(document.hidden));
-                _controller_1.Controller.Benchmark.abortBenchmark();
+                _controller_2.Controller.Benchmark.abortBenchmark();
                 _features_4.Features.Fps.reset();
             });
             updateColorspaceLoadStatus();
@@ -8834,10 +8868,11 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             updateWithFullscreen();
             updateShowFpsLoadStatus();
             updateClock();
+            screenshot_1.Screenshot.initialize(params);
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/ui", "script/events"], function (require, exports, _tools_5, _library_10, _features_5, _controller_2, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, ui_9, events_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/ui", "script/events"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, ui_9, events_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
@@ -8868,7 +8903,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
         Tools: _tools_5.Tools,
         Library: _library_10.Library,
         Features: _features_5.Features,
-        Controller: _controller_2.Controller,
+        Controller: _controller_3.Controller,
         UI: ui_9.UI,
         Events: events_1.Events,
         Resource: Resource

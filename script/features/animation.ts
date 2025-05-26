@@ -408,5 +408,13 @@ export namespace Animation
                 }
             );
         }
+        shuffleStep = () =>
+        {
+            const stepIncrement = this.cycleSpan *(Math.random() +1.0);
+            const now = performance.now();
+            this.offsetAt = this.offsetAt +stepIncrement;
+            this.startStep(now);
+            this.update();
+        }
     }
 }

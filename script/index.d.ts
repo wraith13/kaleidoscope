@@ -802,6 +802,7 @@ declare module "script/features/animation" {
             setSpotsLayers: (spotsLayersRate: number) => void;
             setEasing: (enabled: boolean) => void;
             resetStep: () => void;
+            shuffleStep: () => void;
         }
         export {};
     }
@@ -1000,6 +1001,7 @@ declare module "script/controller/animation" {
         const loopAnimation: (now: number) => void;
         const start: () => number;
         const updateFps: () => void;
+        const shuffleAnimation: () => void;
     }
 }
 declare module "script/controller/benchmark" {
@@ -1069,6 +1071,12 @@ declare module "script/url" {
         const parseParameter: (url: string) => Record<string, string>;
         const make: (params: Record<string, string>) => string;
         const addParameter: (params: Record<string, string>, key: string, value: string) => Record<string, string>;
+    }
+}
+declare module "script/screenshot" {
+    export namespace Screenshot {
+        const initialize: (params: Record<string, string>) => void;
+        const shuffleAnimation: () => void;
     }
 }
 declare module "script/events" {

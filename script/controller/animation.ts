@@ -99,4 +99,6 @@ export namespace Animation
             Library.UI.setTextContent(UI.fpsDisplay, Features.Fps.getText());
         }
     }
+    export const shuffleAnimation = () =>
+        animator.shuffleStep();
 }
