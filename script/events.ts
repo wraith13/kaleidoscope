@@ -4,6 +4,7 @@ import { Controller } from "@controller";
 import { UI } from "./ui";
 import { LoadStatus } from "./loadstatus";
 import { Url } from "./url";
+import { Screenshot } from "./screenshot";
 import config from "@resource/config.json";
 import control from "@resource/control.json";
 import loadStatusJson from "@resource/loadstatus.json";
@@ -254,5 +255,6 @@ export namespace Events
         updateWithFullscreen();
         updateShowFpsLoadStatus();
         updateClock();
+        Screenshot.initialize(params);
     };
 }

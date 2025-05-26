@@ -119,7 +119,6 @@ __STYLE__
     <label for="url">
         <a id="url" href="?"><span data-lang-key="url-label"></span></a>
     </label>
-
 </div>
 <div id="fps"></div>
 <div id="benchmark-panel">
