@@ -90,6 +90,7 @@ export namespace Events
     export const initialize = () =>
     {
         const params = Url.parseParameter(window.location.href);
+        Controller.Animation.cloclLocale = params["clock-locale"];
         const applyParam = (key: string, value: string) =>
         {
             Url.addParameter(params, key, value);

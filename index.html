@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon May 26 2025 22:55:46 GMT+0900 (日本標準時)
+    build at: Tue May 27 2025 10:52:44 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1757,8 +1757,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Mon May 26 2025 22:55:46 GMT+0900 (日本標準時)",
-    tick: 1748267746386
+    at: "Tue May 27 2025 10:52:44 GMT+0900 (日本標準時)",
+    tick: 1748310764144
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -7774,11 +7774,11 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     });
                 };
                 this.shuffleStep = function () {
-                    // fill new first pattern
+                    // Fill layers with the new first pattern ( WHY: If you don't update() with this offsetAt once, only the second pattern will be displayed. )
                     _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + 0.999999);
                     _this.startStep(performance.now());
                     _this.update();
-                    // new second pattern + random step
+                    // new second pattern + random step ( offsetAt )
                     _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + Math.random());
                     _this.startStep(performance.now());
                     _this.update();
@@ -8741,6 +8741,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
         Events.initialize = function () {
             var params = url_1.Url.parseParameter(window.location.href);
+            _controller_2.Controller.Animation.cloclLocale = params["clock-locale"];
             var applyParam = function (key, value) {
                 url_1.Url.addParameter(params, key, value);
                 ui_8.UI.urlAnchor.href = url_1.Url.make(params);

@@ -3030,11 +3030,11 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     });
                 };
                 this.shuffleStep = function () {
-                    // fill new first pattern
+                    // Fill layers with the new first pattern ( WHY: If you don't update() with this offsetAt once, only the second pattern will be displayed. )
                     _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + 0.999999);
                     _this.startStep(performance.now());
                     _this.update();
-                    // new second pattern + random step
+                    // new second pattern + random step ( offsetAt )
                     _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + Math.random());
                     _this.startStep(performance.now());
                     _this.update();
@@ -3997,6 +3997,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
         Events.initialize = function () {
             var params = url_1.Url.parseParameter(window.location.href);
+            _controller_2.Controller.Animation.cloclLocale = params["clock-locale"];
             var applyParam = function (key, value) {
                 url_1.Url.addParameter(params, key, value);
                 ui_8.UI.urlAnchor.href = url_1.Url.make(params);
