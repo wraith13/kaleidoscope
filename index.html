@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon May 26 2025 13:22:44 GMT+0900 (日本標準時)
+    build at: Mon May 26 2025 22:55:46 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1757,8 +1757,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Mon May 26 2025 13:22:44 GMT+0900 (日本標準時)",
-    tick: 1748233364836
+    at: "Mon May 26 2025 22:55:46 GMT+0900 (日本標準時)",
+    tick: 1748267746386
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -7774,10 +7774,13 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     });
                 };
                 this.shuffleStep = function () {
-                    var stepIncrement = _this.cycleSpan * (Math.random() + 1.0);
-                    var now = performance.now();
-                    _this.offsetAt = _this.offsetAt + stepIncrement;
-                    _this.startStep(now);
+                    // fill new first pattern
+                    _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + 0.999999);
+                    _this.startStep(performance.now());
+                    _this.update();
+                    // new second pattern + random step
+                    _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + Math.random());
+                    _this.startStep(performance.now());
                     _this.update();
                 };
             }

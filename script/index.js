@@ -3030,10 +3030,13 @@ define("script/features/animation", ["require", "exports", "flounder.style.js/in
                     });
                 };
                 this.shuffleStep = function () {
-                    var stepIncrement = _this.cycleSpan * (Math.random() + 1.0);
-                    var now = performance.now();
-                    _this.offsetAt = _this.offsetAt + stepIncrement;
-                    _this.startStep(now);
+                    // fill new first pattern
+                    _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + 0.999999);
+                    _this.startStep(performance.now());
+                    _this.update();
+                    // new second pattern + random step
+                    _this.offsetAt = _this.cycleSpan * (Math.ceil(_this.offsetAt / _this.cycleSpan) + Math.random());
+                    _this.startStep(performance.now());
                     _this.update();
                 };
             }

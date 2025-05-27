@@ -410,10 +410,13 @@ export namespace Animation
         }
         shuffleStep = () =>
         {
-            const stepIncrement = this.cycleSpan *(Math.random() +1.0);
-            const now = performance.now();
-            this.offsetAt = this.offsetAt +stepIncrement;
-            this.startStep(now);
+            // Fill layers with the new first pattern ( WHY: If you don't update() with this offsetAt once, only the second pattern will be displayed. )
+            this.offsetAt = this.cycleSpan *(Math.ceil(this.offsetAt /this.cycleSpan) +0.999999);
+            this.startStep(performance.now());
+            this.update();
+            // new second pattern + random step ( offsetAt )
+            this.offsetAt = this.cycleSpan *(Math.ceil(this.offsetAt /this.cycleSpan) +Math.random());
+            this.startStep(performance.now());
             this.update();
         }
     }
