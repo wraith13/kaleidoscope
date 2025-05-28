@@ -4114,7 +4114,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
     })(Events || (exports.Events = Events = {}));
 });
-define("script/screenshot", ["require", "exports", "script/controller/index"], function (require, exports, _controller_2) {
+define("script/screenshot", ["require", "exports", "script/controller/index", "script/ui"], function (require, exports, _controller_2, ui_9) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Screenshot = void 0;
@@ -4129,6 +4129,9 @@ define("script/screenshot", ["require", "exports", "script/controller/index"], f
                 case "twitter-card":
                     Screenshot.shuffleAnimation();
                     break;
+                case "black":
+                    ui_9.UI.screenBody.classList.add("black");
+                    break;
                 case "sample":
                     Screenshot.shuffleAnimation();
                     break;
@@ -4139,7 +4142,7 @@ define("script/screenshot", ["require", "exports", "script/controller/index"], f
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_9, events_1, screenshot_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang.en", "resource/lang.ja", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, lang_en_json_2, lang_ja_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
@@ -4152,7 +4155,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     powered_by_json_2 = __importDefault(powered_by_json_2);
     shortcuts_json_2 = __importDefault(shortcuts_json_2);
     url_2.Url.initialize();
-    ui_9.UI.initialize();
+    ui_10.UI.initialize();
     events_1.Events.initialize();
     _controller_3.Controller.initialize(url_2.Url.params);
     screenshot_1.Screenshot.initialize(url_2.Url.params);
@@ -4175,7 +4178,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
         Features: _features_5.Features,
         Controller: _controller_3.Controller,
         Url: url_2.Url,
-        UI: ui_9.UI,
+        UI: ui_10.UI,
         Events: events_1.Events,
         Screenshot: screenshot_1.Screenshot,
         Resource: Resource

@@ -94,6 +94,13 @@
     {
         @include fade-transition("body.benchmark-rendering");
     }
+    &.black
+    {
+        #canvas
+        {
+            display: none
+        }
+    }
     #benchmark-canvas
     {
         @include fade-transition("body:not(.benchmark-rendering)");

@@ -1,4 +1,5 @@
 import { Controller } from "@controller";
+import { UI } from "./ui";
 export namespace Screenshot
 {
     export const initialize = (params: Record<string, string>): void =>
@@ -11,6 +12,9 @@ export namespace Screenshot
             break;
         case "twitter-card":
             shuffleAnimation();
+            break;
+        case "black":
+            UI.screenBody.classList.add("black");
             break;
         case "sample":
             shuffleAnimation();

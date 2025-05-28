@@ -169,6 +169,9 @@ body.benchmark-rendering #screen-body #canvas:not(.show)::before {
   transition: filter 750ms;
 }
 
+#screen-body.black #canvas {
+  display: none;
+}
 #screen-body #benchmark-canvas {
   transition: opacity 750ms, filter 750ms;
 }
