@@ -10,7 +10,7 @@ export namespace Url
             (value, key) => result[key] = value
         );
         return result;
-    }
+    };
     export const make = (params: Record<string, string>) =>
     {
         const url = new URL(window.location.href);
@@ -19,14 +19,19 @@ export namespace Url
             url.searchParams.set(key, value);
         }
         return url.toString();
-    }
+    };
     // export const update = (params: Record<string, string>): void =>
     //     window.history.replaceState({}, "", make(params));
     export const addParameter = (params: Record<string, string>, key: string, value: string): Record<string, string> =>
     {
         params[key] = value;
         return params;
-    }
+    };
     // export const applyParam = (key: string, value: string): void =>
     //     update(addParameter(parseParameter(window.location.href), key, value));
+    export const initialize = () =>
+    {
+        // Initialization of params is necessary, but it is actually initialized at the time of declaration. In reality, nothing is done here.
+    };
+    export const params = parseParameter(window.location.href);
 }

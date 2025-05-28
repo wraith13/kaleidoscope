@@ -4,7 +4,6 @@ import { Controller } from "@controller";
 import { UI } from "./ui";
 import { LoadStatus } from "./loadstatus";
 import { Url } from "./url";
-import { Screenshot } from "./screenshot";
 import config from "@resource/config.json";
 import control from "@resource/control.json";
 import loadStatusJson from "@resource/loadstatus.json";
@@ -89,12 +88,10 @@ export namespace Events
         LoadStatus.setEnumLabel(loadStatusJson.clock as LoadStatus.EnumLoadStatus, UI.clockSelect.get());
     export const initialize = () =>
     {
-        const params = Url.parseParameter(window.location.href);
-        Controller.Animation.cloclLocale = params["clock-locale"];
         const applyParam = (key: string, value: string) =>
         {
-            Url.addParameter(params, key, value);
-            UI.urlAnchor.href = Url.make(params);
+            Url.addParameter(Url.params, key, value);
+            UI.urlAnchor.href = Url.make(Url.params);
         };
         UI.playButton.data.click = (event, button) =>
         {
@@ -108,19 +105,19 @@ export namespace Events
             button.dom.blur();
             Controller.Benchmark.runBenchmark();
         };
-        UI.colorspaceSelect.loadParameter(params, applyParam).setChange(updateColorspace);
-        UI.coloringSelect.loadParameter(params, applyParam).setChange(updateColoring);
-        UI.patternSelect.loadParameter(params, applyParam).setChange(updatePattern);
-        UI.canvasSizeSelect.loadParameter(params, applyParam).setChange(updateCanvasSize);
-        UI.layersSelect.loadParameter(params, applyParam).setChange(updateLayers);
-        UI.spotslayersSelect.loadParameter(params, applyParam).setChange(updateSpotsLayers);
-        UI.cycleSpanSelect.loadParameter(params, applyParam).setChange(updateCycleSpan);
-        UI.fuseFpsSelect.loadParameter(params, applyParam).setChange(updateFuseFps);
-        UI.frameDelaySelect.loadParameter(params, applyParam).setChange(updateFrameDelayLoadStatus);
-        UI.easingCheckbox.loadParameter(params, applyParam).setChange(updateEasing);
-        UI.withFullscreen.loadParameter(params, applyParam).setChange(updateWithFullscreen);
-        UI.showFps.loadParameter(params, applyParam).setChange(updateShowFps);
-        UI.clockSelect.loadParameter(params, applyParam).setChange(updateClock);
+        UI.colorspaceSelect.loadParameter(Url.params, applyParam).setChange(updateColorspace);
+        UI.coloringSelect.loadParameter(Url.params, applyParam).setChange(updateColoring);
+        UI.patternSelect.loadParameter(Url.params, applyParam).setChange(updatePattern);
+        UI.canvasSizeSelect.loadParameter(Url.params, applyParam).setChange(updateCanvasSize);
+        UI.layersSelect.loadParameter(Url.params, applyParam).setChange(updateLayers);
+        UI.spotslayersSelect.loadParameter(Url.params, applyParam).setChange(updateSpotsLayers);
+        UI.cycleSpanSelect.loadParameter(Url.params, applyParam).setChange(updateCycleSpan);
+        UI.fuseFpsSelect.loadParameter(Url.params, applyParam).setChange(updateFuseFps);
+        UI.frameDelaySelect.loadParameter(Url.params, applyParam).setChange(updateFrameDelayLoadStatus);
+        UI.easingCheckbox.loadParameter(Url.params, applyParam).setChange(updateEasing);
+        UI.withFullscreen.loadParameter(Url.params, applyParam).setChange(updateWithFullscreen);
+        UI.showFps.loadParameter(Url.params, applyParam).setChange(updateShowFps);
+        UI.clockSelect.loadParameter(Url.params, applyParam).setChange(updateClock);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
             event?.stopPropagation();
@@ -256,6 +253,5 @@ export namespace Events
         updateWithFullscreen();
         updateShowFpsLoadStatus();
         updateClock();
-        Screenshot.initialize(params);
     };
 }

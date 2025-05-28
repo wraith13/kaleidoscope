@@ -101,4 +101,8 @@ export namespace Animation
     }
     export const shuffleAnimation = () =>
         animator.shuffleStep();
+    export const initialize = (params: Record<string, string>) =>
+    {
+        cloclLocale = params["clock-locale"];
+    }
 }

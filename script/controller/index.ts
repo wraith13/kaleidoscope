@@ -21,4 +21,8 @@ export namespace Controller
             break;
         }
     }
+    export const initialize = (params: Record<string, string>) =>
+    {
+        Animation.initialize(params);
+    };
 }

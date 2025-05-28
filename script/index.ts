@@ -11,10 +11,15 @@ import localeEn from "@resource/lang.en.json";
 import localeJa from "@resource/lang.ja.json";
 import poweredBy from "@resource/powered-by.json";
 import shortcuts from "@resource/shortcuts.json";
+import { Url } from "./url";
 import { UI } from "./ui";
 import { Events } from "./events";
+import { Screenshot } from "./screenshot";
+Url.initialize();
 UI.initialize();
 Events.initialize();
+Controller.initialize(Url.params);
+Screenshot.initialize(Url.params);
 interface BuildInformation
 {
     at: string;
@@ -41,8 +46,10 @@ const modules =
     Library,
     Features,
     Controller,
+    Url,
     UI,
     Events,
+    Screenshot,
     Resource
 };
 Object.entries(modules).forEach(([ name, module ]) => consoleInterface[name] = module);

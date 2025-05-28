@@ -1002,6 +1002,7 @@ declare module "script/controller/animation" {
         const start: () => number;
         const updateFps: () => void;
         const shuffleAnimation: () => void;
+        const initialize: (params: Record<string, string>) => void;
     }
 }
 declare module "script/controller/benchmark" {
@@ -1027,6 +1028,16 @@ declare module "script/controller/index" {
         export import Animation = ImportedAnimation.Animation;
         export import Benchmark = ImportedBenchmark.Benchmark;
         const toggleAnimation: () => void;
+        const initialize: (params: Record<string, string>) => void;
+    }
+}
+declare module "script/url" {
+    export namespace Url {
+        const parseParameter: (url: string) => Record<string, string>;
+        const make: (params: Record<string, string>) => string;
+        const addParameter: (params: Record<string, string>, key: string, value: string) => Record<string, string>;
+        const initialize: () => void;
+        const params: Record<string, string>;
     }
 }
 declare module "script/loadstatus" {
@@ -1066,22 +1077,15 @@ declare module "script/loadstatus" {
         const setIntegerLabel: (config: IntegerLoadStatus, i: string) => void;
     }
 }
-declare module "script/url" {
-    export namespace Url {
-        const parseParameter: (url: string) => Record<string, string>;
-        const make: (params: Record<string, string>) => string;
-        const addParameter: (params: Record<string, string>, key: string, value: string) => Record<string, string>;
+declare module "script/events" {
+    export namespace Events {
+        const initialize: () => void;
     }
 }
 declare module "script/screenshot" {
     export namespace Screenshot {
         const initialize: (params: Record<string, string>) => void;
         const shuffleAnimation: () => void;
-    }
-}
-declare module "script/events" {
-    export namespace Events {
-        const initialize: () => void;
     }
 }
 declare module "script/index" { }
