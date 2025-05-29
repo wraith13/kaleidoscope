@@ -34,6 +34,7 @@ declare module "script/library/locale" {
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
                 "clock-label": string;
+                "brightness-label": string;
                 hide: string;
                 blend: string;
                 white: string;
@@ -119,6 +120,7 @@ declare module "script/library/locale" {
                 "with-fullscreen-label": string;
                 "show-fps-label": string;
                 "clock-label": string;
+                "brightness-label": string;
                 hide: string;
                 blend: string;
                 white: string;
@@ -828,6 +830,7 @@ declare module "script/ui" {
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;
         const clockSelect: Library.Control.Select<string>;
+        const brightnessSelect: Library.Control.Select<number>;
         const languageSelect: Library.Control.Select<string>;
         const urlAnchor: HTMLAnchorElement;
         const fpsDisplay: HTMLDivElement;
@@ -994,6 +997,8 @@ declare module "script/controller/animation" {
     export namespace Animation {
         const animator: Features.Animation.Animator;
         let cloclLocale: string | undefined;
+        const getOpacity: () => string;
+        const updateOpacity: () => void;
         const isInAnimation: () => boolean;
         const playAnimation: () => void;
         const pauseAnimation: () => void;

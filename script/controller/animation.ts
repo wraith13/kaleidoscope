@@ -8,6 +8,21 @@ export namespace Animation
 {
     export const animator = new Features.Animation.Animator(UI.canvas, Math.random);
     export let cloclLocale: string | undefined = undefined;
+    export const getOpacity = () =>
+        `${parseFloat(UI.brightnessSelect.get())}%`;
+    export const updateOpacity = () =>
+    {
+        if (isInAnimation())
+        {
+            document.body.style.setProperty("opacity", getOpacity());
+            UI.canvas.style.removeProperty("opacity");
+        }
+        else
+        {
+            document.body.style.removeProperty("opacity");
+            UI.canvas.style.setProperty("opacity", getOpacity());
+        }
+    }
     export const isInAnimation = () =>
         Base.isInMode("animation");
     export const playAnimation = () =>
@@ -15,6 +30,7 @@ export namespace Animation
         Base.intoMode("animation");
         updateFps();
         start();
+        updateOpacity();
     };
     export const pauseAnimation = () =>
     {
@@ -31,6 +47,7 @@ export namespace Animation
             );
         }
         Base.exitMode("animation");
+        updateOpacity();
     };
     export const isAnimationStepTiming = (now: number) =>
         parseInt(UI.frameDelaySelect.get()) <= animator.getNowDifference(now);

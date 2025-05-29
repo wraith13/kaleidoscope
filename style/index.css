@@ -18,6 +18,7 @@ body {
   padding: 0px;
   background-color: black;
   overflow: hidden;
+  transition: opacity 750ms;
 }
 
 button {
@@ -1331,7 +1332,7 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
   padding: 1px 4px;
   margin: 2px;
 }
-@media (max-width: 760px) or (max-height: 780px) {
+@media (max-width: 760px) or (max-height: 840px) {
   #screen-footer #supplementary-line #keyboard-shortcut {
     visibility: hidden;
     width: 0px;

@@ -86,6 +86,8 @@ export namespace Events
     };
     const updateClockLoadStatus = () =>
         LoadStatus.setEnumLabel(loadStatusJson.clock as LoadStatus.EnumLoadStatus, UI.clockSelect.get());
+    const updateBrightness = () =>
+        Controller.Animation.updateOpacity();;
     export const initialize = () =>
     {
         const applyParam = (key: string, value: string) =>
@@ -118,6 +120,7 @@ export namespace Events
         UI.withFullscreen.loadParameter(Url.params, applyParam).setChange(updateWithFullscreen);
         UI.showFps.loadParameter(Url.params, applyParam).setChange(updateShowFps);
         UI.clockSelect.loadParameter(Url.params, applyParam).setChange(updateClock);
+        UI.brightnessSelect.loadParameter(Url.params, applyParam).setChange(updateBrightness);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
             event?.stopPropagation();

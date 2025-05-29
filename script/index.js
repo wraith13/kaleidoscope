@@ -121,6 +121,7 @@ define("resource/lang.en", [], {
     "with-fullscreen-label": "FullScreen:",
     "show-fps-label": "Show FPS:",
     "clock-label": "Clock:",
+    "brightness-label": "Brightness:",
     "hide": "Hide",
     "blend": "Blend",
     "white": "White",
@@ -206,6 +207,7 @@ define("resource/lang.ja", [], {
     "with-fullscreen-label": "フルスクリーン:",
     "show-fps-label": "FPS を表示:",
     "clock-label": "時計:",
+    "brightness-label": "明るさ:",
     "hide": "非表示",
     "blend": "ブレンド",
     "white": "ホワイト",
@@ -336,13 +338,13 @@ define("resource/config", [], {
     "maximumFractionDigits": 2,
     "startWait": 750,
     "benchmark": {
-        "startWait": 1500,
-        "stableWait": 1500,
+        "startWait": 1750,
+        "stableWait": 1750,
         "adjustLayersWait": 300,
-        "nextPatternWait": 1000,
+        "nextPatternWait": 1500,
         "screenResolutionWait": 1000,
-        "refreshRateWait": 1500,
-        "endWait": 750,
+        "refreshRateWait": 1750,
+        "endWait": 1000,
         "pixelUnit": 2073600,
         "colorDepthUnit": 24,
         "fpsUnit": 60,
@@ -2658,6 +2660,32 @@ define("resource/control", [], {
         ],
         "default": "hide"
     },
+    "brightness": {
+        "id": "brightness",
+        "enum": [
+            100,
+            95,
+            90,
+            85,
+            80,
+            75,
+            70,
+            65,
+            60,
+            55,
+            50,
+            45,
+            40,
+            35,
+            30,
+            25,
+            20,
+            15,
+            10,
+            5
+        ],
+        "default": 100
+    },
     "language": {
         "id": "language",
         "enum": [
@@ -3080,6 +3108,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFps);
         UI.clockSelect = new _library_3.Library.Control.Select(control_json_2.default.clock, { makeLabel: function (i) { return _library_3.Library.Locale.map(i); }, });
+        UI.brightnessSelect = new _library_3.Library.Control.Select(control_json_2.default.brightness, { makeLabel: function (i) { return "".concat(i, " %"); } });
         UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
             makeLabel: function (i) { return "Auto" === i ?
                 _library_3.Library.Locale.map("Auto") :
@@ -3524,6 +3553,19 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
     (function (Animation) {
         Animation.animator = new _features_2.Features.Animation.Animator(ui_5.UI.canvas, Math.random);
         Animation.cloclLocale = undefined;
+        Animation.getOpacity = function () {
+            return "".concat(parseFloat(ui_5.UI.brightnessSelect.get()), "%");
+        };
+        Animation.updateOpacity = function () {
+            if (Animation.isInAnimation()) {
+                document.body.style.setProperty("opacity", Animation.getOpacity());
+                ui_5.UI.canvas.style.removeProperty("opacity");
+            }
+            else {
+                document.body.style.removeProperty("opacity");
+                ui_5.UI.canvas.style.setProperty("opacity", Animation.getOpacity());
+            }
+        };
         Animation.isInAnimation = function () {
             return base_1.Base.isInMode("animation");
         };
@@ -3531,6 +3573,7 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
             base_1.Base.intoMode("animation");
             Animation.updateFps();
             Animation.start();
+            Animation.updateOpacity();
         };
         Animation.pauseAnimation = function () {
             if (Animation.isInAnimation()) {
@@ -3541,6 +3584,7 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
                 });
             }
             base_1.Base.exitMode("animation");
+            Animation.updateOpacity();
         };
         Animation.isAnimationStepTiming = function (now) {
             return parseInt(ui_5.UI.frameDelaySelect.get()) <= Animation.animator.getNowDifference(now);
@@ -3980,6 +4024,10 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         var updateClockLoadStatus = function () {
             return loadstatus_1.LoadStatus.setEnumLabel(loadstatus_json_1.default.clock, ui_8.UI.clockSelect.get());
         };
+        var updateBrightness = function () {
+            return _controller_1.Controller.Animation.updateOpacity();
+        };
+        ;
         Events.initialize = function () {
             var applyParam = function (key, value) {
                 url_1.Url.addParameter(url_1.Url.params, key, value);
@@ -4008,6 +4056,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_8.UI.withFullscreen.loadParameter(url_1.Url.params, applyParam).setChange(updateWithFullscreen);
             ui_8.UI.showFps.loadParameter(url_1.Url.params, applyParam).setChange(updateShowFps);
             ui_8.UI.clockSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateClock);
+            ui_8.UI.brightnessSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateBrightness);
             ui_8.UI.benchmarkAbortButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();

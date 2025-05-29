@@ -111,6 +111,11 @@ __STYLE__
         <select id="clock"></select>
         <span class="load-status" id="clock-load-status"></span>
     </label>
+    <label for="brightness">
+        <span data-lang-key="brightness-label">Brightness:</span>
+        <select id="brightness"></select>
+        <span class="load-status" id="brightness-load-status"></span>
+    </label>
     <label for="language">
         <span data-lang-key="language-label">Language:</span>
         <select id="language"></select>
