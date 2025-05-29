@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Wed May 28 2025 22:47:41 GMT+0900 (日本標準時)
+    build at: Thu May 29 2025 22:43:08 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1538,6 +1538,10 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 
 /*# sourceMappingURL=index.css.map */
 
+DUMMYSTYLE
+{
+    color: inherit;
+}
 </style>
 </head>
 <body>
@@ -1766,8 +1770,8 @@ body.hide-ui #screen-footer #information-line:not(.show) {
 <script type="text/javascript">
 const build =
 {
-    at: "Wed May 28 2025 22:47:41 GMT+0900 (日本標準時)",
-    tick: 1748440061778
+    at: "Thu May 29 2025 22:43:08 GMT+0900 (日本標準時)",
+    tick: 1748526188316
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -8926,9 +8930,11 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
             var screenshot = params["screenshot"];
             switch (screenshot) {
                 case "favicon":
+                    Screenshot.fixCanvasSize("1024px", "1024px");
                     Screenshot.shuffleAnimation();
                     break;
                 case "twitter-card":
+                    Screenshot.fixCanvasSize("1200px", "630px");
                     Screenshot.shuffleAnimation();
                     break;
                 case "black":
@@ -8941,6 +8947,11 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
         };
         Screenshot.shuffleAnimation = function () {
             _controller_2.Controller.Animation.shuffleAnimation();
+        };
+        Screenshot.fixCanvasSize = function (width, height) {
+            ["min-width", "max-width",].forEach(function (i) { return ui_9.UI.canvas.style.setProperty(i, width); });
+            ["min-height", "max-height",].forEach(function (i) { return ui_9.UI.canvas.style.setProperty(i, height); });
+            _controller_2.Controller.Animation.animator.updateDiagonalSize();
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
@@ -8961,6 +8972,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     events_1.Events.initialize();
     _controller_3.Controller.initialize(url_2.Url.params);
     screenshot_1.Screenshot.initialize(url_2.Url.params);
+    ui_10.UI.urlAnchor.href = url_2.Url.make(url_2.Url.params);
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_10.Library.Locale.map("ago"), " )"));
     var consoleInterface = globalThis;
     var Resource = {

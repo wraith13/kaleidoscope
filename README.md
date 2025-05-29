@@ -27,6 +27,11 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 - Device Compatibility: PCs, Smartphones, Tablets
 - Keyboard Shortcuts Support for easier operation
 
+## Options Available via URL Parameters
+
+- `clock-locale`: Specifies the locale used for the clock display. (Example: `?clock-locale=en-us`)
+- `screenshot`: Specifies the screenshot mode. Accepts one of `favicon`, `twitter-card`, `black`, or `sample`. (Example: `?screenshot=sample`)
+
 ## How to build
 
 ### Prerequisites

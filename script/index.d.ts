@@ -1091,6 +1091,7 @@ declare module "script/screenshot" {
     export namespace Screenshot {
         const initialize: (params: Record<string, string>) => void;
         const shuffleAnimation: () => void;
+        const fixCanvasSize: (width: string, height: string) => void;
     }
 }
 declare module "script/index" { }

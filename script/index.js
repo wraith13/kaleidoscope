@@ -4173,9 +4173,11 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
             var screenshot = params["screenshot"];
             switch (screenshot) {
                 case "favicon":
+                    Screenshot.fixCanvasSize("1024px", "1024px");
                     Screenshot.shuffleAnimation();
                     break;
                 case "twitter-card":
+                    Screenshot.fixCanvasSize("1200px", "630px");
                     Screenshot.shuffleAnimation();
                     break;
                 case "black":
@@ -4188,6 +4190,11 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
         };
         Screenshot.shuffleAnimation = function () {
             _controller_2.Controller.Animation.shuffleAnimation();
+        };
+        Screenshot.fixCanvasSize = function (width, height) {
+            ["min-width", "max-width",].forEach(function (i) { return ui_9.UI.canvas.style.setProperty(i, width); });
+            ["min-height", "max-height",].forEach(function (i) { return ui_9.UI.canvas.style.setProperty(i, height); });
+            _controller_2.Controller.Animation.animator.updateDiagonalSize();
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
@@ -4208,6 +4215,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     events_1.Events.initialize();
     _controller_3.Controller.initialize(url_2.Url.params);
     screenshot_1.Screenshot.initialize(url_2.Url.params);
+    ui_10.UI.urlAnchor.href = url_2.Url.make(url_2.Url.params);
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_10.Library.Locale.map("ago"), " )"));
     var consoleInterface = globalThis;
     var Resource = {

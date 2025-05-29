@@ -28,6 +28,10 @@ __LICENSE__-->
 <meta name="twitter:description" lang="ja" content="__JA_DESCRIPTION__">
 <style>
 __STYLE__
+DUMMYSTYLE
+{
+    color: inherit;
+}
 </style>
 </head>
 <body>
