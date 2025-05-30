@@ -4185,10 +4185,12 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
             switch (screenshot) {
                 case "favicon":
                     Screenshot.fixCanvasSize("1024px", "1024px");
+                    Screenshot.adjustPlayButtonSize(3);
                     Screenshot.shuffleAnimation();
                     break;
                 case "twitter-card":
                     Screenshot.fixCanvasSize("1200px", "630px");
+                    Screenshot.adjustPlayButtonSize(2);
                     Screenshot.shuffleAnimation();
                     break;
                 case "black":
@@ -4206,6 +4208,12 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
             ["min-width", "max-width",].forEach(function (i) { return ui_9.UI.canvas.style.setProperty(i, width); });
             ["min-height", "max-height",].forEach(function (i) { return ui_9.UI.canvas.style.setProperty(i, height); });
             _controller_2.Controller.Animation.animator.updateDiagonalSize();
+        };
+        Screenshot.adjustPlayButtonSize = function (rate) {
+            ui_9.UI.playButton.dom.style.setProperty("width", "".concat(11 * rate, "rem"));
+            ui_9.UI.playButton.dom.style.setProperty("height", "".concat(11 * rate, "rem"));
+            ui_9.UI.playButton.dom.style.setProperty("border-radius", "".concat(1.5 * rate, "rem"));
+            ui_9.UI.playButton.dom.style.setProperty("padding", "".concat(1.5 * rate, "rem"));
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });

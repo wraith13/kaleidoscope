@@ -9,10 +9,12 @@ export namespace Screenshot
         {
         case "favicon":
             fixCanvasSize("1024px", "1024px");
+            adjustPlayButtonSize(3);
             shuffleAnimation();
             break;
         case "twitter-card":
             fixCanvasSize("1200px", "630px");
+            adjustPlayButtonSize(2);
             shuffleAnimation();
             break;
         case "black":
@@ -38,5 +40,12 @@ export namespace Screenshot
             i => UI.canvas.style.setProperty(i, height)
         );
         Controller.Animation.animator.updateDiagonalSize();
+    }
+    export const adjustPlayButtonSize = (rate: number): void =>
+    {
+        UI.playButton.dom.style.setProperty("width", `${11 * rate}rem`);
+        UI.playButton.dom.style.setProperty("height", `${11 * rate}rem`);
+        UI.playButton.dom.style.setProperty("border-radius", `${1.5 * rate}rem`);
+        UI.playButton.dom.style.setProperty("padding", `${1.5 * rate}rem`);
     }
 }
