@@ -4028,10 +4028,20 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             return _controller_1.Controller.Animation.updateOpacity();
         };
         ;
+        var updateUrlAnchor = function (params) {
+            if (0 < Object.keys(params).length) {
+                ui_8.UI.urlAnchor.style.removeProperty("display");
+                ui_8.UI.urlAnchor.href = url_1.Url.make(params);
+            }
+            else {
+                ui_8.UI.urlAnchor.style.setProperty("display", "none");
+                ui_8.UI.urlAnchor.href = "#";
+            }
+        };
         Events.initialize = function () {
             var applyParam = function (key, value) {
                 url_1.Url.addParameter(url_1.Url.params, key, value);
-                ui_8.UI.urlAnchor.href = url_1.Url.make(url_1.Url.params);
+                updateUrlAnchor(url_1.Url.params);
             };
             ui_8.UI.playButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
@@ -4160,6 +4170,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             updateWithFullscreen();
             updateShowFpsLoadStatus();
             updateClock();
+            updateUrlAnchor(url_1.Url.params);
         };
     })(Events || (exports.Events = Events = {}));
 });
@@ -4215,7 +4226,6 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     events_1.Events.initialize();
     _controller_3.Controller.initialize(url_2.Url.params);
     screenshot_1.Screenshot.initialize(url_2.Url.params);
-    ui_10.UI.urlAnchor.href = url_2.Url.make(url_2.Url.params);
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_10.Library.Locale.map("ago"), " )"));
     var consoleInterface = globalThis;
     var Resource = {

@@ -20,7 +20,6 @@ UI.initialize();
 Events.initialize();
 Controller.initialize(Url.params);
 Screenshot.initialize(Url.params);
-UI.urlAnchor.href = Url.make(Url.params);
 interface BuildInformation
 {
     at: string;

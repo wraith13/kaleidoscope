@@ -88,12 +88,25 @@ export namespace Events
         LoadStatus.setEnumLabel(loadStatusJson.clock as LoadStatus.EnumLoadStatus, UI.clockSelect.get());
     const updateBrightness = () =>
         Controller.Animation.updateOpacity();;
+    const updateUrlAnchor = (params: Record<string, string>) =>
+    {
+        if (0 < Object.keys(params).length)
+        {
+            UI.urlAnchor.style.removeProperty("display");
+            UI.urlAnchor.href = Url.make(params);
+        }
+        else
+        {
+            UI.urlAnchor.style.setProperty("display", "none");
+            UI.urlAnchor.href = "#";
+        }
+    }
     export const initialize = () =>
     {
         const applyParam = (key: string, value: string) =>
         {
             Url.addParameter(Url.params, key, value);
-            UI.urlAnchor.href = Url.make(Url.params);
+            updateUrlAnchor(Url.params);
         };
         UI.playButton.data.click = (event, button) =>
         {
@@ -256,5 +269,6 @@ export namespace Events
         updateWithFullscreen();
         updateShowFpsLoadStatus();
         updateClock();
+        updateUrlAnchor(Url.params);
     };
 }
