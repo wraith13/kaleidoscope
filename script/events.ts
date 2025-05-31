@@ -270,5 +270,36 @@ export namespace Events
         updateClock();
         UI.updateLanguage();
         updateUrlAnchor(Url.params);
+        document.addEventListener
+        (
+            "DOMContentLoaded",
+            () =>
+            {
+                // Catch up input values that the web browser quietly restores without firing events when a previously closed page is restored
+                setTimeout
+                (
+                    () =>
+                    [
+                        UI.colorspaceSelect,
+                        UI.coloringSelect,
+                        UI.patternSelect,
+                        UI.canvasSizeSelect,
+                        UI.layersSelect,
+                        UI.spotslayersSelect,
+                        UI.cycleSpanSelect,
+                        UI.fuseFpsSelect,
+                        UI.frameDelaySelect,
+                        UI.easingCheckbox,
+                        UI.withFullscreen,
+                        UI.showFps,
+                        UI.clockSelect,
+                        UI.brightnessSelect,
+                        UI.languageSelect,
+                    ]
+                    .forEach(i => i.cacthUpRestore(Url.params)),
+                    25
+                );
+            }
+        );
     };
 }

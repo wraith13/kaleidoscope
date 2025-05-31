@@ -269,7 +269,7 @@ declare module "script/library/control" {
             control: {
                 data: ArgumentsBase<T>;
             };
-            event: Event;
+            event: Event | string;
             message: string;
             value?: any;
         }) => void;
@@ -301,6 +301,7 @@ declare module "script/library/control" {
             dom: HTMLSelectElement;
             saveParameter?: (key: string, value: string) => unknown;
             constructor(data: SelectArguments<T>, options?: SelectOptions<T> | undefined);
+            cacthUpRestore: (params?: Record<string, string>) => void;
             getId: () => string | undefined;
             setChange: (change: (event: Event | null, select: Select<T>) => unknown) => {
                 change: (event: Event | null, select: Select<T>) => unknown;
@@ -331,6 +332,7 @@ declare module "script/library/control" {
             dom: HTMLInputElement;
             saveParameter?: (key: string, value: string) => unknown;
             constructor(data: CheckboxArguments, options?: CheckboxOptions | undefined);
+            cacthUpRestore: (params?: Record<string, string>) => void;
             getId: () => string | undefined;
             setChange: (change: (event: Event | null, checked: Checkbox) => unknown) => {
                 change: (event: Event | null, checked: Checkbox) => unknown;

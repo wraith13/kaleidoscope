@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Fri May 30 2025 21:35:17 GMT+0900 (日本標準時)
+    build at: Sat May 31 2025 16:04:07 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1771,8 +1771,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Fri May 30 2025 21:35:17 GMT+0900 (日本標準時)",
-    tick: 1748608517285
+    at: "Sat May 31 2025 16:04:07 GMT+0900 (日本標準時)",
+    tick: 1748675047146
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -5423,6 +5423,14 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 var _this = this;
                 this.data = data;
                 this.options = options;
+                this.cacthUpRestore = function (params) {
+                    var _a, _b, _c, _d;
+                    if (((_a = params === null || params === void 0 ? void 0 : params[_this.dom.id]) !== null && _a !== void 0 ? _a : "".concat(_this.data.default)) !== _this.get()) {
+                        Control.eventLog({ control: _this, event: "cacthUpRestore", message: "👆 Select.Change:", value: _this.get() });
+                        (_c = (_b = _this.options) === null || _b === void 0 ? void 0 : _b.change) === null || _c === void 0 ? void 0 : _c.call(_b, null, _this);
+                        (_d = _this.saveParameter) === null || _d === void 0 ? void 0 : _d.call(_this, _this.getId(), _this.get());
+                    }
+                };
                 this.getId = function () { return Control.getDomId(_this.data); };
                 this.setChange = function (change) {
                     return _this.options = __assign(__assign({}, _this.options), { change: change });
@@ -5493,6 +5501,17 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 var _a;
                 this.data = data;
                 this.options = options;
+                this.cacthUpRestore = function (params) {
+                    var _a, _b, _c, _d;
+                    var urlParam = params === null || params === void 0 ? void 0 : params[_this.dom.id];
+                    if ((undefined !== urlParam ?
+                        "true" === urlParam :
+                        ((_a = _this.data.default) !== null && _a !== void 0 ? _a : false)) !== _this.get()) {
+                        Control.eventLog({ control: _this, event: "cacthUpRestore", message: "👆 Checkbox.Change:", value: _this.get() });
+                        (_c = (_b = _this.options) === null || _b === void 0 ? void 0 : _b.change) === null || _c === void 0 ? void 0 : _c.call(_b, null, _this);
+                        (_d = _this.saveParameter) === null || _d === void 0 ? void 0 : _d.call(_this, _this.getId(), _this.get() ? "true" : "false");
+                    }
+                };
                 this.getId = function () { return Control.getDomId(_this.data); };
                 this.setChange = function (change) {
                     return _this.options = __assign(__assign({}, _this.options), { change: change });
@@ -8927,6 +8946,29 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             updateClock();
             ui_8.UI.updateLanguage();
             updateUrlAnchor(url_1.Url.params);
+            document.addEventListener("DOMContentLoaded", function () {
+                // Catch up input values that the web browser quietly restores without firing events when a previously closed page is restored
+                setTimeout(function () {
+                    return [
+                        ui_8.UI.colorspaceSelect,
+                        ui_8.UI.coloringSelect,
+                        ui_8.UI.patternSelect,
+                        ui_8.UI.canvasSizeSelect,
+                        ui_8.UI.layersSelect,
+                        ui_8.UI.spotslayersSelect,
+                        ui_8.UI.cycleSpanSelect,
+                        ui_8.UI.fuseFpsSelect,
+                        ui_8.UI.frameDelaySelect,
+                        ui_8.UI.easingCheckbox,
+                        ui_8.UI.withFullscreen,
+                        ui_8.UI.showFps,
+                        ui_8.UI.clockSelect,
+                        ui_8.UI.brightnessSelect,
+                        ui_8.UI.languageSelect,
+                    ]
+                        .forEach(function (i) { return i.cacthUpRestore(url_1.Url.params); });
+                }, 25);
+            });
         };
     })(Events || (exports.Events = Events = {}));
 });

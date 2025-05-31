@@ -38,7 +38,7 @@ export namespace Control
         "id" in data ? data.id:
         "dom" in data ? data.dom.id:
             undefined;
-    export const eventLog = <T extends HTMLElement>(data: { control: { data: ArgumentsBase<T> }, event: Event, message: string, value?: any }) =>
+    export const eventLog = <T extends HTMLElement>(data: { control: { data: ArgumentsBase<T> }, event: Event | string, message: string, value?: any }) =>
         console.log
         (
             data.message,
@@ -110,6 +110,15 @@ export namespace Control
                 }
             );
         }
+        cacthUpRestore = (params?: Record<string, string>) =>
+        {
+            if ((params?.[this.dom.id] ?? `${this.data.default}`) !== this.get())
+            {
+                eventLog({ control: this, event: "cacthUpRestore", message: "👆 Select.Change:", value: this.get() });
+                this.options?.change?.(null, this);
+                this.saveParameter?.(this.getId() as string, this.get());
+            }
+        };
         getId = () => getDomId(this.data);
         setChange = (change: (event: Event | null, select: Select<T>) => unknown) =>
             this.options = { ...this.options, change };
@@ -219,6 +228,23 @@ export namespace Control
                 }
             );
         }
+        cacthUpRestore = (params?: Record<string, string>) =>
+        {
+            const urlParam = params?.[this.dom.id];
+            if
+            (
+                (
+                    undefined !== urlParam ?
+                        "true" === urlParam:
+                        (this.data.default ?? false)
+                ) !== this.get()
+            )
+            {
+                eventLog({ control: this, event: "cacthUpRestore", message: "👆 Checkbox.Change:", value: this.get() });
+                this.options?.change?.(null, this);
+                this.saveParameter?.(this.getId() as string, this.get() ? "true": "false");
+            }
+        };
         getId = () => getDomId(this.data);
         setChange = (change: (event: Event | null, checked: Checkbox) => unknown) =>
             this.options = { ...this.options, change };

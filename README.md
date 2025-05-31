@@ -17,7 +17,7 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 - Kaleidoscope Animation with customizable patterns and colors
 - Web Benchmark
 - Color spaces: sRGB, Display P3, Rec. 2020
-- Patterns (powered by [flounder.style.js](https://github.com/wraith13/flounder.style.js)): Lines, Spots, Multi
+- Patterns (powered by [flounder.style.js](https://github.com/wraith13/flounder.style.js)): Lines, Spots, Both
 - Colorings: Monochrome, Primary Colors, Phi Colors (powered by [phi-colors](https://github.com/wraith13/phi-colors))
 - Adjustable Layers: 1 - 97
 - Cycle Span: 1s - 1h
@@ -30,6 +30,8 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 ## Screenshots
 
 layers:1, 7, 29, 97
+
+monochrome, FPS, brightness, 日本語
 
 clock: blend, white, black, rainbow
 
