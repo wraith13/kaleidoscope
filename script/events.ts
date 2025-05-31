@@ -92,13 +92,11 @@ export namespace Events
     {
         if (0 < Object.keys(params).length)
         {
-            UI.urlAnchor.style.removeProperty("display");
             UI.urlAnchor.href = Url.make(params);
         }
         else
         {
-            UI.urlAnchor.style.setProperty("display", "none");
-            UI.urlAnchor.href = "#";
+            UI.urlAnchor.href = "?";
         }
     }
     export const initialize = () =>
@@ -134,6 +132,7 @@ export namespace Events
         UI.showFps.loadParameter(Url.params, applyParam).setChange(updateShowFps);
         UI.clockSelect.loadParameter(Url.params, applyParam).setChange(updateClock);
         UI.brightnessSelect.loadParameter(Url.params, applyParam).setChange(updateBrightness);
+        UI.languageSelect.loadParameter(Url.params, applyParam).setChange(UI.updateLanguage);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
             event?.stopPropagation();
@@ -269,6 +268,7 @@ export namespace Events
         updateWithFullscreen();
         updateShowFpsLoadStatus();
         updateClock();
+        UI.updateLanguage();
         updateUrlAnchor(Url.params);
     };
 }

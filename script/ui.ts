@@ -50,7 +50,6 @@ export namespace UI
                 makeLabel: i => "Auto" === i ?
                     Library.Locale.map("Auto"):
                     Library.Locale.map("lang-label", i as Library.Locale.Language),
-                change: () => updateLanguage(),
             }
         );
     export const urlAnchor =
@@ -167,7 +166,6 @@ export namespace UI
                 ([ text, href, ]) => ({ tag: "li", children: [ Library.UI.createElement({ tag: "a", text, attributes: { href, } }), ], })
             )
         );
-        updateLanguage();
     };
     export const getDataLangKey = (element: HTMLSpanElement) =>
         element.getAttribute("data-lang-key") as Library.Locale.Label;

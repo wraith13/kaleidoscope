@@ -22,15 +22,23 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 - Adjustable Layers: 1 - 97
 - Cycle Span: 1s - 1h
 - Fullscreen Support
-- Clock Display
+- Show Clock: Hide, Blend, White, Black, System, Alternate, Rainbow
 - Multi-language Support: English, Japanese
 - Device Compatibility: PCs, Smartphones, Tablets
 - Keyboard Shortcuts Support for easier operation
 
+## Screenshots
+
+layers:1, 7, 29, 97
+
+clock: blend, white, black, rainbow
+
 ## Options Available via URL Parameters
 
-- `clock-locale`: Specifies the locale used for the clock display. (Example: `?clock-locale=en-us`)
-- `screenshot`: Specifies the screenshot mode. Accepts one of `favicon`, `twitter-card`, `black`, or `sample`. (Example: `?screenshot=sample`)
+The following options cannot be set via the UI.
+
+- `clock-locale`: Specifies the locale used for the clock display. (Example: [`?clock-locale=en-us`](https://wraith13.github.io/kaleidoscope/?clock-locale=en-us&clock=blend))
+- `screenshot`: Specifies the screenshot mode. Accepts one of `favicon`, `twitter-card`, `black`, or `sample`. (Example: [`?screenshot=sample`](https://wraith13.github.io/kaleidoscope/?screenshot=sample))
 
 ## How to build
 

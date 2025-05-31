@@ -3113,7 +3113,6 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             makeLabel: function (i) { return "Auto" === i ?
                 _library_3.Library.Locale.map("Auto") :
                 _library_3.Library.Locale.map("lang-label", i); },
-            change: function () { return UI.updateLanguage(); },
         });
         UI.urlAnchor = _library_3.Library.UI.getElementById("a", "url");
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
@@ -3179,7 +3178,6 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
                 var text = _a[0], href = _a[1];
                 return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
             }));
-            UI.updateLanguage();
         };
         UI.getDataLangKey = function (element) {
             return element.getAttribute("data-lang-key");
@@ -4030,12 +4028,10 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         ;
         var updateUrlAnchor = function (params) {
             if (0 < Object.keys(params).length) {
-                ui_8.UI.urlAnchor.style.removeProperty("display");
                 ui_8.UI.urlAnchor.href = url_1.Url.make(params);
             }
             else {
-                ui_8.UI.urlAnchor.style.setProperty("display", "none");
-                ui_8.UI.urlAnchor.href = "#";
+                ui_8.UI.urlAnchor.href = "?";
             }
         };
         Events.initialize = function () {
@@ -4067,6 +4063,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_8.UI.showFps.loadParameter(url_1.Url.params, applyParam).setChange(updateShowFps);
             ui_8.UI.clockSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateClock);
             ui_8.UI.brightnessSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateBrightness);
+            ui_8.UI.languageSelect.loadParameter(url_1.Url.params, applyParam).setChange(ui_8.UI.updateLanguage);
             ui_8.UI.benchmarkAbortButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
                 button.dom.blur();
@@ -4170,6 +4167,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             updateWithFullscreen();
             updateShowFpsLoadStatus();
             updateClock();
+            ui_8.UI.updateLanguage();
             updateUrlAnchor(url_1.Url.params);
         };
     })(Events || (exports.Events = Events = {}));
@@ -4210,6 +4208,7 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
             _controller_2.Controller.Animation.animator.updateDiagonalSize();
         };
         Screenshot.adjustPlayButtonSize = function (rate) {
+            ui_9.UI.playButton.dom.style.setProperty("border-width", "".concat(rate, "px"));
             ui_9.UI.playButton.dom.style.setProperty("width", "".concat(11 * rate, "rem"));
             ui_9.UI.playButton.dom.style.setProperty("height", "".concat(11 * rate, "rem"));
             ui_9.UI.playButton.dom.style.setProperty("border-radius", "".concat(1.5 * rate, "rem"));

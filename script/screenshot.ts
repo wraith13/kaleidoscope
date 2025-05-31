@@ -43,6 +43,7 @@ export namespace Screenshot
     }
     export const adjustPlayButtonSize = (rate: number): void =>
     {
+        UI.playButton.dom.style.setProperty("border-width", `${rate}px`);
         UI.playButton.dom.style.setProperty("width", `${11 * rate}rem`);
         UI.playButton.dom.style.setProperty("height", `${11 * rate}rem`);
         UI.playButton.dom.style.setProperty("border-radius", `${1.5 * rate}rem`);

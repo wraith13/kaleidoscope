@@ -26,6 +26,7 @@ __LICENSE__-->
 <meta name="twitter:title" content="__APPLICATION_TITLE__">
 <meta name="twitter:description" lang="en" content="__EN_DESCRIPTION__">
 <meta name="twitter:description" lang="ja" content="__JA_DESCRIPTION__">
+<meta name="twitter:image" content="https://wraith13.github.io/kaleidoscope/image/twitter-card.png">
 <style>
 __STYLE__
 DUMMYSTYLE
