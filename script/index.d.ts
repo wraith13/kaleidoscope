@@ -204,6 +204,7 @@ declare module "script/library/ui" {
             isOn: () => boolean;
         }
         const fullscreenEnabled: any;
+        const getFullscreenElement: () => {} | null;
         const requestFullscreen: (dom?: Element) => void;
         const exitFullscreen: () => void;
         type Attributes = Record<string, string | number | boolean>;

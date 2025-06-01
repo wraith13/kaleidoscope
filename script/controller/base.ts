@@ -27,6 +27,7 @@ export namespace Base
             if (fullscreen ?? UI.withFullscreen.get())
             {
                 Library.UI.requestFullscreen(document.body);
+                setTimeout(() => document.body.focus(), 100);
             }
             else
             {

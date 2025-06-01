@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Jun 01 2025 16:51:35 GMT+0900 (日本標準時)
+    build at: Sun Jun 01 2025 20:47:16 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -77,15 +77,15 @@ html {
 body {
   margin: 0px;
   padding: 0px;
-  background-color: black;
   overflow: hidden;
+  height: auto;
+  min-height: 100dvh;
+  box-sizing: border-box;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-  height: auto;
-  min-height: 100dvh;
-  box-sizing: border-box;
+  background-color: black;
 }
 
 button {
@@ -1797,8 +1797,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Jun 01 2025 16:51:35 GMT+0900 (日本標準時)",
-    tick: 1748764295979
+    at: "Sun Jun 01 2025 20:47:16 GMT+0900 (日本標準時)",
+    tick: 1748778436108
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -5206,6 +5206,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
         }());
         UI.ToggleClassForWhileTimer = ToggleClassForWhileTimer;
         UI.fullscreenEnabled = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+        UI.getFullscreenElement = function () { var _a, _b; return (_b = (_a = document.fullscreenElement) !== null && _a !== void 0 ? _a : ("webkitFullscreenElement" in document ? document.webkitFullscreenElement : null)) !== null && _b !== void 0 ? _b : null; };
         UI.requestFullscreen = function (dom) {
             if (dom === void 0) { dom = document.body; }
             if (dom.requestFullscreen) {
@@ -5216,7 +5217,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
             }
         };
         UI.exitFullscreen = function () {
-            if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement)) {
+            if (null !== UI.getFullscreenElement()) {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 }
@@ -8337,6 +8338,7 @@ define("script/controller/base", ["require", "exports", "script/library/index", 
             if (_library_5.Library.UI.fullscreenEnabled) {
                 if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : ui_4.UI.withFullscreen.get()) {
                     _library_5.Library.UI.requestFullscreen(document.body);
+                    setTimeout(function () { return document.body.focus(); }, 100);
                 }
                 else {
                     _library_5.Library.UI.exitFullscreen();
@@ -8929,9 +8931,16 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 "speedDown": function () { return ui_8.UI.cycleSpanSelect.switch(true); },
                 "speedUp": function () { return ui_8.UI.cycleSpanSelect.switch(false); },
                 "toggleFullScreen": function () {
-                    ui_8.UI.withFullscreen.toggle();
                     if (_controller_1.Controller.Animation.isInAnimation()) {
-                        _controller_1.Controller.Base.updateFullscreenState();
+                        if (_library_9.Library.UI.fullscreenEnabled) {
+                            if ((null !== _library_9.Library.UI.getFullscreenElement()) === ui_8.UI.withFullscreen.get()) {
+                                ui_8.UI.withFullscreen.toggle();
+                            }
+                            _controller_1.Controller.Base.updateFullscreenState();
+                        }
+                    }
+                    else {
+                        ui_8.UI.withFullscreen.toggle();
                     }
                 },
                 "toggleShowFps": function () {

@@ -216,10 +216,20 @@ export namespace Events
             "speedUp": () => UI.cycleSpanSelect.switch(false),
             "toggleFullScreen": () =>
             {
-                UI.withFullscreen.toggle();
                 if (Controller.Animation.isInAnimation())
                 {
-                    Controller.Base.updateFullscreenState();
+                    if (Library.UI.fullscreenEnabled)
+                    {
+                        if ((null !== Library.UI.getFullscreenElement()) === UI.withFullscreen.get())
+                        {
+                            UI.withFullscreen.toggle();
+                        }
+                        Controller.Base.updateFullscreenState();
+                    }
+                }
+                else
+                {
+                    UI.withFullscreen.toggle();
                 }
             },
             "toggleShowFps": () =>

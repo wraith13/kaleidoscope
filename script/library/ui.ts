@@ -69,6 +69,8 @@ export namespace UI
         isOn = () => undefined !== this.timer;
     }
     export const fullscreenEnabled = document.fullscreenEnabled || (<any>document).webkitFullscreenEnabled;
+    export const getFullscreenElement = () =>
+        document.fullscreenElement ?? ("webkitFullscreenElement" in document ? document.webkitFullscreenElement: null) ?? null;
     export const requestFullscreen = (dom: Element = document.body) =>
     {
         if (dom.requestFullscreen)
@@ -83,7 +85,7 @@ export namespace UI
     };
     export const exitFullscreen = () =>
     {
-        if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement))
+        if (null !== getFullscreenElement())
         {
             if (document.exitFullscreen)
             {

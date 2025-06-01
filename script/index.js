@@ -422,6 +422,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
         }());
         UI.ToggleClassForWhileTimer = ToggleClassForWhileTimer;
         UI.fullscreenEnabled = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+        UI.getFullscreenElement = function () { var _a, _b; return (_b = (_a = document.fullscreenElement) !== null && _a !== void 0 ? _a : ("webkitFullscreenElement" in document ? document.webkitFullscreenElement : null)) !== null && _b !== void 0 ? _b : null; };
         UI.requestFullscreen = function (dom) {
             if (dom === void 0) { dom = document.body; }
             if (dom.requestFullscreen) {
@@ -432,7 +433,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
             }
         };
         UI.exitFullscreen = function () {
-            if (document.fullscreenElement || ("webkitFullscreenElement" in document && null !== document.webkitFullscreenElement)) {
+            if (null !== UI.getFullscreenElement()) {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 }
@@ -3553,6 +3554,7 @@ define("script/controller/base", ["require", "exports", "script/library/index", 
             if (_library_5.Library.UI.fullscreenEnabled) {
                 if (fullscreen !== null && fullscreen !== void 0 ? fullscreen : ui_4.UI.withFullscreen.get()) {
                     _library_5.Library.UI.requestFullscreen(document.body);
+                    setTimeout(function () { return document.body.focus(); }, 100);
                 }
                 else {
                     _library_5.Library.UI.exitFullscreen();
@@ -4145,9 +4147,16 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 "speedDown": function () { return ui_8.UI.cycleSpanSelect.switch(true); },
                 "speedUp": function () { return ui_8.UI.cycleSpanSelect.switch(false); },
                 "toggleFullScreen": function () {
-                    ui_8.UI.withFullscreen.toggle();
                     if (_controller_1.Controller.Animation.isInAnimation()) {
-                        _controller_1.Controller.Base.updateFullscreenState();
+                        if (_library_9.Library.UI.fullscreenEnabled) {
+                            if ((null !== _library_9.Library.UI.getFullscreenElement()) === ui_8.UI.withFullscreen.get()) {
+                                ui_8.UI.withFullscreen.toggle();
+                            }
+                            _controller_1.Controller.Base.updateFullscreenState();
+                        }
+                    }
+                    else {
+                        ui_8.UI.withFullscreen.toggle();
                     }
                 },
                 "toggleShowFps": function () {
