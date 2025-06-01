@@ -51,36 +51,40 @@ export namespace Animation
     };
     export const isAnimationStepTiming = (now: number) =>
         parseInt(UI.frameDelaySelect.get()) <= animator.getNowDifference(now);
+    export const updateClock = () =>
+    {
+        const clockOption = UI.clockSelect.get();
+        if ("hide" !== clockOption)
+        {
+            Features.Clock.update(cloclLocale);
+            switch(clockOption)
+            {
+            case "alternate":
+                const isWhite = (new Date().getTime() /config.clock.alternate.span) %2 < 1.0;
+                UI.clockDisplay.classList.toggle("white", isWhite);
+                UI.clockDisplay.classList.toggle("black", ! isWhite);
+                Features.Clock.setColor(undefined);
+                break;
+            case "rainbow":
+                Features.Clock.setColor
+                (
+                    animator.phiColoring.makeSrgbColor
+                    (
+                        animator.phiColoring.makeRgb(animator.universalStep /phiColors.phi)
+                    )
+                );
+                break;
+            default:
+                Features.Clock.setColor(undefined);
+                break;
+            }
+        }
+    };
     export const loopAnimation = (now: number) =>
     {
         if (isInAnimation())
         {
-            const clockOption = UI.clockSelect.get();
-            if ("hide" !== clockOption)
-            {
-                Features.Clock.update(cloclLocale);
-                switch(clockOption)
-                {
-                case "alternate":
-                    const isWhite = (new Date().getTime() /config.clock.alternate.span) %2 < 1.0;
-                    UI.clockDisplay.classList.toggle("white", isWhite);
-                    UI.clockDisplay.classList.toggle("black", ! isWhite);
-                    Features.Clock.setColor(undefined);
-                    break;
-                case "rainbow":
-                    Features.Clock.setColor
-                    (
-                        animator.phiColoring.makeSrgbColor
-                        (
-                            animator.phiColoring.makeRgb(animator.universalStep /phiColors.phi)
-                        )
-                    );
-                    break;
-                default:
-                    Features.Clock.setColor(undefined);
-                    break;
-                }
-            }
+            updateClock();
             Features.Fps.step(now);
             updateFps();
             if (Features.Fps.isUnderFuseFps())

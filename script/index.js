@@ -104,7 +104,7 @@ define("script/tools/number", ["require", "exports"], function (require, exports
 define("resource/lang.en", [], {
     "lang-label": "English",
     "Auto": "Auto",
-    "description": "Kaleidoscope Web Screen Saver",
+    "description": "Kaleidoscope Web Screensaver",
     "colorspace-label": "Color Space:",
     "coloring-label": "Coloring:",
     "pattern-label": "Pattern:",
@@ -3606,26 +3606,29 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
         Animation.isAnimationStepTiming = function (now) {
             return parseInt(ui_5.UI.frameDelaySelect.get()) <= Animation.animator.getNowDifference(now);
         };
+        Animation.updateClock = function () {
+            var clockOption = ui_5.UI.clockSelect.get();
+            if ("hide" !== clockOption) {
+                _features_2.Features.Clock.update(Animation.cloclLocale);
+                switch (clockOption) {
+                    case "alternate":
+                        var isWhite = (new Date().getTime() / config_json_7.default.clock.alternate.span) % 2 < 1.0;
+                        ui_5.UI.clockDisplay.classList.toggle("white", isWhite);
+                        ui_5.UI.clockDisplay.classList.toggle("black", !isWhite);
+                        _features_2.Features.Clock.setColor(undefined);
+                        break;
+                    case "rainbow":
+                        _features_2.Features.Clock.setColor(Animation.animator.phiColoring.makeSrgbColor(Animation.animator.phiColoring.makeRgb(Animation.animator.universalStep / phi_colors_2.phiColors.phi)));
+                        break;
+                    default:
+                        _features_2.Features.Clock.setColor(undefined);
+                        break;
+                }
+            }
+        };
         Animation.loopAnimation = function (now) {
             if (Animation.isInAnimation()) {
-                var clockOption = ui_5.UI.clockSelect.get();
-                if ("hide" !== clockOption) {
-                    _features_2.Features.Clock.update(Animation.cloclLocale);
-                    switch (clockOption) {
-                        case "alternate":
-                            var isWhite = (new Date().getTime() / config_json_7.default.clock.alternate.span) % 2 < 1.0;
-                            ui_5.UI.clockDisplay.classList.toggle("white", isWhite);
-                            ui_5.UI.clockDisplay.classList.toggle("black", !isWhite);
-                            _features_2.Features.Clock.setColor(undefined);
-                            break;
-                        case "rainbow":
-                            _features_2.Features.Clock.setColor(Animation.animator.phiColoring.makeSrgbColor(Animation.animator.phiColoring.makeRgb(Animation.animator.universalStep / phi_colors_2.phiColors.phi)));
-                            break;
-                        default:
-                            _features_2.Features.Clock.setColor(undefined);
-                            break;
-                    }
-                }
+                Animation.updateClock();
                 _features_2.Features.Fps.step(now);
                 Animation.updateFps();
                 if (_features_2.Features.Fps.isUnderFuseFps()) {

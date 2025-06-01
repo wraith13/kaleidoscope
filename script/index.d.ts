@@ -1005,6 +1005,7 @@ declare module "script/controller/animation" {
         const playAnimation: () => void;
         const pauseAnimation: () => void;
         const isAnimationStepTiming: (now: number) => boolean;
+        const updateClock: () => void;
         const loopAnimation: (now: number) => void;
         const start: () => number;
         const updateFps: () => void;

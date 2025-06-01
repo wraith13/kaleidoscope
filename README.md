@@ -1,14 +1,14 @@
-# Kaleidoscope Web Screen Saver
+# Kaleidoscope Web Screensaver
 
-🌐 live site: https://wraith13.github.io/kaleidoscope/
+🌐 Live Site: https://wraith13.github.io/kaleidoscope/
 
 ## Introduction
 
-Kaleidoscope Web Screen Saver is a web-based screen saver that displays kaleidoscope animations. Users can customize patterns and colors to create simple yet visually engaging animations. It works on various devices, including PCs, smartphones, and tablets, and supports fullscreen mode.
+Kaleidoscope Web Screensaver is a web-based screensaver that displays kaleidoscope animations. Users can customize patterns and colors to create simple yet visually engaging animations. It works on various devices, including PCs, smartphones, and tablets, and supports fullscreen mode.
 
 By increasing the number of layers, users can create even more beautiful and intricate visuals. However, please note that higher layer counts may also increase the computational load, which could affect performance on less powerful devices.
 
-In addition, Kaleidoscope Web Screen Saver includes a benchmark feature that measures the overall performance of your device and web browser together.
+In addition, Kaleidoscope Web Screensaver includes a benchmark feature that measures the overall performance of your device and web browser together.
 
 This software can be hosted and shared using GitHub Pages, making it easy to use for personal enjoyment or demonstrations.
 
@@ -29,11 +29,9 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 
 ## Screenshots
 
-layers:1, 7, 29, 97
-
-monochrome, FPS, brightness, 日本語
-
-clock: blend, white, black, rainbow
+![Screenshot: Layers](./image/screenshot0.png)
+![Screenshot: monochrome, FPS, Brightness, 日本語](./image/screenshot1.png)
+![Screenshot: Clock](./image/screenshot2.png)
 
 ## Options Available via URL Parameters
 

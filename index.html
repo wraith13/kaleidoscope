@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat May 31 2025 16:04:07 GMT+0900 (日本標準時)
+    build at: Sun Jun 01 2025 05:31:12 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -37,8 +37,8 @@ DEALINGS IN THE SOFTWARE.
 <link id="favicon" rel="shortcut icon" href="./image/favicon.png">
 <link rel="apple-touch-icon" href="./image/favicon.png">
 <meta name="theme-color" content="black">
-<meta name="viewport" content="width=device-width,viewport-fit=contain,user-scalable=yes">
-<meta name="description" lang="en" content="Kaleidoscope Web Screen Saver">
+<meta name="viewport" content="width=device-width,viewport-fit=cover,user-scalable=yes">
+<meta name="description" lang="en" content="Kaleidoscope Web Screensaver">
 <meta name="description" lang="ja" content="万華鏡 Web スクリーンセーバー">
 <meta name="apple-mobile-web-app-title" content="Kaleidoscope Web Screensaver">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,7 +47,7 @@ DEALINGS IN THE SOFTWARE.
 <meta name="twitter:site" content="@wraith13">
 <!-- meta name="twitter:creator" content="@wraith13" -->
 <meta name="twitter:title" content="Kaleidoscope Web Screensaver">
-<meta name="twitter:description" lang="en" content="Kaleidoscope Web Screen Saver">
+<meta name="twitter:description" lang="en" content="Kaleidoscope Web Screensaver">
 <meta name="twitter:description" lang="ja" content="万華鏡 Web スクリーンセーバー">
 <meta name="twitter:image" content="https://wraith13.github.io/kaleidoscope/image/twitter-card.png">
 <style>
@@ -1771,8 +1771,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Sat May 31 2025 16:04:07 GMT+0900 (日本標準時)",
-    tick: 1748675047146
+    at: "Sun Jun 01 2025 05:31:12 GMT+0900 (日本標準時)",
+    tick: 1748723472949
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -4862,7 +4862,7 @@ define("script/tools/number", ["require", "exports"], function (require, exports
 define("resource/lang.en", [], {
     "lang-label": "English",
     "Auto": "Auto",
-    "description": "Kaleidoscope Web Screen Saver",
+    "description": "Kaleidoscope Web Screensaver",
     "colorspace-label": "Color Space:",
     "coloring-label": "Coloring:",
     "pattern-label": "Pattern:",
@@ -8364,26 +8364,29 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
         Animation.isAnimationStepTiming = function (now) {
             return parseInt(ui_5.UI.frameDelaySelect.get()) <= Animation.animator.getNowDifference(now);
         };
+        Animation.updateClock = function () {
+            var clockOption = ui_5.UI.clockSelect.get();
+            if ("hide" !== clockOption) {
+                _features_2.Features.Clock.update(Animation.cloclLocale);
+                switch (clockOption) {
+                    case "alternate":
+                        var isWhite = (new Date().getTime() / config_json_7.default.clock.alternate.span) % 2 < 1.0;
+                        ui_5.UI.clockDisplay.classList.toggle("white", isWhite);
+                        ui_5.UI.clockDisplay.classList.toggle("black", !isWhite);
+                        _features_2.Features.Clock.setColor(undefined);
+                        break;
+                    case "rainbow":
+                        _features_2.Features.Clock.setColor(Animation.animator.phiColoring.makeSrgbColor(Animation.animator.phiColoring.makeRgb(Animation.animator.universalStep / phi_colors_2.phiColors.phi)));
+                        break;
+                    default:
+                        _features_2.Features.Clock.setColor(undefined);
+                        break;
+                }
+            }
+        };
         Animation.loopAnimation = function (now) {
             if (Animation.isInAnimation()) {
-                var clockOption = ui_5.UI.clockSelect.get();
-                if ("hide" !== clockOption) {
-                    _features_2.Features.Clock.update(Animation.cloclLocale);
-                    switch (clockOption) {
-                        case "alternate":
-                            var isWhite = (new Date().getTime() / config_json_7.default.clock.alternate.span) % 2 < 1.0;
-                            ui_5.UI.clockDisplay.classList.toggle("white", isWhite);
-                            ui_5.UI.clockDisplay.classList.toggle("black", !isWhite);
-                            _features_2.Features.Clock.setColor(undefined);
-                            break;
-                        case "rainbow":
-                            _features_2.Features.Clock.setColor(Animation.animator.phiColoring.makeSrgbColor(Animation.animator.phiColoring.makeRgb(Animation.animator.universalStep / phi_colors_2.phiColors.phi)));
-                            break;
-                        default:
-                            _features_2.Features.Clock.setColor(undefined);
-                            break;
-                    }
-                }
+                Animation.updateClock();
                 _features_2.Features.Fps.step(now);
                 Animation.updateFps();
                 if (_features_2.Features.Fps.isUnderFuseFps()) {
