@@ -13,14 +13,28 @@
 html
 {
     -webkit-text-size-adjust: auto;
+    height: 100%;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    overflow: hidden;
 }
 body
 {
     margin: 0px;
     padding: 0px;
-    background-color: $body-background-color;
     overflow: hidden;
-    transition: opacity 750ms;
+    height: auto;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    background-color: $body-background-color;
 }
 button
 {

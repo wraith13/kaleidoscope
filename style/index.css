@@ -11,6 +11,14 @@
 
 html {
   -webkit-text-size-adjust: auto;
+  height: 100%;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  overflow: hidden;
 }
 
 body {
@@ -18,7 +26,13 @@ body {
   padding: 0px;
   background-color: black;
   overflow: hidden;
-  transition: opacity 750ms;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  height: auto;
+  min-height: 100dvh;
+  box-sizing: border-box;
 }
 
 button {
@@ -39,6 +53,7 @@ button {
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
   padding: 0px;
+  padding-top: env(safe-area-inset-top);
   position: fixed;
   z-index: 100;
 }
@@ -268,7 +283,9 @@ body.hide-ui #option-panel:not(.show)::before {
   position: absolute;
   z-index: 80;
   top: 3.25rem;
+  top: calc(3.25rem + env(safe-area-inset-top));
   left: 0.75rem;
+  left: calc(0.75rem + env(safe-area-inset-left));
   overflow: visible;
   max-height: 70vh;
 }
@@ -383,7 +400,9 @@ body.hide-ui #option-panel:not(.show)::before {
 #fps {
   position: absolute;
   top: 0.5rem;
+  top: calc(0.5rem + env(safe-area-inset-top));
   right: 0.5rem;
+  right: calc(0.5rem + env(safe-area-inset-right));
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
   text-align: right;
@@ -489,7 +508,9 @@ body.hide-ui #benchmark-panel:not(.show)::before {
   position: absolute;
   z-index: 75;
   top: 3.25rem;
+  top: calc(3.25rem + env(safe-area-inset-top));
   right: 0.5rem;
+  right: calc(0.5rem + env(safe-area-inset-right));
 }
 #benchmark-panel button {
   display: flex;
@@ -710,26 +731,26 @@ body:not(.animation) #clock-panel:not(.show)::before {
 }
 #clock-panel.white span {
   color: white;
-  filter: drop-shadow(0px 0px 0.25rem black);
+  text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black, 1px 1px 0px black;
 }
 #clock-panel.black span {
   color: black;
-  filter: drop-shadow(0px 0px 0.25rem white);
+  text-shadow: -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white, 1px 1px 0px white;
 }
 @media (prefers-color-scheme: light) {
   #clock-panel.system span {
     color: white;
-    filter: drop-shadow(0px 0px 0.25rem black);
+    text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black, 1px 1px 0px black;
   }
 }
 @media (prefers-color-scheme: dark) {
   #clock-panel.system span {
     color: black;
-    filter: drop-shadow(0px 0px 0.25rem white);
+    text-shadow: -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white, 1px 1px 0px white;
   }
 }
 #clock-panel.rainbow span {
-  filter: drop-shadow(0px 0px 0.25rem black);
+  text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black, 1px 1px 0px black;
 }
 #clock-panel #time {
   font-size: 0.75rem;
@@ -992,6 +1013,7 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 #benchmark-result {
   position: fixed;
   z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom);
   overflow: auto;
   gap: 1rem;
 }
@@ -1015,6 +1037,7 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 #benchmark-result h2 {
   font-size: 1.125rem;
   padding: 0.5rem 1rem;
+  padding-top: calc(0.5rem + env(safe-area-inset-top));
   width: 100%;
   text-align: center;
   background-color: rgba(32, 28, 38, 0.4);
@@ -1268,6 +1291,7 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
 }
 #screen-footer #supplementary-line #keyboard-shortcut {
   margin: 0.5rem;
+  margin-left: calc(0.5rem + env(safe-area-inset-left));
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: grid;
@@ -1400,6 +1424,7 @@ body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show)::before {
 }
 #screen-footer #supplementary-line #powered-by {
   margin: 0.5rem;
+  margin-right: calc(0.5rem + env(safe-area-inset-right));
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   display: block;
@@ -1439,6 +1464,7 @@ body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show)::before {
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
   transition: transform 500ms;
+  padding-bottom: env(safe-area-inset-bottom);
   pointer-events: initial;
 }
 body.immersive #screen-footer #information-line:not(.show) {

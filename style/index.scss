@@ -8,6 +8,7 @@
     @include flex();
     @include black-line-panel-style();
     padding: 0px;
+    padding-top: env(safe-area-inset-top);
     position: fixed;
     z-index: 100;
     a
@@ -129,7 +130,9 @@
         position: absolute;
         z-index: 80;
         top: 3.25rem;
+        top: calc(3.25rem + env(safe-area-inset-top));
         left: 0.75rem;
+        left: calc(0.75rem + env(safe-area-inset-left));
         overflow: visible;
         max-height: 70vh;
         label
@@ -215,7 +218,9 @@
     {
         position: absolute;
         top: 0.5rem;
+        top: calc(0.5rem + env(safe-area-inset-top));
         right: 0.5rem;
+        right: calc(0.5rem + env(safe-area-inset-right));
         border-radius: 0.5rem;
         padding: 0.5rem 0.75rem;
         text-align: right;
@@ -233,7 +238,9 @@
         position: absolute;
         z-index: 75;
         top: 3.25rem;
+        top: calc(3.25rem + env(safe-area-inset-top));
         right: 0.5rem;
+        right: calc(0.5rem + env(safe-area-inset-right));
         button
         {
             @include flex();
@@ -347,7 +354,7 @@
             span
             {
                 color: white;
-                filter: drop-shadow(0px 0px 0.25rem black);
+                text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black, 1px 1px 0px black;
             }
         }
         &.black
@@ -355,7 +362,7 @@
             span
             {
                 color: black;
-                filter: drop-shadow(0px 0px 0.25rem white);
+                text-shadow: -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white, 1px 1px 0px white;
             }
         }
         &.system
@@ -365,12 +372,12 @@
                 @media (prefers-color-scheme: light)
                 {
                     color: white;
-                    filter: drop-shadow(0px 0px 0.25rem black);
+                    text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black, 1px 1px 0px black;
                 }
                 @media (prefers-color-scheme: dark)
                 {
                     color: black;
-                    filter: drop-shadow(0px 0px 0.25rem white);
+                    text-shadow: -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white, 1px 1px 0px white;
                 }
             }
         }
@@ -379,7 +386,7 @@
             span
             {
                 //color: Specified in JavaScript;
-                filter: drop-shadow(0px 0px 0.25rem black);
+                text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black, 1px 1px 0px black;
             }
         }
         #time
@@ -484,6 +491,7 @@
     {
         position: fixed;
         z-index: 50;
+        padding-bottom: env(safe-area-inset-bottom);
         overflow: auto;
         gap: 1rem;
     }
@@ -494,6 +502,7 @@
         {
             @include font-size(1.125rem);
             padding: 0.5rem 1.0rem;
+            padding-top: calc(0.5rem + env(safe-area-inset-top));
             width: 100%;
             text-align: center;
             background-color: black-color(0.4);
@@ -593,6 +602,7 @@
             &
             {
                 margin: 0.5rem;
+                margin-left: calc(0.5rem + env(safe-area-inset-left));
                 border-radius: 0.5rem;
                 padding: 0.5rem 1.0rem;
                 display: grid;
@@ -650,6 +660,7 @@
             &
             {
                 margin: 0.5rem;
+                margin-right: calc(0.5rem + env(safe-area-inset-right)) ;
                 border-radius: 0.5rem;
                 padding: 0.5rem 1.0rem;
                 display: block;
@@ -687,6 +698,7 @@
     {
         @include black-line-panel-style();
         @include slide-down-transition("body.immersive", "body.hide-ui");
+        padding-bottom: env(safe-area-inset-bottom);
         pointer-events: initial;
         #information
         {

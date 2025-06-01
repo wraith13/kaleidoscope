@@ -14,7 +14,7 @@ __LICENSE__-->
 <link id="favicon" rel="shortcut icon" href="./image/favicon.png">
 <link rel="apple-touch-icon" href="./image/favicon.png">
 <meta name="theme-color" content="black">
-<meta name="viewport" content="width=device-width,viewport-fit=contain,user-scalable=yes">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="description" lang="en" content="__EN_DESCRIPTION__">
 <meta name="description" lang="ja" content="__JA_DESCRIPTION__">
 <meta name="apple-mobile-web-app-title" content="__APPLICATION_TITLE__">
