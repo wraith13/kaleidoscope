@@ -40,7 +40,7 @@ export namespace LoadStatus
     export const getEnumLabel = (config: EnumLoadStatus) =>
         (i: string) : Library.Locale.Label =>
             config.mapping[i] ?? config.default ?? "";
-    export const getInteerLabel = (config: IntegerLoadStatus) =>
+    export const getIntegerLabel = (config: IntegerLoadStatus) =>
         (i: string) : Library.Locale.Label =>
         {
             const value = parseInt(i);
@@ -53,5 +53,5 @@ export namespace LoadStatus
     export const setBoolLabel = (config: BooleanLoadStatus, i: boolean) =>
         UI.setAndUpdateLabel(Library.UI.getElementById("span", config.id), getBoolLabel(config)(i));
     export const setIntegerLabel = (config: IntegerLoadStatus, i: string) =>
-        UI.setAndUpdateLabel(Library.UI.getElementById("span", config.id), getInteerLabel(config)(i));
+        UI.setAndUpdateLabel(Library.UI.getElementById("span", config.id), getIntegerLabel(config)(i));
 }

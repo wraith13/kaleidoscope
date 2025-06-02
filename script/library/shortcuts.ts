@@ -74,7 +74,7 @@ export namespace Shortcuts
                     }
                     else
                     {
-                        console.error("🦋 FIXME: Shortcuts.handleKeyEvent.NotFountCommand", i);
+                        console.error("🦋 FIXME: Shortcuts.handleKeyEvent.NotFoundCommand", i);
                     }
                 }
             );

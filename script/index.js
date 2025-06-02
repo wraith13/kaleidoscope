@@ -1138,7 +1138,7 @@ define("script/library/shortcuts", ["require", "exports", "resource/shortcuts"],
                         command();
                     }
                     else {
-                        console.error("🦋 FIXME: Shortcuts.handleKeyEvent.NotFountCommand", i);
+                        console.error("🦋 FIXME: Shortcuts.handleKeyEvent.NotFoundCommand", i);
                     }
                 });
                 if ("onKeyDown" === type && commandKeys.length <= 0 && !["Shift", "Control"].includes(normalizedKey)) {
@@ -3938,7 +3938,7 @@ define("script/loadstatus", ["require", "exports", "script/library/index", "scri
         LoadStatus.getEnumLabel = function (config) {
             return function (i) { var _a, _b; return (_b = (_a = config.mapping[i]) !== null && _a !== void 0 ? _a : config.default) !== null && _b !== void 0 ? _b : ""; };
         };
-        LoadStatus.getInteerLabel = function (config) {
+        LoadStatus.getIntegerLabel = function (config) {
             return function (i) {
                 var _a, _b, _c, _d, _e, _f;
                 var value = parseInt(i);
@@ -3954,7 +3954,7 @@ define("script/loadstatus", ["require", "exports", "script/library/index", "scri
             return ui_7.UI.setAndUpdateLabel(_library_8.Library.UI.getElementById("span", config.id), LoadStatus.getBoolLabel(config)(i));
         };
         LoadStatus.setIntegerLabel = function (config, i) {
-            return ui_7.UI.setAndUpdateLabel(_library_8.Library.UI.getElementById("span", config.id), LoadStatus.getInteerLabel(config)(i));
+            return ui_7.UI.setAndUpdateLabel(_library_8.Library.UI.getElementById("span", config.id), LoadStatus.getIntegerLabel(config)(i));
         };
     })(LoadStatus || (exports.LoadStatus = LoadStatus = {}));
 });

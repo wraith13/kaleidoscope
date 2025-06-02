@@ -1164,7 +1164,7 @@ declare module "script/loadstatus" {
         }
         const getBoolLabel: (config: BooleanLoadStatus) => (i: boolean) => Library.Locale.Label;
         const getEnumLabel: (config: EnumLoadStatus) => (i: string) => Library.Locale.Label;
-        const getInteerLabel: (config: IntegerLoadStatus) => (i: string) => Library.Locale.Label;
+        const getIntegerLabel: (config: IntegerLoadStatus) => (i: string) => Library.Locale.Label;
         const setEnumLabel: (config: EnumLoadStatus, i: string) => void;
         const setBoolLabel: (config: BooleanLoadStatus, i: boolean) => void;
         const setIntegerLabel: (config: IntegerLoadStatus, i: string) => void;
