@@ -1,19 +1,17 @@
 import localeEn from "@resource/lang.en.json";
 import localeJa from "@resource/lang.ja.json";
+import localeEs from "@resource/lang.es.json";
 export namespace Locale
 {
     export const master =
     {
         en: localeEn,
         ja: localeJa,
+        es: localeEs,
     };
-    export type Label =
-    (
-        keyof typeof localeEn &
-        keyof typeof localeJa
-    ) | "";
+    export type Label = (keyof (typeof master[keyof typeof master])) | "";
     export type Language = keyof typeof master;
-    const supportedLangs = ["ja", "en"] as const;
+    const supportedLangs = ["ja", "en", "es"] as const;
     const systemLang = navigator.language.split("-")[0] as Language;
     const defaultLang: Language = supportedLangs.includes(systemLang) ? systemLang: "en";
     let lang: Language = defaultLang;

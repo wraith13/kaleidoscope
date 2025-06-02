@@ -306,7 +306,7 @@ export namespace Events
                         UI.brightnessSelect,
                         UI.languageSelect,
                     ]
-                    .forEach(i => i.cacthUpRestore(Url.params)),
+                    .forEach(i => i.catchUpRestore(Url.params)),
                     25
                 );
             }

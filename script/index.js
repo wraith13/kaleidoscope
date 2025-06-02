@@ -273,19 +273,107 @@ define("resource/lang.ja", [], {
     "LowLoad": "低負荷",
     "WithLoad": "負荷あり"
 });
-define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja"], function (require, exports, lang_en_json_1, lang_ja_json_1) {
+define("resource/lang.es", [], {
+    "lang-label": "Español",
+    "Auto": "Auto",
+    "description": "Protector de pantalla web de caleidoscopio",
+    "colorspace-label": "Espacio de color:",
+    "coloring-label": "Coloreado:",
+    "pattern-label": "Patrón:",
+    "lines": "Líneas",
+    "spots": "Puntos",
+    "both": "Ambos",
+    "canvas-size-label": "Tamaño del lienzo:",
+    "layers-label": "Capas:",
+    "spots-layers-label": "Capas (Puntos):",
+    "cycle-span-label": "Duración del ciclo:",
+    "fuse-fps-label": "FPS de fusible:",
+    "frame-delay-label": "Retraso de cuadro:",
+    "easing-label": "Suavizado:",
+    "with-fullscreen-label": "Pantalla completa:",
+    "show-fps-label": "Mostrar FPS:",
+    "clock-label": "Reloj:",
+    "brightness-label": "Brillo:",
+    "hide": "Ocultar",
+    "blend": "Mezclar",
+    "white": "Blanco",
+    "black": "Negro",
+    "system": "Sistema",
+    "alternate": "Alternar",
+    "rainbow": "Arcoíris",
+    "language-label": "Idioma:",
+    "url-label": "Enlace a esta configuración",
+    "run-benchmark-label": "Ejecutar Benchmark",
+    "informationFuseFps": "⚠️ Se detiene automáticamente si los FPS (máx) caen por debajo de 'FPS de fusible' para evitar que el navegador web o el sistema operativo se bloqueen.",
+    "timeUnitMs": "ms",
+    "timeUnitS": "s",
+    "timeUnitM": "m",
+    "timeUnitH": "h",
+    "timeUnitD": "d",
+    "ago": "hace",
+    "Hide UI": "Ocultar UI",
+    "Play / Pause": "Reproducir / Pausar",
+    "Switch Pattern": "Cambiar patrón",
+    "Switch Coloring": "Cambiar coloreado",
+    "Scaling Canvas Size": "Escalar tamaño del lienzo",
+    "Increase / Decrease Frame Delay": "Aumentar / Disminuir retraso de cuadro",
+    "Increase / Decrease Layer": "Aumentar / Disminuir capa",
+    "Speed Down / Up": "Disminuir / Aumentar velocidad",
+    "FullScreen": "Pantalla completa",
+    "Show FPS": "Mostrar FPS",
+    "Switch Clock": "Cambiar reloj",
+    "benchmark-abort": "Abortar",
+    "benchmark-close": "Cerrar",
+    "benchmarking-in-progress": "Benchmark en progreso",
+    "benchmark-phase-preparation": "Preparación",
+    "benchmark-phase-screen-resolution": "Resolución de pantalla",
+    "benchmark-report-label": "Informe de Benchmark de Kaleidoscopio",
+    "benchmark-total-score": "Puntuación total",
+    "benchmark-score-per-fullhd": "Puntuación de renderizado",
+    "benchmark-calculation-score": "Puntuación de cálculo",
+    "benchmark-lines-calculation-score": "Puntuación de cálculo (líneas)",
+    "benchmark-spots-calculation-score": "Puntuación de cálculo (puntos)",
+    "benchmark-lines-rendering-score": "Puntuación de renderizado (líneas)",
+    "benchmark-spots-rendering-score": "Puntuación de renderizado (puntos)",
+    "benchmark-display-score": "Puntuación de pantalla",
+    "benchmark-fps-score": "Frecuencia de cuadro en baja carga",
+    "benchmark-screen-resolution-score": "Puntuación de resolución de pantalla",
+    "benchmark-screen-width": "Ancho de pantalla",
+    "benchmark-screen-height": "Altura de pantalla",
+    "benchmark-device-pixel-ratio": "Relación de píxeles del dispositivo",
+    "benchmark-screen-color-depth": "Profundidad de color de pantalla",
+    "benchmark-description-device-pixel-ratio": "La relación de píxeles del dispositivo real puede no obtenerse con precisión dependiendo del entorno. Por ejemplo, si debería ser 1.2, puede redondearse a 2. En este caso, todos los valores excepto la puntuación total y la frecuencia de cuadro en baja carga no serán precisos, así que ajuste la resolución de pantalla y la configuración de escala para que la relación de píxeles del dispositivo sea correcta.",
+    "benchmark-description-machine-web-browser": "La medición será el rendimiento de la máquina + el rendimiento del navegador web, por lo que incluso en la misma máquina, usar un navegador web diferente puede dar resultados completamente diferentes.",
+    "benchmark-description-score-unit": "La unidad de la puntuación total, la puntuación de renderizado y la puntuación de cálculo es el número de capas x frecuencia de cuadro, que es el número de capas que se pueden procesar en un segundo.",
+    "benchmark-description-total-score": "La puntuación total es el valor obtenido al dividir la puntuación de renderizado por la puntuación de resolución de pantalla. Cuanto mejor sea la pantalla, mayor será la carga de renderizado, por lo que la puntuación total disminuye.",
+    "benchmark-description-calculation-score": "La puntuación de cálculo es el rendimiento del procesamiento de animación en estado oculto. La puntuación de renderizado es el rendimiento del procesamiento de animación en estado visible.",
+    "benchmark-description-rendering-score": "La puntuación de renderizado es el valor medido multiplicado por la puntuación de resolución de pantalla. Como esta es la puntuación cuando la pantalla es Full HD, este valor es más adecuado para comparar el rendimiento de renderizado con otras máquinas que la puntuación total.",
+    "benchmark-description-display-score": "La puntuación de pantalla es el valor obtenido multiplicando la puntuación de resolución de pantalla por la frecuencia de cuadro en baja carga.",
+    "benchmark-description-screen-resolution-score": "La puntuación de resolución de pantalla es la cantidad de información de pantalla con { Ancho de pantalla: 1920, Altura de pantalla: 1080, Relación de píxeles del dispositivo: 1, Profundidad de color de pantalla: 24 } como 1.",
+    "Unmeasured": "No medido",
+    "UnmeasurablePoor": "No medible (rendimiento insuficiente)",
+    "UnmeasurableRich": "No medible (rendimiento excesivo)",
+    "FullPower": "Potencia máxima",
+    "HighLoad": "Alta carga",
+    "MediumLoad": "Carga media",
+    "LowLoad": "Baja carga",
+    "WithLoad": "Con carga"
+});
+define("script/library/locale", ["require", "exports", "resource/lang.en", "resource/lang.ja", "resource/lang.es"], function (require, exports, lang_en_json_1, lang_ja_json_1, lang_es_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Locale = void 0;
     lang_en_json_1 = __importDefault(lang_en_json_1);
     lang_ja_json_1 = __importDefault(lang_ja_json_1);
+    lang_es_json_1 = __importDefault(lang_es_json_1);
     var Locale;
     (function (Locale) {
         Locale.master = {
             en: lang_en_json_1.default,
             ja: lang_ja_json_1.default,
+            es: lang_es_json_1.default,
         };
-        var supportedLangs = ["ja", "en"];
+        var supportedLangs = ["ja", "en", "es"];
         var systemLang = navigator.language.split("-")[0];
         var defaultLang = supportedLangs.includes(systemLang) ? systemLang : "en";
         var lang = defaultLang;
@@ -666,10 +754,10 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 var _this = this;
                 this.data = data;
                 this.options = options;
-                this.cacthUpRestore = function (params) {
+                this.catchUpRestore = function (params) {
                     var _a, _b, _c, _d;
                     if (((_a = params === null || params === void 0 ? void 0 : params[_this.dom.id]) !== null && _a !== void 0 ? _a : "".concat(_this.data.default)) !== _this.get()) {
-                        Control.eventLog({ control: _this, event: "cacthUpRestore", message: "👆 Select.Change:", value: _this.get() });
+                        Control.eventLog({ control: _this, event: "catchUpRestore", message: "👆 Select.Change:", value: _this.get() });
                         (_c = (_b = _this.options) === null || _b === void 0 ? void 0 : _b.change) === null || _c === void 0 ? void 0 : _c.call(_b, null, _this);
                         (_d = _this.saveParameter) === null || _d === void 0 ? void 0 : _d.call(_this, _this.getId(), _this.get());
                     }
@@ -744,13 +832,13 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                 var _a;
                 this.data = data;
                 this.options = options;
-                this.cacthUpRestore = function (params) {
+                this.catchUpRestore = function (params) {
                     var _a, _b, _c, _d;
                     var urlParam = params === null || params === void 0 ? void 0 : params[_this.dom.id];
                     if ((undefined !== urlParam ?
                         "true" === urlParam :
                         ((_a = _this.data.default) !== null && _a !== void 0 ? _a : false)) !== _this.get()) {
-                        Control.eventLog({ control: _this, event: "cacthUpRestore", message: "👆 Checkbox.Change:", value: _this.get() });
+                        Control.eventLog({ control: _this, event: "catchUpRestore", message: "👆 Checkbox.Change:", value: _this.get() });
                         (_c = (_b = _this.options) === null || _b === void 0 ? void 0 : _b.change) === null || _c === void 0 ? void 0 : _c.call(_b, null, _this);
                         (_d = _this.saveParameter) === null || _d === void 0 ? void 0 : _d.call(_this, _this.getId(), _this.get() ? "true" : "false");
                     }
@@ -4220,7 +4308,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                         ui_8.UI.brightnessSelect,
                         ui_8.UI.languageSelect,
                     ]
-                        .forEach(function (i) { return i.cacthUpRestore(url_1.Url.params); });
+                        .forEach(function (i) { return i.catchUpRestore(url_1.Url.params); });
                 }, 25);
             });
         };

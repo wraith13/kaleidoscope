@@ -110,11 +110,11 @@ export namespace Control
                 }
             );
         }
-        cacthUpRestore = (params?: Record<string, string>) =>
+        catchUpRestore = (params?: Record<string, string>) =>
         {
             if ((params?.[this.dom.id] ?? `${this.data.default}`) !== this.get())
             {
-                eventLog({ control: this, event: "cacthUpRestore", message: "👆 Select.Change:", value: this.get() });
+                eventLog({ control: this, event: "catchUpRestore", message: "👆 Select.Change:", value: this.get() });
                 this.options?.change?.(null, this);
                 this.saveParameter?.(this.getId() as string, this.get());
             }
@@ -228,7 +228,7 @@ export namespace Control
                 }
             );
         }
-        cacthUpRestore = (params?: Record<string, string>) =>
+        catchUpRestore = (params?: Record<string, string>) =>
         {
             const urlParam = params?.[this.dom.id];
             if
@@ -240,7 +240,7 @@ export namespace Control
                 ) !== this.get()
             )
             {
-                eventLog({ control: this, event: "cacthUpRestore", message: "👆 Checkbox.Change:", value: this.get() });
+                eventLog({ control: this, event: "catchUpRestore", message: "👆 Checkbox.Change:", value: this.get() });
                 this.options?.change?.(null, this);
                 this.saveParameter?.(this.getId() as string, this.get() ? "true": "false");
             }
