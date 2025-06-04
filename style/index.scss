@@ -340,6 +340,7 @@
         {
             display: block;
             text-align: center;
+            transition: color 3000ms, text-shadow 3000ms;
         }
         &.blend
         {

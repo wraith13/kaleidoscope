@@ -9,6 +9,8 @@ import evilTimerJsConfig from "@resource/evil-timer.js.config.json";
 import images from "@resource/images.json";
 import localeEn from "@resource/lang.en.json";
 import localeJa from "@resource/lang.ja.json";
+import localeEs from "@resource/lang.es.json";
+import localeDe from "@resource/lang.de.json";
 import poweredBy from "@resource/powered-by.json";
 import shortcuts from "@resource/shortcuts.json";
 import { Url } from "./url";
@@ -37,6 +39,8 @@ const Resource =
     images,
     localeEn,
     localeJa,
+    localeEs,
+    localeDe,
     poweredBy,
     shortcuts
 };

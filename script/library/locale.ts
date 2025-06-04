@@ -1,10 +1,12 @@
+import localeDe from "@resource/lang.de.json";
 import localeEn from "@resource/lang.en.json";
-import localeJa from "@resource/lang.ja.json";
 import localeEs from "@resource/lang.es.json";
+import localeJa from "@resource/lang.ja.json";
 export namespace Locale
 {
     export const master =
     {
+        de: localeDe,
         en: localeEn,
         es: localeEs,
         ja: localeJa,

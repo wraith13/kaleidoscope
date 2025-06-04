@@ -49,7 +49,7 @@ button {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
   padding: 0px;
@@ -290,7 +290,7 @@ body.hide-ui #option-panel:not(.show)::before {
   max-height: 70vh;
 }
 #option-panel label {
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   display: flex;
@@ -353,7 +353,7 @@ body.hide-ui #option-panel:not(.show)::before {
   text-align: right;
 }
 #option-panel label .load-status {
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   position: absolute;
@@ -374,7 +374,7 @@ body.hide-ui #option-panel:not(.show)::before {
 }
 
 #fps {
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   display: flex;
@@ -517,7 +517,7 @@ body.hide-ui #benchmark-panel:not(.show)::before {
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   border-radius: 0.75rem;
@@ -551,7 +551,7 @@ body.hide-ui #benchmark-panel:not(.show)::before {
 }
 
 #play-button {
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   transition: opacity 750ms, filter 750ms;
@@ -722,6 +722,7 @@ body:not(.animation) #clock-panel:not(.show)::before {
 #clock-panel span {
   display: block;
   text-align: center;
+  transition: color 3000ms, text-shadow 3000ms;
 }
 #clock-panel.blend {
   mix-blend-mode: difference;
@@ -796,7 +797,7 @@ body:not(.animation) #clock-panel:not(.show)::before {
 }
 
 #benchmark-popup {
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   display: flex;
@@ -979,7 +980,7 @@ body:not(.benchmark) #benchmark-popup #benchmark-progress-bar:not(.show) {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   display: block;
@@ -1232,7 +1233,7 @@ body:not(.benchmark-result) #benchmark-result:not(.show)::before {
 }
 #screen-footer #supplementary-line #keyboard-shortcut {
   transition: opacity 750ms, filter 750ms;
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   font-size: 0.75rem;
@@ -1365,7 +1366,7 @@ body.hide-ui #screen-footer #supplementary-line #keyboard-shortcut:not(.show)::b
 }
 #screen-footer #supplementary-line #powered-by {
   transition: opacity 750ms, filter 750ms;
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
   font-size: 0.75rem;
@@ -1460,7 +1461,7 @@ body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show)::before {
   }
 }
 #screen-footer #information-line {
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.8);
   transition: transform 500ms;
