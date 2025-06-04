@@ -14,7 +14,11 @@ This document provides guidelines and instructions for utilizing GitHub Copilot 
 - Add project-specific Copilot instructions or rules to this file.
 - Ensure all team members receive consistent coding assistance.
 - Examples: naming conventions, prohibited APIs, comment policies, etc.
-- When adding a new supported language, add the expressions for that language to `resource/lang.*.json`, load and register the language in `script/library/locale.ts`, and also edit `resource/control.json` accordingly.
+- To add a supported language, add the expressions for that language to `resource/lang.*.json` and add the language to the master in `script/library/locale.ts` in lang-label order (this order is reflected in the UI).
+- When you add or remove a supported language, be sure to update the Multi-language Support section in `README.md` as well.
+- The notation and order of Multi-language Support in README.md must always match the lang-label in each language file and the order of the master in `script/library/locale.ts`.
+- This alone will automatically support the UI. No other file needs to be edited.
+- When you make changes to this file (copilot-instructions.en.md), be sure to make the same changes to copilot-instructions.md as well.
 
 ## Notes
 

@@ -1,3 +1,12 @@
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -11,15 +20,6 @@ var __assign = (this && this.__assign) || function () {
         return t;
     };
     return __assign.apply(this, arguments);
-};
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
 };
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -370,10 +370,10 @@ define("script/library/locale", ["require", "exports", "resource/lang.en", "reso
     (function (Locale) {
         Locale.master = {
             en: lang_en_json_1.default,
-            ja: lang_ja_json_1.default,
             es: lang_es_json_1.default,
+            ja: lang_ja_json_1.default,
         };
-        var supportedLangs = ["ja", "en", "es"];
+        var supportedLangs = Object.keys(Locale.master);
         var systemLang = navigator.language.split("-")[0];
         var defaultLang = supportedLangs.includes(systemLang) ? systemLang : "en";
         var lang = defaultLang;
@@ -391,6 +391,9 @@ define("script/library/locale", ["require", "exports", "resource/lang.en", "reso
         };
         Locale.map = function (key, l) {
             return "" === key ? "" : Locale.master[l !== null && l !== void 0 ? l : lang][key];
+        };
+        Locale.getLocaleList = function () {
+            return __spreadArray(["Auto"], supportedLangs, true);
         };
     })(Locale || (exports.Locale = Locale = {}));
 });
@@ -2784,10 +2787,7 @@ define("resource/control", [], {
     "language": {
         "id": "language",
         "enum": [
-            "Auto",
-            "en",
-            "es",
-            "ja"
+            "Auto"
         ],
         "default": "Auto"
     }
@@ -3205,7 +3205,11 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFps);
         UI.clockSelect = new _library_3.Library.Control.Select(control_json_2.default.clock, { makeLabel: function (i) { return _library_3.Library.Locale.map(i); }, });
         UI.brightnessSelect = new _library_3.Library.Control.Select(control_json_2.default.brightness, { makeLabel: function (i) { return "".concat(i, " %"); } });
-        UI.languageSelect = new _library_3.Library.Control.Select(control_json_2.default.language, {
+        UI.languageSelect = new _library_3.Library.Control.Select({
+            id: control_json_2.default.language.id,
+            enum: _library_3.Library.Locale.getLocaleList(),
+            default: control_json_2.default.language.default,
+        }, {
             makeLabel: function (i) { return "Auto" === i ?
                 _library_3.Library.Locale.map("Auto") :
                 _library_3.Library.Locale.map("lang-label", i); },

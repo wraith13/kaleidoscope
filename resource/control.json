@@ -225,10 +225,7 @@
     "language": {
         "id": "language",
         "enum": [
-            "Auto",
-            "en",
-            "es",
-            "ja"
+            "Auto"
         ],
         "default": "Auto"
     }

@@ -14,7 +14,11 @@
 - このファイルにプロジェクト固有の Copilot 指示やルールを記載してください。
 - チームメンバーが一貫したコーディング支援を受けられるようにします。
 - 例: 命名規則、使用禁止 API、コメント方針など
-- 対応言語を増やす場合は、`resource/lang.*.json` にその言語での表現を記述し、`script/library/locale.ts` でその言語を読み込み・登録し、`resource/control.json` も合わせて編集してください。
+- 対応言語を追加する場合は、`resource/lang.*.json` にその言語の表現を記述し、`script/library/locale.ts` の master にその言語を lang-label 順で追記してください（この順番が UI 上にも反映されます）。
+- また、サポート言語が増減した場合は `README.md` の Multi-language Support セクションも必ず修正してください。
+- Multi-language Support の表記と言語の順番は、各言語ファイルの lang-label と `script/library/locale.ts` の master の順番に必ず合わせてください。
+- これだけでUIも自動的に対応します。他のファイルの編集は不要です。
+- このファイル（copilot-instructions.md）を修正した場合は、必ず copilot-instructions.en.md も同様に修正してください。
 
 ## 注意事項
 

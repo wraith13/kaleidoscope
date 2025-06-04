@@ -45,7 +45,11 @@ export namespace UI
     export const languageSelect =
         new Library.Control.Select
         (
-            control.language,
+            {
+                id: control.language.id,
+                enum: Library.Locale.getLocaleList(),
+                default: control.language.default,
+            },
             {
                 makeLabel: i => "Auto" === i ?
                     Library.Locale.map("Auto"):

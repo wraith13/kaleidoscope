@@ -6,12 +6,12 @@ export namespace Locale
     export const master =
     {
         en: localeEn,
-        ja: localeJa,
         es: localeEs,
+        ja: localeJa,
     };
     export type Label = (keyof (typeof master[keyof typeof master])) | "";
     export type Language = keyof typeof master;
-    const supportedLangs = ["ja", "en", "es"] as const;
+    const supportedLangs = Object.keys(master) as Language[];
     const systemLang = navigator.language.split("-")[0] as Language;
     const defaultLang: Language = supportedLangs.includes(systemLang) ? systemLang: "en";
     let lang: Language = defaultLang;
@@ -28,7 +28,9 @@ export namespace Locale
             lang = locale;
             break;
         }
-    }
+    };
     export const map = (key: Label, l?: Language) =>
         "" === key ? "" : master[l ?? lang][key];
+    export const getLocaleList = (): (Language | "Auto")[] =>
+        ["Auto", ...supportedLangs] as (Language | "Auto")[];
 }

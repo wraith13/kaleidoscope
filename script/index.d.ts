@@ -98,7 +98,7 @@ declare module "script/library/locale" {
                 LowLoad: string;
                 WithLoad: string;
             };
-            ja: {
+            es: {
                 "lang-label": string;
                 Auto: string;
                 description: string;
@@ -184,7 +184,7 @@ declare module "script/library/locale" {
                 LowLoad: string;
                 WithLoad: string;
             };
-            es: {
+            ja: {
                 "lang-label": string;
                 Auto: string;
                 description: string;
@@ -273,9 +273,10 @@ declare module "script/library/locale" {
         };
         type Label = (keyof (typeof master[keyof typeof master])) | "";
         type Language = keyof typeof master;
-        const getLocale: () => "en" | "ja" | "es";
+        const getLocale: () => "en" | "es" | "ja";
         const setLocale: (locale?: Language | "Auto") => void;
         const map: (key: Label, l?: Language) => string;
+        const getLocaleList: () => (Language | "Auto")[];
     }
 }
 declare module "script/library/ui" {
