@@ -227,6 +227,7 @@
         "enum": [
             "Auto",
             "en",
+            "es",
             "ja"
         ],
         "default": "Auto"

@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Kaleidoscope Web Screensaver is a web-based screensaver that displays kaleidoscope animations. Users can customize patterns and colors to create simple yet visually engaging animations. It works on various devices, including PCs, smartphones, and tablets, and supports fullscreen mode.
+Kaleidoscope Web Screensaver is a web-based screensaver that displays kaleidoscope-like animations. Users can customize patterns and colors to create simple yet visually engaging effects reminiscent of a kaleidoscope. It works on various devices, including PCs, smartphones, and tablets, and supports fullscreen mode.
 
 By increasing the number of layers, users can create even more beautiful and intricate visuals. However, please note that higher layer counts may also increase the computational load, which could affect performance on less powerful devices.
 

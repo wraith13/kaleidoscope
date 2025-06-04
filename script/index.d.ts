@@ -782,7 +782,7 @@ declare module "flounder.style.js/index" {
         const getIntervalSize: (data: Type.Arguments) => number;
         const getBlur: (data: Type.Arguments) => number;
         const getActualReverseRate: (data: Type.Arguments) => number;
-        const getAbsoulteReverseRate: (data: Type.Arguments) => undefined | number | "auto";
+        const getAbsoluteReverseRate: (data: Type.Arguments) => undefined | number | "auto";
         const makeStyle: (data: Type.Arguments) => Style;
         const makePlainStyleOrNull: (data: Type.Arguments) => Style | null;
         const simpleStructuredClone: <T>(value: T) => T;

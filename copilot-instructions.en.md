@@ -14,6 +14,7 @@ This document provides guidelines and instructions for utilizing GitHub Copilot 
 - Add project-specific Copilot instructions or rules to this file.
 - Ensure all team members receive consistent coding assistance.
 - Examples: naming conventions, prohibited APIs, comment policies, etc.
+- When adding a new supported language, add the expressions for that language to `resource/lang.*.json`, load and register the language in `script/library/locale.ts`, and also edit `resource/control.json` accordingly.
 
 ## Notes
 
