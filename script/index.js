@@ -462,8 +462,20 @@ define("script/library/locale", ["require", "exports", "resource/lang.de", "reso
             ja: lang_ja_json_1.default,
         };
         var supportedLangs = Object.keys(Locale.master);
-        var systemLang = navigator.language.split("-")[0];
-        var defaultLang = supportedLangs.includes(systemLang) ? systemLang : "en";
+        //const systemLang = navigator.language.split("-")[0] as Language;
+        var systemLang = navigator.language.toLowerCase();
+        var getSegments = function (text, separator, segments) {
+            return text.split(separator).slice(0, segments).join(separator);
+        };
+        var lookupValue = function (list, value) {
+            return list.includes(value) ? value : undefined;
+        };
+        var getMatchLang = function (lang) {
+            var _a, _b;
+            return (_b = (_a = lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : lookupValue(supportedLangs, getSegments(lang, "-", 1))) !== null && _b !== void 0 ? _b : "en";
+        };
+        var defaultLang = getMatchLang(systemLang);
+        //supportedLangs.includes(systemLang) ? systemLang: "en";
         var lang = defaultLang;
         Locale.getLocale = function () { return lang; };
         Locale.setLocale = function (locale) {

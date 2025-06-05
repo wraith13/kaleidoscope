@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Wed Jun 04 2025 21:31:04 GMT+0900 (日本標準時)
+    build at: Thu Jun 05 2025 08:41:50 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1798,8 +1798,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Wed Jun 04 2025 21:31:04 GMT+0900 (日本標準時)",
-    tick: 1749040264884
+    at: "Thu Jun 05 2025 08:41:50 GMT+0900 (日本標準時)",
+    tick: 1749080510454
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -5234,8 +5234,20 @@ define("script/library/locale", ["require", "exports", "resource/lang.de", "reso
             ja: lang_ja_json_1.default,
         };
         var supportedLangs = Object.keys(Locale.master);
-        var systemLang = navigator.language.split("-")[0];
-        var defaultLang = supportedLangs.includes(systemLang) ? systemLang : "en";
+        //const systemLang = navigator.language.split("-")[0] as Language;
+        var systemLang = navigator.language.toLowerCase();
+        var getSegments = function (text, separator, segments) {
+            return text.split(separator).slice(0, segments).join(separator);
+        };
+        var lookupValue = function (list, value) {
+            return list.includes(value) ? value : undefined;
+        };
+        var getMatchLang = function (lang) {
+            var _a, _b;
+            return (_b = (_a = lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : lookupValue(supportedLangs, getSegments(lang, "-", 1))) !== null && _b !== void 0 ? _b : "en";
+        };
+        var defaultLang = getMatchLang(systemLang);
+        //supportedLangs.includes(systemLang) ? systemLang: "en";
         var lang = defaultLang;
         Locale.getLocale = function () { return lang; };
         Locale.setLocale = function (locale) {
