@@ -3,19 +3,22 @@ import localeDe from "@resource/lang.de.json";
 import localeEn from "@resource/lang.en.json";
 import localeEs from "@resource/lang.es.json";
 import localeJa from "@resource/lang.ja.json";
+import localeZhCn from "@resource/lang.zh-cn.json";
+import localeZhTw from "@resource/lang.zh-tw.json";
 export namespace Locale
 {
     export const master =
     {
-        de: localeDe,
-        en: localeEn,
-        es: localeEs,
-        ja: localeJa,
+        "de": localeDe,
+        "en": localeEn,
+        "es": localeEs,
+        "ja": localeJa,
+        "zh-cn": localeZhCn,
+        "zh-tw": localeZhTw,
     };
     export type Label = (keyof (typeof master[keyof typeof master])) | "";
     export type Language = keyof typeof master;
     const supportedLangs = Object.keys(master) as Language[];
-    //const systemLang = navigator.language.split("-")[0] as Language;
     const systemLang = navigator.language.toLowerCase();
     const getSegments = (text: string, separator: string, segments: number): string =>
         text.split(separator).slice(0, segments).join(separator);
