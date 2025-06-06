@@ -12,4 +12,6 @@ export namespace Array
         TypeGuards.hasValue(value) && (condition ?? true) ? [ value, ]: [];
     export const uniqueFilter = <T>(i: T, ix:number, list: T[]) =>
         ix === list.indexOf(i);
+    export const lookupValue = <T>(list: T[], value: T): T | undefined =>
+        list.includes(value) ? value : undefined;
 }

@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Thu Jun 05 2025 08:41:50 GMT+0900 (日本標準時)
+    build at: Thu Jun 05 2025 21:44:48 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -1798,8 +1798,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Thu Jun 05 2025 08:41:50 GMT+0900 (日本標準時)",
-    tick: 1749080510454
+    at: "Thu Jun 05 2025 21:44:48 GMT+0900 (日本標準時)",
+    tick: 1749127488955
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -4873,6 +4873,45 @@ define("script/tools/number", ["require", "exports"], function (require, exports
         };
     })(Number || (exports.Number = Number = {}));
 });
+define("script/tools/math", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Math = void 0;
+    var Math;
+    (function (Math) {
+        Math.scale = function (min, max) {
+            return function (r) { return min + ((max - min) * r); };
+        };
+        Math.sum = function (numbers) {
+            return numbers.reduce(function (a, v) { return a + v; }, 0);
+        };
+        Math.mod = function (n, m) {
+            return m === 0 ? n : ((n % m) + m) % m;
+        };
+    })(Math || (exports.Math = Math = {}));
+});
+define("script/tools/array", ["require", "exports", "script/tools/type-guards", "script/tools/math"], function (require, exports, type_guards_1, math_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.Array = void 0;
+    var Array;
+    (function (Array) {
+        Array.cycleSelect = function (list, ix) {
+            return (0 < list.length ?
+                list[math_1.Math.mod(ix, list.length)] :
+                undefined);
+        };
+        Array.joinable = function (value, condition) {
+            return type_guards_1.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
+        };
+        Array.uniqueFilter = function (i, ix, list) {
+            return ix === list.indexOf(i);
+        };
+        Array.lookupValue = function (list, value) {
+            return list.includes(value) ? value : undefined;
+        };
+    })(Array || (exports.Array = Array = {}));
+});
 define("resource/lang.de", [], {
     "lang-label": "Deutsch",
     "Auto": "Auto",
@@ -5217,7 +5256,7 @@ define("resource/lang.ja", [], {
     "LowLoad": "低負荷",
     "WithLoad": "負荷あり"
 });
-define("script/library/locale", ["require", "exports", "resource/lang.de", "resource/lang.en", "resource/lang.es", "resource/lang.ja"], function (require, exports, lang_de_json_1, lang_en_json_1, lang_es_json_1, lang_ja_json_1) {
+define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang.de", "resource/lang.en", "resource/lang.es", "resource/lang.ja"], function (require, exports, array_1, lang_de_json_1, lang_en_json_1, lang_es_json_1, lang_ja_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Locale = void 0;
@@ -5239,15 +5278,11 @@ define("script/library/locale", ["require", "exports", "resource/lang.de", "reso
         var getSegments = function (text, separator, segments) {
             return text.split(separator).slice(0, segments).join(separator);
         };
-        var lookupValue = function (list, value) {
-            return list.includes(value) ? value : undefined;
-        };
         var getMatchLang = function (lang) {
             var _a, _b;
-            return (_b = (_a = lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : lookupValue(supportedLangs, getSegments(lang, "-", 1))) !== null && _b !== void 0 ? _b : "en";
+            return (_b = (_a = array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 1))) !== null && _b !== void 0 ? _b : "en";
         };
         var defaultLang = getMatchLang(systemLang);
-        //supportedLangs.includes(systemLang) ? systemLang: "en";
         var lang = defaultLang;
         Locale.getLocale = function () { return lang; };
         Locale.setLocale = function (locale) {
@@ -5330,7 +5365,7 @@ define("resource/config", [], {
         }
     }
 });
-define("script/library/ui", ["require", "exports", "resource/config", "script/tools/type-guards"], function (require, exports, config_json_1, type_guards_1) {
+define("script/library/ui", ["require", "exports", "resource/config", "script/tools/type-guards"], function (require, exports, config_json_1, type_guards_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.UI = void 0;
@@ -5498,7 +5533,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
         };
         UI.getElementById = function (tag, id) {
             var result = document.getElementById(id);
-            if (!type_guards_1.TypeGuards.hasValue(result)) {
+            if (!type_guards_2.TypeGuards.hasValue(result)) {
                 console.error("🦋 FIXME: UI.getElementById.NotExistsDom", id);
             }
             else if (tag !== result.tagName.toLowerCase()) {
@@ -5508,7 +5543,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
         };
         UI.querySelector = function (tag, selectors, parent) {
             var result = (parent !== null && parent !== void 0 ? parent : document).querySelector(selectors);
-            if (!type_guards_1.TypeGuards.hasValue(result)) {
+            if (!type_guards_2.TypeGuards.hasValue(result)) {
                 console.error("🦋 FIXME: UI.querySelector.NotExistsDom", selectors);
             }
             else if (tag !== result.tagName.toLowerCase()) {
@@ -5534,43 +5569,7 @@ define("script/library/ui", ["require", "exports", "resource/config", "script/to
         };
     })(UI || (exports.UI = UI = {}));
 });
-define("script/tools/math", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Math = void 0;
-    var Math;
-    (function (Math) {
-        Math.scale = function (min, max) {
-            return function (r) { return min + ((max - min) * r); };
-        };
-        Math.sum = function (numbers) {
-            return numbers.reduce(function (a, v) { return a + v; }, 0);
-        };
-        Math.mod = function (n, m) {
-            return m === 0 ? n : ((n % m) + m) % m;
-        };
-    })(Math || (exports.Math = Math = {}));
-});
-define("script/tools/array", ["require", "exports", "script/tools/type-guards", "script/tools/math"], function (require, exports, type_guards_2, math_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.Array = void 0;
-    var Array;
-    (function (Array) {
-        Array.cycleSelect = function (list, ix) {
-            return (0 < list.length ?
-                list[math_1.Math.mod(ix, list.length)] :
-                undefined);
-        };
-        Array.joinable = function (value, condition) {
-            return type_guards_2.TypeGuards.hasValue(value) && (condition !== null && condition !== void 0 ? condition : true) ? [value,] : [];
-        };
-        Array.uniqueFilter = function (i, ix, list) {
-            return ix === list.indexOf(i);
-        };
-    })(Array || (exports.Array = Array = {}));
-});
-define("script/library/control", ["require", "exports", "script/tools/array", "script/library/ui"], function (require, exports, array_1, ui_1) {
+define("script/library/control", ["require", "exports", "script/tools/array", "script/library/ui"], function (require, exports, array_2, ui_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Control = void 0;
@@ -5600,10 +5599,10 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                     undefined;
         };
         Control.eventLog = function (data) {
-            return console.log.apply(console, __spreadArray([data.message], __spreadArray(__spreadArray(__spreadArray([], array_1.Array.joinable(Control.getDomId(data.control.data)), true), [
+            return console.log.apply(console, __spreadArray([data.message], __spreadArray(__spreadArray(__spreadArray([], array_2.Array.joinable(Control.getDomId(data.control.data)), true), [
                 data.event,
                 data.control
-            ], false), array_1.Array.joinable(data.value), true), false));
+            ], false), array_2.Array.joinable(data.value), true), false));
         };
         var Button = /** @class */ (function () {
             function Button(data) {

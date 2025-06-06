@@ -9,6 +9,21 @@ declare module "script/tools/number" {
         const toString: (value: number, maximumFractionDigits?: number) => string;
     }
 }
+declare module "script/tools/math" {
+    export namespace Math {
+        const scale: (min: number, max: number) => (r: number) => number;
+        const sum: (numbers: number[]) => number;
+        const mod: (n: number, m: number) => number;
+    }
+}
+declare module "script/tools/array" {
+    export namespace Array {
+        const cycleSelect: <T extends unknown[], Index extends number>(list: T, ix: Index) => T[Index] extends never ? undefined : T[Index];
+        const joinable: <T>(value: T, condition?: boolean) => T[];
+        const uniqueFilter: <T>(i: T, ix: number, list: T[]) => boolean;
+        const lookupValue: <T>(list: T[], value: T) => T | undefined;
+    }
+}
 declare module "script/library/locale" {
     export namespace Locale {
         const master: {
@@ -410,20 +425,6 @@ declare module "script/library/ui" {
         const querySelector: <T extends HtmlTag>(tag: T, selectors: string, parent?: Element) => HTMLElementTagNameMap[T];
         const setTextContent: (element: HTMLElement, text: string) => void;
         const setStyle: (element: HTMLElement, name: string, value: string | undefined) => void;
-    }
-}
-declare module "script/tools/math" {
-    export namespace Math {
-        const scale: (min: number, max: number) => (r: number) => number;
-        const sum: (numbers: number[]) => number;
-        const mod: (n: number, m: number) => number;
-    }
-}
-declare module "script/tools/array" {
-    export namespace Array {
-        const cycleSelect: <T extends unknown[], Index extends number>(list: T, ix: Index) => T[Index] extends never ? undefined : T[Index];
-        const joinable: <T>(value: T, condition?: boolean) => T[];
-        const uniqueFilter: <T>(i: T, ix: number, list: T[]) => boolean;
     }
 }
 declare module "script/library/control" {
