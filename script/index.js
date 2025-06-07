@@ -398,6 +398,92 @@ define("resource/lang.es", [], {
     "LowLoad": "Baja carga",
     "WithLoad": "Con carga"
 });
+define("resource/lang.ru", [], {
+    "lang-label": "Русский",
+    "Auto": "Авто",
+    "description": "Веб-скринсейвер калейдоскоп",
+    "colorspace-label": "Цветовое пространство:",
+    "coloring-label": "Окрашивание:",
+    "pattern-label": "Узор:",
+    "lines": "Линии",
+    "spots": "Пятна",
+    "both": "Оба",
+    "canvas-size-label": "Размер холста:",
+    "layers-label": "Слои:",
+    "spots-layers-label": "Слои (пятна):",
+    "cycle-span-label": "Длительность цикла:",
+    "fuse-fps-label": "Порог FPS:",
+    "frame-delay-label": "Задержка кадра:",
+    "easing-label": "Сглаживание:",
+    "with-fullscreen-label": "Полный экран:",
+    "show-fps-label": "Показать FPS:",
+    "clock-label": "Часы:",
+    "brightness-label": "Яркость:",
+    "hide": "Скрыть",
+    "blend": "Смешивание",
+    "white": "Белый",
+    "black": "Чёрный",
+    "system": "Система",
+    "alternate": "Альтернативный",
+    "rainbow": "Радуга",
+    "language-label": "Язык:",
+    "url-label": "Ссылка на эти настройки",
+    "run-benchmark-label": "Запустить тест",
+    "informationFuseFps": "⚠️ Автоматическая остановка, если FPS(Max) падает ниже 'Порог FPS', чтобы избежать сбоя браузера или ОС.",
+    "timeUnitMs": "мс",
+    "timeUnitS": "с",
+    "timeUnitM": "м",
+    "timeUnitH": "ч",
+    "timeUnitD": "д",
+    "ago": "назад",
+    "Hide UI": "Скрыть интерфейс",
+    "Play / Pause": "Воспроизвести / Пауза",
+    "Switch Pattern": "Сменить узор",
+    "Switch Coloring": "Сменить окрашивание",
+    "Scaling Canvas Size": "Масштабировать холст",
+    "Increase / Decrease Frame Delay": "Увеличить / уменьшить задержку кадра",
+    "Increase / Decrease Layer": "Увеличить / уменьшить слои",
+    "Speed Down / Up": "Замедлить / ускорить",
+    "FullScreen": "Полный экран",
+    "Show FPS": "Показать FPS",
+    "Switch Clock": "Сменить часы",
+    "benchmark-abort": "Прервать",
+    "benchmark-close": "Закрыть",
+    "benchmarking-in-progress": "Тестирование в процессе",
+    "benchmark-phase-preparation": "Подготовка",
+    "benchmark-phase-screen-resolution": "Разрешение экрана",
+    "benchmark-report-label": "Отчёт о тесте калейдоскопа",
+    "benchmark-total-score": "Общий балл",
+    "benchmark-score-per-fullhd": "Баллы рендеринга",
+    "benchmark-calculation-score": "Баллы вычислений",
+    "benchmark-lines-calculation-score": "Баллы вычислений (линии)",
+    "benchmark-spots-calculation-score": "Баллы вычислений (пятна)",
+    "benchmark-lines-rendering-score": "Баллы рендеринга (линии)",
+    "benchmark-spots-rendering-score": "Баллы рендеринга (пятна)",
+    "benchmark-display-score": "Баллы дисплея",
+    "benchmark-fps-score": "FPS при низкой нагрузке",
+    "benchmark-screen-resolution-score": "Баллы разрешения экрана",
+    "benchmark-screen-width": "Ширина экрана",
+    "benchmark-screen-height": "Высота экрана",
+    "benchmark-device-pixel-ratio": "Плотность пикселей устройства",
+    "benchmark-screen-color-depth": "Глубина цвета экрана",
+    "benchmark-description-device-pixel-ratio": "В зависимости от окружения фактическая плотность пикселей устройства может быть определена неверно. Например, если должна быть 1.2, может быть округлена до 2. В этом случае все значения, кроме общего балла и FPS при низкой нагрузке, будут неточными. Пожалуйста, скорректируйте разрешение и масштабирование экрана для правильного значения.",
+    "benchmark-description-machine-web-browser": "Тест измеряет производительность машины + браузера, поэтому даже на одном устройстве с разными браузерами результаты могут отличаться.",
+    "benchmark-description-score-unit": "Единица измерения общего балла, баллов рендеринга и вычислений — количество слоёв x FPS, то есть сколько слоёв можно обработать за секунду.",
+    "benchmark-description-total-score": "Общий балл — это баллы рендеринга, делённые на баллы разрешения экрана. Чем лучше дисплей, тем выше нагрузка на рендеринг, и тем ниже общий балл.",
+    "benchmark-description-calculation-score": "Баллы вычислений — производительность анимации в скрытом состоянии. Баллы рендеринга — производительность анимации в видимом состоянии.",
+    "benchmark-description-rendering-score": "Баллы рендеринга — это измеренное значение, умноженное на баллы разрешения экрана. Для сравнения рендеринга с другими машинами этот показатель более показателен, чем общий балл, так как он основан на Full HD.",
+    "benchmark-description-display-score": "Баллы дисплея — это баллы разрешения экрана, умноженные на FPS при низкой нагрузке.",
+    "benchmark-description-screen-resolution-score": "Баллы разрешения экрана — это количество информации экрана при { ширина: 1920, высота: 1080, плотность пикселей: 1, глубина цвета: 24 } = 1.",
+    "Unmeasured": "Не измерено",
+    "UnmeasurablePoor": "Не измеримо (недостаточно производительности)",
+    "UnmeasurableRich": "Не измеримо (слишком высокая производительность)",
+    "FullPower": "Полная мощность",
+    "HighLoad": "Высокая нагрузка",
+    "MediumLoad": "Средняя нагрузка",
+    "LowLoad": "Низкая нагрузка",
+    "WithLoad": "С нагрузкой"
+});
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
     "Auto": "自動",
@@ -656,13 +742,14 @@ define("resource/lang.zh-tw", [], {
     "LowLoad": "低負載",
     "WithLoad": "有負載"
 });
-define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang.de", "resource/lang.en", "resource/lang.es", "resource/lang.ja", "resource/lang.zh-cn", "resource/lang.zh-tw"], function (require, exports, array_1, lang_de_json_1, lang_en_json_1, lang_es_json_1, lang_ja_json_1, lang_zh_cn_json_1, lang_zh_tw_json_1) {
+define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang.de", "resource/lang.en", "resource/lang.es", "resource/lang.ru", "resource/lang.ja", "resource/lang.zh-cn", "resource/lang.zh-tw"], function (require, exports, array_1, lang_de_json_1, lang_en_json_1, lang_es_json_1, lang_ru_json_1, lang_ja_json_1, lang_zh_cn_json_1, lang_zh_tw_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Locale = void 0;
     lang_de_json_1 = __importDefault(lang_de_json_1);
     lang_en_json_1 = __importDefault(lang_en_json_1);
     lang_es_json_1 = __importDefault(lang_es_json_1);
+    lang_ru_json_1 = __importDefault(lang_ru_json_1);
     lang_ja_json_1 = __importDefault(lang_ja_json_1);
     lang_zh_cn_json_1 = __importDefault(lang_zh_cn_json_1);
     lang_zh_tw_json_1 = __importDefault(lang_zh_tw_json_1);
@@ -672,6 +759,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
             "de": lang_de_json_1.default,
             "en": lang_en_json_1.default,
             "es": lang_es_json_1.default,
+            "ru": lang_ru_json_1.default,
             "ja": lang_ja_json_1.default,
             "zh-cn": lang_zh_cn_json_1.default,
             "zh-tw": lang_zh_tw_json_1.default,

@@ -15,6 +15,7 @@ This document provides guidelines and instructions for utilizing GitHub Copilot 
 - Ensure all team members receive consistent coding assistance.
 - Examples: naming conventions, prohibited APIs, comment policies, etc.
 - To add a supported language, add the expressions for that language to `resource/lang.*.json` and add the language to the master in `script/library/locale.ts` in lang-label order (this order is reflected in the UI).
+    - In general internationalized UIs, it is common practice to order languages as Latin (English, German, Spanish, etc.) → Cyrillic (Russian, etc.) → CJK (Japanese, Chinese, Korean, etc.), rather than strict Unicode code point order. Please ensure the language order in the Multi-language Support section of README.md and the UI language list matches this convention.
 - When you add or remove a supported language, be sure to update the Multi-language Support section in `README.md` as well.
 - The notation and order of Multi-language Support in README.md must always match the lang-label in each language file and the order of the master in `script/library/locale.ts`.
 - This alone will automatically support the UI. No other file needs to be edited.
