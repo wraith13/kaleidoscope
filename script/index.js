@@ -826,6 +826,7 @@ define("resource/config", [], {
     ],
     "maximumFractionDigits": 2,
     "startWait": 750,
+    "fullscreenAdditionalWait": 750,
     "benchmark": {
         "startWait": 1750,
         "stableWait": 1750,
@@ -841,7 +842,7 @@ define("resource/config", [], {
     },
     "clock": {
         "alternate": {
-            "span": 293000
+            "span": 47000
         },
         "dateFormat": {
             "weekday": "long",
@@ -4030,11 +4031,14 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
         Animation.isInAnimation = function () {
             return base_1.Base.isInMode("animation");
         };
+        Animation.isFullscreenEnabled = function () {
+            return _library_6.Library.UI.fullscreenEnabled && ui_5.UI.withFullscreen.get();
+        };
         Animation.playAnimation = function () {
             base_1.Base.intoMode("animation");
             Animation.updateFps();
-            Animation.start();
             Animation.updateOpacity();
+            setTimeout(function () { return Animation.start(); }, Animation.isFullscreenEnabled() ? config_json_7.default.fullscreenAdditionalWait : 0);
         };
         Animation.pauseAnimation = function () {
             if (Animation.isInAnimation()) {

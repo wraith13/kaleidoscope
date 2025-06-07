@@ -29,6 +29,7 @@
     ],
     "maximumFractionDigits": 2,
     "startWait": 750,
+    "fullscreenAdditionalWait": 750,
     "benchmark": {
         "startWait": 1750,
         "stableWait": 1750,
@@ -46,7 +47,7 @@
     {
         "alternate":
         {
-            "span": 293000
+            "span": 47000
         },
         "dateFormat": {
             "weekday": "long",

@@ -1433,6 +1433,7 @@ declare module "script/controller/animation" {
         const getOpacity: () => string;
         const updateOpacity: () => void;
         const isInAnimation: () => boolean;
+        const isFullscreenEnabled: () => any;
         const playAnimation: () => void;
         const pauseAnimation: () => void;
         const isAnimationStepTiming: (now: number) => boolean;

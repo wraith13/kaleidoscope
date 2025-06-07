@@ -25,12 +25,18 @@ export namespace Animation
     }
     export const isInAnimation = () =>
         Base.isInMode("animation");
+    export const isFullscreenEnabled = () =>
+        Library.UI.fullscreenEnabled && UI.withFullscreen.get();
     export const playAnimation = () =>
     {
         Base.intoMode("animation");
         updateFps();
-        start();
         updateOpacity();
+        setTimeout
+        (
+            () => start(),
+            isFullscreenEnabled() ? config.fullscreenAdditionalWait: 0
+        );
     };
     export const pauseAnimation = () =>
     {
