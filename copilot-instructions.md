@@ -13,9 +13,8 @@
 
 新しい対応言語を追加する場合は、以下のすべての手順を必ず実施してください。これ以外のファイル編集は不要です。
 
-1. `resource/lang.<lang>.json` に言語表現を追加（既存ファイルをテンプレートとしてコピー）。
-2. `script/library/locale.ts` の言語リストに、lang-label 順で追加。UI の表示順にも反映されます。
-    - 順序は「ラテン文字（英語、ドイツ語、スペイン語など）→キリル文字（ロシア語など）→CJK（日本語、中国語、韓国語など）」の慣例に従ってください。
+1. `resource/lang/<lang>.json` に言語表現を追加（既存ファイルをテンプレートとしてコピー）。
+2. `script/index.ts` と `script/library/locale.ts` の言語リストに、locale id（de, en, es, ja, ru, tr, zh-cn, zh-tw）のアルファベット順で追加。UI の表示順にも反映されます。
 3. `README.md` の多言語対応セクションを更新。
     - 各言語ファイルの lang-label、および `script/library/locale.ts` のリストと表記・順序を揃えてください。
 4. `index.html.template` および `build.json` の `__*_DESCRIPTION__` セクションに新言語を追加。

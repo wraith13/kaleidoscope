@@ -1,11 +1,12 @@
 import { Array as ToolsArray } from "@tools/array";
-import localeDe from "@resource/lang.de.json";
-import localeEn from "@resource/lang.en.json";
-import localeEs from "@resource/lang.es.json";
-import localeRu from "@resource/lang.ru.json";
-import localeJa from "@resource/lang.ja.json";
-import localeZhCn from "@resource/lang.zh-cn.json";
-import localeZhTw from "@resource/lang.zh-tw.json";
+import localeDe from "@resource/lang/de.json";
+import localeEn from "@resource/lang/en.json";
+import localeEs from "@resource/lang/es.json";
+import localeJa from "@resource/lang/ja.json";
+import localeRu from "@resource/lang/ru.json";
+import localeTr from "@resource/lang/tr.json";
+import localeZhCn from "@resource/lang/zh-cn.json";
+import localeZhTw from "@resource/lang/zh-tw.json";
 export namespace Locale
 {
     export const master =
@@ -13,8 +14,9 @@ export namespace Locale
         "de": localeDe,
         "en": localeEn,
         "es": localeEs,
-        "ru": localeRu,
         "ja": localeJa,
+        "ru": localeRu,
+        "tr": localeTr,
         "zh-cn": localeZhCn,
         "zh-tw": localeZhTw,
     };
