@@ -78,24 +78,24 @@
 @mixin full-stretch-box()
 {
     margin: 0px;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    inset-block-start: 0px;
+    inset-block-end: 0px;
+    inset-inline-start: 0px;
+    inset-inline-end: 0px;
 }
 @mixin top-stretch-box()
 {
     margin: 0px;
-    top: 0px;
-    right: 0px;
-    left: 0px;
+    inset-block-start: 0px;
+    inset-inline-start: 0px;
+    inset-inline-end: 0px;
 }
 @mixin bottom-stretch-box()
 {
     margin: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    inset-block-end: 0px;
+    inset-inline-start: 0px;
+    inset-inline-end: 0px;
 }
 @mixin reset-appearance()
 {
