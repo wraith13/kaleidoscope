@@ -44,6 +44,8 @@ export namespace Locale
             break;
         }
     };
+    export const getDirection = (l?: Language) =>
+        master[l ?? lang]["lang-direction"];
     export const map = (key: Label, l?: Language) =>
         "" === key ? "" : master[l ?? lang][key];
     export const getLocaleList = (): (Language | "Auto")[] =>

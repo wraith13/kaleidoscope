@@ -34,12 +34,32 @@
                 "path": "./index.html"
             },
             "parameters": {
+                "__DE_DESCRIPTION__": {
+                    "json": "./resource/lang.de.json",
+                    "value": "description"
+                },
                 "__EN_DESCRIPTION__": {
                     "json": "./resource/lang.en.json",
                     "value": "description"
                 },
+                "__ES_DESCRIPTION__": {
+                    "json": "./resource/lang.es.json",
+                    "value": "description"
+                },
+                "__RU_DESCRIPTION__": {
+                    "json": "./resource/lang.ru.json",
+                    "value": "description"
+                },
                 "__JA_DESCRIPTION__": {
                     "json": "./resource/lang.ja.json",
+                    "value": "description"
+                },
+                "__ZH_CN_DESCRIPTION__": {
+                    "json": "./resource/lang.zh-cn.json",
+                    "value": "description"
+                },
+                "__ZH_TW_DESCRIPTION__": {
+                    "json": "./resource/lang.zh-tw.json",
                     "value": "description"
                 },
                 "__STYLE__": {

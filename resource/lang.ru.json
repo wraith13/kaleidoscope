@@ -1,5 +1,6 @@
 {
     "lang-label": "Русский",
+    "lang-direction": "ltr",
     "Auto": "Авто",
     "description": "Веб-скринсейвер калейдоскоп",
     "colorspace-label": "Цветовое пространство:",

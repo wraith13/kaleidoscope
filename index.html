@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat Jun 07 2025 20:10:14 GMT+0900 (日本標準時)
+    build at: Sun Jun 08 2025 16:12:19 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -38,8 +38,13 @@ DEALINGS IN THE SOFTWARE.
 <link rel="apple-touch-icon" href="./image/favicon.png">
 <meta name="theme-color" content="black">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="description" lang="de" content="Kaleidoskop Web-Bildschirmschoner">
 <meta name="description" lang="en" content="Kaleidoscope Web Screensaver">
+<meta name="description" lang="es" content="Protector de pantalla web de caleidoscopio">
+<meta name="description" lang="ru" content="Веб-скринсейвер калейдоскоп">
 <meta name="description" lang="ja" content="万華鏡 Web スクリーンセーバー">
+<meta name="description" lang="zh-cn" content="万花筒网页屏保">
+<meta name="description" lang="zh-tw" content="萬花筒網頁螢幕保護程式">
 <meta name="apple-mobile-web-app-title" content="Kaleidoscope Web Screensaver">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -47,8 +52,13 @@ DEALINGS IN THE SOFTWARE.
 <meta name="twitter:site" content="@wraith13">
 <!-- meta name="twitter:creator" content="@wraith13" -->
 <meta name="twitter:title" content="Kaleidoscope Web Screensaver">
+<meta name="twitter:description" lang="de" content="Kaleidoskop Web-Bildschirmschoner">
 <meta name="twitter:description" lang="en" content="Kaleidoscope Web Screensaver">
+<meta name="twitter:description" lang="es" content="Protector de pantalla web de caleidoscopio">
+<meta name="twitter:description" lang="ru" content="Веб-скринсейвер калейдоскоп">
 <meta name="twitter:description" lang="ja" content="万華鏡 Web スクリーンセーバー">
+<meta name="twitter:description" lang="zh-cn" content="万花筒网页屏保">
+<meta name="twitter:description" lang="zh-tw" content="萬花筒網頁螢幕保護程式">
 <meta name="twitter:image" content="https://wraith13.github.io/kaleidoscope/image/twitter-card.png">
 <style>
 * {
@@ -1520,6 +1530,7 @@ body.hide-ui #screen-footer #supplementary-line #powered-by:not(.show)::before {
   padding-block: 0.5rem;
   padding-inline: 1rem;
   display: block;
+  direction: ltr;
   text-align: start;
   pointer-events: initial;
 }
@@ -1837,8 +1848,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Sat Jun 07 2025 20:10:14 GMT+0900 (日本標準時)",
-    tick: 1749294614780
+    at: "Sun Jun 08 2025 16:12:19 GMT+0900 (日本標準時)",
+    tick: 1749366739028
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -4953,6 +4964,7 @@ define("script/tools/array", ["require", "exports", "script/tools/type-guards", 
 });
 define("resource/lang.de", [], {
     "lang-label": "Deutsch",
+    "lang-direction": "ltr",
     "Auto": "Auto",
     "description": "Kaleidoskop Web-Bildschirmschoner",
     "colorspace-label": "Farbraum:",
@@ -5039,6 +5051,7 @@ define("resource/lang.de", [], {
 });
 define("resource/lang.en", [], {
     "lang-label": "English",
+    "lang-direction": "ltr",
     "Auto": "Auto",
     "description": "Kaleidoscope Web Screensaver",
     "colorspace-label": "Color Space:",
@@ -5125,6 +5138,7 @@ define("resource/lang.en", [], {
 });
 define("resource/lang.es", [], {
     "lang-label": "Español",
+    "lang-direction": "ltr",
     "Auto": "Auto",
     "description": "Protector de pantalla web de caleidoscopio",
     "colorspace-label": "Espacio de color:",
@@ -5211,6 +5225,7 @@ define("resource/lang.es", [], {
 });
 define("resource/lang.ru", [], {
     "lang-label": "Русский",
+    "lang-direction": "ltr",
     "Auto": "Авто",
     "description": "Веб-скринсейвер калейдоскоп",
     "colorspace-label": "Цветовое пространство:",
@@ -5297,6 +5312,7 @@ define("resource/lang.ru", [], {
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
+    "lang-direction": "ltr",
     "Auto": "自動",
     "description": "万華鏡 Web スクリーンセーバー",
     "colorspace-label": "色空間:",
@@ -5383,6 +5399,7 @@ define("resource/lang.ja", [], {
 });
 define("resource/lang.zh-cn", [], {
     "lang-label": "简体中文",
+    "lang-direction": "ltr",
     "Auto": "自动",
     "description": "万花筒网页屏保",
     "colorspace-label": "色彩空间:",
@@ -5469,6 +5486,7 @@ define("resource/lang.zh-cn", [], {
 });
 define("resource/lang.zh-tw", [], {
     "lang-label": "繁體中文",
+    "lang-direction": "ltr",
     "Auto": "自動",
     "description": "萬花筒網頁螢幕保護程式",
     "colorspace-label": "色彩空間:",
@@ -5597,6 +5615,9 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
                     lang = locale;
                     break;
             }
+        };
+        Locale.getDirection = function (l) {
+            return Locale.master[l !== null && l !== void 0 ? l : lang]["lang-direction"];
         };
         Locale.map = function (key, l) {
             return "" === key ? "" : Locale.master[l !== null && l !== void 0 ? l : lang][key];
@@ -8414,8 +8435,12 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.benchmarkPopupValue = _library_3.Library.UI.getElementById("span", "benchmark-popup-value");
         UI.benchmarkAbortButton = new _library_3.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_3.Library.Control.Button({ id: "benchmark-result-close-button", });
+        UI.updateLanguageDirection = function (lang) {
+            return document.documentElement.setAttribute("dir", _library_3.Library.Locale.getDirection(lang));
+        };
         UI.updateLanguage = function () {
             _library_3.Library.Locale.setLocale(UI.languageSelect.get());
+            UI.updateLanguageDirection();
             UI.colorspaceSelect.reloadOptions();
             UI.coloringSelect.reloadOptions();
             UI.patternSelect.reloadOptions();
@@ -9214,7 +9239,9 @@ define("resource/loadstatus", [], {
             "blend": "WithLoad",
             "white": "WithLoad",
             "black": "WithLoad",
-            "system": "WithLoad"
+            "system": "WithLoad",
+            "alternate": "WithLoad",
+            "rainbow": "WithLoad"
         },
         "default": ""
     }

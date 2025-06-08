@@ -29,6 +29,7 @@ declare module "script/library/locale" {
         const master: {
             de: {
                 "lang-label": string;
+                "lang-direction": string;
                 Auto: string;
                 description: string;
                 "colorspace-label": string;
@@ -115,6 +116,7 @@ declare module "script/library/locale" {
             };
             en: {
                 "lang-label": string;
+                "lang-direction": string;
                 Auto: string;
                 description: string;
                 "colorspace-label": string;
@@ -201,6 +203,7 @@ declare module "script/library/locale" {
             };
             es: {
                 "lang-label": string;
+                "lang-direction": string;
                 Auto: string;
                 description: string;
                 "colorspace-label": string;
@@ -287,6 +290,7 @@ declare module "script/library/locale" {
             };
             ru: {
                 "lang-label": string;
+                "lang-direction": string;
                 Auto: string;
                 description: string;
                 "colorspace-label": string;
@@ -373,6 +377,7 @@ declare module "script/library/locale" {
             };
             ja: {
                 "lang-label": string;
+                "lang-direction": string;
                 Auto: string;
                 description: string;
                 "colorspace-label": string;
@@ -459,6 +464,7 @@ declare module "script/library/locale" {
             };
             "zh-cn": {
                 "lang-label": string;
+                "lang-direction": string;
                 Auto: string;
                 description: string;
                 "colorspace-label": string;
@@ -545,6 +551,7 @@ declare module "script/library/locale" {
             };
             "zh-tw": {
                 "lang-label": string;
+                "lang-direction": string;
                 Auto: string;
                 description: string;
                 "colorspace-label": string;
@@ -634,6 +641,7 @@ declare module "script/library/locale" {
         type Language = keyof typeof master;
         const getLocale: () => "de" | "en" | "es" | "ru" | "ja" | "zh-cn" | "zh-tw";
         const setLocale: (locale?: Language | "Auto") => void;
+        const getDirection: (l?: Language) => string;
         const map: (key: Label, l?: Language) => string;
         const getLocaleList: () => (Language | "Auto")[];
     }
@@ -1291,6 +1299,7 @@ declare module "script/ui" {
         const benchmarkPopupValue: HTMLSpanElement;
         const benchmarkAbortButton: Library.Control.Button<HTMLElement>;
         const benchmarkResultCloseButton: Library.Control.Button<HTMLElement>;
+        const updateLanguageDirection: (lang?: Library.Locale.Language) => void;
         const updateLanguage: () => void;
         const initialize: () => void;
         const getDataLangKey: (element: HTMLSpanElement) => Library.Locale.Label;

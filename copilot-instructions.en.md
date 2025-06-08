@@ -9,17 +9,23 @@
 
 This document provides guidelines and instructions for utilizing GitHub Copilot in this project.
 
+## How to Add a Supported Language
+
+When adding a new supported language, follow all steps below. No other file edits are required.
+
+1. Add the language expressions to `resource/lang.<lang>.json` (copy an existing file as a template).
+2. Add the language to the master list in `script/library/locale.ts` in lang-label order. This order is reflected in the UI.
+    - Follow the convention: Latin (English, German, Spanish, etc.) → Cyrillic (Russian, etc.) → CJK (Japanese, Chinese, Korean, etc.).
+3. Update the Multi-language Support section in `README.md`.
+    - The notation and order must match the lang-label in each language file and the master list in `script/library/locale.ts`.
+4. Update the `__*_DESCRIPTION__` sections in both `index.html.template` and `build.json` for the new language.
+5. (If you edit this file, make the same changes to `copilot-instructions.md`.)
+
 ## Usage
 
 - Add project-specific Copilot instructions or rules to this file.
 - Ensure all team members receive consistent coding assistance.
 - Examples: naming conventions, prohibited APIs, comment policies, etc.
-- To add a supported language, add the expressions for that language to `resource/lang.*.json` and add the language to the master in `script/library/locale.ts` in lang-label order (this order is reflected in the UI).
-    - In general internationalized UIs, it is common practice to order languages as Latin (English, German, Spanish, etc.) → Cyrillic (Russian, etc.) → CJK (Japanese, Chinese, Korean, etc.), rather than strict Unicode code point order. Please ensure the language order in the Multi-language Support section of README.md and the UI language list matches this convention.
-- When you add or remove a supported language, be sure to update the Multi-language Support section in `README.md` as well.
-- The notation and order of Multi-language Support in README.md must always match the lang-label in each language file and the order of the master in `script/library/locale.ts`.
-- This alone will automatically support the UI. No other file needs to be edited.
-- When you make changes to this file (copilot-instructions.en.md), be sure to make the same changes to copilot-instructions.md as well.
 
 ## Notes
 

@@ -142,6 +142,7 @@ define("script/tools/array", ["require", "exports", "script/tools/type-guards", 
 });
 define("resource/lang.de", [], {
     "lang-label": "Deutsch",
+    "lang-direction": "ltr",
     "Auto": "Auto",
     "description": "Kaleidoskop Web-Bildschirmschoner",
     "colorspace-label": "Farbraum:",
@@ -228,6 +229,7 @@ define("resource/lang.de", [], {
 });
 define("resource/lang.en", [], {
     "lang-label": "English",
+    "lang-direction": "ltr",
     "Auto": "Auto",
     "description": "Kaleidoscope Web Screensaver",
     "colorspace-label": "Color Space:",
@@ -314,6 +316,7 @@ define("resource/lang.en", [], {
 });
 define("resource/lang.es", [], {
     "lang-label": "Español",
+    "lang-direction": "ltr",
     "Auto": "Auto",
     "description": "Protector de pantalla web de caleidoscopio",
     "colorspace-label": "Espacio de color:",
@@ -400,6 +403,7 @@ define("resource/lang.es", [], {
 });
 define("resource/lang.ru", [], {
     "lang-label": "Русский",
+    "lang-direction": "ltr",
     "Auto": "Авто",
     "description": "Веб-скринсейвер калейдоскоп",
     "colorspace-label": "Цветовое пространство:",
@@ -486,6 +490,7 @@ define("resource/lang.ru", [], {
 });
 define("resource/lang.ja", [], {
     "lang-label": "日本語",
+    "lang-direction": "ltr",
     "Auto": "自動",
     "description": "万華鏡 Web スクリーンセーバー",
     "colorspace-label": "色空間:",
@@ -572,6 +577,7 @@ define("resource/lang.ja", [], {
 });
 define("resource/lang.zh-cn", [], {
     "lang-label": "简体中文",
+    "lang-direction": "ltr",
     "Auto": "自动",
     "description": "万花筒网页屏保",
     "colorspace-label": "色彩空间:",
@@ -658,6 +664,7 @@ define("resource/lang.zh-cn", [], {
 });
 define("resource/lang.zh-tw", [], {
     "lang-label": "繁體中文",
+    "lang-direction": "ltr",
     "Auto": "自動",
     "description": "萬花筒網頁螢幕保護程式",
     "colorspace-label": "色彩空間:",
@@ -786,6 +793,9 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
                     lang = locale;
                     break;
             }
+        };
+        Locale.getDirection = function (l) {
+            return Locale.master[l !== null && l !== void 0 ? l : lang]["lang-direction"];
         };
         Locale.map = function (key, l) {
             return "" === key ? "" : Locale.master[l !== null && l !== void 0 ? l : lang][key];
@@ -3603,8 +3613,12 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.benchmarkPopupValue = _library_3.Library.UI.getElementById("span", "benchmark-popup-value");
         UI.benchmarkAbortButton = new _library_3.Library.Control.Button({ id: "benchmark-abort-button", });
         UI.benchmarkResultCloseButton = new _library_3.Library.Control.Button({ id: "benchmark-result-close-button", });
+        UI.updateLanguageDirection = function (lang) {
+            return document.documentElement.setAttribute("dir", _library_3.Library.Locale.getDirection(lang));
+        };
         UI.updateLanguage = function () {
             _library_3.Library.Locale.setLocale(UI.languageSelect.get());
+            UI.updateLanguageDirection();
             UI.colorspaceSelect.reloadOptions();
             UI.coloringSelect.reloadOptions();
             UI.patternSelect.reloadOptions();
@@ -4403,7 +4417,9 @@ define("resource/loadstatus", [], {
             "blend": "WithLoad",
             "white": "WithLoad",
             "black": "WithLoad",
-            "system": "WithLoad"
+            "system": "WithLoad",
+            "alternate": "WithLoad",
+            "rainbow": "WithLoad"
         },
         "default": ""
     }

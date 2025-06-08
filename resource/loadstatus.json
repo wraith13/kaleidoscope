@@ -88,7 +88,9 @@
             "blend": "WithLoad",
             "white": "WithLoad",
             "black": "WithLoad",
-            "system": "WithLoad"
+            "system": "WithLoad",
+            "alternate": "WithLoad",
+            "rainbow": "WithLoad"
         },
         "default": ""
     }
