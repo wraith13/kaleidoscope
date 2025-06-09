@@ -488,6 +488,93 @@ define("resource/lang/es", [], {
     "LowLoad": "Baja carga",
     "WithLoad": "Con carga"
 });
+define("resource/lang/fr", [], {
+    "lang-label": "Français",
+    "lang-direction": "ltr",
+    "Auto": "Auto",
+    "description": "Économiseur d'écran Web Kaléidoscope",
+    "colorspace-label": "Espace colorimétrique :",
+    "coloring-label": "Coloration :",
+    "pattern-label": "Motif :",
+    "lines": "Lignes",
+    "spots": "Points",
+    "both": "Les deux",
+    "canvas-size-label": "Taille du canevas :",
+    "layers-label": "Couches :",
+    "spots-layers-label": "Couches (Points) :",
+    "cycle-span-label": "Durée du cycle :",
+    "fuse-fps-label": "FPS de sécurité :",
+    "frame-delay-label": "Délai d'image :",
+    "easing-label": "Lissage :",
+    "with-fullscreen-label": "Plein écran :",
+    "show-fps-label": "Afficher FPS :",
+    "clock-label": "Horloge :",
+    "brightness-label": "Luminosité :",
+    "hide": "Masquer",
+    "blend": "Fusionner",
+    "white": "Blanc",
+    "black": "Noir",
+    "system": "Système",
+    "alternate": "Alterné",
+    "rainbow": "Arc-en-ciel",
+    "language-label": "Langue :",
+    "url-label": "Lien vers ce paramètre",
+    "run-benchmark-label": "Lancer le benchmark",
+    "informationFuseFps": "⚠️ Arrêt automatique si le FPS(Max) descend sous \"FPS de sécurité\" pour éviter un crash du navigateur ou du système.",
+    "timeUnitMs": "ms",
+    "timeUnitS": "s",
+    "timeUnitM": "min",
+    "timeUnitH": "h",
+    "timeUnitD": "j",
+    "ago": "il y a",
+    "Hide UI": "Masquer l'UI",
+    "Play / Pause": "Lecture / Pause",
+    "Switch Pattern": "Changer de motif",
+    "Switch Coloring": "Changer la coloration",
+    "Scaling Canvas Size": "Redimensionner le canevas",
+    "Increase / Decrease Frame Delay": "Augmenter / Diminuer le délai d'image",
+    "Increase / Decrease Layer": "Augmenter / Diminuer les couches",
+    "Speed Down / Up": "Ralentir / Accélérer",
+    "FullScreen": "Plein écran",
+    "Show FPS": "Afficher FPS",
+    "Switch Clock": "Changer l'horloge",
+    "benchmark-abort": "Annuler",
+    "benchmark-close": "Fermer",
+    "benchmarking-in-progress": "Benchmark en cours",
+    "benchmark-phase-preparation": "Préparation",
+    "benchmark-phase-screen-resolution": "Résolution d'écran",
+    "benchmark-report-label": "Rapport de benchmark Kaléidoscope",
+    "benchmark-total-score": "Score total",
+    "benchmark-score-per-fullhd": "Score de rendu",
+    "benchmark-calculation-score": "Score de calcul",
+    "benchmark-lines-calculation-score": "Score de calcul (lignes)",
+    "benchmark-spots-calculation-score": "Score de calcul (points)",
+    "benchmark-lines-rendering-score": "Score de rendu (lignes)",
+    "benchmark-spots-rendering-score": "Score de rendu (points)",
+    "benchmark-display-score": "Score d'affichage",
+    "benchmark-fps-score": "FPS en faible charge",
+    "benchmark-screen-resolution-score": "Score de résolution d'écran",
+    "benchmark-screen-width": "Largeur d'écran",
+    "benchmark-screen-height": "Hauteur d'écran",
+    "benchmark-device-pixel-ratio": "Ratio de pixels de l'appareil",
+    "benchmark-screen-color-depth": "Profondeur de couleur d'écran",
+    "benchmark-description-device-pixel-ratio": "Le ratio de pixels de l'appareil peut ne pas être obtenu avec précision selon l'environnement. Par exemple, s'il devrait être 1,2, il peut être arrondi à 2. Dans ce cas, toutes les valeurs sauf le score total et le FPS en faible charge ne seront pas précises.",
+    "benchmark-description-machine-web-browser": "Le benchmark mesure la performance de la machine + du navigateur, donc même sur la même machine, un navigateur différent peut donner des résultats très différents.",
+    "benchmark-description-score-unit": "L'unité du score total, du score de rendu et du score de calcul est le nombre de couches x FPS, soit le nombre de couches pouvant être traitées en une seconde.",
+    "benchmark-description-total-score": "Le score total est la valeur obtenue en divisant le score de rendu par le score de résolution d'écran.",
+    "benchmark-description-calculation-score": "Le score de calcul est la performance de traitement d'animation en état caché. Le score de rendu est la performance en état visible.",
+    "benchmark-description-rendering-score": "Le score de rendu est la valeur mesurée multipliée par le score de résolution d'écran.",
+    "benchmark-description-display-score": "Le score d'affichage est la valeur obtenue en multipliant le score de résolution d'écran par le FPS en faible charge.",
+    "benchmark-description-screen-resolution-score": "Le score de résolution d'écran est la quantité d'information d'écran avec { Largeur d'écran : 1920, Hauteur d'écran : 1080, Ratio de pixels de l'appareil : 1, Profondeur de couleur d'écran : 24 } comme 1.",
+    "Unmeasured": "Non mesuré",
+    "UnmeasurablePoor": "Non mesurable (performance insuffisante)",
+    "UnmeasurableRich": "Non mesurable (performance excessive)",
+    "FullPower": "Puissance maximale",
+    "HighLoad": "Charge élevée",
+    "MediumLoad": "Charge moyenne",
+    "LowLoad": "Charge faible",
+    "WithLoad": "Avec charge"
+});
 define("resource/lang/ja", [], {
     "lang-label": "日本語",
     "lang-direction": "ltr",
@@ -923,7 +1010,7 @@ define("resource/lang/zh-tw", [], {
     "LowLoad": "低負載",
     "WithLoad": "有負載"
 });
-define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, ar_json_1, de_json_1, en_json_1, es_json_1, ja_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
+define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, ar_json_1, de_json_1, en_json_1, es_json_1, fr_json_1, ja_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Locale = void 0;
@@ -931,6 +1018,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
     de_json_1 = __importDefault(de_json_1);
     en_json_1 = __importDefault(en_json_1);
     es_json_1 = __importDefault(es_json_1);
+    fr_json_1 = __importDefault(fr_json_1);
     ja_json_1 = __importDefault(ja_json_1);
     ru_json_1 = __importDefault(ru_json_1);
     tr_json_1 = __importDefault(tr_json_1);
@@ -943,6 +1031,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
             "de": de_json_1.default,
             "en": en_json_1.default,
             "es": es_json_1.default,
+            "fr": fr_json_1.default,
             "ja": ja_json_1.default,
             "ru": ru_json_1.default,
             "tr": tr_json_1.default,
@@ -4910,7 +4999,7 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, ar_json_2, de_json_2, en_json_2, es_json_2, ja_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, ar_json_2, de_json_2, en_json_2, es_json_2, fr_json_2, ja_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
@@ -4922,6 +5011,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     de_json_2 = __importDefault(de_json_2);
     en_json_2 = __importDefault(en_json_2);
     es_json_2 = __importDefault(es_json_2);
+    fr_json_2 = __importDefault(fr_json_2);
     ja_json_2 = __importDefault(ja_json_2);
     ru_json_2 = __importDefault(ru_json_2);
     tr_json_2 = __importDefault(tr_json_2);
@@ -4946,6 +5036,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
         localeDe: de_json_2.default,
         localeEn: en_json_2.default,
         localeEs: es_json_2.default,
+        localeFr: fr_json_2.default,
         localeJa: ja_json_2.default,
         localeRu: ru_json_2.default,
         localeTr: tr_json_2.default,

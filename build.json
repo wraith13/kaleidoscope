@@ -50,6 +50,10 @@
                     "json": "./resource/lang/es.json",
                     "value": "description"
                 },
+                "__FR_DESCRIPTION__": {
+                    "json": "./resource/lang/fr.json",
+                    "value": "description"
+                },
                 "__JA_DESCRIPTION__": {
                     "json": "./resource/lang/ja.json",
                     "value": "description"
