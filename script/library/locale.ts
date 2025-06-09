@@ -1,4 +1,5 @@
 import { Array as ToolsArray } from "@tools/array";
+import localeAr from "@resource/lang/ar.json";
 import localeDe from "@resource/lang/de.json";
 import localeEn from "@resource/lang/en.json";
 import localeEs from "@resource/lang/es.json";
@@ -11,6 +12,7 @@ export namespace Locale
 {
     export const master =
     {
+        "ar": localeAr,
         "de": localeDe,
         "en": localeEn,
         "es": localeEs,

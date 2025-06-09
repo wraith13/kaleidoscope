@@ -34,6 +34,10 @@
                 "path": "./index.html"
             },
             "parameters": {
+                "__AR_DESCRIPTION__": {
+                    "json": "./resource/lang/ar.json",
+                    "value": "description"
+                },
                 "__DE_DESCRIPTION__": {
                     "json": "./resource/lang/de.json",
                     "value": "description"

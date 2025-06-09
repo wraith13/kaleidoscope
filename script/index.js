@@ -140,6 +140,93 @@ define("script/tools/array", ["require", "exports", "script/tools/type-guards", 
         };
     })(Array || (exports.Array = Array = {}));
 });
+define("resource/lang/ar", [], {
+    "lang-label": "العربية",
+    "lang-direction": "rtl",
+    "Auto": "تلقائي",
+    "description": "شاشة توقف ويب كاليدوسكوب",
+    "colorspace-label": "نطاق الألوان:",
+    "coloring-label": "التلوين:",
+    "pattern-label": "النمط:",
+    "lines": "خطوط",
+    "spots": "نقاط",
+    "both": "كلاهما",
+    "canvas-size-label": "حجم اللوحة:",
+    "layers-label": "الطبقات:",
+    "spots-layers-label": "الطبقات (النقاط):",
+    "cycle-span-label": "مدة الدورة:",
+    "fuse-fps-label": "معدل الانصهار FPS:",
+    "frame-delay-label": "تأخير الإطار:",
+    "easing-label": "تسهيل:",
+    "with-fullscreen-label": "ملء الشاشة:",
+    "show-fps-label": "إظهار FPS:",
+    "clock-label": "الساعة:",
+    "brightness-label": "السطوع:",
+    "hide": "إخفاء",
+    "blend": "دمج",
+    "white": "أبيض",
+    "black": "أسود",
+    "system": "النظام",
+    "alternate": "بديل",
+    "rainbow": "قوس قزح",
+    "language-label": "اللغة:",
+    "url-label": "رابط هذا الإعداد",
+    "run-benchmark-label": "تشغيل الاختبار",
+    "informationFuseFps": "⚠️ سيتم الإيقاف تلقائيًا إذا انخفض FPS(Max) عن \"معدل الانصهار\" لتجنب تعطل المتصفح أو نظام التشغيل.",
+    "timeUnitMs": "مللي ثانية",
+    "timeUnitS": "ثانية",
+    "timeUnitM": "دقيقة",
+    "timeUnitH": "ساعة",
+    "timeUnitD": "يوم",
+    "ago": "منذ",
+    "Hide UI": "إخفاء الواجهة",
+    "Play / Pause": "تشغيل / إيقاف مؤقت",
+    "Switch Pattern": "تبديل النمط",
+    "Switch Coloring": "تبديل التلوين",
+    "Scaling Canvas Size": "تغيير حجم اللوحة",
+    "Increase / Decrease Frame Delay": "زيادة / تقليل تأخير الإطار",
+    "Increase / Decrease Layer": "زيادة / تقليل الطبقات",
+    "Speed Down / Up": "إبطاء / تسريع",
+    "FullScreen": "ملء الشاشة",
+    "Show FPS": "إظهار FPS",
+    "Switch Clock": "تبديل الساعة",
+    "benchmark-abort": "إلغاء",
+    "benchmark-close": "إغلاق",
+    "benchmarking-in-progress": "جارٍ إجراء الاختبار",
+    "benchmark-phase-preparation": "التحضير",
+    "benchmark-phase-screen-resolution": "دقة الشاشة",
+    "benchmark-report-label": "تقرير اختبار كاليدوسكوب",
+    "benchmark-total-score": "المجموع الكلي",
+    "benchmark-score-per-fullhd": "درجة العرض",
+    "benchmark-calculation-score": "درجة الحساب",
+    "benchmark-lines-calculation-score": "درجة الحساب (خطوط)",
+    "benchmark-spots-calculation-score": "درجة الحساب (نقاط)",
+    "benchmark-lines-rendering-score": "درجة العرض (خطوط)",
+    "benchmark-spots-rendering-score": "درجة العرض (نقاط)",
+    "benchmark-display-score": "درجة العرض",
+    "benchmark-fps-score": "معدل الإطارات تحت الحمل المنخفض",
+    "benchmark-screen-resolution-score": "درجة دقة الشاشة",
+    "benchmark-screen-width": "عرض الشاشة",
+    "benchmark-screen-height": "ارتفاع الشاشة",
+    "benchmark-device-pixel-ratio": "نسبة بكسل الجهاز",
+    "benchmark-screen-color-depth": "عمق لون الشاشة",
+    "benchmark-description-device-pixel-ratio": "قد لا يتم الحصول على نسبة بكسل الجهاز بدقة حسب البيئة. إذا كان يجب أن تكون 1.2، فقد يتم تقريبها إلى 2. في هذه الحالة، جميع القيم باستثناء المجموع الكلي ومعدل الإطارات تحت الحمل المنخفض لن تكون دقيقة.",
+    "benchmark-description-machine-web-browser": "الاختبار يشمل أداء الجهاز + أداء المتصفح، لذا قد تختلف النتائج بشكل كبير حسب المتصفح حتى على نفس الجهاز.",
+    "benchmark-description-score-unit": "وحدة المجموع الكلي ودرجة العرض ودرجة الحساب هي عدد الطبقات × معدل الإطارات، أي عدد الطبقات التي يمكن معالجتها في ثانية واحدة.",
+    "benchmark-description-total-score": "المجموع الكلي هو قيمة درجة العرض مقسومة على درجة دقة الشاشة.",
+    "benchmark-description-calculation-score": "درجة الحساب هي أداء معالجة الرسوم المتحركة في الحالة المخفية. درجة العرض هي الأداء في الحالة المرئية.",
+    "benchmark-description-rendering-score": "درجة العرض هي القيمة المقاسة مضروبة في درجة دقة الشاشة.",
+    "benchmark-description-display-score": "درجة العرض هي قيمة درجة دقة الشاشة مضروبة في معدل الإطارات تحت الحمل المنخفض.",
+    "benchmark-description-screen-resolution-score": "درجة دقة الشاشة هي كمية معلومات الشاشة مع { عرض الشاشة: 1920، ارتفاع الشاشة: 1080، نسبة بكسل الجهاز: 1، عمق لون الشاشة: 24 } كـ 1.",
+    "Unmeasured": "غير مقاس",
+    "UnmeasurablePoor": "غير قابل للقياس (أداء غير كافٍ)",
+    "UnmeasurableRich": "غير قابل للقياس (أداء مفرط)",
+    "FullPower": "أقصى طاقة",
+    "HighLoad": "حمل مرتفع",
+    "MediumLoad": "حمل متوسط",
+    "LowLoad": "حمل منخفض",
+    "WithLoad": "مع حمل"
+});
 define("resource/lang/de", [], {
     "lang-label": "Deutsch",
     "lang-direction": "ltr",
@@ -836,10 +923,11 @@ define("resource/lang/zh-tw", [], {
     "LowLoad": "低負載",
     "WithLoad": "有負載"
 });
-define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, de_json_1, en_json_1, es_json_1, ja_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
+define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, ar_json_1, de_json_1, en_json_1, es_json_1, ja_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Locale = void 0;
+    ar_json_1 = __importDefault(ar_json_1);
     de_json_1 = __importDefault(de_json_1);
     en_json_1 = __importDefault(en_json_1);
     es_json_1 = __importDefault(es_json_1);
@@ -851,6 +939,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
     var Locale;
     (function (Locale) {
         Locale.master = {
+            "ar": ar_json_1.default,
             "de": de_json_1.default,
             "en": en_json_1.default,
             "es": es_json_1.default,
@@ -4821,7 +4910,7 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, de_json_2, en_json_2, es_json_2, ja_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, ar_json_2, de_json_2, en_json_2, es_json_2, ja_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
@@ -4829,6 +4918,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     evil_commonjs_config_json_1 = __importDefault(evil_commonjs_config_json_1);
     evil_timer_js_config_json_1 = __importDefault(evil_timer_js_config_json_1);
     images_json_1 = __importDefault(images_json_1);
+    ar_json_2 = __importDefault(ar_json_2);
     de_json_2 = __importDefault(de_json_2);
     en_json_2 = __importDefault(en_json_2);
     es_json_2 = __importDefault(es_json_2);
@@ -4852,6 +4942,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
         evilCommonJsConfig: evil_commonjs_config_json_1.default,
         evilTimerJsConfig: evil_timer_js_config_json_1.default,
         images: images_json_1.default,
+        localeAr: ar_json_2.default,
         localeDe: de_json_2.default,
         localeEn: en_json_2.default,
         localeEs: es_json_2.default,

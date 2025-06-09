@@ -7,6 +7,7 @@ import control from "@resource/control.json";
 import evilCommonJsConfig from "@resource/evil-commonjs.config.json";
 import evilTimerJsConfig from "@resource/evil-timer.js.config.json";
 import images from "@resource/images.json";
+import localeAr from "@resource/lang/ar.json";
 import localeDe from "@resource/lang/de.json";
 import localeEn from "@resource/lang/en.json";
 import localeEs from "@resource/lang/es.json";
@@ -41,6 +42,7 @@ const Resource =
     evilCommonJsConfig,
     evilTimerJsConfig,
     images,
+    localeAr,
     localeDe,
     localeEn,
     localeEs,
