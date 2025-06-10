@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Jun 09 2025 17:53:10 GMT+0900 (日本標準時)
+    build at: Tue Jun 10 2025 03:19:49 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -44,6 +44,7 @@ DEALINGS IN THE SOFTWARE.
 <meta name="description" lang="es" content="Protector de pantalla web de caleidoscopio">
 <meta name="description" lang="fr" content="Économiseur d'écran Web Kaléidoscope">
 <meta name="description" lang="ja" content="万華鏡 Web スクリーンセーバー">
+<meta name="description" lang="pt" content="Protetor de Tela Web Caleidoscópio">
 <meta name="description" lang="ru" content="Веб-скринсейвер калейдоскоп">
 <meta name="description" lang="tr" content="Kaleidoscope Web Ekran Koruyucu">
 <meta name="description" lang="zh-cn" content="万花筒网页屏保">
@@ -61,6 +62,7 @@ DEALINGS IN THE SOFTWARE.
 <meta name="twitter:description" lang="es" content="Protector de pantalla web de caleidoscopio">
 <meta name="twitter:description" lang="fr" content="Économiseur d'écran Web Kaléidoscope">
 <meta name="twitter:description" lang="ja" content="万華鏡 Web スクリーンセーバー">
+<meta name="twitter:description" lang="pt" content="Protetor de Tela Web Caleidoscópio">
 <meta name="twitter:description" lang="ru" content="Веб-скринсейвер калейдоскоп">
 <meta name="twitter:description" lang="tr" content="Kaleidoscope Web Ekran Koruyucu">
 <meta name="twitter:description" lang="zh-cn" content="万花筒网页屏保">
@@ -1854,8 +1856,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Mon Jun 09 2025 17:53:10 GMT+0900 (日本標準時)",
-    tick: 1749459190616
+    at: "Tue Jun 10 2025 03:19:49 GMT+0900 (日本標準時)",
+    tick: 1749493189370
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -5490,6 +5492,93 @@ define("resource/lang/ja", [], {
     "LowLoad": "低負荷",
     "WithLoad": "負荷あり"
 });
+define("resource/lang/pt", [], {
+    "lang-label": "Português",
+    "lang-direction": "ltr",
+    "Auto": "Auto",
+    "description": "Protetor de Tela Web Caleidoscópio",
+    "colorspace-label": "Espaço de cor:",
+    "coloring-label": "Colorização:",
+    "pattern-label": "Padrão:",
+    "lines": "Linhas",
+    "spots": "Pontos",
+    "both": "Ambos",
+    "canvas-size-label": "Tamanho da tela:",
+    "layers-label": "Camadas:",
+    "spots-layers-label": "Camadas (Pontos):",
+    "cycle-span-label": "Duração do ciclo:",
+    "fuse-fps-label": "FPS de segurança:",
+    "frame-delay-label": "Atraso de quadro:",
+    "easing-label": "Suavização:",
+    "with-fullscreen-label": "Tela cheia:",
+    "show-fps-label": "Mostrar FPS:",
+    "clock-label": "Relógio:",
+    "brightness-label": "Brilho:",
+    "hide": "Ocultar",
+    "blend": "Misturar",
+    "white": "Branco",
+    "black": "Preto",
+    "system": "Sistema",
+    "alternate": "Alternado",
+    "rainbow": "Arco-íris",
+    "language-label": "Idioma:",
+    "url-label": "Link para esta configuração",
+    "run-benchmark-label": "Executar Benchmark",
+    "informationFuseFps": "⚠️ Parada automática se o FPS(Max) cair abaixo do \"FPS de segurança\" para evitar travamento do navegador ou do sistema.",
+    "timeUnitMs": "ms",
+    "timeUnitS": "s",
+    "timeUnitM": "min",
+    "timeUnitH": "h",
+    "timeUnitD": "d",
+    "ago": "atrás",
+    "Hide UI": "Ocultar UI",
+    "Play / Pause": "Reproduzir / Pausar",
+    "Switch Pattern": "Alternar padrão",
+    "Switch Coloring": "Alternar coloração",
+    "Scaling Canvas Size": "Redimensionar tela",
+    "Increase / Decrease Frame Delay": "Aumentar / Diminuir atraso de quadro",
+    "Increase / Decrease Layer": "Aumentar / Diminuir camadas",
+    "Speed Down / Up": "Diminuir / Aumentar velocidade",
+    "FullScreen": "Tela cheia",
+    "Show FPS": "Mostrar FPS",
+    "Switch Clock": "Alternar relógio",
+    "benchmark-abort": "Abortar",
+    "benchmark-close": "Fechar",
+    "benchmarking-in-progress": "Benchmark em andamento",
+    "benchmark-phase-preparation": "Preparação",
+    "benchmark-phase-screen-resolution": "Resolução da tela",
+    "benchmark-report-label": "Relatório de Benchmark Caleidoscópio",
+    "benchmark-total-score": "Pontuação total",
+    "benchmark-score-per-fullhd": "Pontuação de renderização",
+    "benchmark-calculation-score": "Pontuação de cálculo",
+    "benchmark-lines-calculation-score": "Pontuação de cálculo (linhas)",
+    "benchmark-spots-calculation-score": "Pontuação de cálculo (pontos)",
+    "benchmark-lines-rendering-score": "Pontuação de renderização (linhas)",
+    "benchmark-spots-rendering-score": "Pontuação de renderização (pontos)",
+    "benchmark-display-score": "Pontuação de exibição",
+    "benchmark-fps-score": "Taxa de quadros em baixa carga",
+    "benchmark-screen-resolution-score": "Pontuação de resolução da tela",
+    "benchmark-screen-width": "Largura da tela",
+    "benchmark-screen-height": "Altura da tela",
+    "benchmark-device-pixel-ratio": "Proporção de pixels do dispositivo",
+    "benchmark-screen-color-depth": "Profundidade de cor da tela",
+    "benchmark-description-device-pixel-ratio": "A proporção real de pixels do dispositivo pode não ser obtida com precisão dependendo do ambiente. Por exemplo, se deveria ser 1,2, pode ser arredondada para 2. Nesse caso, todos os valores, exceto a pontuação total e a taxa de quadros em baixa carga, não serão precisos.",
+    "benchmark-description-machine-web-browser": "A medição será do desempenho da máquina + navegador, então mesmo na mesma máquina, usar um navegador diferente pode resultar em resultados completamente diferentes.",
+    "benchmark-description-score-unit": "A unidade da pontuação total, pontuação de renderização e pontuação de cálculo é o número de camadas x taxa de quadros, ou seja, o número de camadas que podem ser processadas em um segundo.",
+    "benchmark-description-total-score": "A pontuação total é o valor obtido dividindo a pontuação de renderização pela pontuação de resolução da tela.",
+    "benchmark-description-calculation-score": "A pontuação de cálculo é o desempenho do processamento de animação em estado oculto. A pontuação de renderização é o desempenho em estado visível.",
+    "benchmark-description-rendering-score": "A pontuação de renderização é o valor medido multiplicado pela pontuação de resolução da tela.",
+    "benchmark-description-display-score": "A pontuação de exibição é o valor obtido multiplicando a pontuação de resolução da tela pela taxa de quadros em baixa carga.",
+    "benchmark-description-screen-resolution-score": "A pontuação de resolução da tela é a quantidade de informação da tela com { Largura da tela: 1920, Altura da tela: 1080, Proporção de pixels do dispositivo: 1, Profundidade de cor da tela: 24 } como 1.",
+    "Unmeasured": "Não medido",
+    "UnmeasurablePoor": "Não mensurável (desempenho insuficiente)",
+    "UnmeasurableRich": "Não mensurável (desempenho excessivo)",
+    "FullPower": "Potência máxima",
+    "HighLoad": "Alta carga",
+    "MediumLoad": "Carga média",
+    "LowLoad": "Baixa carga",
+    "WithLoad": "Com carga"
+});
 define("resource/lang/ru", [], {
     "lang-label": "Русский",
     "lang-direction": "ltr",
@@ -5838,7 +5927,7 @@ define("resource/lang/zh-tw", [], {
     "LowLoad": "低負載",
     "WithLoad": "有負載"
 });
-define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, ar_json_1, de_json_1, en_json_1, es_json_1, fr_json_1, ja_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
+define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/pt", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, ar_json_1, de_json_1, en_json_1, es_json_1, fr_json_1, ja_json_1, pt_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Locale = void 0;
@@ -5848,6 +5937,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
     es_json_1 = __importDefault(es_json_1);
     fr_json_1 = __importDefault(fr_json_1);
     ja_json_1 = __importDefault(ja_json_1);
+    pt_json_1 = __importDefault(pt_json_1);
     ru_json_1 = __importDefault(ru_json_1);
     tr_json_1 = __importDefault(tr_json_1);
     zh_cn_json_1 = __importDefault(zh_cn_json_1);
@@ -5861,6 +5951,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
             "es": es_json_1.default,
             "fr": fr_json_1.default,
             "ja": ja_json_1.default,
+            "pt": pt_json_1.default,
             "ru": ru_json_1.default,
             "tr": tr_json_1.default,
             "zh-cn": zh_cn_json_1.default,
@@ -9827,7 +9918,7 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, ar_json_2, de_json_2, en_json_2, es_json_2, fr_json_2, ja_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/pt", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, ar_json_2, de_json_2, en_json_2, es_json_2, fr_json_2, ja_json_2, pt_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
@@ -9841,6 +9932,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     es_json_2 = __importDefault(es_json_2);
     fr_json_2 = __importDefault(fr_json_2);
     ja_json_2 = __importDefault(ja_json_2);
+    pt_json_2 = __importDefault(pt_json_2);
     ru_json_2 = __importDefault(ru_json_2);
     tr_json_2 = __importDefault(tr_json_2);
     zh_cn_json_2 = __importDefault(zh_cn_json_2);
@@ -9866,6 +9958,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
         localeEs: es_json_2.default,
         localeFr: fr_json_2.default,
         localeJa: ja_json_2.default,
+        localePt: pt_json_2.default,
         localeRu: ru_json_2.default,
         localeTr: tr_json_2.default,
         localeZhCn: zh_cn_json_2.default,
