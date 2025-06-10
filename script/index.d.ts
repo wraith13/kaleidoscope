@@ -990,6 +990,9 @@ declare module "script/library/locale" {
         const getLocale: () => "ar" | "de" | "en" | "es" | "fr" | "ja" | "pt" | "ru" | "tr" | "zh-cn" | "zh-tw";
         const setLocale: (locale?: Language | "Auto") => void;
         const getDirection: (l?: Language) => string;
+        const isRtl: (l?: Language) => boolean;
+        const isLtr: (l?: Language) => boolean;
+        const toRtl: (text: string, f?: boolean) => string;
         const map: (key: Label, l?: Language) => string;
         const getLocaleList: () => (Language | "Auto")[];
     }

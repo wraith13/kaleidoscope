@@ -54,6 +54,12 @@ export namespace Locale
     };
     export const getDirection = (l?: Language) =>
         master[l ?? lang]["lang-direction"];
+    export const isRtl = (l?: Language) =>
+        "rtl" === getDirection(l);
+    export const isLtr = (l?: Language) =>
+        "ltr" === getDirection(l);
+    export const toRtl = (text: string, f?: boolean): string =>
+        false === f ? text : `\u202B${text}\u202C`;
     export const map = (key: Label, l?: Language) =>
         "" === key ? "" : master[l ?? lang][key];
     export const getLocaleList = (): (Language | "Auto")[] =>

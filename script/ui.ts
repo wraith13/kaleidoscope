@@ -53,7 +53,14 @@ export namespace UI
             {
                 makeLabel: i => "Auto" === i ?
                     Library.Locale.map("Auto"):
-                    Library.Locale.map("lang-label", i as Library.Locale.Language),
+                    (
+                        `${i}: `
+                        +Library.Locale.toRtl
+                        (
+                            Library.Locale.map("lang-label", i as Library.Locale.Language),
+                            Library.Locale.isRtl() && Library.Locale.isLtr(i as Library.Locale.Language)
+                        )
+                    ),
             }
         );
     export const urlAnchor =

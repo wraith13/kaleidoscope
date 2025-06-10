@@ -1153,6 +1153,15 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
         Locale.getDirection = function (l) {
             return Locale.master[l !== null && l !== void 0 ? l : lang]["lang-direction"];
         };
+        Locale.isRtl = function (l) {
+            return "rtl" === Locale.getDirection(l);
+        };
+        Locale.isLtr = function (l) {
+            return "ltr" === Locale.getDirection(l);
+        };
+        Locale.toRtl = function (text, f) {
+            return false === f ? text : "\u202B".concat(text, "\u202C");
+        };
         Locale.map = function (key, l) {
             return "" === key ? "" : Locale.master[l !== null && l !== void 0 ? l : lang][key];
         };
@@ -3941,7 +3950,8 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         }, {
             makeLabel: function (i) { return "Auto" === i ?
                 _library_3.Library.Locale.map("Auto") :
-                _library_3.Library.Locale.map("lang-label", i); },
+                ("".concat(i, ": ")
+                    + _library_3.Library.Locale.toRtl(_library_3.Library.Locale.map("lang-label", i), _library_3.Library.Locale.isRtl() && _library_3.Library.Locale.isLtr(i))); },
         });
         UI.urlAnchor = _library_3.Library.UI.getElementById("a", "url");
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
