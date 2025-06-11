@@ -54,6 +54,10 @@
                     "json": "./resource/lang/fr.json",
                     "value": "description"
                 },
+                "__IT_DESCRIPTION__": {
+                    "json": "./resource/lang/it.json",
+                    "value": "description"
+                },
                 "__JA_DESCRIPTION__": {
                     "json": "./resource/lang/ja.json",
                     "value": "description"

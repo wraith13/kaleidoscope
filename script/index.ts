@@ -12,6 +12,7 @@ import localeDe from "@resource/lang/de.json";
 import localeEn from "@resource/lang/en.json";
 import localeEs from "@resource/lang/es.json";
 import localeFr from "@resource/lang/fr.json";
+import localeIt from "@resource/lang/it.json";
 import localeJa from "@resource/lang/ja.json";
 import localePt from "@resource/lang/pt.json";
 import localeRu from "@resource/lang/ru.json";
@@ -49,6 +50,7 @@ const Resource =
     localeEn,
     localeEs,
     localeFr,
+    localeIt,
     localeJa,
     localePt,
     localeRu,

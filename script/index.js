@@ -575,6 +575,93 @@ define("resource/lang/fr", [], {
     "LowLoad": "Charge faible",
     "WithLoad": "Avec charge"
 });
+define("resource/lang/it", [], {
+    "lang-label": "Italiano",
+    "lang-direction": "ltr",
+    "Auto": "Auto",
+    "description": "Salvaschermo Web Kaleidoscope",
+    "colorspace-label": "Spazio Colore:",
+    "coloring-label": "Colorazione:",
+    "pattern-label": "Motivo:",
+    "lines": "Linee",
+    "spots": "Macchie",
+    "both": "Entrambi",
+    "canvas-size-label": "Dimensione Canvas:",
+    "layers-label": "Livelli:",
+    "spots-layers-label": "Livelli(Macchie):",
+    "cycle-span-label": "Durata Ciclo:",
+    "fuse-fps-label": "FPS Fusibile:",
+    "frame-delay-label": "Ritardo Frame:",
+    "easing-label": "Easing:",
+    "with-fullscreen-label": "Schermo Intero:",
+    "show-fps-label": "Mostra FPS:",
+    "clock-label": "Orologio:",
+    "brightness-label": "Luminosità:",
+    "hide": "Nascondi",
+    "blend": "Miscela",
+    "white": "Bianco",
+    "black": "Nero",
+    "system": "Sistema",
+    "alternate": "Alterna",
+    "rainbow": "Arcobaleno",
+    "language-label": "Lingua:",
+    "url-label": "Link a questa impostazione",
+    "run-benchmark-label": "Esegui Benchmark",
+    "informationFuseFps": "⚠️ Si arresta automaticamente se FPS(Max) scende sotto \"FPS Fusibile\" per evitare il crash del browser o del sistema operativo.",
+    "timeUnitMs": "ms",
+    "timeUnitS": "s",
+    "timeUnitM": "m",
+    "timeUnitH": "h",
+    "timeUnitD": "g",
+    "ago": "fa",
+    "Hide UI": "Nascondi UI",
+    "Play / Pause": "Riproduci / Pausa",
+    "Switch Pattern": "Cambia Motivo",
+    "Switch Coloring": "Cambia Colorazione",
+    "Scaling Canvas Size": "Ridimensiona Canvas",
+    "Increase / Decrease Frame Delay": "Aumenta / Diminuisci Ritardo Frame",
+    "Increase / Decrease Layer": "Aumenta / Diminuisci Livello",
+    "Speed Down / Up": "Rallenta / Accelera",
+    "FullScreen": "Schermo Intero",
+    "Show FPS": "Mostra FPS",
+    "Switch Clock": "Cambia Orologio",
+    "benchmark-abort": "Interrompi",
+    "benchmark-close": "Chiudi",
+    "benchmarking-in-progress": "Benchmark in corso",
+    "benchmark-phase-preparation": "Preparazione",
+    "benchmark-phase-screen-resolution": "Risoluzione Schermo",
+    "benchmark-report-label": "Rapporto Benchmark Kaleidoscope",
+    "benchmark-total-score": "Punteggio Totale",
+    "benchmark-score-per-fullhd": "Punteggio Rendering",
+    "benchmark-calculation-score": "Punteggio Calcolo",
+    "benchmark-lines-calculation-score": "Punteggio Calcolo (linee)",
+    "benchmark-spots-calculation-score": "Punteggio Calcolo (macchie)",
+    "benchmark-lines-rendering-score": "Punteggio Rendering (linee)",
+    "benchmark-spots-rendering-score": "Punteggio Rendering (macchie)",
+    "benchmark-display-score": "Punteggio Display",
+    "benchmark-fps-score": "Frame Rate a Basso Carico",
+    "benchmark-screen-resolution-score": "Punteggio Risoluzione Schermo",
+    "benchmark-screen-width": "Larghezza Schermo",
+    "benchmark-screen-height": "Altezza Schermo",
+    "benchmark-device-pixel-ratio": "Rapporto Pixel Dispositivo",
+    "benchmark-screen-color-depth": "Profondità Colore Schermo",
+    "benchmark-description-device-pixel-ratio": "Il rapporto pixel del dispositivo potrebbe non essere rilevato correttamente a seconda dell'ambiente. Ad esempio, se dovrebbe essere 1.2, potrebbe essere arrotondato a 2. In questo caso, tutti i valori tranne il punteggio totale e il frame rate a basso carico non saranno accurati, quindi regola la risoluzione e la scala dello schermo per correggere il rapporto pixel.",
+    "benchmark-description-machine-web-browser": "La misurazione riguarda le prestazioni della macchina + browser web, quindi anche sullo stesso computer, browser diversi possono dare risultati molto diversi.",
+    "benchmark-description-score-unit": "L'unità di punteggio totale, rendering e calcolo è il numero di livelli x frame rate, cioè il numero di livelli processabili in un secondo.",
+    "benchmark-description-total-score": "Il punteggio totale si ottiene dividendo il punteggio di rendering per quello di risoluzione schermo. Migliore è il display, maggiore è il carico di rendering, quindi il punteggio totale diminuisce.",
+    "benchmark-description-calculation-score": "Il punteggio di calcolo misura le prestazioni dell'animazione in stato nascosto. Il punteggio di rendering misura le prestazioni in stato visibile.",
+    "benchmark-description-rendering-score": "Il punteggio di rendering è il valore misurato moltiplicato per il punteggio di risoluzione schermo. Questo valore è più adatto per confrontare le prestazioni di rendering tra macchine diverse rispetto al punteggio totale.",
+    "benchmark-description-display-score": "Il punteggio display è il punteggio di risoluzione schermo moltiplicato per il frame rate a basso carico.",
+    "benchmark-description-screen-resolution-score": "Il punteggio di risoluzione schermo è la quantità di informazioni dello schermo con { Larghezza: 1920, Altezza: 1080, Rapporto Pixel: 1, Profondità Colore: 24 } come 1.",
+    "Unmeasured": "Non misurato",
+    "UnmeasurablePoor": "Non misurabile (Prestazioni insufficienti)",
+    "UnmeasurableRich": "Non misurabile (Prestazioni eccessive)",
+    "FullPower": "Massima Potenza",
+    "HighLoad": "Alto Carico",
+    "MediumLoad": "Carico Medio",
+    "LowLoad": "Basso Carico",
+    "WithLoad": "Con Carico"
+});
 define("resource/lang/ja", [], {
     "lang-label": "日本語",
     "lang-direction": "ltr",
@@ -1097,7 +1184,7 @@ define("resource/lang/zh-tw", [], {
     "LowLoad": "低負載",
     "WithLoad": "有負載"
 });
-define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/pt", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, ar_json_1, de_json_1, en_json_1, es_json_1, fr_json_1, ja_json_1, pt_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
+define("script/library/locale", ["require", "exports", "script/tools/array", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/it", "resource/lang/ja", "resource/lang/pt", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw"], function (require, exports, array_1, ar_json_1, de_json_1, en_json_1, es_json_1, fr_json_1, it_json_1, ja_json_1, pt_json_1, ru_json_1, tr_json_1, zh_cn_json_1, zh_tw_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Locale = void 0;
@@ -1106,6 +1193,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
     en_json_1 = __importDefault(en_json_1);
     es_json_1 = __importDefault(es_json_1);
     fr_json_1 = __importDefault(fr_json_1);
+    it_json_1 = __importDefault(it_json_1);
     ja_json_1 = __importDefault(ja_json_1);
     pt_json_1 = __importDefault(pt_json_1);
     ru_json_1 = __importDefault(ru_json_1);
@@ -1120,6 +1208,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "re
             "en": en_json_1.default,
             "es": es_json_1.default,
             "fr": fr_json_1.default,
+            "it": it_json_1.default,
             "ja": ja_json_1.default,
             "pt": pt_json_1.default,
             "ru": ru_json_1.default,
@@ -5098,7 +5187,7 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/ja", "resource/lang/pt", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, ar_json_2, de_json_2, en_json_2, es_json_2, fr_json_2, ja_json_2, pt_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/lang/ar", "resource/lang/de", "resource/lang/en", "resource/lang/es", "resource/lang/fr", "resource/lang/it", "resource/lang/ja", "resource/lang/pt", "resource/lang/ru", "resource/lang/tr", "resource/lang/zh-cn", "resource/lang/zh-tw", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, ar_json_2, de_json_2, en_json_2, es_json_2, fr_json_2, it_json_2, ja_json_2, pt_json_2, ru_json_2, tr_json_2, zh_cn_json_2, zh_tw_json_2, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     config_json_10 = __importDefault(config_json_10);
@@ -5111,6 +5200,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     en_json_2 = __importDefault(en_json_2);
     es_json_2 = __importDefault(es_json_2);
     fr_json_2 = __importDefault(fr_json_2);
+    it_json_2 = __importDefault(it_json_2);
     ja_json_2 = __importDefault(ja_json_2);
     pt_json_2 = __importDefault(pt_json_2);
     ru_json_2 = __importDefault(ru_json_2);
@@ -5137,6 +5227,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
         localeEn: en_json_2.default,
         localeEs: es_json_2.default,
         localeFr: fr_json_2.default,
+        localeIt: it_json_2.default,
         localeJa: ja_json_2.default,
         localePt: pt_json_2.default,
         localeRu: ru_json_2.default,
