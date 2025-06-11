@@ -134,6 +134,33 @@
                 }
             }
         },
+        "web.manifest": {
+            "meta": {
+                "template": {
+                    "path": "./web.manifest.template.json"
+                },
+                "output": {
+                    "path": "./web.manifest.__LOCALE__.json"
+                },
+                "parameters": {
+                    "__DESCRIPTION__": {
+                        "json": "./resource/lang/__LOCALE__.json",
+                        "value": "description"
+                    },
+                    "__LANG__": "__LOCALE__",
+                    "__BACKGROUND_COLOR__": "#FFFFFF",
+                    "__THEME_COLOR__": "#CC4488"
+                }
+            },
+            "parameters": [
+                {
+                    "__LOCALE__": "en"
+                },
+                {
+                    "__LOCALE__": "ja"
+                }
+            ]
+        },
         "style": {
             "processes": [
                 "npm run-script \"build style\""
@@ -151,6 +178,9 @@
                 },
                 {
                     "references": "script"
+                },
+                {
+                    "references": "web.manifest"
                 },
                 {
                     "references": "html"
