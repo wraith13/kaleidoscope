@@ -6,7 +6,9 @@
         "build all": "node ./build.js ../build.json all",
         "build html": "node ./build.js ../build.json html",
         "build style": "sass --no-charset style/index.scss style/index.css",
-        "build script": "tsc -p ./script/tsconfig.json"
+        "build script": "tsc -p ./script/tsconfig.json",
+        "build locale ": "node ./locale/index.js",
+        "build locale script": "tsc -p ./locale/tsconfig.json"
     },
     "repository": {
         "type": "git",
