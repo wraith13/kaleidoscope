@@ -27,6 +27,8 @@ __LICENSE__-->
 <meta name="description" lang="tr" content="__TR_DESCRIPTION__">
 <meta name="description" lang="zh-cn" content="__ZH_CN_DESCRIPTION__">
 <meta name="description" lang="zh-tw" content="__ZH_TW_DESCRIPTION__">
+<link rel="manifest" lang="en" href="web.manifest.en.json" />
+<link rel="manifest" lang="ja" href="web.manifest.ja.json" />
 <meta name="apple-mobile-web-app-title" content="__APPLICATION_TITLE__">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
