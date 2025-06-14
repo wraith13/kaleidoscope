@@ -3,3 +3,4 @@ index.html linguist-generated=true
 **/*.js linguist-generated=true
 **/*.css linguist-generated=true
 **/*.map linguist-generated=true
+locale/generated/* linguist-generated=true

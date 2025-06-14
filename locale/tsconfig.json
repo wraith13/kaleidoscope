@@ -32,8 +32,6 @@
         "esModuleInterop": true,
         "baseUrl": "..",
         "paths": {
-            "@resource/*": [ "resource/*" ],
-            "@script/*": [ "script/*" ]
         },
         "sourceMap": true
     },
