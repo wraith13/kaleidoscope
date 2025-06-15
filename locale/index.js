@@ -35,42 +35,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var manifestLangs = {
-    template: "\"__LOCALE__\": \"__LANG__\"",
-    separetor: ",\n",
-    output: "./locale/generated/manifest.langs.json",
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs_1 = __importDefault(require("fs"));
+var outputPath = "./locale/generated";
 var manifest = {
-    template: "<link rel=\"manifest\" lang=\"__LANG__\" href=\"web.manifest.__LANG__.json\" />",
+    template: "<link rel=\"manifest\" lang=\"__LANG__\" href=\"web.manifest/generated/__LANG__.json\" />",
     separetor: "\n",
-    output: "./locale/generated/manifest.html",
+    output: "".concat(outputPath, "/manifest.html"),
 };
 var description = {
     template: "<meta name=\"description\" lang=\"__LANG__\" content=\"__DESCRIPTION__\">",
     separetor: "\n",
-    output: "./locale/generated/description.html",
+    output: "".concat(outputPath, "/description.html"),
 };
 var twitterDescription = {
     template: "<meta name=\"twitter:description\" lang=\"__LANG__\" content=\"__DESCRIPTION__\">",
     separetor: "\n",
-    output: "./locale/generated/twitter-description.html",
+    output: "".concat(outputPath, "/twitter-description.html"),
 };
-var fs = require("fs");
-var master = {};
-var makeFile = function (data) { return fs.writeFileSync(data.output, Object.keys(master)
+var makeFile = function (master, data) { return fs_1.default.writeFileSync(data.output, Object.keys(master)
     .map(function (lang) {
     return data.template
         .replace(/__LANG__/g, lang)
         .replace(/__DESCRIPTION__/g, master[lang]["description"]);
 }).join(data.separetor), "utf8"); };
-var main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var langPath, temporaryMaster;
+var makeMasterFromSource = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var langPath, temporaryMaster, master;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 langPath = "./resource/lang";
                 temporaryMaster = {};
-                return [4 /*yield*/, Promise.all(fs.readdirSync(langPath)
+                return [4 /*yield*/, Promise.all(fs_1.default.readdirSync(langPath)
                         .filter(function (file) { return file.endsWith(".json"); })
                         .sort()
                         .map(function (file) { return __awaiter(void 0, void 0, void 0, function () {
@@ -80,7 +79,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                                 case 0:
                                     lang = file.replace(/\.json$/, "");
                                     _b = (_a = JSON).parse;
-                                    return [4 /*yield*/, fs.promises.readFile("".concat(langPath, "/").concat(file), "utf8")];
+                                    return [4 /*yield*/, fs_1.default.promises.readFile("".concat(langPath, "/").concat(file), "utf8")];
                                 case 1:
                                     json = _b.apply(_a, [_c.sent()]);
                                     temporaryMaster[lang] = json;
@@ -90,14 +89,28 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                     }); }))];
             case 1:
                 _a.sent();
+                master = {};
                 Object.keys(temporaryMaster)
                     .sort()
                     .forEach(function (key) { return master[key] = temporaryMaster[key]; });
-                fs.writeFileSync("./locale/generated/master.ts", "export const localeMaster = ".concat(JSON.stringify(master, null, 4), ";"), "utf8");
-                fs.writeFileSync("./locale/generated/manifest.langs.json", JSON.stringify(Object.keys(master).map(function (lang) { return ({ "__LOCALE__": lang }); }), null, 4), "utf8");
-                makeFile(manifest);
-                makeFile(description);
-                makeFile(twitterDescription);
+                return [2 /*return*/, master];
+        }
+    });
+}); };
+var main = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var master;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, makeMasterFromSource()];
+            case 1:
+                master = _a.sent();
+                fs_1.default.writeFileSync("./README.md", fs_1.default.readFileSync("./README.template.md", "utf8")
+                    .replace(/__LANG_LABEL_LIST__/g, Object.keys(master).map(function (key) { return master[key]["lang-label"]; }).join(", ")), "utf8");
+                fs_1.default.writeFileSync("".concat(outputPath, "/master.ts"), "export const localeMaster = ".concat(JSON.stringify(master, null, 4), ";"), "utf8");
+                fs_1.default.writeFileSync("".concat(outputPath, "/manifest.langs.json"), JSON.stringify(Object.keys(master).map(function (lang) { return ({ "__LOCALE__": lang }); }), null, 4), "utf8");
+                makeFile(master, manifest);
+                makeFile(master, description);
+                makeFile(master, twitterDescription);
                 return [2 /*return*/];
         }
     });

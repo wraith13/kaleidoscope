@@ -1,30 +1,24 @@
-const manifestLangs =
-{
-    template: `"__LOCALE__": "__LANG__"`,
-    separetor: ",\n",
-    output: "./locale/generated/manifest.langs.json",
-};
+import fs from "fs";
+const outputPath = "./locale/generated";
 const manifest =
 {
     template: `<link rel="manifest" lang="__LANG__" href="web.manifest/generated/__LANG__.json" />`,
     separetor: "\n",
-    output: "./locale/generated/manifest.html",
+    output: `${outputPath}/manifest.html`,
 };
 const description =
 {
     template: `<meta name="description" lang="__LANG__" content="__DESCRIPTION__">`,
     separetor: "\n",
-    output: "./locale/generated/description.html",
+    output: `${outputPath}/description.html`,
 };
 const twitterDescription =
 {
     template: `<meta name="twitter:description" lang="__LANG__" content="__DESCRIPTION__">`,
     separetor: "\n",
-    output: "./locale/generated/twitter-description.html",
+    output: `${outputPath}/twitter-description.html`,
 }
-const fs = require("fs");
-const master = { } as Record<string, any>;
-const makeFile = (data: { template: string, separetor: string, output: string }) => fs.writeFileSync
+const makeFile = (master: Record<string, any>, data: { template: string, separetor: string, output: string }) => fs.writeFileSync
 (
     data.output,
     Object.keys(master)
@@ -37,7 +31,7 @@ const makeFile = (data: { template: string, separetor: string, output: string })
     ).join(data.separetor),
     "utf8"
 );
-const main = async () =>
+const makeMasterFromSource = async () =>
 {
     const langPath = "./resource/lang";
     const temporaryMaster = { } as Record<string, any>;
@@ -56,23 +50,36 @@ const main = async () =>
             }
         )
     );
+    const master = { } as Record<string, any>;
     Object.keys(temporaryMaster)
         .sort()
         .forEach(key => master[key] = temporaryMaster[key]);
+    return master;
+};
+const main = async () =>
+{
+    const master = await makeMasterFromSource();
     fs.writeFileSync
     (
-        "./locale/generated/master.ts",
+        `./README.md`,
+        fs.readFileSync("./README.template.md", "utf8")
+            .replace(/__LANG_LABEL_LIST__/g, Object.keys(master).map(key => master[key]["lang-label"]).join(", ")),
+        "utf8"
+    );
+    fs.writeFileSync
+    (
+        `${outputPath}/master.ts`,
         `export const localeMaster = ${JSON.stringify(master, null, 4)};`,
         "utf8"
     );
     fs.writeFileSync
     (
-        "./locale/generated/manifest.langs.json",
+        `${outputPath}/manifest.langs.json`,
         JSON.stringify(Object.keys(master).map(lang => ({ "__LOCALE__": lang})), null, 4),
         "utf8"
     );
-    makeFile(manifest);
-    makeFile(description);
-    makeFile(twitterDescription);
+    makeFile(master, manifest);
+    makeFile(master, description);
+    makeFile(master, twitterDescription);
 };
 main();

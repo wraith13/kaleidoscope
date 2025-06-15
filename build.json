@@ -26,6 +26,16 @@
                 }
             }
         },
+        "locale script": {
+            "processes": [
+                "npm run-script \"build locale script\""
+            ]
+        },
+        "locale": {
+            "processes": [
+                "npm run-script \"build locale\""
+            ]
+        },
         "html": {
             "template": {
                 "path": "./index.html.template"
@@ -34,53 +44,14 @@
                 "path": "./index.html"
             },
             "parameters": {
-                "__AR_DESCRIPTION__": {
-                    "json": "./resource/lang/ar.json",
-                    "value": "description"
+                "__DESCRIPTION__": {
+                    "path": "./locale/generated/description.html"
                 },
-                "__DE_DESCRIPTION__": {
-                    "json": "./resource/lang/de.json",
-                    "value": "description"
+                "__MANIFEST__": {
+                    "path": "./locale/generated/manifest.html"
                 },
-                "__EN_DESCRIPTION__": {
-                    "json": "./resource/lang/en.json",
-                    "value": "description"
-                },
-                "__ES_DESCRIPTION__": {
-                    "json": "./resource/lang/es.json",
-                    "value": "description"
-                },
-                "__FR_DESCRIPTION__": {
-                    "json": "./resource/lang/fr.json",
-                    "value": "description"
-                },
-                "__IT_DESCRIPTION__": {
-                    "json": "./resource/lang/it.json",
-                    "value": "description"
-                },
-                "__JA_DESCRIPTION__": {
-                    "json": "./resource/lang/ja.json",
-                    "value": "description"
-                },
-                "__PT_DESCRIPTION__": {
-                    "json": "./resource/lang/pt.json",
-                    "value": "description"
-                },
-                "__RU_DESCRIPTION__": {
-                    "json": "./resource/lang/ru.json",
-                    "value": "description"
-                },
-                "__TR_DESCRIPTION__": {
-                    "json": "./resource/lang/tr.json",
-                    "value": "description"
-                },
-                "__ZH_CN_DESCRIPTION__": {
-                    "json": "./resource/lang/zh-cn.json",
-                    "value": "description"
-                },
-                "__ZH_TW_DESCRIPTION__": {
-                    "json": "./resource/lang/zh-tw.json",
-                    "value": "description"
+                "__TWITTER_DESCRIPTION__": {
+                    "path": "./locale/generated/twitter-description.html"
                 },
                 "__STYLE__": {
                     "path": "./style/index.css"
@@ -168,6 +139,12 @@
         },
         "all": {
             "steps": [
+                {
+                    "references": "locale script"
+                },
+                {
+                    "references": "locale"
+                },
                 {
                     "references": "style"
                 },
