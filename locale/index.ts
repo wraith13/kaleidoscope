@@ -1,6 +1,12 @@
+const manifestLangs =
+{
+    template: `"__LOCALE__": "__LANG__"`,
+    separetor: ",\n",
+    output: "./locale/generated/manifest.langs.json",
+};
 const manifest =
 {
-    template: `<link rel="manifest" lang="__LANG__" href="web.manifest.__LANG__.json" />`,
+    template: `<link rel="manifest" lang="__LANG__" href="web.manifest/generated/__LANG__.json" />`,
     separetor: "\n",
     output: "./locale/generated/manifest.html",
 };
@@ -57,6 +63,12 @@ const main = async () =>
     (
         "./locale/generated/master.ts",
         `export const localeMaster = ${JSON.stringify(master, null, 4)};`,
+        "utf8"
+    );
+    fs.writeFileSync
+    (
+        "./locale/generated/manifest.langs.json",
+        JSON.stringify(Object.keys(master).map(lang => ({ "__LOCALE__": lang})), null, 4),
         "utf8"
     );
     makeFile(manifest);

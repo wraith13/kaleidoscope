@@ -35,6 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var manifestLangs = {
+    template: "\"__LOCALE__\": \"__LANG__\"",
+    separetor: ",\n",
+    output: "./locale/generated/manifest.langs.json",
+};
 var manifest = {
     template: "<link rel=\"manifest\" lang=\"__LANG__\" href=\"web.manifest.__LANG__.json\" />",
     separetor: "\n",
@@ -89,6 +94,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                     .sort()
                     .forEach(function (key) { return master[key] = temporaryMaster[key]; });
                 fs.writeFileSync("./locale/generated/master.ts", "export const localeMaster = ".concat(JSON.stringify(master, null, 4), ";"), "utf8");
+                fs.writeFileSync("./locale/generated/manifest.langs.json", JSON.stringify(Object.keys(master).map(function (lang) { return ({ "__LOCALE__": lang }); }), null, 4), "utf8");
                 makeFile(manifest);
                 makeFile(description);
                 makeFile(twitterDescription);

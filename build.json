@@ -137,10 +137,10 @@
         "web.manifest": {
             "meta": {
                 "template": {
-                    "path": "./web.manifest.template.json"
+                    "path": "./web.manifest/template.json"
                 },
                 "output": {
-                    "path": "./web.manifest.__LOCALE__.json"
+                    "path": "./web.manifest/generated/__LOCALE__.json"
                 },
                 "parameters": {
                     "__DESCRIPTION__": {
@@ -152,14 +152,9 @@
                     "__THEME_COLOR__": "#CC4488"
                 }
             },
-            "parameters": [
-                {
-                    "__LOCALE__": "en"
-                },
-                {
-                    "__LOCALE__": "ja"
-                }
-            ]
+            "parameters": {
+                "json": "./locale/generated/manifest.langs.json"
+            }
         },
         "style": {
             "processes": [

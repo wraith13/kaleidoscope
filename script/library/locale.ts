@@ -1,33 +1,8 @@
 import { Array as ToolsArray } from "@tools/array";
-import localeAr from "@resource/lang/ar.json";
-import localeDe from "@resource/lang/de.json";
-import localeEn from "@resource/lang/en.json";
-import localeEs from "@resource/lang/es.json";
-import localeFr from "@resource/lang/fr.json";
-import localeIt from "@resource/lang/it.json";
-import localeJa from "@resource/lang/ja.json";
-import localePt from "@resource/lang/pt.json";
-import localeRu from "@resource/lang/ru.json";
-import localeTr from "@resource/lang/tr.json";
-import localeZhCn from "@resource/lang/zh-cn.json";
-import localeZhTw from "@resource/lang/zh-tw.json";
+import * as localeMaster from "@locale-master";
 export namespace Locale
 {
-    export const master =
-    {
-        "ar": localeAr,
-        "de": localeDe,
-        "en": localeEn,
-        "es": localeEs,
-        "fr": localeFr,
-        "it": localeIt,
-        "ja": localeJa,
-        "pt": localePt,
-        "ru": localeRu,
-        "tr": localeTr,
-        "zh-cn": localeZhCn,
-        "zh-tw": localeZhTw,
-    };
+    export const master = localeMaster.localeMaster;
     export type Label = (keyof (typeof master[keyof typeof master])) | "";
     export type Language = keyof typeof master;
     const supportedLangs = Object.keys(master) as Language[];

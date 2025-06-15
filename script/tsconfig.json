@@ -33,6 +33,7 @@
         "outFile": "index.js",
         "paths": {
             "@resource/*": [ "../resource/*" ],
+            "@locale-master": [ "../locale/generated/master" ],
             "@library": [ "./library" ],
             "@library/*": [ "./library/*" ],
             "@tools": [ "./tools" ],

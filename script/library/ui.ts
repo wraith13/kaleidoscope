@@ -40,7 +40,7 @@ export namespace UI
     };
     export class ToggleClassForWhileTimer
     {
-        timer: number | undefined;
+        timer: ReturnType<typeof setTimeout> | undefined;
         constructor()
         {
             this.timer = undefined;

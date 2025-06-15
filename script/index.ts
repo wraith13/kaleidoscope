@@ -7,18 +7,6 @@ import control from "@resource/control.json";
 import evilCommonJsConfig from "@resource/evil-commonjs.config.json";
 import evilTimerJsConfig from "@resource/evil-timer.js.config.json";
 import images from "@resource/images.json";
-import localeAr from "@resource/lang/ar.json";
-import localeDe from "@resource/lang/de.json";
-import localeEn from "@resource/lang/en.json";
-import localeEs from "@resource/lang/es.json";
-import localeFr from "@resource/lang/fr.json";
-import localeIt from "@resource/lang/it.json";
-import localeJa from "@resource/lang/ja.json";
-import localePt from "@resource/lang/pt.json";
-import localeRu from "@resource/lang/ru.json";
-import localeTr from "@resource/lang/tr.json";
-import localeZhCn from "@resource/lang/zh-cn.json";
-import localeZhTw from "@resource/lang/zh-tw.json";
 import poweredBy from "@resource/powered-by.json";
 import shortcuts from "@resource/shortcuts.json";
 import { Url } from "./url";
@@ -45,18 +33,7 @@ const Resource =
     evilCommonJsConfig,
     evilTimerJsConfig,
     images,
-    localeAr,
-    localeDe,
-    localeEn,
-    localeEs,
-    localeFr,
-    localeIt,
-    localeJa,
-    localePt,
-    localeRu,
-    localeTr,
-    localeZhCn,
-    localeZhTw,
+    locale: Library.Locale.master,
     poweredBy,
     shortcuts
 };
