@@ -47,9 +47,6 @@
                 "__DESCRIPTION__": {
                     "path": "./locale/generated/description.html"
                 },
-                "__MANIFEST__": {
-                    "path": "./locale/generated/manifest.html"
-                },
                 "__TWITTER_DESCRIPTION__": {
                     "path": "./locale/generated/twitter-description.html"
                 },

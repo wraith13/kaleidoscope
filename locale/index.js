@@ -40,36 +40,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = __importDefault(require("fs"));
-var outputPath = "./locale/generated";
-var manifest = {
-    template: "<link rel=\"manifest\" lang=\"__LANG__\" href=\"web.manifest/generated/__LANG__.json\" />",
-    separetor: "\n",
-    output: "".concat(outputPath, "/manifest.html"),
-};
+var sourceDirectory = "./resource/lang";
+var outputDirectory = "./locale/generated";
 var description = {
     template: "<meta name=\"description\" lang=\"__LANG__\" content=\"__DESCRIPTION__\">",
     separetor: "\n",
-    output: "".concat(outputPath, "/description.html"),
+    output: "".concat(outputDirectory, "/description.html"),
 };
 var twitterDescription = {
     template: "<meta name=\"twitter:description\" lang=\"__LANG__\" content=\"__DESCRIPTION__\">",
     separetor: "\n",
-    output: "".concat(outputPath, "/twitter-description.html"),
+    output: "".concat(outputDirectory, "/twitter-description.html"),
 };
-var makeFile = function (master, data) { return fs_1.default.writeFileSync(data.output, Object.keys(master)
+var writeHtmlPart = function (master, data) { return fs_1.default.writeFileSync(data.output, Object.keys(master)
     .map(function (lang) {
     return data.template
         .replace(/__LANG__/g, lang)
         .replace(/__DESCRIPTION__/g, master[lang]["description"]);
 }).join(data.separetor), "utf8"); };
 var makeMasterFromSource = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var langPath, temporaryMaster, master;
+    var temporaryMaster, master;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                langPath = "./resource/lang";
                 temporaryMaster = {};
-                return [4 /*yield*/, Promise.all(fs_1.default.readdirSync(langPath)
+                return [4 /*yield*/, Promise.all(fs_1.default.readdirSync(sourceDirectory)
                         .filter(function (file) { return file.endsWith(".json"); })
                         .sort()
                         .map(function (file) { return __awaiter(void 0, void 0, void 0, function () {
@@ -79,7 +74,7 @@ var makeMasterFromSource = function () { return __awaiter(void 0, void 0, void 0
                                 case 0:
                                     lang = file.replace(/\.json$/, "");
                                     _b = (_a = JSON).parse;
-                                    return [4 /*yield*/, fs_1.default.promises.readFile("".concat(langPath, "/").concat(file), "utf8")];
+                                    return [4 /*yield*/, fs_1.default.promises.readFile("".concat(sourceDirectory, "/").concat(file), "utf8")];
                                 case 1:
                                     json = _b.apply(_a, [_c.sent()]);
                                     temporaryMaster[lang] = json;
@@ -106,11 +101,10 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                 master = _a.sent();
                 fs_1.default.writeFileSync("./README.md", fs_1.default.readFileSync("./README.template.md", "utf8")
                     .replace(/__LANG_LABEL_LIST__/g, Object.keys(master).map(function (key) { return master[key]["lang-label"]; }).join(", ")), "utf8");
-                fs_1.default.writeFileSync("".concat(outputPath, "/master.ts"), "export const localeMaster = ".concat(JSON.stringify(master, null, 4), ";"), "utf8");
-                fs_1.default.writeFileSync("".concat(outputPath, "/manifest.langs.json"), JSON.stringify(Object.keys(master).map(function (lang) { return ({ "__LOCALE__": lang }); }), null, 4), "utf8");
-                makeFile(master, manifest);
-                makeFile(master, description);
-                makeFile(master, twitterDescription);
+                fs_1.default.writeFileSync("".concat(outputDirectory, "/master.ts"), "export const localeMaster = ".concat(JSON.stringify(master, null, 4), ";"), "utf8");
+                fs_1.default.writeFileSync("".concat(outputDirectory, "/manifest.langs.json"), JSON.stringify(Object.keys(master).map(function (lang) { return ({ "__LOCALE__": lang }); }), null, 4), "utf8");
+                writeHtmlPart(master, description);
+                writeHtmlPart(master, twitterDescription);
                 return [2 /*return*/];
         }
     });

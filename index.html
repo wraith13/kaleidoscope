@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Mon Jun 16 2025 03:58:20 GMT+0900 (日本標準時)
+    build at: Mon Jun 16 2025 18:41:20 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -50,18 +50,7 @@ DEALINGS IN THE SOFTWARE.
 <meta name="description" lang="tr" content="Kaleidoscope Web Ekran Koruyucu">
 <meta name="description" lang="zh-cn" content="万花筒网页屏保">
 <meta name="description" lang="zh-tw" content="萬花筒網頁螢幕保護程式">
-<link rel="manifest" lang="ar" href="web.manifest/generated/ar.json" />
-<link rel="manifest" lang="de" href="web.manifest/generated/de.json" />
-<link rel="manifest" lang="en" href="web.manifest/generated/en.json" />
-<link rel="manifest" lang="es" href="web.manifest/generated/es.json" />
-<link rel="manifest" lang="fr" href="web.manifest/generated/fr.json" />
-<link rel="manifest" lang="it" href="web.manifest/generated/it.json" />
-<link rel="manifest" lang="ja" href="web.manifest/generated/ja.json" />
-<link rel="manifest" lang="pt" href="web.manifest/generated/pt.json" />
-<link rel="manifest" lang="ru" href="web.manifest/generated/ru.json" />
-<link rel="manifest" lang="tr" href="web.manifest/generated/tr.json" />
-<link rel="manifest" lang="zh-cn" href="web.manifest/generated/zh-cn.json" />
-<link rel="manifest" lang="zh-tw" href="web.manifest/generated/zh-tw.json" />
+<link id="manifest" rel="manifest" href="web.manifest/generated/en.json" />
 <meta name="apple-mobile-web-app-title" content="Kaleidoscope Web Screensaver">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1870,8 +1859,8 @@ DUMMYSTYLE
 <script type="text/javascript">
 const build =
 {
-    at: "Mon Jun 16 2025 03:58:20 GMT+0900 (日本標準時)",
-    tick: 1750013900420
+    at: "Mon Jun 16 2025 18:41:20 GMT+0900 (日本標準時)",
+    tick: 1750066880467
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -8840,6 +8829,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var UI;
     (function (UI) {
+        UI.manifest = _library_3.Library.UI.getElementById("link", "manifest");
         UI.screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
         UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
         UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
@@ -8901,6 +8891,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.updateLanguage = function () {
             _library_3.Library.Locale.setLocale(UI.languageSelect.get());
             UI.updateLanguageDirection();
+            UI.manifest.setAttribute("href", "web.manifest/generated/".concat(_library_3.Library.Locale.getLocale(), ".json"));
             UI.colorspaceSelect.reloadOptions();
             UI.coloringSelect.reloadOptions();
             UI.patternSelect.reloadOptions();

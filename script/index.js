@@ -3996,6 +3996,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
     powered_by_json_1 = __importDefault(powered_by_json_1);
     var UI;
     (function (UI) {
+        UI.manifest = _library_3.Library.UI.getElementById("link", "manifest");
         UI.screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
         UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
         UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
@@ -4057,6 +4058,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.updateLanguage = function () {
             _library_3.Library.Locale.setLocale(UI.languageSelect.get());
             UI.updateLanguageDirection();
+            UI.manifest.setAttribute("href", "web.manifest/generated/".concat(_library_3.Library.Locale.getLocale(), ".json"));
             UI.colorspaceSelect.reloadOptions();
             UI.coloringSelect.reloadOptions();
             UI.patternSelect.reloadOptions();

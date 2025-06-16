@@ -8,7 +8,7 @@
     "theme_color": "#CC4488",
     "description": "Kaleidoscope Web Ekran Koruyucu",
     "icons": [{
-        "src": "./image/favicon.png",
+        "src": "https://wraith13.github.io/kaleidoscope/image/favicon.png",
         "sizes": "1024x1024",
         "type": "image/png"
     }],

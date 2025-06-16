@@ -2739,6 +2739,7 @@ declare module "script/features/animation" {
 declare module "script/ui" {
     import { Library } from "script/library/index";
     export namespace UI {
+        const manifest: HTMLLinkElement;
         const screenBody: HTMLDivElement;
         const canvas: HTMLDivElement;
         const playButton: Library.Control.Button<HTMLElement>;

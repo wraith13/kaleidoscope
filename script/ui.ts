@@ -5,6 +5,8 @@ import control from "@resource/control.json";
 import poweredBy from "@resource/powered-by.json";
 export namespace UI
 {
+    export const manifest =
+        Library.UI.getElementById("link", "manifest");
     export const screenBody =
         Library.UI.getElementById("div", "screen-body");
     export const canvas =
@@ -121,6 +123,7 @@ export namespace UI
     {
         Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Language | "Auto");
         updateLanguageDirection();
+        manifest.setAttribute("href", `web.manifest/generated/${Library.Locale.getLocale()}.json`);
         UI.colorspaceSelect.reloadOptions();
         UI.coloringSelect.reloadOptions();
         UI.patternSelect.reloadOptions();
