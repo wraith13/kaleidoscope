@@ -62,12 +62,6 @@ The following options cannot be set via the UI.
 
 ```mermaid
 graph TB;
-    subgraph category
-        direction TB;
-        bc([build commands]);
-        sf[source files];
-        gf[[generated files]];
-    end
     subgraph ./locale
         direction TB;
         subgraph ./locale/generated
@@ -113,6 +107,12 @@ graph TB;
         end
         ./web.manifest/template.json;
         bwm([build web.manifest]);
+    end
+    subgraph category
+        direction TB;
+        bc([build commands]);
+        sf[source files];
+        gf[[generated files]];
     end
     ./locale/index.ts-->bls([build locale script]);
     bls([build locale script])-->./locale/index.js;

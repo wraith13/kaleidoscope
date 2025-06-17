@@ -52,12 +52,6 @@ var twitterDescription = {
     separetor: "\n",
     output: "".concat(outputDirectory, "/twitter-description.html"),
 };
-var writeHtmlPart = function (master, data) { return fs_1.default.writeFileSync(data.output, Object.keys(master)
-    .map(function (lang) {
-    return data.template
-        .replace(/__LANG__/g, lang)
-        .replace(/__DESCRIPTION__/g, master[lang]["description"]);
-}).join(data.separetor), "utf8"); };
 var makeMasterFromSource = function () { return __awaiter(void 0, void 0, void 0, function () {
     var temporaryMaster, master;
     return __generator(this, function (_a) {
@@ -92,6 +86,10 @@ var makeMasterFromSource = function () { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+var writeHtmlPart = function (master, data) { return fs_1.default.writeFileSync(data.output, Object.keys(master).map(function (lang) { return data.template
+    .replace(/__LANG__/g, lang)
+    .replace(/__DESCRIPTION__/g, master[lang]["description"]); })
+    .join(data.separetor), "utf8"); };
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var master;
     return __generator(this, function (_a) {

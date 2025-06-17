@@ -13,19 +13,6 @@ const twitterDescription =
     separetor: "\n",
     output: `${outputDirectory}/twitter-description.html`,
 }
-const writeHtmlPart = (master: Record<string, any>, data: { template: string, separetor: string, output: string }) => fs.writeFileSync
-(
-    data.output,
-    Object.keys(master)
-    .map
-    (
-        (lang: string) =>
-        data.template
-            .replace(/__LANG__/g, lang)
-            .replace(/__DESCRIPTION__/g, master[lang]["description"])
-    ).join(data.separetor),
-    "utf8"
-);
 const makeMasterFromSource = async () =>
 {
     const temporaryMaster = { } as Record<string, any>;
@@ -50,6 +37,18 @@ const makeMasterFromSource = async () =>
         .forEach(key => master[key] = temporaryMaster[key]);
     return master;
 };
+const writeHtmlPart = (master: Record<string, any>, data: { template: string, separetor: string, output: string }) => fs.writeFileSync
+(
+    data.output,
+    Object.keys(master).map
+        (
+            (lang: string) => data.template
+                .replace(/__LANG__/g, lang)
+                .replace(/__DESCRIPTION__/g, master[lang]["description"])
+        )
+        .join(data.separetor),
+    "utf8"
+);
 const main = async () =>
 {
     const master = await makeMasterFromSource();

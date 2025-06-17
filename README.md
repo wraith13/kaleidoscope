@@ -23,7 +23,7 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 - Cycle Span: 1s - 1h
 - Fullscreen Support
 - Show Clock: Hide, Blend, White, Black, System, Alternate, Rainbow
-- Multi-language Support: العربية, Deutsch, English, Español, Français, Italiano, 日本語, Português, Русский, Türkçe, 简体中文, 繁體中文
+- Multi-language Support: العربية, Deutsch, English, Español, Français, Italiano, 日本語, 한국어, Português, Русский, Türkçe, 简体中文, 繁體中文
 - Device Compatibility: PCs, Smartphones, Tablets
 - Keyboard Shortcuts Support for easier operation
 
@@ -62,12 +62,6 @@ The following options cannot be set via the UI.
 
 ```mermaid
 graph TB;
-    subgraph category
-        direction TB;
-        bc([build commands]);
-        sf[source files];
-        gf[[generated files]];
-    end
     subgraph ./locale
         direction TB;
         subgraph ./locale/generated
@@ -113,6 +107,12 @@ graph TB;
         end
         ./web.manifest/template.json;
         bwm([build web.manifest]);
+    end
+    subgraph category
+        direction TB;
+        bc([build commands]);
+        sf[source files];
+        gf[[generated files]];
     end
     ./locale/index.ts-->bls([build locale script]);
     bls([build locale script])-->./locale/index.js;
