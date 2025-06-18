@@ -86,6 +86,29 @@ var makeMasterFromSource = function () { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+var checkMaster = function (master) {
+    var allUniqueKeys = Object.values(master)
+        .reduce(function (previous, current) { return previous.concat(Object.keys(current)); }, [])
+        .filter(function (i, ix, list) { return list.indexOf(i) === ix; });
+    var commonUniqueKeys = Object.values(master)
+        .reduce(function (previous, current) { return previous.filter(function (key) { return key in current; }); }, allUniqueKeys);
+    Object.keys(master).forEach(function (lang) {
+        var langKeys = Object.keys(master[lang]);
+        var missingKeys = allUniqueKeys.filter(function (key) { return !langKeys.includes(key); });
+        var extraKeys = langKeys.filter(function (key) { return !commonUniqueKeys.includes(key); });
+        if (0 < missingKeys.length) {
+            if (0 < extraKeys.length) {
+                console.error("\uD83D\uDEAB ".concat(sourceDirectory, "/").concat(lang, ".json: Missing keys: ").concat(missingKeys.join(", "), ", Extra keys: ").concat(extraKeys.join(", ")));
+            }
+            else {
+                console.error("\uD83D\uDEAB ".concat(sourceDirectory, "/").concat(lang, ".json: Missing keys: ").concat(missingKeys.join(", ")));
+            }
+        }
+        else if (0 < extraKeys.length) {
+            console.error("\uD83D\uDEAB ".concat(sourceDirectory, "/").concat(lang, ".json: Extra keys: ").concat(extraKeys.join(", ")));
+        }
+    });
+};
 var writeHtmlPart = function (master, data) { return fs_1.default.writeFileSync(data.output, Object.keys(master).map(function (lang) { return data.template
     .replace(/__LANG__/g, lang)
     .replace(/__DESCRIPTION__/g, master[lang]["description"]); })
@@ -97,6 +120,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
             case 0: return [4 /*yield*/, makeMasterFromSource()];
             case 1:
                 master = _a.sent();
+                checkMaster(master);
                 fs_1.default.writeFileSync("./README.md", fs_1.default.readFileSync("./README.template.md", "utf8")
                     .replace(/__LANG_LABEL_LIST__/g, Object.keys(master).map(function (key) { return master[key]["lang-label"]; }).join(", ")), "utf8");
                 fs_1.default.writeFileSync("".concat(outputDirectory, "/master.ts"), "export const localeMaster = ".concat(JSON.stringify(master, null, 4), ";"), "utf8");

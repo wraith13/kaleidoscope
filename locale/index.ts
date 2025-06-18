@@ -1,6 +1,7 @@
 import fs from "fs";
 const sourceDirectory = "./resource/lang";
 const outputDirectory = "./locale/generated";
+type MasterType = Record<string, Record<string, string>>;
 const description =
 {
     template: `<meta name="description" lang="__LANG__" content="__DESCRIPTION__">`,
@@ -15,7 +16,7 @@ const twitterDescription =
 }
 const makeMasterFromSource = async () =>
 {
-    const temporaryMaster = { } as Record<string, any>;
+    const temporaryMaster = { } as MasterType;
     await Promise.all
     (
         fs.readdirSync(sourceDirectory)
@@ -31,13 +32,46 @@ const makeMasterFromSource = async () =>
             }
         )
     );
-    const master = { } as Record<string, any>;
+    const master = { } as MasterType;
     Object.keys(temporaryMaster)
         .sort()
         .forEach(key => master[key] = temporaryMaster[key]);
     return master;
 };
-const writeHtmlPart = (master: Record<string, any>, data: { template: string, separetor: string, output: string }) => fs.writeFileSync
+const checkMaster = (master: MasterType) =>
+{
+    const allUniqueKeys = Object.values(master)
+        .reduce((previous, current) => previous.concat(Object.keys(current)), [] as string[])
+        .filter((i, ix, list) => list.indexOf(i) === ix);
+    const commonUniqueKeys = Object.values(master)
+        .reduce((previous, current) => previous.filter(key => key in current), allUniqueKeys);
+    Object.keys(master).forEach
+    (
+        lang =>
+        {
+            const langKeys = Object.keys(master[lang]);
+            const missingKeys = allUniqueKeys.filter(key => ! langKeys.includes(key));
+            const extraKeys = langKeys.filter(key => ! commonUniqueKeys.includes(key));
+            if (0 < missingKeys.length)
+            {
+                if (0 < extraKeys.length)
+                {
+                    console.error(`🚫 ${sourceDirectory}/${lang}.json: Missing keys: ${missingKeys.join(", ")}, Extra keys: ${extraKeys.join(", ")}`);
+                }
+                else
+                {
+                    console.error(`🚫 ${sourceDirectory}/${lang}.json: Missing keys: ${missingKeys.join(", ")}`);
+                }
+            }
+            else
+            if (0 < extraKeys.length)
+            {
+                console.error(`🚫 ${sourceDirectory}/${lang}.json: Extra keys: ${extraKeys.join(", ")}`);
+            }
+        }
+    );
+};
+const writeHtmlPart = (master: MasterType, data: { template: string, separetor: string, output: string }) => fs.writeFileSync
 (
     data.output,
     Object.keys(master).map
@@ -52,6 +86,7 @@ const writeHtmlPart = (master: Record<string, any>, data: { template: string, se
 const main = async () =>
 {
     const master = await makeMasterFromSource();
+    checkMaster(master);
     fs.writeFileSync
     (
         `./README.md`,

@@ -16,6 +16,8 @@
 1. `resource/lang/<lang>.json` に言語表現を追加（既存ファイルをテンプレートとしてコピー）。
 2. `npm run-script build locale` あるいは `npm run-script build all` を実行。( README.md も含めて、これで更新されます。 )
 
+日本語( `resource/lang/ja.json` )がオリジナルで、英語( `resource/lang/en.json` )は翻訳内容を検証済みですが、他は全て AI 生成されたものを検証無しで使用しています。この為、新しい言語を追加する際には日本語と英語を参照してください。
+
 ## 利用方法
 
 - プロジェクト固有の Copilot 指示やルールはこのファイルに記載してください。
