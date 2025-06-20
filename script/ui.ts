@@ -117,13 +117,13 @@ export namespace UI
         new Library.Control.Button({ id: "benchmark-abort-button", });
     export const benchmarkResultCloseButton =
         new Library.Control.Button({ id: "benchmark-result-close-button", });
-    export const updateLanguageDirection = (lang?: Library.Locale.Language) =>
-        document.documentElement.setAttribute("dir", Library.Locale.getDirection(lang));
     export const updateLanguage = () =>
     {
         Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Language | "Auto");
-        updateLanguageDirection();
-        manifest.setAttribute("href", `web.manifest/generated/${Library.Locale.getLocale()}.json`);
+        const lang = Library.Locale.getLocale();
+        document.documentElement.setAttribute("lang", lang);
+        document.documentElement.setAttribute("dir", Library.Locale.getDirection(lang));
+        manifest.setAttribute("href", `web.manifest/generated/${lang}.json`);
         UI.colorspaceSelect.reloadOptions();
         UI.coloringSelect.reloadOptions();
         UI.patternSelect.reloadOptions();

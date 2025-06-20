@@ -23,7 +23,7 @@ This software can be hosted and shared using GitHub Pages, making it easy to use
 - Cycle Span: 1s - 1h
 - Fullscreen Support
 - Show Clock: Hide, Blend, White, Black, System, Alternate, Rainbow
-- Multi-language Support: العربية, Deutsch, English, Español, فارسی, Français, हिन्दी, Bahasa Indonesia, Italiano, 日本語, 한국어, Português, Русский, ไทย, Türkçe, 简体中文, 繁體中文
+- Multi-language Support: العربية, Deutsch, English, Español, فارسی, Français, हिन्दी, Bahasa Indonesia, Italiano, 日本語, 한국어, Português, Русский, ไทย, Türkçe, Tiếng Việt, 简体中文, 繁體中文
 - Device Compatibility: PCs, Smartphones, Tablets
 - Keyboard Shortcuts Support for easier operation
 
