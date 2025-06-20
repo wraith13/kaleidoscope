@@ -91,7 +91,7 @@ const main = async () =>
     (
         `./README.md`,
         fs.readFileSync("./README.template.md", "utf8")
-            .replace(/__LANG_LABEL_LIST__/g, Object.keys(master).map(key => master[key]["lang-label"]).join(", ")),
+            .replace(/__LANG_LABEL_LIST__/g, Object.keys(master).map(key => `${master[key]["lang-label"]}(${key})`).join(", ")),
         "utf8"
     );
     fs.writeFileSync
