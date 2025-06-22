@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Wynik całkowity to wartość uzyskana przez podzielenie wyniku renderowania przez wynik rozdzielczości ekranu. Im lepszy wyświetlacz, tym większe obciążenie renderowania, więc wynik całkowity maleje.",
     "benchmark-description-calculation-score": "Wynik obliczeń to wydajność przetwarzania animacji w stanie ukrytym. Wynik renderowania to wydajność przetwarzania animacji w stanie widocznym.",
     "benchmark-description-rendering-score": "Wynik renderowania to zmierzona wartość pomnożona przez wynik rozdzielczości ekranu. Ponieważ jest to wynik dla wyświetlacza Full HD, ta wartość jest bardziej odpowiednia do porównywania wydajności renderowania z innymi komputerami niż wynik całkowity.",
-    "benchmark-description-display-score": "Wynik wyświetlania to wartość uzyskana przez pomnożenie wyniku rozdzielczości ekranu przez FPS przy niskim obciążeniu.",
+    "benchmark-description-display-score": "Wynik wyświetlania to wartość uzyskana przez pomnożenie wyniku rozdzielczości ekranu przez FPS przy niskim obciążeniu (przyjmując 60 jako 1).",
     "benchmark-description-screen-resolution-score": "Wynik rozdzielczości ekranu to ilość informacji ekranu przy { Szerokość ekranu: 1920, Wysokość ekranu: 1080, Wskaźnik pikseli urządzenia: 1, Głębia kolorów ekranu: 24 } jako 1.",
     "Unmeasured": "Niezmierzony",
     "UnmeasurablePoor": "Niemierzalny (niewystarczająca wydajność)",

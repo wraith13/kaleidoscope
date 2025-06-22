@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Skor total adalah nilai yang diperoleh dengan membagi skor rendering dengan skor resolusi layar. Semakin baik tampilan, semakin tinggi beban rendering, sehingga skor total menurun.",
     "benchmark-description-calculation-score": "Skor perhitungan adalah performa pemrosesan animasi dalam keadaan tersembunyi. Skor rendering adalah performa pemrosesan animasi dalam keadaan terlihat.",
     "benchmark-description-rendering-score": "Skor rendering adalah nilai yang diukur dikalikan dengan skor resolusi layar. Karena ini adalah skor saat tampilan Full HD, nilai ini lebih cocok untuk membandingkan performa rendering dengan mesin lain daripada skor total.",
-    "benchmark-description-display-score": "Skor tampilan adalah nilai yang diperoleh dengan mengalikan skor resolusi layar dengan frame rate beban rendah.",
+    "benchmark-description-display-score": "Skor tampilan adalah nilai yang diperoleh dengan mengalikan skor resolusi layar dengan frame rate beban rendah (dengan 60 sebagai 1).",
     "benchmark-description-screen-resolution-score": "Skor resolusi layar adalah jumlah informasi layar dengan { Lebar Layar: 1920, Tinggi Layar: 1080, Rasio Piksel Perangkat: 1, Kedalaman Warna Layar: 24 } sebagai 1.",
     "Unmeasured": "Belum diukur",
     "UnmeasurablePoor": "Tidak dapat diukur (Performa Tidak Cukup)",

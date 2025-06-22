@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "总分为渲染分数除以屏幕分辨率分数。显示器越好，渲染负载越高，总分越低。",
     "benchmark-description-calculation-score": "计算分数为隐藏状态下动画处理性能。渲染分数为显示状态下动画处理性能。",
     "benchmark-description-rendering-score": "渲染分数为实测值乘以屏幕分辨率分数。若要与其他机器比较渲染性能，这个值比总分更适合，因为它以 Full HD 显示器为基准。",
-    "benchmark-description-display-score": "显示分数为屏幕分辨率分数乘以低负载时帧率。",
+    "benchmark-description-display-score": "显示分数为屏幕分辨率分数与低负载时帧率（以 60 为 1）相乘得到的值。",
     "benchmark-description-screen-resolution-score": "屏幕分辨率分数以 { 屏幕宽度: 1920, 屏幕高度: 1080, 设备像素比: 1, 屏幕色深: 24 } 为 1 的屏幕信息量。",
     "Unmeasured": "未测量",
     "UnmeasurablePoor": "无法测量(性能不足)",

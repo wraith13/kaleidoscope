@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Tổng điểm là giá trị lấy điểm kết xuất chia cho điểm độ phân giải màn hình. Màn hình càng tốt thì tải kết xuất càng cao, tổng điểm càng giảm.",
     "benchmark-description-calculation-score": "Điểm tính toán là hiệu suất xử lý hoạt ảnh ở trạng thái ẩn. Điểm kết xuất là hiệu suất xử lý hoạt ảnh ở trạng thái hiển thị.",
     "benchmark-description-rendering-score": "Điểm kết xuất là giá trị đo được nhân với điểm độ phân giải màn hình. Đây là điểm khi màn hình là Full HD, nên giá trị này phù hợp để so sánh hiệu suất kết xuất với các máy khác hơn là tổng điểm.",
-    "benchmark-description-display-score": "Điểm hiển thị là giá trị lấy điểm độ phân giải màn hình nhân với tốc độ khung hình tải thấp.",
+    "benchmark-description-display-score": "Điểm hiển thị là giá trị lấy điểm độ phân giải màn hình nhân với tốc độ khung hình tải thấp (với 60 là 1).",
     "benchmark-description-screen-resolution-score": "Điểm độ phân giải màn hình là lượng thông tin màn hình với { Chiều rộng: 1920, Chiều cao: 1080, Tỷ lệ điểm ảnh thiết bị: 1, Độ sâu màu: 24 } là 1.",
     "Unmeasured": "Chưa đo",
     "UnmeasurablePoor": "Không đo được (hiệu suất thấp)",

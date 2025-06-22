@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "總分為繪圖分數除以螢幕解析度分數。顯示器越好，繪圖負載越高，總分越低。",
     "benchmark-description-calculation-score": "計算分數為隱藏狀態下動畫處理效能。繪圖分數為顯示狀態下動畫處理效能。",
     "benchmark-description-rendering-score": "繪圖分數為實測值乘以螢幕解析度分數。若要與其他機器比較繪圖效能，這個值比總分更適合，因為它以 Full HD 顯示器為基準。",
-    "benchmark-description-display-score": "顯示分數為螢幕解析度分數乘以低負載時幀率。",
+    "benchmark-description-display-score": "顯示分數為螢幕解析度分數乘以低負載時幀率（以 60 為 1）。",
     "benchmark-description-screen-resolution-score": "螢幕解析度分數以 { 螢幕寬度: 1920, 螢幕高度: 1080, 裝置像素比: 1, 螢幕色彩深度: 24 } 為 1 的螢幕資訊量。",
     "Unmeasured": "未測量",
     "UnmeasurablePoor": "無法測量(效能不足)",

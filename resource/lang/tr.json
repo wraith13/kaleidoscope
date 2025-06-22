@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Toplam puan, render puanının ekran çözünürlüğü puanına bölünmesiyle elde edilir. Ekran ne kadar iyi olursa, render yükü o kadar artar ve toplam puan azalır.",
     "benchmark-description-calculation-score": "Hesaplama puanı, gizli durumda animasyon işleme performansıdır. Render puanı, görünür durumda animasyon işleme performansıdır.",
     "benchmark-description-rendering-score": "Render puanı, ölçülen değerin ekran çözünürlüğü puanı ile çarpılmasıdır. Bu, ekran Full HD olduğunda alınan puandır, bu nedenle diğer makinelerle render performansını karşılaştırmak için toplam puandan daha uygundur.",
-    "benchmark-description-display-score": "Ekran puanı, ekran çözünürlüğü puanı ile düşük yük FPS'nin çarpılmasıyla elde edilir.",
+    "benchmark-description-display-score": "Ekran puanı, ekran çözünürlüğü puanı ile düşük yük FPS'nin (60 = 1 olarak alınır) çarpılmasıyla elde edilir.",
     "benchmark-description-screen-resolution-score": "Ekran çözünürlüğü puanı, { Ekran Genişliği: 1920, Ekran Yüksekliği: 1080, Cihaz Piksel Oranı: 1, Ekran Renk Derinliği: 24 } ile 1 olarak alınan ekran bilgi miktarıdır.",
     "Unmeasured": "Ölçülmedi",
     "UnmeasurablePoor": "Ölçülemez (Yetersiz Performans)",

@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "امتیاز کل از تقسیم امتیاز رندر بر امتیاز وضوح صفحه به دست می‌آید.",
     "benchmark-description-calculation-score": "امتیاز محاسبه عملکرد انیمیشن در حالت مخفی است.",
     "benchmark-description-rendering-score": "امتیاز رندر با ضرب مقدار اندازه‌گیری شده در امتیاز وضوح صفحه به دست می‌آید.",
-    "benchmark-description-display-score": "امتیاز نمایش حاصل ضرب امتیاز وضوح صفحه و نرخ فریم بار کم است.",
+    "benchmark-description-display-score": "امتیاز نمایش حاصل ضرب امتیاز وضوح صفحه و نرخ فریم بار کم است (عدد ۶۰ معادل ۱ در نظر گرفته می‌شود).",
     "benchmark-description-screen-resolution-score": "امتیاز وضوح صفحه بر اساس { عرض: 1920، ارتفاع: 1080، نسبت پیکسل: 1، عمق رنگ: 24 } برابر با 1 است.",
     "Unmeasured": "اندازه‌گیری نشده",
     "UnmeasurablePoor": "غیرقابل اندازه‌گیری (عملکرد ناکافی)",

@@ -1,6 +1,6 @@
 {
     "name": "@wraith13/kaleidoscope",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "Kaleidoscope Web Screensaver",
     "scripts": {
         "build all": "node ./build.js ../build.json all",

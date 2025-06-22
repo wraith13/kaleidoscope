@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "De totale score is de renderingscore gedeeld door de schermresolutiescore. Hoe beter het scherm, hoe hoger de renderbelasting, dus de totale score daalt.",
     "benchmark-description-calculation-score": "De berekeningsscore is de animatieverwerkingsprestaties in verborgen toestand. De renderingscore is de animatieverwerkingsprestaties in zichtbare toestand.",
     "benchmark-description-rendering-score": "De renderingscore is de gemeten waarde vermenigvuldigd met de schermresolutiescore. Dit is de score bij een Full HD-scherm, dus deze waarde is geschikter om de renderprestaties met andere machines te vergelijken dan de totale score.",
-    "benchmark-description-display-score": "De displayscore is de schermresolutiescore vermenigvuldigd met de framerate bij lage belasting.",
+    "benchmark-description-display-score": "De displayscore is de waarde verkregen door de schermresolutiescore te vermenigvuldigen met de framerate bij lage belasting (waarbij 60 gelijk is aan 1).",
     "benchmark-description-screen-resolution-score": "De schermresolutiescore is de hoeveelheid scherminformatie met { Schermbreedte: 1920, Schermhoogte: 1080, Apparaat pixelverhouding: 1, Scherm kleurendiepte: 24 } als 1.",
     "Unmeasured": "Niet gemeten",
     "UnmeasurablePoor": "Niet meetbaar (onvoldoende prestaties)",

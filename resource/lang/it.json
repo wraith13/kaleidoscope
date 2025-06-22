@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Il punteggio totale si ottiene dividendo il punteggio di rendering per quello di risoluzione schermo. Migliore è il display, maggiore è il carico di rendering, quindi il punteggio totale diminuisce.",
     "benchmark-description-calculation-score": "Il punteggio di calcolo misura le prestazioni dell'animazione in stato nascosto. Il punteggio di rendering misura le prestazioni in stato visibile.",
     "benchmark-description-rendering-score": "Il punteggio di rendering è il valore misurato moltiplicato per il punteggio di risoluzione schermo. Questo valore è più adatto per confrontare le prestazioni di rendering tra macchine diverse rispetto al punteggio totale.",
-    "benchmark-description-display-score": "Il punteggio display è il punteggio di risoluzione schermo moltiplicato per il frame rate a basso carico.",
+    "benchmark-description-display-score": "Il punteggio display è il valore ottenuto moltiplicando il punteggio di risoluzione schermo per il frame rate a basso carico (con 60 come 1).",
     "benchmark-description-screen-resolution-score": "Il punteggio di risoluzione schermo è la quantità di informazioni dello schermo con { Larghezza: 1920, Altezza: 1080, Rapporto Pixel: 1, Profondità Colore: 24 } come 1.",
     "Unmeasured": "Non misurato",
     "UnmeasurablePoor": "Non misurabile (Prestazioni insufficienti)",

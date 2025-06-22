@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "총점은 렌더링 점수를 화면 해상도 점수로 나눈 값입니다. 디스플레이가 좋을수록 렌더링 부하가 증가하므로 총점은 낮아집니다.",
     "benchmark-description-calculation-score": "계산 점수는 비표시 상태에서의 애니메이션 처리 성능입니다. 렌더링 점수는 표시 상태에서의 애니메이션 처리 성능입니다.",
     "benchmark-description-rendering-score": "렌더링 점수는 실측값에 화면 해상도 점수를 곱한 값입니다. 디스플레이가 Full HD일 때의 점수이므로, 다른 머신과 렌더링 성능을 비교할 때 총점보다 이 값이 더 적합합니다.",
-    "benchmark-description-display-score": "디스플레이 점수는 화면 해상도 점수와 저부하 프레임레이트를 곱한 값입니다.",
+    "benchmark-description-display-score": "디스플레이 점수는 화면 해상도 점수와 저부하 프레임레이트(60을 1로 계산)를 곱한 값입니다.",
     "benchmark-description-screen-resolution-score": "화면 해상도 점수는 { 화면 너비: 1920, 화면 높이: 1080, 디바이스 픽셀 비율: 1, 화면 색상 깊이: 24 }를 1로 한 화면 정보량입니다.",
     "Unmeasured": "미측정",
     "UnmeasurablePoor": "측정 불가(성능 부족)",

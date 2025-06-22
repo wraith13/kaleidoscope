@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "総合スコアは描画スコアを画面解像度スコアで割った値です。良いディスプレイである程、レンダリングの負荷が上がる為に総合スコアは低下します。",
     "benchmark-description-calculation-score": "計算スコアは非表示状態でのアニメーション処理性能です。描画スコアは、表示状態でのアニメーション処理性能です。",
     "benchmark-description-rendering-score": "描画スコアは実測値に画面解像度スコアをかけた値です。ディスプレイが Full HD の場合のスコアとなるので、他のマシンと描画性能を比較したい時に総合スコアよりこちらの値が適しています。",
-    "benchmark-description-display-score": "ディスプレイスコアは画面解像度スコアと低負荷時フレームレートを掛け合わせた値です。",
+    "benchmark-description-display-score": "ディスプレイスコアは画面解像度スコアと低負荷時フレームレート( 60 を 1 とします )を掛け合わせた値です。",
     "benchmark-description-screen-resolution-score": "画面解像度スコアは { 画面横幅: 1920, 画面高さ: 1080, デバイスピクセル比: 1, 画面色深度: 24 } を 1 とした画面情報量です。",
     "Unmeasured": "未計測",
     "UnmeasurablePoor": "計測不能(性能不足)",

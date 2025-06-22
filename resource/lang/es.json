@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "La puntuación total es el valor obtenido al dividir la puntuación de renderizado por la puntuación de resolución de pantalla. Cuanto mejor sea la pantalla, mayor será la carga de renderizado, por lo que la puntuación total disminuye.",
     "benchmark-description-calculation-score": "La puntuación de cálculo es el rendimiento del procesamiento de animación en estado oculto. La puntuación de renderizado es el rendimiento del procesamiento de animación en estado visible.",
     "benchmark-description-rendering-score": "La puntuación de renderizado es el valor medido multiplicado por la puntuación de resolución de pantalla. Como esta es la puntuación cuando la pantalla es Full HD, este valor es más adecuado para comparar el rendimiento de renderizado con otras máquinas que la puntuación total.",
-    "benchmark-description-display-score": "La puntuación de pantalla es el valor obtenido multiplicando la puntuación de resolución de pantalla por la frecuencia de cuadro en baja carga.",
+    "benchmark-description-display-score": "La puntuación de pantalla es el valor obtenido multiplicando la puntuación de resolución de pantalla por la frecuencia de cuadro en baja carga (con 60 como 1).",
     "benchmark-description-screen-resolution-score": "La puntuación de resolución de pantalla es la cantidad de información de pantalla con { Ancho de pantalla: 1920, Altura de pantalla: 1080, Relación de píxeles del dispositivo: 1, Profundidad de color de pantalla: 24 } como 1.",
     "Unmeasured": "No medido",
     "UnmeasurablePoor": "No medible (rendimiento insuficiente)",

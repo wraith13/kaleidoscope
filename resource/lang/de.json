@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Die Gesamtpunktzahl ist der Wert, der sich ergibt, wenn die Render-Punktzahl durch die Bildschirmauflösungspunktzahl geteilt wird. Je besser das Display, desto höher die Renderlast, daher sinkt die Gesamtpunktzahl.",
     "benchmark-description-calculation-score": "Die Berechnungspunktzahl ist die Leistung der Animationsverarbeitung im versteckten Zustand. Die Render-Punktzahl ist die Leistung der Animationsverarbeitung im sichtbaren Zustand.",
     "benchmark-description-rendering-score": "Die Render-Punktzahl ist der gemessene Wert multipliziert mit der Bildschirmauflösungspunktzahl. Da dies der Wert bei Full HD ist, eignet sich dieser Wert besser zum Vergleich der Renderleistung mit anderen Maschinen als die Gesamtpunktzahl.",
-    "benchmark-description-display-score": "Die Anzeige-Punktzahl ist der Wert, der sich ergibt, wenn die Bildschirmauflösungspunktzahl mit der Framerate bei niedriger Last multipliziert wird.",
+    "benchmark-description-display-score": "Die Anzeige-Punktzahl ist der Wert, der sich ergibt, wenn die Bildschirmauflösungspunktzahl mit der Framerate bei niedriger Last (wobei 60 als 1 gilt) multipliziert wird.",
     "benchmark-description-screen-resolution-score": "Die Bildschirmauflösungspunktzahl ist die Menge an Bildschirminformationen mit { Bildschirmbreite: 1920, Bildschirmhöhe: 1080, Geräte-Pixel-Verhältnis: 1, Bildschirmfarbtiefe: 24 } als 1.",
     "Unmeasured": "Nicht gemessen",
     "UnmeasurablePoor": "Nicht messbar (unzureichende Leistung)",

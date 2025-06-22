@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "A pontuação total é o valor obtido dividindo a pontuação de renderização pela pontuação de resolução da tela.",
     "benchmark-description-calculation-score": "A pontuação de cálculo é o desempenho do processamento de animação em estado oculto. A pontuação de renderização é o desempenho em estado visível.",
     "benchmark-description-rendering-score": "A pontuação de renderização é o valor medido multiplicado pela pontuação de resolução da tela.",
-    "benchmark-description-display-score": "A pontuação de exibição é o valor obtido multiplicando a pontuação de resolução da tela pela taxa de quadros em baixa carga.",
+    "benchmark-description-display-score": "A pontuação de exibição é o valor obtido multiplicando a pontuação de resolução da tela pela taxa de quadros em baixa carga (com 60 como 1).",
     "benchmark-description-screen-resolution-score": "A pontuação de resolução da tela é a quantidade de informação da tela com { Largura da tela: 1920, Altura da tela: 1080, Proporção de pixels do dispositivo: 1, Profundidade de cor da tela: 24 } como 1.",
     "Unmeasured": "Não medido",
     "UnmeasurablePoor": "Não mensurável (desempenho insuficiente)",

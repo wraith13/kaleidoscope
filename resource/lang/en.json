@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Total score is the value obtained by dividing the rendering score by the screen resolution score. The better the display, the higher the rendering load, so the total score decreases.",
     "benchmark-description-calculation-score": "Calculation score is the performance of animation processing in a hidden state. Rendering score is the performance of animation processing in a visible state.",
     "benchmark-description-rendering-score": "Rendering score is the measured value multiplied by the screen resolution score. Since this is the score when the display is Full HD, this value is more suitable for comparing rendering performance with other machines than the total score.",
-    "benchmark-description-display-score": "Display score is the value obtained by multiplying the screen resolution score by the low load frame rate.",
+    "benchmark-description-display-score": "Display score is the value obtained by multiplying the screen resolution score by the low-load frame rate (with 60 as 1).",
     "benchmark-description-screen-resolution-score": "Screen resolution score is the amount of screen information with { Screen Width: 1920, Screen Height: 1080, Device Pixel Ratio: 1, Screen Color Depth: 24 } as 1.",
     "Unmeasured": "Unmeasured",
     "UnmeasurablePoor": "Unmeasurable (Insufficient Performance)",

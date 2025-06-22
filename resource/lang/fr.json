@@ -74,7 +74,7 @@
     "benchmark-description-total-score": "Le score total est la valeur obtenue en divisant le score de rendu par le score de résolution d'écran.",
     "benchmark-description-calculation-score": "Le score de calcul est la performance de traitement d'animation en état caché. Le score de rendu est la performance en état visible.",
     "benchmark-description-rendering-score": "Le score de rendu est la valeur mesurée multipliée par le score de résolution d'écran.",
-    "benchmark-description-display-score": "Le score d'affichage est la valeur obtenue en multipliant le score de résolution d'écran par le FPS en faible charge.",
+    "benchmark-description-display-score": "Le score d'affichage est la valeur obtenue en multipliant le score de résolution d'écran par le FPS en faible charge (60 équivaut à 1).",
     "benchmark-description-screen-resolution-score": "Le score de résolution d'écran est la quantité d'information d'écran avec { Largeur d'écran : 1920, Hauteur d'écran : 1080, Ratio de pixels de l'appareil : 1, Profondeur de couleur d'écran : 24 } comme 1.",
     "Unmeasured": "Non mesuré",
     "UnmeasurablePoor": "Non mesurable (performance insuffisante)",
