@@ -2028,6 +2028,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "lo
 define("resource/config", [], {
     "applicationTitle": "Kaleidoscope Web Screensaver",
     "repositoryUrl": "https://github.com/wraith13/kaleidoscope/",
+    "googleSiteVerification": "8oVkEdixbPXy2SZ14pt0gKvdFXfFlcAYyD1HxCxJvnw",
     "log": {
         "mousemove": false,
         "ToggleClassForWhileTimer.Timeout": false

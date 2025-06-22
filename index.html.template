@@ -27,6 +27,7 @@ __DESCRIPTION__
 <meta name="twitter:title" content="__APPLICATION_TITLE__">
 __TWITTER_DESCRIPTION__
 <meta name="twitter:image" content="https://wraith13.github.io/kaleidoscope/image/twitter-card.png">
+<meta name="google-site-verification" content="__GOOGLE_SITE_VERIFICATION__" />
 <style>
 __STYLE__
 DUMMYSTYLE
