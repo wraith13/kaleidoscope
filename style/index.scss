@@ -1,6 +1,7 @@
 @use "./params" as *;
 @use "./traits" as *;
 @use "./base" as *;
+@use "./noscript.scss" as *;
 #screen-header
 {
     @include slide-up-transition("body.immersive", "body.hide-ui");
