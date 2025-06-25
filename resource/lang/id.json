@@ -83,5 +83,8 @@
     "HighLoad": "Beban Tinggi",
     "MediumLoad": "Beban Sedang",
     "LowLoad": "Beban Rendah",
-    "WithLoad": "Dengan Beban"
+    "WithLoad": "Dengan Beban",
+    "noscript-message": "JavaScript dinonaktifkan. Silakan aktifkan JavaScript.",
+    "noscript-introduction-title": "Perkenalan",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver adalah screensaver berbasis web yang menampilkan animasi seperti kaleidoskop. Pengguna dapat menyesuaikan pola dan warna untuk menciptakan efek sederhana namun menarik secara visual yang menyerupai kaleidoskop. Dapat berjalan di berbagai perangkat, termasuk PC, smartphone, dan tablet, serta mendukung mode layar penuh.\n\nDengan menambah jumlah lapisan, pengguna dapat menciptakan visual yang lebih indah dan rumit. Namun, perlu diperhatikan bahwa semakin banyak lapisan juga akan meningkatkan beban komputasi, yang dapat memengaruhi performa pada perangkat dengan spesifikasi rendah.\n\nAnda dapat menampilkan jam di layar dengan berbagai gaya dan opsi, sehingga berguna sebagai screensaver jam.\n\nSelain itu, Kaleidoscope Web Screensaver juga dilengkapi fitur benchmark yang mengukur performa keseluruhan perangkat dan browser web Anda."
 }

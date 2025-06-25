@@ -83,5 +83,8 @@
     "HighLoad": "Alta carga",
     "MediumLoad": "Carga media",
     "LowLoad": "Baja carga",
-    "WithLoad": "Con carga"
+    "WithLoad": "Con carga",
+    "noscript-message": "JavaScript está deshabilitado. Por favor, habilita JavaScript.",
+    "noscript-introduction-title": "Introducción",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver es un protector de pantalla basado en la web que muestra animaciones similares a un caleidoscopio. Los usuarios pueden personalizar los patrones y colores para crear efectos visuales simples pero atractivos, reminiscentes de un caleidoscopio. Funciona en varios dispositivos, incluidos PC, teléfonos inteligentes y tabletas, y es compatible con el modo de pantalla completa.\n\nAl aumentar el número de capas, los usuarios pueden crear imágenes aún más hermosas y complejas. Sin embargo, ten en cuenta que un mayor número de capas también puede aumentar la carga computacional, lo que podría afectar el rendimiento en dispositivos menos potentes.\n\nPuedes mostrar un reloj en la pantalla con varios estilos y opciones, lo que lo hace útil como protector de pantalla con reloj.\n\nAdemás, Kaleidoscope Web Screensaver también incluye una función de benchmark que mide el rendimiento general de tu dispositivo y navegador web."
 }

@@ -83,5 +83,8 @@
     "HighLoad": "Yüksek Yük",
     "MediumLoad": "Orta Yük",
     "LowLoad": "Düşük Yük",
-    "WithLoad": "Yük ile"
+    "WithLoad": "Yük ile",
+    "noscript-message": "JavaScript devre dışı. Lütfen JavaScript'i etkinleştirin.",
+    "noscript-introduction-title": "Tanıtım",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver, bir kaleidoscope gibi animasyonlar gösteren web tabanlı bir ekran koruyucudur. Kullanıcılar desenleri ve renkleri özelleştirerek basit ama görsel olarak etkileyici kaleidoscope benzeri efektler oluşturabilirler. PC, akıllı telefon ve tablet gibi çeşitli cihazlarda çalışır ve tam ekran modunu destekler.\n\nKatman sayısını artırarak daha güzel ve karmaşık görseller oluşturabilirsiniz. Ancak, daha fazla katman daha fazla hesaplama yükü anlamına gelir, bu nedenle düşük performanslı cihazlarda performans etkilenebilir.\n\nEkranda çeşitli stil ve seçeneklerle saat gösterebilir, böylece saatli bir ekran koruyucu olarak da kullanılabilir.\n\nAyrıca, Kaleidoscope Web Screensaver cihazınızın ve web tarayıcınızın genel performansını ölçen bir benchmark özelliği de içerir."
 }

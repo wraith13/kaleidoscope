@@ -83,5 +83,8 @@
     "HighLoad": "Charge élevée",
     "MediumLoad": "Charge moyenne",
     "LowLoad": "Charge faible",
-    "WithLoad": "Avec charge"
+    "WithLoad": "Avec charge",
+    "noscript-message": "JavaScript est désactivé. Veuillez activer JavaScript.",
+    "noscript-introduction-title": "Présentation",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver est un économiseur d'écran basé sur le web qui affiche des animations semblables à un kaléidoscope. Les utilisateurs peuvent personnaliser les motifs et les couleurs pour créer des effets simples mais visuellement attrayants rappelant un kaléidoscope. Il fonctionne sur divers appareils, y compris les PC, smartphones et tablettes, et prend en charge le mode plein écran.\n\nEn augmentant le nombre de couches, les utilisateurs peuvent créer des visuels encore plus beaux et complexes. Cependant, veuillez noter qu'un nombre élevé de couches peut également augmenter la charge de calcul, ce qui pourrait affecter les performances sur les appareils moins puissants.\n\nVous pouvez afficher une horloge à l'écran avec différents styles et options, ce qui le rend utile comme économiseur d'écran avec horloge.\n\nDe plus, Kaleidoscope Web Screensaver inclut également une fonction de benchmark qui mesure les performances globales de votre appareil et de votre navigateur web."
 }

@@ -83,5 +83,8 @@
     "HighLoad": "Tải cao",
     "MediumLoad": "Tải trung bình",
     "LowLoad": "Tải thấp",
-    "WithLoad": "Có tải"
+    "WithLoad": "Có tải",
+    "noscript-message": "JavaScript đã bị vô hiệu hóa. Vui lòng bật JavaScript.",
+    "noscript-introduction-title": "Giới thiệu",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver là một trình bảo vệ màn hình dựa trên web hiển thị các hoạt ảnh giống như kính vạn hoa. Người dùng có thể tùy chỉnh hoa văn và màu sắc để tạo ra các hiệu ứng đơn giản nhưng hấp dẫn về mặt thị giác, giống như kính vạn hoa. Ứng dụng hoạt động trên nhiều thiết bị khác nhau như PC, điện thoại thông minh và máy tính bảng, đồng thời hỗ trợ chế độ toàn màn hình.\n\nBằng cách tăng số lớp, người dùng có thể tạo ra các hình ảnh đẹp và phức tạp hơn nữa. Tuy nhiên, xin lưu ý rằng số lớp càng cao thì tải tính toán càng lớn, điều này có thể ảnh hưởng đến hiệu suất trên các thiết bị có cấu hình thấp.\n\nBạn có thể hiển thị đồng hồ trên màn hình với nhiều kiểu dáng và tùy chọn khác nhau, giúp ứng dụng trở nên hữu ích như một trình bảo vệ màn hình có đồng hồ.\n\nNgoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo lường hiệu suất tổng thể của thiết bị và trình duyệt web của bạn."
 }

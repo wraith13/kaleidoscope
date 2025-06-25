@@ -83,5 +83,8 @@
     "HighLoad": "Alta carga",
     "MediumLoad": "Carga média",
     "LowLoad": "Baixa carga",
-    "WithLoad": "Com carga"
+    "WithLoad": "Com carga",
+    "noscript-message": "O JavaScript está desativado. Ative o JavaScript.",
+    "noscript-introduction-title": "Introdução",
+    "noscript-introduction-description": "O Protetor de Tela Web Caleidoscópio é um protetor de tela baseado na web que exibe animações semelhantes a um caleidoscópio. Os usuários podem personalizar padrões e cores para criar efeitos simples, mas visualmente atraentes, semelhantes a um caleidoscópio. Funciona em vários dispositivos, incluindo PCs, smartphones e tablets, e suporta o modo de tela cheia.\n\nAo aumentar o número de camadas, os usuários podem criar visuais ainda mais bonitos e complexos. No entanto, observe que um número maior de camadas também pode aumentar a carga computacional, o que pode afetar o desempenho em dispositivos menos potentes.\n\nVocê pode exibir um relógio na tela com vários estilos e opções, tornando-o útil como um protetor de tela com relógio.\n\nAlém disso, o Protetor de Tela Web Caleidoscópio também inclui um recurso de benchmark que mede o desempenho geral do seu dispositivo e navegador web juntos."
 }

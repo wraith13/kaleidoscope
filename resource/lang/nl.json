@@ -83,5 +83,8 @@
     "HighLoad": "Hoge belasting",
     "MediumLoad": "Gemiddelde belasting",
     "LowLoad": "Lage belasting",
-    "WithLoad": "Met belasting"
+    "WithLoad": "Met belasting",
+    "noscript-message": "JavaScript is uitgeschakeld. Schakel JavaScript in.",
+    "noscript-introduction-title": "Introductie",
+    "noscript-introduction-description": "Kaleidoscoop Web Screensaver is een webgebaseerde screensaver die animaties weergeeft die lijken op een caleidoscoop. Gebruikers kunnen patronen en kleuren aanpassen om eenvoudige maar visueel aantrekkelijke caleidoscoopeffecten te creëren. Het werkt op verschillende apparaten, waaronder pc's, smartphones en tablets, en ondersteunt de modus volledig scherm.\n\nDoor het aantal lagen te verhogen, kunnen gebruikers nog mooiere en complexere beelden maken. Houd er echter rekening mee dat een hoger aantal lagen ook de rekenbelasting verhoogt, wat de prestaties op minder krachtige apparaten kan beïnvloeden.\n\nU kunt een klok op het scherm weergeven met verschillende stijlen en opties, waardoor het ook handig is als klok-screensaver.\n\nBovendien bevat Kaleidoscoop Web Screensaver een benchmarkfunctie waarmee de algehele prestaties van uw apparaat en webbrowser samen worden gemeten."
 }

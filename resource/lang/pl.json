@@ -83,5 +83,8 @@
     "HighLoad": "Wysokie obciążenie",
     "MediumLoad": "Średnie obciążenie",
     "LowLoad": "Niskie obciążenie",
-    "WithLoad": "Z obciążeniem"
+    "WithLoad": "Z obciążeniem",
+    "noscript-message": "JavaScript jest wyłączony. Proszę włączyć JavaScript.",
+    "noscript-introduction-title": "Wprowadzenie",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver to wygaszacz ekranu oparty na przeglądarce, który wyświetla animacje przypominające kalejdoskop. Użytkownicy mogą dostosowywać wzory i kolory, aby tworzyć proste, a zarazem atrakcyjne wizualnie efekty kalejdoskopowe. Działa na różnych urządzeniach, w tym komputerach PC, smartfonach i tabletach, i obsługuje tryb pełnoekranowy.\n\nZwiększając liczbę warstw, użytkownicy mogą tworzyć jeszcze piękniejsze i bardziej złożone wizualizacje. Należy jednak pamiętać, że większa liczba warstw może zwiększyć obciążenie obliczeniowe, co może wpłynąć na wydajność na słabszych urządzeniach.\n\nMożesz wyświetlić zegar na ekranie w różnych stylach i opcjach, dzięki czemu wygaszacz ekranu może pełnić również funkcję zegara.\n\nDodatkowo, Kaleidoscope Web Screensaver zawiera funkcję benchmarku, która mierzy ogólną wydajność Twojego urządzenia i przeglądarki internetowej."
 }

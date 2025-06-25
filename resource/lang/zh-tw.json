@@ -83,5 +83,8 @@
     "HighLoad": "高負載",
     "MediumLoad": "中負載",
     "LowLoad": "低負載",
-    "WithLoad": "有負載"
+    "WithLoad": "有負載",
+    "noscript-message": "JavaScript 已停用。請啟用 JavaScript。",
+    "noscript-introduction-title": "介紹",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver 是一款可在網頁上顯示萬花筒動畫的螢幕保護程式。使用者可以自訂圖案與色彩，創造出簡單卻視覺吸引人的萬花筒效果。支援 PC、智慧型手機、平板等多種裝置，並可切換全螢幕模式。\n\n增加圖層數可產生更美麗且複雜的視覺效果，但圖層數越多，計算負載也會增加，效能較低的裝置可能會出現運作緩慢的情況。\n\n您可以在畫面上以多種樣式與選項顯示時鐘，也能作為時鐘螢幕保護程式使用。\n\n此外，Kaleidoscope Web Screensaver 也內建效能測試功能，可同時測量您的裝置與瀏覽器的整體效能。"
 }

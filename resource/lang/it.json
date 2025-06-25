@@ -83,5 +83,8 @@
     "HighLoad": "Alto Carico",
     "MediumLoad": "Carico Medio",
     "LowLoad": "Basso Carico",
-    "WithLoad": "Con Carico"
+    "WithLoad": "Con Carico",
+    "noscript-message": "JavaScript è disabilitato. Abilita JavaScript.",
+    "noscript-introduction-title": "Introduzione",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver è un salvaschermo basato sul web che visualizza animazioni simili a un caleidoscopio. Gli utenti possono personalizzare motivi e colori per creare effetti semplici ma visivamente coinvolgenti che ricordano un caleidoscopio. Funziona su vari dispositivi, inclusi PC, smartphone e tablet, e supporta la modalità a schermo intero.\n\nAumentando il numero di livelli, è possibile creare visual più belli e complessi. Tuttavia, un numero maggiore di livelli aumenta anche il carico computazionale, il che potrebbe influire sulle prestazioni dei dispositivi meno potenti.\n\nÈ possibile visualizzare un orologio sullo schermo con vari stili e opzioni, rendendolo utile anche come salvaschermo con orologio.\n\nInoltre, Kaleidoscope Web Screensaver include anche una funzione di benchmark che misura le prestazioni complessive del dispositivo e del browser web."
 }

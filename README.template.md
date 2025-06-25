@@ -8,7 +8,9 @@ Kaleidoscope Web Screensaver is a web-based screensaver that displays kaleidosco
 
 By increasing the number of layers, users can create even more beautiful and intricate visuals. However, please note that higher layer counts may also increase the computational load, which could affect performance on less powerful devices.
 
-In addition, Kaleidoscope Web Screensaver includes a benchmark feature that measures the overall performance of your device and web browser together.
+You can display a clock on the screen with various styles and options, making it useful as a clock screensaver.
+
+In addition, Kaleidoscope Web Screensaver　also includes a benchmark feature that measures the overall performance of your device and web browser together.
 
 This software can be hosted and shared using GitHub Pages, making it easy to use for personal enjoyment or demonstrations.
 

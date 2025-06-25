@@ -83,5 +83,8 @@
     "HighLoad": "Hohe Last",
     "MediumLoad": "Mittlere Last",
     "LowLoad": "Niedrige Last",
-    "WithLoad": "Mit Last"
+    "WithLoad": "Mit Last",
+    "noscript-message": "JavaScript ist deaktiviert. Bitte aktivieren Sie JavaScript.",
+    "noscript-introduction-title": "Einführung",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver ist ein webbasierter Bildschirmschoner, der kaleidoskopartige Animationen anzeigt. Benutzer können Muster und Farben anpassen, um einfache, aber visuell ansprechende kaleidoskopähnliche Effekte zu erstellen. Er funktioniert auf verschiedenen Geräten, einschließlich PCs, Smartphones und Tablets, und unterstützt den Vollbildmodus.\n\nDurch Erhöhen der Ebenenzahl können Benutzer noch schönere und komplexere Visualisierungen erzeugen. Bitte beachten Sie jedoch, dass eine höhere Ebenenzahl auch die Rechenlast erhöht, was die Leistung auf weniger leistungsstarken Geräten beeinträchtigen kann.\n\nSie können eine Uhr mit verschiedenen Stilen und Optionen auf dem Bildschirm anzeigen lassen, wodurch der Bildschirmschoner auch als Uhrenbildschirmschoner genutzt werden kann.\n\nDarüber hinaus verfügt Kaleidoscope Web Screensaver über eine Benchmark-Funktion, mit der die Gesamtleistung Ihres Geräts und Webbrowsers gemessen werden kann."
 }

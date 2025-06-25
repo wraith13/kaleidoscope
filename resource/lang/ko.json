@@ -83,5 +83,8 @@
     "HighLoad": "고부하",
     "MediumLoad": "중부하",
     "LowLoad": "저부하",
-    "WithLoad": "부하 있음"
+    "WithLoad": "부하 있음",
+    "noscript-message": "JavaScript가 비활성화되어 있습니다. JavaScript를 활성화하세요.",
+    "noscript-introduction-title": "소개",
+    "noscript-introduction-description": "Kaleidoscope Web Screensaver는 만화경과 같은 애니메이션을 표시하는 웹 기반 스크린세이버입니다. 사용자는 패턴과 색상을 커스터마이즈할 수 있으며, 단순하면서도 시각적으로 매력적인 만화경 효과를 즐길 수 있습니다. PC, 스마트폰, 태블릿 등 다양한 기기에서 동작하며, 전체 화면 모드도 지원합니다.\n\n레이어 수를 늘리면 더욱 아름답고 복잡한 비주얼을 만들 수 있습니다. 단, 레이어 수가 많아질수록 계산 부하도 높아지므로, 성능이 낮은 기기에서는 동작이 느려질 수 있습니다.\n\n화면에 다양한 스타일과 옵션으로 시계를 표시할 수 있어, 시계가 포함된 스크린세이버로도 사용할 수 있습니다.\n\n또한, Kaleidoscope Web Screensaver에는 사용 중인 기기와 웹 브라우저의 종합적인 성능을 측정할 수 있는 벤치마크 기능도 탑재되어 있습니다."
 }
