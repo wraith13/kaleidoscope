@@ -112,6 +112,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         de: {
             "lang-label": string;
@@ -199,6 +202,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         el: {
             "lang-label": string;
@@ -286,6 +292,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         en: {
             "lang-label": string;
@@ -373,6 +382,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         es: {
             "lang-label": string;
@@ -460,6 +472,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         fa: {
             "lang-label": string;
@@ -547,6 +562,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         fr: {
             "lang-label": string;
@@ -634,6 +652,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         hi: {
             "lang-label": string;
@@ -721,6 +742,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         id: {
             "lang-label": string;
@@ -808,6 +832,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         it: {
             "lang-label": string;
@@ -895,6 +922,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         ja: {
             "lang-label": string;
@@ -982,6 +1012,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         ko: {
             "lang-label": string;
@@ -1069,6 +1102,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         nl: {
             "lang-label": string;
@@ -1156,6 +1192,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         pl: {
             "lang-label": string;
@@ -1243,6 +1282,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         pt: {
             "lang-label": string;
@@ -1330,6 +1372,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         ru: {
             "lang-label": string;
@@ -1417,6 +1462,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         th: {
             "lang-label": string;
@@ -1504,6 +1552,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         tr: {
             "lang-label": string;
@@ -1591,6 +1642,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         vi: {
             "lang-label": string;
@@ -1678,6 +1732,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         "zh-cn": {
             "lang-label": string;
@@ -1765,6 +1822,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
         "zh-tw": {
             "lang-label": string;
@@ -1852,6 +1912,9 @@ declare module "locale/generated/master" {
             MediumLoad: string;
             LowLoad: string;
             WithLoad: string;
+            "noscript-message": string;
+            "noscript-introduction-title": string;
+            "noscript-introduction-description": string;
         };
     };
 }
@@ -1944,6 +2007,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             de: {
                 "lang-label": string;
@@ -2031,6 +2097,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             el: {
                 "lang-label": string;
@@ -2118,6 +2187,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             en: {
                 "lang-label": string;
@@ -2205,6 +2277,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             es: {
                 "lang-label": string;
@@ -2292,6 +2367,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             fa: {
                 "lang-label": string;
@@ -2379,6 +2457,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             fr: {
                 "lang-label": string;
@@ -2466,6 +2547,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             hi: {
                 "lang-label": string;
@@ -2553,6 +2637,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             id: {
                 "lang-label": string;
@@ -2640,6 +2727,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             it: {
                 "lang-label": string;
@@ -2727,6 +2817,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             ja: {
                 "lang-label": string;
@@ -2814,6 +2907,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             ko: {
                 "lang-label": string;
@@ -2901,6 +2997,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             nl: {
                 "lang-label": string;
@@ -2988,6 +3087,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             pl: {
                 "lang-label": string;
@@ -3075,6 +3177,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             pt: {
                 "lang-label": string;
@@ -3162,6 +3267,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             ru: {
                 "lang-label": string;
@@ -3249,6 +3357,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             th: {
                 "lang-label": string;
@@ -3336,6 +3447,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             tr: {
                 "lang-label": string;
@@ -3423,6 +3537,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             vi: {
                 "lang-label": string;
@@ -3510,6 +3627,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             "zh-cn": {
                 "lang-label": string;
@@ -3597,6 +3717,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
             "zh-tw": {
                 "lang-label": string;
@@ -3684,6 +3807,9 @@ declare module "script/library/locale" {
                 MediumLoad: string;
                 LowLoad: string;
                 WithLoad: string;
+                "noscript-message": string;
+                "noscript-introduction-title": string;
+                "noscript-introduction-description": string;
             };
         };
         type Label = (keyof (typeof master[keyof typeof master])) | "";

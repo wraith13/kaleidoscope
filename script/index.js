@@ -230,7 +230,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "حمل مرتفع",
             "MediumLoad": "حمل متوسط",
             "LowLoad": "حمل منخفض",
-            "WithLoad": "مع حمل"
+            "WithLoad": "مع حمل",
+            "noscript-message": "تم تعطيل JavaScript. يرجى تمكين JavaScript.",
+            "noscript-introduction-title": "مقدمة",
+            "noscript-introduction-description": "شاشة التوقف Kaleidoscope Web هي شاشة توقف قائمة على الويب تعرض رسومًا متحركة تشبه الكاليدوسكوب. يمكن للمستخدمين تخصيص الأنماط والألوان لإنشاء تأثيرات بسيطة ولكنها جذابة بصريًا تشبه الكاليدوسكوب. تعمل على أجهزة متنوعة، بما في ذلك أجهزة الكمبيوتر والهواتف الذكية والأجهزة اللوحية، وتدعم وضع ملء الشاشة.\n\nمن خلال زيادة عدد الطبقات، يمكن للمستخدمين إنشاء صور أكثر جمالًا وتعقيدًا. ومع ذلك، يرجى ملاحظة أن زيادة عدد الطبقات قد تزيد أيضًا من العبء الحسابي، مما قد يؤثر على الأداء في الأجهزة الأقل قوة.\n\nيمكنك عرض ساعة على الشاشة بأنماط وخيارات متنوعة، مما يجعلها مفيدة كشاشة توقف مع ساعة.\n\nبالإضافة إلى ذلك، تتضمن شاشة التوقف Kaleidoscope Web أيضًا ميزة اختبار الأداء التي تقيس الأداء الكلي لجهازك ومتصفح الويب معًا."
         },
         "de": {
             "lang-label": "Deutsch",
@@ -317,7 +320,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Hohe Last",
             "MediumLoad": "Mittlere Last",
             "LowLoad": "Niedrige Last",
-            "WithLoad": "Mit Last"
+            "WithLoad": "Mit Last",
+            "noscript-message": "JavaScript ist deaktiviert. Bitte aktivieren Sie JavaScript.",
+            "noscript-introduction-title": "Einführung",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver ist ein webbasierter Bildschirmschoner, der kaleidoskopartige Animationen anzeigt. Benutzer können Muster und Farben anpassen, um einfache, aber visuell ansprechende kaleidoskopähnliche Effekte zu erstellen. Er funktioniert auf verschiedenen Geräten, einschließlich PCs, Smartphones und Tablets, und unterstützt den Vollbildmodus.\n\nDurch Erhöhen der Ebenenzahl können Benutzer noch schönere und komplexere Visualisierungen erzeugen. Bitte beachten Sie jedoch, dass eine höhere Ebenenzahl auch die Rechenlast erhöht, was die Leistung auf weniger leistungsstarken Geräten beeinträchtigen kann.\n\nSie können eine Uhr mit verschiedenen Stilen und Optionen auf dem Bildschirm anzeigen lassen, wodurch der Bildschirmschoner auch als Uhrenbildschirmschoner genutzt werden kann.\n\nDarüber hinaus verfügt Kaleidoscope Web Screensaver über eine Benchmark-Funktion, mit der die Gesamtleistung Ihres Geräts und Webbrowsers gemessen werden kann."
         },
         "el": {
             "lang-label": "Ελληνικά",
@@ -404,7 +410,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Υψηλό Φορτίο",
             "MediumLoad": "Μεσαίο Φορτίο",
             "LowLoad": "Χαμηλό Φορτίο",
-            "WithLoad": "Με Φορτίο"
+            "WithLoad": "Με Φορτίο",
+            "noscript-message": "Η JavaScript είναι απενεργοποιημένη. Ενεργοποιήστε τη JavaScript.",
+            "noscript-introduction-title": "Εισαγωγή",
+            "noscript-introduction-description": "Το Kaleidoscope Web Screensaver είναι μια διαδικτυακή προφύλαξη οθόνης που εμφανίζει κινούμενες εικόνες παρόμοιες με καλειδοσκόπιο. Οι χρήστες μπορούν να προσαρμόσουν μοτίβα και χρώματα για να δημιουργήσουν απλά αλλά οπτικά εντυπωσιακά εφέ που θυμίζουν καλειδοσκόπιο. Λειτουργεί σε διάφορες συσκευές, όπως υπολογιστές, smartphones και tablets, και υποστηρίζει λειτουργία πλήρους οθόνης.\n\nΑυξάνοντας τον αριθμό των στρωμάτων, οι χρήστες μπορούν να δημιουργήσουν ακόμη πιο όμορφα και περίπλοκα οπτικά εφέ. Ωστόσο, σημειώστε ότι περισσότερα στρώματα αυξάνουν και το υπολογιστικό φορτίο, κάτι που μπορεί να επηρεάσει την απόδοση σε λιγότερο ισχυρές συσκευές.\n\nΜπορείτε να εμφανίσετε ένα ρολόι στην οθόνη με διάφορα στυλ και επιλογές, καθιστώντας το χρήσιμο ως προφύλαξη οθόνης με ρολόι.\n\nΕπιπλέον, το Kaleidoscope Web Screensaver περιλαμβάνει και μια λειτουργία benchmark που μετρά τη συνολική απόδοση της συσκευής και του προγράμματος περιήγησης."
         },
         "en": {
             "lang-label": "English",
@@ -491,7 +500,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "High Load",
             "MediumLoad": "Medium Load",
             "LowLoad": "Low Load",
-            "WithLoad": "With Load"
+            "WithLoad": "With Load",
+            "noscript-message": "JavaScript is disabled. Please enable JavaScript.",
+            "noscript-introduction-title": "Introduction",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver is a web-based screensaver that displays kaleidoscope-like animations. Users can customize patterns and colors to create simple yet visually engaging effects reminiscent of a kaleidoscope. It works on various devices, including PCs, smartphones, and tablets, and supports fullscreen mode.\n\nBy increasing the number of layers, users can create even more beautiful and intricate visuals. However, please note that higher layer counts may also increase the computational load, which could affect performance on less powerful devices.\n\nYou can display a clock on the screen with various styles and options, making it useful as a clock screensaver.\n\nIn addition, Kaleidoscope Web Screensaver　also includes a benchmark feature that measures the overall performance of your device and web browser together."
         },
         "es": {
             "lang-label": "Español",
@@ -578,7 +590,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Alta carga",
             "MediumLoad": "Carga media",
             "LowLoad": "Baja carga",
-            "WithLoad": "Con carga"
+            "WithLoad": "Con carga",
+            "noscript-message": "JavaScript está deshabilitado. Por favor, habilita JavaScript.",
+            "noscript-introduction-title": "Introducción",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver es un protector de pantalla basado en la web que muestra animaciones similares a un caleidoscopio. Los usuarios pueden personalizar los patrones y colores para crear efectos visuales simples pero atractivos, reminiscentes de un caleidoscopio. Funciona en varios dispositivos, incluidos PC, teléfonos inteligentes y tabletas, y es compatible con el modo de pantalla completa.\n\nAl aumentar el número de capas, los usuarios pueden crear imágenes aún más hermosas y complejas. Sin embargo, ten en cuenta que un mayor número de capas también puede aumentar la carga computacional, lo que podría afectar el rendimiento en dispositivos menos potentes.\n\nPuedes mostrar un reloj en la pantalla con varios estilos y opciones, lo que lo hace útil como protector de pantalla con reloj.\n\nAdemás, Kaleidoscope Web Screensaver también incluye una función de benchmark que mide el rendimiento general de tu dispositivo y navegador web."
         },
         "fa": {
             "lang-label": "فارسی",
@@ -665,7 +680,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "بار زیاد",
             "MediumLoad": "بار متوسط",
             "LowLoad": "بار کم",
-            "WithLoad": "با بار"
+            "WithLoad": "با بار",
+            "noscript-message": "جاوااسکریپت غیرفعال است. لطفاً جاوااسکریپت را فعال کنید.",
+            "noscript-introduction-title": "معرفی",
+            "noscript-introduction-description": "محافظ صفحه وب کالیدوسکوپ یک محافظ صفحه مبتنی بر وب است که انیمیشن‌هایی شبیه به کالیدوسکوپ را نمایش می‌دهد. کاربران می‌توانند الگوها و رنگ‌ها را سفارشی کنند تا افکت‌هایی ساده اما از نظر بصری جذاب و شبیه به کالیدوسکوپ ایجاد کنند. این برنامه روی دستگاه‌های مختلف از جمله رایانه شخصی، تلفن هوشمند و تبلت کار می‌کند و از حالت تمام صفحه نیز پشتیبانی می‌کند.\n\nبا افزایش تعداد لایه‌ها، کاربران می‌توانند تصاویر زیباتر و پیچیده‌تری ایجاد کنند. با این حال، توجه داشته باشید که تعداد بالاتر لایه‌ها ممکن است بار محاسباتی را افزایش دهد و بر عملکرد دستگاه‌های ضعیف‌تر تأثیر بگذارد.\n\nشما می‌توانید یک ساعت را با سبک‌ها و گزینه‌های مختلف روی صفحه نمایش دهید و از آن به عنوان یک محافظ صفحه ساعت نیز استفاده کنید.\n\nعلاوه بر این، محافظ صفحه وب کالیدوسکوپ دارای قابلیت بنچمارک است که عملکرد کلی دستگاه و مرورگر وب شما را اندازه‌گیری می‌کند."
         },
         "fr": {
             "lang-label": "Français",
@@ -752,7 +770,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Charge élevée",
             "MediumLoad": "Charge moyenne",
             "LowLoad": "Charge faible",
-            "WithLoad": "Avec charge"
+            "WithLoad": "Avec charge",
+            "noscript-message": "JavaScript est désactivé. Veuillez activer JavaScript.",
+            "noscript-introduction-title": "Présentation",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver est un économiseur d'écran basé sur le web qui affiche des animations semblables à un kaléidoscope. Les utilisateurs peuvent personnaliser les motifs et les couleurs pour créer des effets simples mais visuellement attrayants rappelant un kaléidoscope. Il fonctionne sur divers appareils, y compris les PC, smartphones et tablettes, et prend en charge le mode plein écran.\n\nEn augmentant le nombre de couches, les utilisateurs peuvent créer des visuels encore plus beaux et complexes. Cependant, veuillez noter qu'un nombre élevé de couches peut également augmenter la charge de calcul, ce qui pourrait affecter les performances sur les appareils moins puissants.\n\nVous pouvez afficher une horloge à l'écran avec différents styles et options, ce qui le rend utile comme économiseur d'écran avec horloge.\n\nDe plus, Kaleidoscope Web Screensaver inclut également une fonction de benchmark qui mesure les performances globales de votre appareil et de votre navigateur web."
         },
         "hi": {
             "lang-label": "हिन्दी",
@@ -839,7 +860,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "अधिक लोड",
             "MediumLoad": "मध्यम लोड",
             "LowLoad": "कम लोड",
-            "WithLoad": "लोड के साथ"
+            "WithLoad": "लोड के साथ",
+            "noscript-message": "जावास्क्रिप्ट अक्षम है। कृपया जावास्क्रिप्ट सक्षम करें।",
+            "noscript-introduction-title": "परिचय",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver एक वेब-आधारित स्क्रीनसेवर है जो एक कैलिडोस्कोप जैसी एनिमेशन दिखाता है। उपयोगकर्ता पैटर्न और रंगों को अनुकूलित कर सकते हैं, जिससे सरल लेकिन आकर्षक कैलिडोस्कोप प्रभाव प्राप्त होते हैं। यह पीसी, स्मार्टफोन और टैबलेट सहित विभिन्न डिवाइसों पर काम करता है और फुलस्क्रीन मोड का समर्थन करता है।\n\nपरतों की संख्या बढ़ाकर, उपयोगकर्ता और भी सुंदर और जटिल दृश्य बना सकते हैं। हालांकि, कृपया ध्यान दें कि अधिक परतें जोड़ने से गणना लोड भी बढ़ सकता है, जिससे कम प्रदर्शन वाले डिवाइसों पर गति प्रभावित हो सकती है।\n\nआप स्क्रीन पर विभिन्न शैलियों और विकल्पों के साथ एक घड़ी भी दिखा सकते हैं, जिससे यह एक घड़ी स्क्रीनसेवर के रूप में भी उपयोगी बन जाता है।\n\nइसके अलावा, Kaleidoscope Web Screensaver में एक बेंचमार्क सुविधा भी शामिल है, जो आपके डिवाइस और वेब ब्राउज़र के समग्र प्रदर्शन को मापती है।"
         },
         "id": {
             "lang-label": "Bahasa Indonesia",
@@ -926,7 +950,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Beban Tinggi",
             "MediumLoad": "Beban Sedang",
             "LowLoad": "Beban Rendah",
-            "WithLoad": "Dengan Beban"
+            "WithLoad": "Dengan Beban",
+            "noscript-message": "JavaScript dinonaktifkan. Silakan aktifkan JavaScript.",
+            "noscript-introduction-title": "Perkenalan",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver adalah screensaver berbasis web yang menampilkan animasi seperti kaleidoskop. Pengguna dapat menyesuaikan pola dan warna untuk menciptakan efek sederhana namun menarik secara visual yang menyerupai kaleidoskop. Dapat berjalan di berbagai perangkat, termasuk PC, smartphone, dan tablet, serta mendukung mode layar penuh.\n\nDengan menambah jumlah lapisan, pengguna dapat menciptakan visual yang lebih indah dan rumit. Namun, perlu diperhatikan bahwa semakin banyak lapisan juga akan meningkatkan beban komputasi, yang dapat memengaruhi performa pada perangkat dengan spesifikasi rendah.\n\nAnda dapat menampilkan jam di layar dengan berbagai gaya dan opsi, sehingga berguna sebagai screensaver jam.\n\nSelain itu, Kaleidoscope Web Screensaver juga dilengkapi fitur benchmark yang mengukur performa keseluruhan perangkat dan browser web Anda."
         },
         "it": {
             "lang-label": "Italiano",
@@ -1013,7 +1040,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Alto Carico",
             "MediumLoad": "Carico Medio",
             "LowLoad": "Basso Carico",
-            "WithLoad": "Con Carico"
+            "WithLoad": "Con Carico",
+            "noscript-message": "JavaScript è disabilitato. Abilita JavaScript.",
+            "noscript-introduction-title": "Introduzione",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver è un salvaschermo basato sul web che visualizza animazioni simili a un caleidoscopio. Gli utenti possono personalizzare motivi e colori per creare effetti semplici ma visivamente coinvolgenti che ricordano un caleidoscopio. Funziona su vari dispositivi, inclusi PC, smartphone e tablet, e supporta la modalità a schermo intero.\n\nAumentando il numero di livelli, è possibile creare visual più belli e complessi. Tuttavia, un numero maggiore di livelli aumenta anche il carico computazionale, il che potrebbe influire sulle prestazioni dei dispositivi meno potenti.\n\nÈ possibile visualizzare un orologio sullo schermo con vari stili e opzioni, rendendolo utile anche come salvaschermo con orologio.\n\nInoltre, Kaleidoscope Web Screensaver include anche una funzione di benchmark che misura le prestazioni complessive del dispositivo e del browser web."
         },
         "ja": {
             "lang-label": "日本語",
@@ -1100,7 +1130,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "高負荷",
             "MediumLoad": "中負荷",
             "LowLoad": "低負荷",
-            "WithLoad": "負荷あり"
+            "WithLoad": "負荷あり",
+            "noscript-message": "JavaScript が無効になっています。JavaScript を有効にしてください。",
+            "noscript-introduction-title": "ご紹介",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver は、万華鏡のようなアニメーションを表示するウェブベースのスクリーンセーバーです。ユーザーはパターンや色をカスタマイズでき、シンプルながらも視覚的に魅力的な万華鏡風の効果を楽しめます。PC、スマートフォン、タブレットなど様々なデバイスで動作し、フルスクリーンモードにも対応しています。\n\nレイヤー数を増やすことで、さらに美しく複雑なビジュアルを作り出すことができます。ただし、レイヤー数が多いほど計算負荷も高くなるため、性能の低いデバイスでは動作が重くなる場合があります。\n\n画面上に様々なスタイルやオプションで時計を表示できるため、時計付きスクリーンセーバーとしても利用できます。\n\nさらに、Kaleidoscope Web Screensaver には、お使いのデバイスとウェブブラウザの総合的なパフォーマンスを計測できるベンチマーク機能も搭載されています。"
         },
         "ko": {
             "lang-label": "한국어",
@@ -1187,7 +1220,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "고부하",
             "MediumLoad": "중부하",
             "LowLoad": "저부하",
-            "WithLoad": "부하 있음"
+            "WithLoad": "부하 있음",
+            "noscript-message": "JavaScript가 비활성화되어 있습니다. JavaScript를 활성화하세요.",
+            "noscript-introduction-title": "소개",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver는 만화경과 같은 애니메이션을 표시하는 웹 기반 스크린세이버입니다. 사용자는 패턴과 색상을 커스터마이즈할 수 있으며, 단순하면서도 시각적으로 매력적인 만화경 효과를 즐길 수 있습니다. PC, 스마트폰, 태블릿 등 다양한 기기에서 동작하며, 전체 화면 모드도 지원합니다.\n\n레이어 수를 늘리면 더욱 아름답고 복잡한 비주얼을 만들 수 있습니다. 단, 레이어 수가 많아질수록 계산 부하도 높아지므로, 성능이 낮은 기기에서는 동작이 느려질 수 있습니다.\n\n화면에 다양한 스타일과 옵션으로 시계를 표시할 수 있어, 시계가 포함된 스크린세이버로도 사용할 수 있습니다.\n\n또한, Kaleidoscope Web Screensaver에는 사용 중인 기기와 웹 브라우저의 종합적인 성능을 측정할 수 있는 벤치마크 기능도 탑재되어 있습니다."
         },
         "nl": {
             "lang-label": "Nederlands",
@@ -1274,7 +1310,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Hoge belasting",
             "MediumLoad": "Gemiddelde belasting",
             "LowLoad": "Lage belasting",
-            "WithLoad": "Met belasting"
+            "WithLoad": "Met belasting",
+            "noscript-message": "JavaScript is uitgeschakeld. Schakel JavaScript in.",
+            "noscript-introduction-title": "Introductie",
+            "noscript-introduction-description": "Kaleidoscoop Web Screensaver is een webgebaseerde screensaver die animaties weergeeft die lijken op een caleidoscoop. Gebruikers kunnen patronen en kleuren aanpassen om eenvoudige maar visueel aantrekkelijke caleidoscoopeffecten te creëren. Het werkt op verschillende apparaten, waaronder pc's, smartphones en tablets, en ondersteunt de modus volledig scherm.\n\nDoor het aantal lagen te verhogen, kunnen gebruikers nog mooiere en complexere beelden maken. Houd er echter rekening mee dat een hoger aantal lagen ook de rekenbelasting verhoogt, wat de prestaties op minder krachtige apparaten kan beïnvloeden.\n\nU kunt een klok op het scherm weergeven met verschillende stijlen en opties, waardoor het ook handig is als klok-screensaver.\n\nBovendien bevat Kaleidoscoop Web Screensaver een benchmarkfunctie waarmee de algehele prestaties van uw apparaat en webbrowser samen worden gemeten."
         },
         "pl": {
             "lang-label": "Polski",
@@ -1361,7 +1400,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Wysokie obciążenie",
             "MediumLoad": "Średnie obciążenie",
             "LowLoad": "Niskie obciążenie",
-            "WithLoad": "Z obciążeniem"
+            "WithLoad": "Z obciążeniem",
+            "noscript-message": "JavaScript jest wyłączony. Proszę włączyć JavaScript.",
+            "noscript-introduction-title": "Wprowadzenie",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver to wygaszacz ekranu oparty na przeglądarce, który wyświetla animacje przypominające kalejdoskop. Użytkownicy mogą dostosowywać wzory i kolory, aby tworzyć proste, a zarazem atrakcyjne wizualnie efekty kalejdoskopowe. Działa na różnych urządzeniach, w tym komputerach PC, smartfonach i tabletach, i obsługuje tryb pełnoekranowy.\n\nZwiększając liczbę warstw, użytkownicy mogą tworzyć jeszcze piękniejsze i bardziej złożone wizualizacje. Należy jednak pamiętać, że większa liczba warstw może zwiększyć obciążenie obliczeniowe, co może wpłynąć na wydajność na słabszych urządzeniach.\n\nMożesz wyświetlić zegar na ekranie w różnych stylach i opcjach, dzięki czemu wygaszacz ekranu może pełnić również funkcję zegara.\n\nDodatkowo, Kaleidoscope Web Screensaver zawiera funkcję benchmarku, która mierzy ogólną wydajność Twojego urządzenia i przeglądarki internetowej."
         },
         "pt": {
             "lang-label": "Português",
@@ -1448,7 +1490,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Alta carga",
             "MediumLoad": "Carga média",
             "LowLoad": "Baixa carga",
-            "WithLoad": "Com carga"
+            "WithLoad": "Com carga",
+            "noscript-message": "O JavaScript está desativado. Ative o JavaScript.",
+            "noscript-introduction-title": "Introdução",
+            "noscript-introduction-description": "O Protetor de Tela Web Caleidoscópio é um protetor de tela baseado na web que exibe animações semelhantes a um caleidoscópio. Os usuários podem personalizar padrões e cores para criar efeitos simples, mas visualmente atraentes, semelhantes a um caleidoscópio. Funciona em vários dispositivos, incluindo PCs, smartphones e tablets, e suporta o modo de tela cheia.\n\nAo aumentar o número de camadas, os usuários podem criar visuais ainda mais bonitos e complexos. No entanto, observe que um número maior de camadas também pode aumentar a carga computacional, o que pode afetar o desempenho em dispositivos menos potentes.\n\nVocê pode exibir um relógio na tela com vários estilos e opções, tornando-o útil como um protetor de tela com relógio.\n\nAlém disso, o Protetor de Tela Web Caleidoscópio também inclui um recurso de benchmark que mede o desempenho geral do seu dispositivo e navegador web juntos."
         },
         "ru": {
             "lang-label": "Русский",
@@ -1535,7 +1580,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Высокая нагрузка",
             "MediumLoad": "Средняя нагрузка",
             "LowLoad": "Низкая нагрузка",
-            "WithLoad": "С нагрузкой"
+            "WithLoad": "С нагрузкой",
+            "noscript-message": "JavaScript отключён. Пожалуйста, включите JavaScript.",
+            "noscript-introduction-title": "Введение",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver — это веб-скринсейвер, отображающий анимации, похожие на калейдоскоп. Пользователь может настраивать узоры и цвета, создавая простые, но визуально привлекательные эффекты калейдоскопа. Работает на различных устройствах, включая ПК, смартфоны и планшеты, поддерживает полноэкранный режим.\n\nУвеличивая количество слоёв, можно создавать ещё более красивые и сложные визуальные эффекты. Однако, чем больше слоёв, тем выше вычислительная нагрузка, что может повлиять на производительность на менее мощных устройствах.\n\nМожно отобразить часы на экране с различными стилями и опциями, что делает скринсейвер полезным в качестве часового экрана.\n\nКроме того, Kaleidoscope Web Screensaver включает функцию бенчмарка, которая измеряет общую производительность вашего устройства и веб-браузера."
         },
         "th": {
             "lang-label": "ไทย",
@@ -1622,7 +1670,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "โหลดสูง",
             "MediumLoad": "โหลดปานกลาง",
             "LowLoad": "โหลดต่ำ",
-            "WithLoad": "มีโหลด"
+            "WithLoad": "มีโหลด",
+            "noscript-message": "ปิดใช้งาน JavaScript อยู่ กรุณาเปิดใช้งาน JavaScript",
+            "noscript-introduction-title": "แนะนำ",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver เป็นสกรีนเซฟเวอร์บนเว็บที่แสดงภาพเคลื่อนไหวคล้ายกล้องคาไลโดสโคป ผู้ใช้สามารถปรับแต่งรูปแบบและสีเพื่อสร้างเอฟเฟกต์ที่เรียบง่ายแต่ดึงดูดสายตาเหมือนกล้องคาไลโดสโคป สามารถใช้งานได้กับอุปกรณ์หลากหลาย เช่น พีซี สมาร์ทโฟน และแท็บเล็ต และรองรับโหมดเต็มหน้าจอ\n\nการเพิ่มจำนวนเลเยอร์จะช่วยให้ได้ภาพที่สวยงามและซับซ้อนมากขึ้น อย่างไรก็ตาม โปรดทราบว่าการเพิ่มจำนวนเลเยอร์อาจเพิ่มภาระการประมวลผล ซึ่งอาจส่งผลต่อประสิทธิภาพบนอุปกรณ์ที่มีประสิทธิภาพต่ำ\n\nคุณสามารถแสดงนาฬิกาบนหน้าจอด้วยสไตล์และตัวเลือกต่าง ๆ ทำให้สามารถใช้เป็นสกรีนเซฟเวอร์นาฬิกาได้\n\nนอกจากนี้ Kaleidoscope Web Screensaver ยังมีฟีเจอร์เบนช์มาร์กที่สามารถวัดประสิทธิภาพโดยรวมของอุปกรณ์และเว็บเบราว์เซอร์ของคุณร่วมกัน"
         },
         "tr": {
             "lang-label": "Türkçe",
@@ -1709,7 +1760,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Yüksek Yük",
             "MediumLoad": "Orta Yük",
             "LowLoad": "Düşük Yük",
-            "WithLoad": "Yük ile"
+            "WithLoad": "Yük ile",
+            "noscript-message": "JavaScript devre dışı. Lütfen JavaScript'i etkinleştirin.",
+            "noscript-introduction-title": "Tanıtım",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver, bir kaleidoscope gibi animasyonlar gösteren web tabanlı bir ekran koruyucudur. Kullanıcılar desenleri ve renkleri özelleştirerek basit ama görsel olarak etkileyici kaleidoscope benzeri efektler oluşturabilirler. PC, akıllı telefon ve tablet gibi çeşitli cihazlarda çalışır ve tam ekran modunu destekler.\n\nKatman sayısını artırarak daha güzel ve karmaşık görseller oluşturabilirsiniz. Ancak, daha fazla katman daha fazla hesaplama yükü anlamına gelir, bu nedenle düşük performanslı cihazlarda performans etkilenebilir.\n\nEkranda çeşitli stil ve seçeneklerle saat gösterebilir, böylece saatli bir ekran koruyucu olarak da kullanılabilir.\n\nAyrıca, Kaleidoscope Web Screensaver cihazınızın ve web tarayıcınızın genel performansını ölçen bir benchmark özelliği de içerir."
         },
         "vi": {
             "lang-label": "Tiếng Việt",
@@ -1796,7 +1850,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "Tải cao",
             "MediumLoad": "Tải trung bình",
             "LowLoad": "Tải thấp",
-            "WithLoad": "Có tải"
+            "WithLoad": "Có tải",
+            "noscript-message": "JavaScript đã bị vô hiệu hóa. Vui lòng bật JavaScript.",
+            "noscript-introduction-title": "Giới thiệu",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver là một trình bảo vệ màn hình dựa trên web hiển thị các hoạt ảnh giống như kính vạn hoa. Người dùng có thể tùy chỉnh hoa văn và màu sắc để tạo ra các hiệu ứng đơn giản nhưng hấp dẫn về mặt thị giác, giống như kính vạn hoa. Ứng dụng hoạt động trên nhiều thiết bị khác nhau như PC, điện thoại thông minh và máy tính bảng, đồng thời hỗ trợ chế độ toàn màn hình.\n\nBằng cách tăng số lớp, người dùng có thể tạo ra các hình ảnh đẹp và phức tạp hơn nữa. Tuy nhiên, xin lưu ý rằng số lớp càng cao thì tải tính toán càng lớn, điều này có thể ảnh hưởng đến hiệu suất trên các thiết bị có cấu hình thấp.\n\nBạn có thể hiển thị đồng hồ trên màn hình với nhiều kiểu dáng và tùy chọn khác nhau, giúp ứng dụng trở nên hữu ích như một trình bảo vệ màn hình có đồng hồ.\n\nNgoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo lường hiệu suất tổng thể của thiết bị và trình duyệt web của bạn."
         },
         "zh-cn": {
             "lang-label": "简体中文",
@@ -1883,7 +1940,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "高负载",
             "MediumLoad": "中负载",
             "LowLoad": "低负载",
-            "WithLoad": "有负载"
+            "WithLoad": "有负载",
+            "noscript-message": "JavaScript 已被禁用。请启用 JavaScript。",
+            "noscript-introduction-title": "简介",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver 是一个基于网页的屏保，能够显示类似万花筒的动画。用户可以自定义图案和颜色，创造出简单却视觉吸引力十足的万花筒效果。它可在 PC、智能手机、平板等多种设备上运行，并支持全屏模式。\n\n通过增加图层数，用户可以创造出更加美丽和复杂的视觉效果。但请注意，图层数越多，计算负载也越高，性能较低的设备上可能会出现卡顿。\n\n你可以在屏幕上以多种样式和选项显示时钟，因此也可作为带时钟的屏保使用。\n\n此外，Kaleidoscope Web Screensaver 还内置了基准测试功能，可综合测量你的设备和网页浏览器的性能。"
         },
         "zh-tw": {
             "lang-label": "繁體中文",
@@ -1970,7 +2030,10 @@ define("locale/generated/master", ["require", "exports"], function (require, exp
             "HighLoad": "高負載",
             "MediumLoad": "中負載",
             "LowLoad": "低負載",
-            "WithLoad": "有負載"
+            "WithLoad": "有負載",
+            "noscript-message": "JavaScript 已停用。請啟用 JavaScript。",
+            "noscript-introduction-title": "介紹",
+            "noscript-introduction-description": "Kaleidoscope Web Screensaver 是一款可在網頁上顯示萬花筒動畫的螢幕保護程式。使用者可以自訂圖案與色彩，創造出簡單卻視覺吸引人的萬花筒效果。支援 PC、智慧型手機、平板等多種裝置，並可切換全螢幕模式。\n\n增加圖層數可產生更美麗且複雜的視覺效果，但圖層數越多，計算負載也會增加，效能較低的裝置可能會出現運作緩慢的情況。\n\n您可以在畫面上以多種樣式與選項顯示時鐘，也能作為時鐘螢幕保護程式使用。\n\n此外，Kaleidoscope Web Screensaver 也內建效能測試功能，可同時測量您的裝置與瀏覽器的整體效能。"
         }
     };
 });

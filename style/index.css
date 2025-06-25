@@ -39,6 +39,115 @@ button {
   cursor: pointer;
 }
 
+noscript *[lang] {
+  opacity: 0;
+  animation: noscript-langs-fade 94.5s infinite;
+}
+noscript *[lang=ar] {
+  animation-delay: 0s;
+}
+noscript *[lang=de] {
+  animation-delay: 4.5s;
+}
+noscript *[lang=el] {
+  animation-delay: 9s;
+}
+noscript *[lang=en] {
+  animation-delay: 13.5s;
+}
+noscript *[lang=es] {
+  animation-delay: 18s;
+}
+noscript *[lang=fa] {
+  animation-delay: 22.5s;
+}
+noscript *[lang=fr] {
+  animation-delay: 27s;
+}
+noscript *[lang=hi] {
+  animation-delay: 31.5s;
+}
+noscript *[lang=id] {
+  animation-delay: 36s;
+}
+noscript *[lang=it] {
+  animation-delay: 40.5s;
+}
+noscript *[lang=ja] {
+  animation-delay: 45s;
+}
+noscript *[lang=ko] {
+  animation-delay: 49.5s;
+}
+noscript *[lang=nl] {
+  animation-delay: 54s;
+}
+noscript *[lang=pl] {
+  animation-delay: 58.5s;
+}
+noscript *[lang=pt] {
+  animation-delay: 63s;
+}
+noscript *[lang=ru] {
+  animation-delay: 67.5s;
+}
+noscript *[lang=th] {
+  animation-delay: 72s;
+}
+noscript *[lang=tr] {
+  animation-delay: 76.5s;
+}
+noscript *[lang=vi] {
+  animation-delay: 81s;
+}
+noscript *[lang=zh-cn] {
+  animation-delay: 85.5s;
+}
+noscript *[lang=zh-tw] {
+  animation-delay: 90s;
+}
+
+@keyframes noscript-langs-fade {
+  0% {
+    opacity: 0;
+  }
+  0.9523809523809524% {
+    opacity: 1;
+  }
+  4.761904761904762% {
+    opacity: 1;
+  }
+  5.714285714285714% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+noscript {
+  padding: 1rem;
+  position: absolute;
+  z-index: 9999;
+  color: white;
+  background-color: black;
+  top: 3rem;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+noscript .panel {
+  position: relative;
+}
+noscript .panel *[lang] {
+  position: absolute;
+}
+noscript .panel .section h2 + div {
+  white-space: pre-wrap;
+}
+noscript .panel .section + .section {
+  margin-top: 2rem;
+}
+
 #screen-header {
   transition: transform 500ms;
   margin: 0px;

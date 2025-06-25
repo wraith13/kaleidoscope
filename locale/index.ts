@@ -14,6 +14,18 @@ const twitterDescription =
     separetor: "\n",
     output: `${outputDirectory}/twitter-description.html`,
 }
+const noscriptMessage =
+{
+    template: `<div lang="__LANG__" dir="__LANG_DIRECTION__">__NOSCRIPT_MESSAGE__</div>`,
+    separetor: "\n",
+    output: `${outputDirectory}/noscript-message.html`,
+};
+const noscriptIntroduction =
+{
+    template: `<div lang="__LANG__" dir="__LANG_DIRECTION__"><h2>__NOSCRIPT_INTRODUCTION_TITLE__</h2><div>__NOSCRIPT_INTRODUCTION_DESCRIPTION__</div></div>`,
+    separetor: "\n",
+    output: `${outputDirectory}/noscript-introduction.html`,
+};
 const makeMasterFromSource = async () =>
 {
     const temporaryMaster = { } as MasterType;
@@ -78,11 +90,49 @@ const writeHtmlPart = (master: MasterType, data: { template: string, separetor: 
         (
             (lang: string) => data.template
                 .replace(/__LANG__/g, lang)
+                .replace(/__LANG_DIRECTION__/g, master[lang]["lang-direction"])
                 .replace(/__DESCRIPTION__/g, master[lang]["description"])
+                .replace(/__NOSCRIPT_MESSAGE__/g, master[lang]["noscript-message"])
+                .replace(/__NOSCRIPT_INTRODUCTION_TITLE__/g, master[lang]["noscript-introduction-title"])
+                .replace(/__NOSCRIPT_INTRODUCTION_DESCRIPTION__/g, master[lang]["noscript-introduction-description"])
         )
         .join(data.separetor),
     "utf8"
 );
+const writeSCSS = (master: MasterType) =>
+{
+    const keys = Object.keys(master);
+    const showSpan = 4.5;
+    const showRate = 100 / keys.length;
+    const fadeDuration = showRate *0.2;;
+    let scss = "";
+    scss += `noscript\n`;
+    scss += `{\n`;
+    scss += `    *[lang]\n`;
+    scss += `    {\n`;
+    scss += `        opacity: 0;\n`;
+    scss += `        animation: noscript-langs-fade ${keys.length *showSpan}s infinite;\n`;
+    scss += `    }\n`;
+    keys.forEach
+    (
+        (lang: string, ix: number) => scss += `    *[lang="${lang}"] { animation-delay: ${ix *showSpan}s; }\n`
+    );
+    scss += `}\n`;
+    scss += `@keyframes noscript-langs-fade\n`;
+    scss += `{\n`;
+    scss += `    0% { opacity: 0; }\n`;
+    scss += `    ${fadeDuration}% { opacity: 1; }\n`;
+    scss += `    ${showRate}% { opacity: 1; }\n`;
+    scss += `    ${showRate +fadeDuration}% { opacity: 0; }\n`;
+    scss += `    100% { opacity: 0; }\n`;
+    scss += `}\n`;
+    fs.writeFileSync
+    (
+        `${outputDirectory}/langs.scss`,
+        scss,
+        "utf8"
+    );
+};
 const main = async () =>
 {
     const master = await makeMasterFromSource();
@@ -106,7 +156,10 @@ const main = async () =>
         JSON.stringify(Object.keys(master).map(lang => ({ "__LOCALE__": lang})), null, 4),
         "utf8"
     );
+    writeSCSS(master);
     writeHtmlPart(master, description);
     writeHtmlPart(master, twitterDescription);
+    writeHtmlPart(master, noscriptMessage);
+    writeHtmlPart(master, noscriptIntroduction);
 };
 main();

@@ -1,4 +1,5 @@
 @use "./traits" as *;
+@use "../locale/generated/langs.scss" as *;
 noscript
 {
     padding: 1rem;
@@ -10,9 +11,23 @@ noscript
     left: 0px;
     right: 0px;
     bottom: 0px;
-    @include flex(column, center);
-    .section + .section
+    .panel
     {
-        margin-top: 2rem;
+        position: relative;
+        *[lang]
+        {
+            position: absolute;
+        }
+        .section
+        {
+            h2 + div
+            {
+                white-space: pre-wrap;
+            }
+        }
+        .section + .section
+        {
+            margin-top: 2rem;
+        }
     }
 }

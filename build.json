@@ -23,10 +23,6 @@
                 },
                 "__LICENSE__": {
                     "path": "./LICENSE_1_0.txt"
-                },
-                "__GOOGLE_SITE_VERIFICATION__": {
-                    "json": "./resource/config.json",
-                    "value": "googleSiteVerification"
                 }
             }
         },
@@ -53,6 +49,12 @@
                 },
                 "__TWITTER_DESCRIPTION__": {
                     "path": "./locale/generated/twitter-description.html"
+                },
+                "__NOSCRIPT_MESSAGE__": {
+                    "path": "./locale/generated/noscript-message.html"
+                },
+                "__NOSCRIPT_INTRODUCTION__": {
+                    "path": "./locale/generated/noscript-introduction.html"
                 },
                 "__STYLE__": {
                     "path": "./style/index.css"
@@ -103,6 +105,10 @@
                 },
                 "__IMAGES__": {
                     "resource": "./resource/images.json"
+                },
+                "__GOOGLE_SITE_VERIFICATION__": {
+                    "json": "./resource/config.json",
+                    "value": "googleSiteVerification"
                 }
             }
         },

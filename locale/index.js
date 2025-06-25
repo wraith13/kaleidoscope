@@ -52,6 +52,16 @@ var twitterDescription = {
     separetor: "\n",
     output: "".concat(outputDirectory, "/twitter-description.html"),
 };
+var noscriptMessage = {
+    template: "<div lang=\"__LANG__\" dir=\"__LANG_DIRECTION__\">__NOSCRIPT_MESSAGE__</div>",
+    separetor: "\n",
+    output: "".concat(outputDirectory, "/noscript-message.html"),
+};
+var noscriptIntroduction = {
+    template: "<div lang=\"__LANG__\" dir=\"__LANG_DIRECTION__\"><h2>__NOSCRIPT_INTRODUCTION_TITLE__</h2><div>__NOSCRIPT_INTRODUCTION_DESCRIPTION__</div></div>",
+    separetor: "\n",
+    output: "".concat(outputDirectory, "/noscript-introduction.html"),
+};
 var makeMasterFromSource = function () { return __awaiter(void 0, void 0, void 0, function () {
     var temporaryMaster, master;
     return __generator(this, function (_a) {
@@ -111,8 +121,38 @@ var checkMaster = function (master) {
 };
 var writeHtmlPart = function (master, data) { return fs_1.default.writeFileSync(data.output, Object.keys(master).map(function (lang) { return data.template
     .replace(/__LANG__/g, lang)
-    .replace(/__DESCRIPTION__/g, master[lang]["description"]); })
+    .replace(/__LANG_DIRECTION__/g, master[lang]["lang-direction"])
+    .replace(/__DESCRIPTION__/g, master[lang]["description"])
+    .replace(/__NOSCRIPT_MESSAGE__/g, master[lang]["noscript-message"])
+    .replace(/__NOSCRIPT_INTRODUCTION_TITLE__/g, master[lang]["noscript-introduction-title"])
+    .replace(/__NOSCRIPT_INTRODUCTION_DESCRIPTION__/g, master[lang]["noscript-introduction-description"]); })
     .join(data.separetor), "utf8"); };
+var writeSCSS = function (master) {
+    var keys = Object.keys(master);
+    var showSpan = 4.5;
+    var showRate = 100 / keys.length;
+    var fadeDuration = showRate * 0.2;
+    ;
+    var scss = "";
+    scss += "noscript\n";
+    scss += "{\n";
+    scss += "    *[lang]\n";
+    scss += "    {\n";
+    scss += "        opacity: 0;\n";
+    scss += "        animation: noscript-langs-fade ".concat(keys.length * showSpan, "s infinite;\n");
+    scss += "    }\n";
+    keys.forEach(function (lang, ix) { return scss += "    *[lang=\"".concat(lang, "\"] { animation-delay: ").concat(ix * showSpan, "s; }\n"); });
+    scss += "}\n";
+    scss += "@keyframes noscript-langs-fade\n";
+    scss += "{\n";
+    scss += "    0% { opacity: 0; }\n";
+    scss += "    ".concat(fadeDuration, "% { opacity: 1; }\n");
+    scss += "    ".concat(showRate, "% { opacity: 1; }\n");
+    scss += "    ".concat(showRate + fadeDuration, "% { opacity: 0; }\n");
+    scss += "    100% { opacity: 0; }\n";
+    scss += "}\n";
+    fs_1.default.writeFileSync("".concat(outputDirectory, "/langs.scss"), scss, "utf8");
+};
 var main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var master;
     return __generator(this, function (_a) {
@@ -125,8 +165,11 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
                     .replace(/__LANG_LABEL_LIST__/g, Object.keys(master).map(function (key) { return "".concat(master[key]["lang-label"], "(").concat(key, ")"); }).join(", ")), "utf8");
                 fs_1.default.writeFileSync("".concat(outputDirectory, "/master.ts"), "export const localeMaster = ".concat(JSON.stringify(master, null, 4), ";"), "utf8");
                 fs_1.default.writeFileSync("".concat(outputDirectory, "/manifest.langs.json"), JSON.stringify(Object.keys(master).map(function (lang) { return ({ "__LOCALE__": lang }); }), null, 4), "utf8");
+                writeSCSS(master);
                 writeHtmlPart(master, description);
                 writeHtmlPart(master, twitterDescription);
+                writeHtmlPart(master, noscriptMessage);
+                writeHtmlPart(master, noscriptIntroduction);
                 return [2 /*return*/];
         }
     });
