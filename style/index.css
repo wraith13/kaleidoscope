@@ -134,8 +134,14 @@ noscript {
   left: 0px;
   right: 0px;
   bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 }
 noscript .panel {
+  max-width: 100%;
+  width: 48rem;
   position: relative;
 }
 noscript .panel *[lang] {
@@ -145,7 +151,7 @@ noscript .panel .section h2 + div {
   white-space: pre-wrap;
 }
 noscript .panel .section + .section {
-  margin-top: 2rem;
+  margin-top: 4.5rem;
 }
 
 #screen-header {

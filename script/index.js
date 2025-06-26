@@ -4937,6 +4937,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
                 UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
             }
+            _library_3.Library.UI.setTextContent(_library_3.Library.UI.querySelector("span", "#powered-by .title"), "powered by");
             _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
                 var text = _a[0], href = _a[1];
                 return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });

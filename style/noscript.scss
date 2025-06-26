@@ -11,8 +11,11 @@ noscript
     left: 0px;
     right: 0px;
     bottom: 0px;
+    @include flex(column, start, center);
     .panel
     {
+        max-width: 100%;
+        width: 48rem;
         position: relative;
         *[lang]
         {
@@ -27,7 +30,7 @@ noscript
         }
         .section + .section
         {
-            margin-top: 2rem;
+            margin-top: 4.5rem;
         }
     }
 }

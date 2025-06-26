@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Wed Jun 25 2025 20:13:50 GMT+0900 (日本標準時)
+    build at: Thu Jun 26 2025 07:38:11 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -228,8 +228,14 @@ noscript {
   left: 0px;
   right: 0px;
   bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 }
 noscript .panel {
+  max-width: 100%;
+  width: 48rem;
   position: relative;
 }
 noscript .panel *[lang] {
@@ -239,7 +245,7 @@ noscript .panel .section h2 + div {
   white-space: pre-wrap;
 }
 noscript .panel .section + .section {
-  margin-top: 2rem;
+  margin-top: 4.5rem;
 }
 
 #screen-header {
@@ -1956,77 +1962,77 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 </div>
 <div id="option-panel">
     <label for="colorspace">
-        <span data-lang-key="colorspace-label">Color Space:</span>
+        <span data-lang-key="colorspace-label"></span>
         <select id="colorspace"></select>
         <span class="load-status" id="colorspace-load-status"></span>
     </label>
     <label for="coloring">
-        <span data-lang-key="coloring-label">Coloring:</span>
+        <span data-lang-key="coloring-label"></span>
         <select id="coloring"></select>
         <span class="load-status" id="coloring-load-status"></span>
     </label>
     <label for="pattern">
-        <span data-lang-key="pattern-label">Pattern:</span>
+        <span data-lang-key="pattern-label"></span>
         <select id="pattern"></select>
         <span class="load-status" id="pattern-load-status"></span>
     </label>
     <label for="canvas-size">
-        <span data-lang-key="canvas-size-label">Canvas Size:</span>
+        <span data-lang-key="canvas-size-label"></span>
         <select id="canvas-size"></select>
         <span class="load-status" id="canvas-size-load-status"></span>
     </label>
     <label for="layers">
-        <span data-lang-key="layers-label">Layers:</span>
+        <span data-lang-key="layers-label"></span>
         <select id="layers"></select>
         <span class="load-status" id="layers-load-status"></span>
     </label>
     <label for="spotsLayers">
-        <span data-lang-key="spots-layers-label">Layers:</span>
+        <span data-lang-key="spots-layers-label"></span>
         <select id="spotsLayers"></select>
         <span class="load-status" id="spots-layers-load-status"></span>
     </label>
     <label for="cycle-span">
-        <span data-lang-key="cycle-span-label">Cycle Span:</span>
+        <span data-lang-key="cycle-span-label"></span>
         <select id="cycle-span"></select>
         <span class="load-status" id="cycle-span-load-status"></span>
     </label>
     <label for="fuse-fps">
-        <span data-lang-key="fuse-fps-label">Fuse FPS:</span>
+        <span data-lang-key="fuse-fps-label"></span>
         <select id="fuse-fps"></select>
         <span class="load-status" id="fuse-fps-load-status"></span>
     </label>
     <label for="frame-delay">
-        <span data-lang-key="frame-delay-label">Fuse FPS:</span>
+        <span data-lang-key="frame-delay-label"></span>
         <select id="frame-delay"></select>
         <span class="load-status" id="frame-delay-load-status"></span>
     </label>
     <label for="easing">
-        <span data-lang-key="easing-label">Easing:</span>
+        <span data-lang-key="easing-label"></span>
         <input id="easing" type="checkbox" />
         <span class="load-status" id="easing-load-status"></span>
     </label>
     <label for="with-fullscreen">
-        <span data-lang-key="with-fullscreen-label">FullScreen:</span>
+        <span data-lang-key="with-fullscreen-label"></span>
         <input id="with-fullscreen" type="checkbox" />
         <span class="load-status" id="with-fullscreen-load-status"></span>
     </label>
     <label for="show-fps">
-        <span data-lang-key="show-fps-label">Show FPS:</span>
+        <span data-lang-key="show-fps-label"></span>
         <input id="show-fps" type="checkbox" />
         <span class="load-status" id="show-fps-load-status"></span>
     </label>
     <label for="clock">
-        <span data-lang-key="clock-label">Clock:</span>
+        <span data-lang-key="clock-label"></span>
         <select id="clock"></select>
         <span class="load-status" id="clock-load-status"></span>
     </label>
     <label for="brightness">
-        <span data-lang-key="brightness-label">Brightness:</span>
+        <span data-lang-key="brightness-label"></span>
         <select id="brightness"></select>
         <span class="load-status" id="brightness-load-status"></span>
     </label>
     <label for="language">
-        <span data-lang-key="language-label">Language:</span>
+        <span data-lang-key="language-label"></span>
         <select id="language"></select>
         <span class="load-status" id="language-load-status"></span>
     </label>
@@ -2150,7 +2156,7 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
         <div id="keyboard-shortcut">
         </div>
         <div id="powered-by">
-            <span class="title">powered by</span>
+            <span class="title"></span>
             <ul></ul>
         </div>
     </div>
@@ -2165,8 +2171,8 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 <script type="text/javascript">
 const build =
 {
-    at: "Wed Jun 25 2025 20:13:50 GMT+0900 (日本標準時)",
-    tick: 1750850030314
+    at: "Thu Jun 26 2025 07:38:11 GMT+0900 (日本標準時)",
+    tick: 1750891091227
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -10076,6 +10082,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
                 UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
             }
+            _library_3.Library.UI.setTextContent(_library_3.Library.UI.querySelector("span", "#powered-by .title"), "powered by");
             _library_3.Library.UI.replaceChildren(_library_3.Library.UI.querySelector("ul", "#powered-by ul"), Object.entries(powered_by_json_1.default).map(function (_a) {
                 var text = _a[0], href = _a[1];
                 return ({ tag: "li", children: [_library_3.Library.UI.createElement({ tag: "a", text: text, attributes: { href: href, } }),], });
