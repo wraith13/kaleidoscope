@@ -6,15 +6,15 @@ export namespace Locale
     export type Label = (keyof (typeof master[keyof typeof master])) | "";
     export type Language = keyof typeof master;
     const supportedLangs = Object.keys(master) as Language[];
-    const systemLang = navigator.language.toLowerCase();
+    const getSystemLang = () => navigator.language.toLowerCase();
     const getSegments = (text: string, separator: string, segments: number): string =>
         text.split(separator).slice(0, segments).join(separator);
     const getMatchLang = (lang: string): Language =>
         ToolsArray.lookupValue(supportedLangs, getSegments(lang, "-", 2) as Language) ??
         ToolsArray.lookupValue(supportedLangs, getSegments(lang, "-", 1) as Language) ??
         "en";
-    const defaultLang: Language = getMatchLang(systemLang);
-    let lang: Language = defaultLang;
+    const getDefaultLang = (): Language => getMatchLang(getSystemLang());
+    let lang: Language = getDefaultLang();
     export const getLocale = () => lang;
     export const setLocale = (locale?: Language | "Auto") =>
     {
@@ -22,7 +22,7 @@ export namespace Locale
         {
         case undefined:
         case "Auto":
-            lang = defaultLang;
+            lang = getDefaultLang();
             break;
         default:
             lang = locale;

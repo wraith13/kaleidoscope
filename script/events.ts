@@ -311,5 +311,19 @@ export namespace Events
                 );
             }
         );
+        window.addEventListener
+        (
+            "languagechange",
+            () =>
+            {
+                console.log("🌐 languagechange:", navigator.language, navigator.languages);
+                const old = Library.Locale.getLocale();
+                Library.Locale.setLocale(UI.languageSelect.get() as Library.Locale.Language | "Auto");
+                if (old !== Library.Locale.getLocale())
+                {
+                    UI.updateLanguage();
+                }
+            }
+        );
     };
 }
