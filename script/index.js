@@ -2046,15 +2046,17 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "lo
     (function (Locale) {
         Locale.master = localeMaster.localeMaster;
         var supportedLangs = Object.keys(Locale.master);
-        var getSystemLang = function () { return navigator.language.toLowerCase(); };
         var getSegments = function (text, separator, segments) {
             return text.split(separator).slice(0, segments).join(separator);
         };
         var getMatchLang = function (lang) {
-            var _a, _b;
-            return (_b = (_a = array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 1))) !== null && _b !== void 0 ? _b : "en";
+            var _a;
+            return (_a = array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 1));
         };
-        var getDefaultLang = function () { return getMatchLang(getSystemLang()); };
+        var getDefaultLang = function () {
+            var _a, _b;
+            return (_b = (_a = getMatchLang(navigator.language.toLowerCase())) !== null && _a !== void 0 ? _a : navigator.languages.map(function (i) { return getMatchLang(i.toLowerCase()); }).filter(function (i) { return i !== undefined; })[0]) !== null && _b !== void 0 ? _b : "en";
+        };
         var lang = getDefaultLang();
         Locale.getLocale = function () { return lang; };
         Locale.setLocale = function (locale) {

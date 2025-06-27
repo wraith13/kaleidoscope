@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Thu Jun 26 2025 19:21:04 GMT+0900 (日本標準時)
+    build at: Fri Jun 27 2025 07:17:56 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -2171,8 +2171,8 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 <script type="text/javascript">
 const build =
 {
-    at: "Thu Jun 26 2025 19:21:04 GMT+0900 (日本標準時)",
-    tick: 1750933264330
+    at: "Fri Jun 27 2025 07:17:56 GMT+0900 (日本標準時)",
+    tick: 1750976276656
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -7191,15 +7191,17 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "lo
     (function (Locale) {
         Locale.master = localeMaster.localeMaster;
         var supportedLangs = Object.keys(Locale.master);
-        var getSystemLang = function () { return navigator.language.toLowerCase(); };
         var getSegments = function (text, separator, segments) {
             return text.split(separator).slice(0, segments).join(separator);
         };
         var getMatchLang = function (lang) {
-            var _a, _b;
-            return (_b = (_a = array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 1))) !== null && _b !== void 0 ? _b : "en";
+            var _a;
+            return (_a = array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 2))) !== null && _a !== void 0 ? _a : array_1.Array.lookupValue(supportedLangs, getSegments(lang, "-", 1));
         };
-        var getDefaultLang = function () { return getMatchLang(getSystemLang()); };
+        var getDefaultLang = function () {
+            var _a, _b;
+            return (_b = (_a = getMatchLang(navigator.language.toLowerCase())) !== null && _a !== void 0 ? _a : navigator.languages.map(function (i) { return getMatchLang(i.toLowerCase()); }).filter(function (i) { return i !== undefined; })[0]) !== null && _b !== void 0 ? _b : "en";
+        };
         var lang = getDefaultLang();
         Locale.getLocale = function () { return lang; };
         Locale.setLocale = function (locale) {
