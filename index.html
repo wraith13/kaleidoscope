@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Fri Jun 27 2025 07:17:56 GMT+0900 (日本標準時)
+    build at: Fri Jun 27 2025 21:39:18 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -133,72 +133,72 @@ button {
   cursor: pointer;
 }
 
-noscript *[lang] {
+#noscript *[lang] {
   opacity: 0;
   animation: noscript-langs-fade 94.5s infinite;
 }
-noscript *[lang=ar] {
-  animation-delay: 0s;
+#noscript *[lang=ar] {
+  animation-delay: 1s;
 }
-noscript *[lang=de] {
-  animation-delay: 4.5s;
+#noscript *[lang=de] {
+  animation-delay: 5.5s;
 }
-noscript *[lang=el] {
-  animation-delay: 9s;
+#noscript *[lang=el] {
+  animation-delay: 10s;
 }
-noscript *[lang=en] {
-  animation-delay: 13.5s;
+#noscript *[lang=en] {
+  animation-delay: 14.5s;
 }
-noscript *[lang=es] {
-  animation-delay: 18s;
+#noscript *[lang=es] {
+  animation-delay: 19s;
 }
-noscript *[lang=fa] {
-  animation-delay: 22.5s;
+#noscript *[lang=fa] {
+  animation-delay: 23.5s;
 }
-noscript *[lang=fr] {
-  animation-delay: 27s;
+#noscript *[lang=fr] {
+  animation-delay: 28s;
 }
-noscript *[lang=hi] {
-  animation-delay: 31.5s;
+#noscript *[lang=hi] {
+  animation-delay: 32.5s;
 }
-noscript *[lang=id] {
-  animation-delay: 36s;
+#noscript *[lang=id] {
+  animation-delay: 37s;
 }
-noscript *[lang=it] {
-  animation-delay: 40.5s;
+#noscript *[lang=it] {
+  animation-delay: 41.5s;
 }
-noscript *[lang=ja] {
-  animation-delay: 45s;
+#noscript *[lang=ja] {
+  animation-delay: 46s;
 }
-noscript *[lang=ko] {
-  animation-delay: 49.5s;
+#noscript *[lang=ko] {
+  animation-delay: 50.5s;
 }
-noscript *[lang=nl] {
-  animation-delay: 54s;
+#noscript *[lang=nl] {
+  animation-delay: 55s;
 }
-noscript *[lang=pl] {
-  animation-delay: 58.5s;
+#noscript *[lang=pl] {
+  animation-delay: 59.5s;
 }
-noscript *[lang=pt] {
-  animation-delay: 63s;
+#noscript *[lang=pt] {
+  animation-delay: 64s;
 }
-noscript *[lang=ru] {
-  animation-delay: 67.5s;
+#noscript *[lang=ru] {
+  animation-delay: 68.5s;
 }
-noscript *[lang=th] {
-  animation-delay: 72s;
+#noscript *[lang=th] {
+  animation-delay: 73s;
 }
-noscript *[lang=tr] {
-  animation-delay: 76.5s;
+#noscript *[lang=tr] {
+  animation-delay: 77.5s;
 }
-noscript *[lang=vi] {
-  animation-delay: 81s;
+#noscript *[lang=vi] {
+  animation-delay: 82s;
 }
-noscript *[lang=zh-cn] {
-  animation-delay: 85.5s;
+#noscript *[lang=zh-cn] {
+  animation-delay: 86.5s;
 }
-noscript *[lang=zh-tw] {
-  animation-delay: 90s;
+#noscript *[lang=zh-tw] {
+  animation-delay: 91s;
 }
 
 @keyframes noscript-langs-fade {
@@ -218,7 +218,7 @@ noscript *[lang=zh-tw] {
     opacity: 0;
   }
 }
-noscript {
+#noscript {
   padding: 1rem;
   position: absolute;
   z-index: 9999;
@@ -233,21 +233,35 @@ noscript {
   justify-content: start;
   align-items: center;
 }
-noscript .panel {
+#noscript .panel {
+  animation-name: noscript-fadein;
+  animation-direction: normal;
+  animation-delay: 1s;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
   max-width: 100%;
   width: 48rem;
   position: relative;
 }
-noscript .panel *[lang] {
+#noscript .panel *[lang] {
   position: absolute;
 }
-noscript .panel .section h2 + div {
+#noscript .panel .section h2 + div {
   white-space: pre-wrap;
 }
-noscript .panel .section + .section {
+#noscript .panel .section + .section {
   margin-top: 4.5rem;
 }
 
+@keyframes noscript-fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 #screen-header {
   transition: transform 500ms;
   margin: 0px;
@@ -1775,9 +1789,9 @@ DUMMYSTYLE
     <a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a>
     <a class="segment" href="https://github.com/wraith13/kaleidoscope/"><span>Kaleidoscope Web Screensaver</span></a>
 </h1>
-<noscript>
+<div id="noscript">
     <div class="panel">
-        <div class="section">
+        <noscript class="section">
             <h2>NOSCRIPT</h2>
             <div lang="ar" dir="rtl">تم تعطيل JavaScript. يرجى تمكين JavaScript.</div>
 <div lang="de" dir="ltr">JavaScript ist deaktiviert. Bitte aktivieren Sie JavaScript.</div>
@@ -1800,7 +1814,7 @@ DUMMYSTYLE
 <div lang="vi" dir="ltr">JavaScript đã bị vô hiệu hóa. Vui lòng bật JavaScript.</div>
 <div lang="zh-cn" dir="ltr">JavaScript 已被禁用。请启用 JavaScript。</div>
 <div lang="zh-tw" dir="ltr">JavaScript 已停用。請啟用 JavaScript。</div>
-        </div>
+        </noscript>
         <div class="section">
             <div lang="ar" dir="rtl"><h2>مقدمة</h2><div>شاشة التوقف Kaleidoscope Web هي شاشة توقف قائمة على الويب تعرض رسومًا متحركة تشبه الكاليدوسكوب. يمكن للمستخدمين تخصيص الأنماط والألوان لإنشاء تأثيرات بسيطة ولكنها جذابة بصريًا تشبه الكاليدوسكوب. تعمل على أجهزة متنوعة، بما في ذلك أجهزة الكمبيوتر والهواتف الذكية والأجهزة اللوحية، وتدعم وضع ملء الشاشة.
 
@@ -1951,7 +1965,7 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 此外，Kaleidoscope Web Screensaver 也內建效能測試功能，可同時測量您的裝置與瀏覽器的整體效能。</div></div>
         </div>
     </div>
-</noscript>
+</div>
 <div id="screen-body">
     <div id="canvas">
         <div class="layer"></div>
@@ -2171,8 +2185,8 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 <script type="text/javascript">
 const build =
 {
-    at: "Fri Jun 27 2025 07:17:56 GMT+0900 (日本標準時)",
-    tick: 1750976276656
+    at: "Fri Jun 27 2025 21:39:18 GMT+0900 (日本標準時)",
+    tick: 1751027958572
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -9991,6 +10005,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
     var UI;
     (function (UI) {
         UI.manifest = _library_3.Library.UI.getElementById("link", "manifest");
+        UI.noscript = _library_3.Library.UI.getElementById("div", "noscript");
         UI.screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
         UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
         UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
@@ -10081,6 +10096,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
         };
         UI.initialize = function () {
+            UI.noscript.style.setProperty("display", "none");
             if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
                 UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
             }

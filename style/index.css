@@ -39,72 +39,72 @@ button {
   cursor: pointer;
 }
 
-noscript *[lang] {
+#noscript *[lang] {
   opacity: 0;
   animation: noscript-langs-fade 94.5s infinite;
 }
-noscript *[lang=ar] {
-  animation-delay: 0s;
+#noscript *[lang=ar] {
+  animation-delay: 1s;
 }
-noscript *[lang=de] {
-  animation-delay: 4.5s;
+#noscript *[lang=de] {
+  animation-delay: 5.5s;
 }
-noscript *[lang=el] {
-  animation-delay: 9s;
+#noscript *[lang=el] {
+  animation-delay: 10s;
 }
-noscript *[lang=en] {
-  animation-delay: 13.5s;
+#noscript *[lang=en] {
+  animation-delay: 14.5s;
 }
-noscript *[lang=es] {
-  animation-delay: 18s;
+#noscript *[lang=es] {
+  animation-delay: 19s;
 }
-noscript *[lang=fa] {
-  animation-delay: 22.5s;
+#noscript *[lang=fa] {
+  animation-delay: 23.5s;
 }
-noscript *[lang=fr] {
-  animation-delay: 27s;
+#noscript *[lang=fr] {
+  animation-delay: 28s;
 }
-noscript *[lang=hi] {
-  animation-delay: 31.5s;
+#noscript *[lang=hi] {
+  animation-delay: 32.5s;
 }
-noscript *[lang=id] {
-  animation-delay: 36s;
+#noscript *[lang=id] {
+  animation-delay: 37s;
 }
-noscript *[lang=it] {
-  animation-delay: 40.5s;
+#noscript *[lang=it] {
+  animation-delay: 41.5s;
 }
-noscript *[lang=ja] {
-  animation-delay: 45s;
+#noscript *[lang=ja] {
+  animation-delay: 46s;
 }
-noscript *[lang=ko] {
-  animation-delay: 49.5s;
+#noscript *[lang=ko] {
+  animation-delay: 50.5s;
 }
-noscript *[lang=nl] {
-  animation-delay: 54s;
+#noscript *[lang=nl] {
+  animation-delay: 55s;
 }
-noscript *[lang=pl] {
-  animation-delay: 58.5s;
+#noscript *[lang=pl] {
+  animation-delay: 59.5s;
 }
-noscript *[lang=pt] {
-  animation-delay: 63s;
+#noscript *[lang=pt] {
+  animation-delay: 64s;
 }
-noscript *[lang=ru] {
-  animation-delay: 67.5s;
+#noscript *[lang=ru] {
+  animation-delay: 68.5s;
 }
-noscript *[lang=th] {
-  animation-delay: 72s;
+#noscript *[lang=th] {
+  animation-delay: 73s;
 }
-noscript *[lang=tr] {
-  animation-delay: 76.5s;
+#noscript *[lang=tr] {
+  animation-delay: 77.5s;
 }
-noscript *[lang=vi] {
-  animation-delay: 81s;
+#noscript *[lang=vi] {
+  animation-delay: 82s;
 }
-noscript *[lang=zh-cn] {
-  animation-delay: 85.5s;
+#noscript *[lang=zh-cn] {
+  animation-delay: 86.5s;
 }
-noscript *[lang=zh-tw] {
-  animation-delay: 90s;
+#noscript *[lang=zh-tw] {
+  animation-delay: 91s;
 }
 
 @keyframes noscript-langs-fade {
@@ -124,7 +124,7 @@ noscript *[lang=zh-tw] {
     opacity: 0;
   }
 }
-noscript {
+#noscript {
   padding: 1rem;
   position: absolute;
   z-index: 9999;
@@ -139,21 +139,35 @@ noscript {
   justify-content: start;
   align-items: center;
 }
-noscript .panel {
+#noscript .panel {
+  animation-name: noscript-fadein;
+  animation-direction: normal;
+  animation-delay: 1s;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
   max-width: 100%;
   width: 48rem;
   position: relative;
 }
-noscript .panel *[lang] {
+#noscript .panel *[lang] {
   position: absolute;
 }
-noscript .panel .section h2 + div {
+#noscript .panel .section h2 + div {
   white-space: pre-wrap;
 }
-noscript .panel .section + .section {
+#noscript .panel .section + .section {
   margin-top: 4.5rem;
 }
 
+@keyframes noscript-fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 #screen-header {
   transition: transform 500ms;
   margin: 0px;

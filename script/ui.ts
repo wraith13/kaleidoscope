@@ -7,6 +7,8 @@ export namespace UI
 {
     export const manifest =
         Library.UI.getElementById("link", "manifest");
+    export const noscript =
+        Library.UI.getElementById("div", "noscript");
     export const screenBody =
         Library.UI.getElementById("div", "screen-body");
     export const canvas =
@@ -171,6 +173,7 @@ export namespace UI
     }
     export const initialize = () =>
     {
+        noscript.style.setProperty("display", "none");
         if ( ! Library.UI.fullscreenEnabled && withFullscreen.dom.parentElement)
         {
             withFullscreen.dom.parentElement.style.setProperty("display", "none");

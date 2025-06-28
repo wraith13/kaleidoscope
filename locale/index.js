@@ -129,19 +129,20 @@ var writeHtmlPart = function (master, data) { return fs_1.default.writeFileSync(
     .join(data.separetor), "utf8"); };
 var writeSCSS = function (master) {
     var keys = Object.keys(master);
+    var initialWait = 1;
     var showSpan = 4.5;
     var showRate = 100 / keys.length;
     var fadeDuration = showRate * 0.2;
     ;
     var scss = "";
-    scss += "noscript\n";
+    scss += "#noscript\n";
     scss += "{\n";
     scss += "    *[lang]\n";
     scss += "    {\n";
     scss += "        opacity: 0;\n";
     scss += "        animation: noscript-langs-fade ".concat(keys.length * showSpan, "s infinite;\n");
     scss += "    }\n";
-    keys.forEach(function (lang, ix) { return scss += "    *[lang=\"".concat(lang, "\"] { animation-delay: ").concat(ix * showSpan, "s; }\n"); });
+    keys.forEach(function (lang, ix) { return scss += "    *[lang=\"".concat(lang, "\"] { animation-delay: ").concat(initialWait + (ix * showSpan), "s; }\n"); });
     scss += "}\n";
     scss += "@keyframes noscript-langs-fade\n";
     scss += "{\n";

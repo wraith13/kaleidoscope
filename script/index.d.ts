@@ -4432,6 +4432,7 @@ declare module "script/ui" {
     import { Library } from "script/library/index";
     export namespace UI {
         const manifest: HTMLLinkElement;
+        const noscript: HTMLDivElement;
         const screenBody: HTMLDivElement;
         const canvas: HTMLDivElement;
         const playButton: Library.Control.Button<HTMLElement>;

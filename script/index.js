@@ -4846,6 +4846,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
     var UI;
     (function (UI) {
         UI.manifest = _library_3.Library.UI.getElementById("link", "manifest");
+        UI.noscript = _library_3.Library.UI.getElementById("div", "noscript");
         UI.screenBody = _library_3.Library.UI.getElementById("div", "screen-body");
         UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
         UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
@@ -4936,6 +4937,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
             _library_3.Library.UI.replaceChildren(_library_3.Library.UI.getElementById("ul", "information-list"), config_json_4.default.informations.map(function (i) { return ({ tag: "li", text: _library_3.Library.Locale.map(i), }); }));
         };
         UI.initialize = function () {
+            UI.noscript.style.setProperty("display", "none");
             if (!_library_3.Library.UI.fullscreenEnabled && UI.withFullscreen.dom.parentElement) {
                 UI.withFullscreen.dom.parentElement.style.setProperty("display", "none");
             }

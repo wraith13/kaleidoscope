@@ -1,6 +1,6 @@
 @use "./traits" as *;
 @use "../locale/generated/langs.scss" as *;
-noscript
+#noscript
 {
     padding: 1rem;
     position: absolute;
@@ -14,6 +14,12 @@ noscript
     @include flex(column, start, center);
     .panel
     {
+        animation-name: noscript-fadein;
+        animation-direction: normal;
+        animation-delay: 1s;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: both;
         max-width: 100%;
         width: 48rem;
         position: relative;
@@ -33,4 +39,9 @@ noscript
             margin-top: 4.5rem;
         }
     }
+}
+@keyframes noscript-fadein
+{
+    0% { opacity: 0.0; }
+    100% { opacity: 1.0; }
 }

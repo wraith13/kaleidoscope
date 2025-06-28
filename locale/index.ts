@@ -102,11 +102,12 @@ const writeHtmlPart = (master: MasterType, data: { template: string, separetor: 
 const writeSCSS = (master: MasterType) =>
 {
     const keys = Object.keys(master);
+    const initialWait = 1;
     const showSpan = 4.5;
     const showRate = 100 / keys.length;
     const fadeDuration = showRate *0.2;;
     let scss = "";
-    scss += `noscript\n`;
+    scss += `#noscript\n`;
     scss += `{\n`;
     scss += `    *[lang]\n`;
     scss += `    {\n`;
@@ -115,7 +116,7 @@ const writeSCSS = (master: MasterType) =>
     scss += `    }\n`;
     keys.forEach
     (
-        (lang: string, ix: number) => scss += `    *[lang="${lang}"] { animation-delay: ${ix *showSpan}s; }\n`
+        (lang: string, ix: number) => scss += `    *[lang="${lang}"] { animation-delay: ${initialWait +(ix *showSpan)}s; }\n`
     );
     scss += `}\n`;
     scss += `@keyframes noscript-langs-fade\n`;

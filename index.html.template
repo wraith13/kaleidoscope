@@ -43,17 +43,17 @@ DUMMYSTYLE
     <a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a>
     <a class="segment" href="__REPOSITORY_URL_"><span>__APPLICATION_TITLE__</span></a>
 </h1>
-<noscript>
+<div id="noscript">
     <div class="panel">
-        <div class="section">
+        <noscript class="section">
             <h2>NOSCRIPT</h2>
             __NOSCRIPT_MESSAGE__
-        </div>
+        </noscript>
         <div class="section">
             __NOSCRIPT_INTRODUCTION__
         </div>
     </div>
-</noscript>
+</div>
 <div id="screen-body">
     <div id="canvas">
         <div class="layer"></div>

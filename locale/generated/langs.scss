@@ -1,31 +1,31 @@
-noscript
+#noscript
 {
     *[lang]
     {
         opacity: 0;
         animation: noscript-langs-fade 94.5s infinite;
     }
-    *[lang="ar"] { animation-delay: 0s; }
-    *[lang="de"] { animation-delay: 4.5s; }
-    *[lang="el"] { animation-delay: 9s; }
-    *[lang="en"] { animation-delay: 13.5s; }
-    *[lang="es"] { animation-delay: 18s; }
-    *[lang="fa"] { animation-delay: 22.5s; }
-    *[lang="fr"] { animation-delay: 27s; }
-    *[lang="hi"] { animation-delay: 31.5s; }
-    *[lang="id"] { animation-delay: 36s; }
-    *[lang="it"] { animation-delay: 40.5s; }
-    *[lang="ja"] { animation-delay: 45s; }
-    *[lang="ko"] { animation-delay: 49.5s; }
-    *[lang="nl"] { animation-delay: 54s; }
-    *[lang="pl"] { animation-delay: 58.5s; }
-    *[lang="pt"] { animation-delay: 63s; }
-    *[lang="ru"] { animation-delay: 67.5s; }
-    *[lang="th"] { animation-delay: 72s; }
-    *[lang="tr"] { animation-delay: 76.5s; }
-    *[lang="vi"] { animation-delay: 81s; }
-    *[lang="zh-cn"] { animation-delay: 85.5s; }
-    *[lang="zh-tw"] { animation-delay: 90s; }
+    *[lang="ar"] { animation-delay: 1s; }
+    *[lang="de"] { animation-delay: 5.5s; }
+    *[lang="el"] { animation-delay: 10s; }
+    *[lang="en"] { animation-delay: 14.5s; }
+    *[lang="es"] { animation-delay: 19s; }
+    *[lang="fa"] { animation-delay: 23.5s; }
+    *[lang="fr"] { animation-delay: 28s; }
+    *[lang="hi"] { animation-delay: 32.5s; }
+    *[lang="id"] { animation-delay: 37s; }
+    *[lang="it"] { animation-delay: 41.5s; }
+    *[lang="ja"] { animation-delay: 46s; }
+    *[lang="ko"] { animation-delay: 50.5s; }
+    *[lang="nl"] { animation-delay: 55s; }
+    *[lang="pl"] { animation-delay: 59.5s; }
+    *[lang="pt"] { animation-delay: 64s; }
+    *[lang="ru"] { animation-delay: 68.5s; }
+    *[lang="th"] { animation-delay: 73s; }
+    *[lang="tr"] { animation-delay: 77.5s; }
+    *[lang="vi"] { animation-delay: 82s; }
+    *[lang="zh-cn"] { animation-delay: 86.5s; }
+    *[lang="zh-tw"] { animation-delay: 91s; }
 }
 @keyframes noscript-langs-fade
 {
