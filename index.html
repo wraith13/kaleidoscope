@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Fri Jun 27 2025 21:39:18 GMT+0900 (日本標準時)
+    build at: Sat Jun 28 2025 12:53:10 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -219,7 +219,6 @@ button {
   }
 }
 #noscript {
-  padding: 1rem;
   position: absolute;
   z-index: 9999;
   color: white;
@@ -228,6 +227,7 @@ button {
   left: 0px;
   right: 0px;
   bottom: 0px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -784,6 +784,89 @@ body.hide-ui #benchmark-panel:not(.show)::before {
     visibility: hidden;
     width: 0px;
     height: 0px;
+  }
+}
+
+#introduction-panel {
+  transition: opacity 750ms, filter 750ms;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+body.immersive #introduction-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive #introduction-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.hide-ui #introduction-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.hide-ui #introduction-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #introduction-panel {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #introduction-panel {
+    font-size: 1rem;
+  }
+}
+#introduction-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#introduction-panel {
+  position: absolute;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 50%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#introduction-panel .section {
+  max-width: 100%;
+  width: 48rem;
+}
+#introduction-panel .section p {
+  font-size: 1rem;
+  white-space: pre-wrap;
+}
+@media (max-width: 1400px) or (max-height: 1024px) {
+  #introduction-panel {
+    display: none;
   }
 }
 
@@ -2070,6 +2153,12 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
     <span id="time"></span>
     <span id="date"></span>
 </div>
+<div id="introduction-panel">
+    <div class="section">
+        <h2><span data-lang-key="noscript-introduction-title"></span></h2>
+        <p><span data-lang-key="noscript-introduction-description"></span></p>
+    </div>
+</div>
 <button id="play-button">
     <div id="play-icon"><svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(1,0,0,1,-20.52,-0.152764)">
@@ -2185,8 +2274,8 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 <script type="text/javascript">
 const build =
 {
-    at: "Fri Jun 27 2025 21:39:18 GMT+0900 (日本標準時)",
-    tick: 1751027958572
+    at: "Sat Jun 28 2025 12:53:10 GMT+0900 (日本標準時)",
+    tick: 1751082790625
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {

@@ -153,6 +153,12 @@ DUMMYSTYLE
     <span id="time"></span>
     <span id="date"></span>
 </div>
+<div id="introduction-panel">
+    <div class="section">
+        <h2><span data-lang-key="noscript-introduction-title"></span></h2>
+        <p><span data-lang-key="noscript-introduction-description"></span></p>
+    </div>
+</div>
 <button id="play-button">
     __IMAGES__
 </button>

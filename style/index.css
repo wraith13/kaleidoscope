@@ -125,7 +125,6 @@ button {
   }
 }
 #noscript {
-  padding: 1rem;
   position: absolute;
   z-index: 9999;
   color: white;
@@ -134,6 +133,7 @@ button {
   left: 0px;
   right: 0px;
   bottom: 0px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -690,6 +690,89 @@ body.hide-ui #benchmark-panel:not(.show)::before {
     visibility: hidden;
     width: 0px;
     height: 0px;
+  }
+}
+
+#introduction-panel {
+  transition: opacity 750ms, filter 750ms;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+body.immersive #introduction-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive #introduction-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.hide-ui #introduction-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.hide-ui #introduction-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #introduction-panel {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #introduction-panel {
+    font-size: 1rem;
+  }
+}
+#introduction-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#introduction-panel {
+  position: absolute;
+  z-index: 10;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 50%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#introduction-panel .section {
+  max-width: 100%;
+  width: 48rem;
+}
+#introduction-panel .section p {
+  font-size: 1rem;
+  white-space: pre-wrap;
+}
+@media (max-width: 1400px) or (max-height: 1024px) {
+  #introduction-panel {
+    display: none;
   }
 }
 

@@ -2,7 +2,6 @@
 @use "../locale/generated/langs.scss" as *;
 #noscript
 {
-    padding: 1rem;
     position: absolute;
     z-index: 9999;
     color: white;
@@ -11,6 +10,7 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
+    padding: 1rem;
     @include flex(column, start, center);
     .panel
     {

@@ -293,6 +293,37 @@
         }
     }
 }
+#introduction-panel
+{
+    @include fade-transition("body.immersive", "body.hide-ui");
+    @include font();
+    &
+    {
+        position: absolute;
+        z-index: 10;
+        //color: white;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 50%;
+        padding: 1rem;
+        @include flex(column, center, center);
+        .section
+        {
+            max-width: 100%;
+            width: 48rem;
+            p
+            {
+                @include font-size(1rem);
+                white-space: pre-wrap;
+            }
+        }
+        @media (max-width: 1400px) or (max-height: 1024px)
+        {
+            display: none;
+        }
+    }
+}
 #play-button
 {
     @include black-pop-panel-style();
