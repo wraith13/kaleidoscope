@@ -118,6 +118,27 @@ export namespace Events
             button.dom.blur();
             Controller.Benchmark.runBenchmark();
         };
+        UI.introductionButton.data.click = (event, button) =>
+        {
+            event?.stopPropagation();
+            button.dom.blur();
+            UI.introductionPanel.classList.toggle("force-show", true);
+        };
+        UI.introductionPanel.addEventListener
+        (
+            "click",
+            event =>
+            {
+                event.stopPropagation();
+                UI.introductionPanel.classList.toggle("force-show", false);
+            }
+        );
+        UI.introductionPanel.classList.toggle("force-show", true);
+        setTimeout
+        (
+            () => UI.introductionPanel.classList.toggle("force-show", false),
+            15000
+        );
         UI.colorspaceSelect.loadParameter(Url.params, applyParam).setChange(updateColorspace);
         UI.coloringSelect.loadParameter(Url.params, applyParam).setChange(updateColoring);
         UI.patternSelect.loadParameter(Url.params, applyParam).setChange(updatePattern);

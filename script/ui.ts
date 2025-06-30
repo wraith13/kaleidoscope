@@ -17,6 +17,8 @@ export namespace UI
         new Library.Control.Button({ id: "play-button", });
     export const runBenchmarkButton =
         new Library.Control.Button({ id: "run-benchmark", });
+    export const introductionButton =
+        new Library.Control.Button({ id: "introduction-button", });
     export const colorspaceSelect =
         new Library.Control.Select(control.colorspace);
     export const coloringSelect =
@@ -69,6 +71,8 @@ export namespace UI
         );
     export const urlAnchor =
         Library.UI.getElementById("a", "url");
+    export const introductionPanel =
+        Library.UI.getElementById("div", "popup-introduction-panel");
     export const fpsDisplay =
         Library.UI.getElementById("div", "fps");
     export const clockDisplay =

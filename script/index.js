@@ -4851,6 +4851,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
         UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
         UI.runBenchmarkButton = new _library_3.Library.Control.Button({ id: "run-benchmark", });
+        UI.introductionButton = new _library_3.Library.Control.Button({ id: "introduction-button", });
         UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
         UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
         UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { makeLabel: function (i) { return _library_3.Library.Locale.map(i); }, });
@@ -4877,6 +4878,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
                     + _library_3.Library.Locale.toRtl(_library_3.Library.Locale.map("lang-label", i), _library_3.Library.Locale.isRtl() && _library_3.Library.Locale.isLtr(i))); },
         });
         UI.urlAnchor = _library_3.Library.UI.getElementById("a", "url");
+        UI.introductionPanel = _library_3.Library.UI.getElementById("div", "popup-introduction-panel");
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
         UI.clockDisplay = _library_3.Library.UI.getElementById("div", "clock-panel");
         UI.date = _library_3.Library.UI.getElementById("span", "date");
@@ -5826,6 +5828,17 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 button.dom.blur();
                 _controller_1.Controller.Benchmark.runBenchmark();
             };
+            ui_8.UI.introductionButton.data.click = function (event, button) {
+                event === null || event === void 0 ? void 0 : event.stopPropagation();
+                button.dom.blur();
+                ui_8.UI.introductionPanel.classList.toggle("force-show", true);
+            };
+            ui_8.UI.introductionPanel.addEventListener("click", function (event) {
+                event.stopPropagation();
+                ui_8.UI.introductionPanel.classList.toggle("force-show", false);
+            });
+            ui_8.UI.introductionPanel.classList.toggle("force-show", true);
+            setTimeout(function () { return ui_8.UI.introductionPanel.classList.toggle("force-show", false); }, 15000);
             ui_8.UI.colorspaceSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateColorspace);
             ui_8.UI.coloringSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateColoring);
             ui_8.UI.patternSelect.loadParameter(url_1.Url.params, applyParam).setChange(updatePattern);

@@ -4437,6 +4437,7 @@ declare module "script/ui" {
         const canvas: HTMLDivElement;
         const playButton: Library.Control.Button<HTMLElement>;
         const runBenchmarkButton: Library.Control.Button<HTMLElement>;
+        const introductionButton: Library.Control.Button<HTMLElement>;
         const colorspaceSelect: Library.Control.Select<string>;
         const coloringSelect: Library.Control.Select<string>;
         const patternSelect: Library.Control.Select<string>;
@@ -4454,6 +4455,7 @@ declare module "script/ui" {
         const brightnessSelect: Library.Control.Select<number>;
         const languageSelect: Library.Control.Select<string>;
         const urlAnchor: HTMLAnchorElement;
+        const introductionPanel: HTMLDivElement;
         const fpsDisplay: HTMLDivElement;
         const clockDisplay: HTMLDivElement;
         const date: HTMLSpanElement;

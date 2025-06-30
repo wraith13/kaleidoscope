@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sun Jun 29 2025 13:51:32 GMT+0900 (日本標準時)
+    build at: Mon Jun 30 2025 21:49:10 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -686,6 +686,10 @@ body:not(.animation) #fps:not(.show)::before {
 
 #benchmark-panel {
   transition: opacity 750ms, filter 750ms;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: end;
   font-size: 0.75rem;
   font-weight: 400;
 }
@@ -780,25 +784,35 @@ body.hide-ui #benchmark-panel:not(.show)::before {
   cursor: pointer;
 }
 @media (max-width: 300px) or (max-height: 300px) {
-  #benchmark-panel {
-    visibility: hidden;
-    width: 0px;
-    height: 0px;
+  #benchmark-panel #run-benchmark {
+    display: none;
+  }
+}
+#benchmark-panel #introduction-button {
+  display: none;
+}
+@media (max-width: 1400px) or (max-height: 1024px) {
+  #benchmark-panel #introduction-button {
+    display: flex;
   }
 }
 
-#introduction-panel {
+#background-introduction-panel {
   transition: opacity 750ms, filter 750ms;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-size: 0.75rem;
   font-weight: 400;
 }
-body.immersive #introduction-panel:not(.show) {
+body.immersive #background-introduction-panel:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.immersive #introduction-panel:not(.show)::before {
+body.immersive #background-introduction-panel:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -811,13 +825,13 @@ body.immersive #introduction-panel:not(.show)::before {
   transition: filter 750ms;
 }
 
-body.hide-ui #introduction-panel:not(.show) {
+body.hide-ui #background-introduction-panel:not(.show) {
   opacity: 0;
   cursor: none;
   pointer-events: none;
   filter: blur(1em);
 }
-body.hide-ui #introduction-panel:not(.show)::before {
+body.hide-ui #background-introduction-panel:not(.show)::before {
   content: "";
   position: absolute;
   top: -1em;
@@ -831,19 +845,19 @@ body.hide-ui #introduction-panel:not(.show)::before {
 }
 
 @media (min-width: 1024px) and (max-width: 1599px) {
-  #introduction-panel {
+  #background-introduction-panel {
     font-size: 0.9rem;
   }
 }
 @media (min-width: 1600px) {
-  #introduction-panel {
+  #background-introduction-panel {
     font-size: 1rem;
   }
 }
-#introduction-panel {
+#background-introduction-panel {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
-#introduction-panel {
+#background-introduction-panel {
   position: absolute;
   z-index: 10;
   top: 0px;
@@ -851,22 +865,75 @@ body.hide-ui #introduction-panel:not(.show)::before {
   right: 0px;
   bottom: 50%;
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  transition: opacity 1000ms;
 }
-#introduction-panel .section {
+#background-introduction-panel .section {
   max-width: 100%;
   width: 48rem;
 }
-#introduction-panel .section p {
+#background-introduction-panel .section p {
   font-size: 1rem;
   white-space: pre-wrap;
 }
 @media (max-width: 1400px) or (max-height: 1024px) {
-  #introduction-panel {
-    display: none;
+  #background-introduction-panel {
+    opacity: 0;
+  }
+}
+
+#popup-introduction-panel {
+  backdrop-filter: blur(0.5rem);
+  color: rgb(230, 237, 243);
+  background-color: rgba(32, 28, 38, 0.6);
+  margin: 0px;
+  inset-block-start: 0px;
+  inset-block-end: 0px;
+  inset-inline-start: 0px;
+  inset-inline-end: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+@media (min-width: 1024px) and (max-width: 1599px) {
+  #popup-introduction-panel {
+    font-size: 0.9rem;
+  }
+}
+@media (min-width: 1600px) {
+  #popup-introduction-panel {
+    font-size: 1rem;
+  }
+}
+#popup-introduction-panel {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+#popup-introduction-panel {
+  position: absolute;
+  z-index: 10;
+  transition: opacity 1000ms;
+  opacity: 0;
+}
+#popup-introduction-panel .section {
+  max-width: 100%;
+  width: 48rem;
+}
+#popup-introduction-panel .section p {
+  font-size: 1rem;
+  white-space: pre-wrap;
+}
+@media (max-width: 1400px) or (max-height: 1024px) {
+  #popup-introduction-panel {
+    user-select: none;
+    pointer-events: none;
+    z-index: 9999;
+    padding: 1rem;
+  }
+  #popup-introduction-panel.force-show {
+    pointer-events: all;
+    opacity: 1;
   }
 }
 
@@ -2148,12 +2215,29 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 
         <span data-lang-key="run-benchmark-label"></span>
     </button>
+    <button id="introduction-button">
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1.2381,0,0,-1.2381,16.7619,1007.24)">
+        <path d="M400,64C214.557,64 64,214.557 64,400C64,585.443 214.557,736 400,736C585.443,736 736,585.443 736,400C736,214.557 585.443,64 400,64ZM399.9,526C428.43,526 451.593,549.163 451.593,577.692C451.593,606.222 428.43,629.385 399.9,629.385C371.371,629.385 348.208,606.222 348.208,577.692C348.208,549.163 371.371,526 399.9,526ZM348.609,429.077L348.407,429.077L348.407,226.871C348.275,225.367 348.208,223.845 348.208,222.308C348.208,193.778 371.371,170.615 399.9,170.615C427.345,170.615 449.823,192.05 451.493,219.077L451.593,219.077L451.593,429.077L451.192,429.077C451.457,431.194 451.593,433.35 451.593,435.538C451.593,464.068 428.43,487.231 399.9,487.231C371.371,487.231 348.208,464.068 348.208,435.538C348.208,433.35 348.344,431.194 348.609,429.077Z"/>
+    </g>
+</svg>
+
+        <span data-lang-key="noscript-introduction-title"></span>
+    </button>
 </div>
 <div id="clock-panel">
     <span id="time"></span>
     <span id="date"></span>
 </div>
-<div id="introduction-panel">
+<div id="background-introduction-panel">
+    <div class="section">
+        <h2><span data-lang-key="noscript-introduction-title"></span></h2>
+        <p><span data-lang-key="noscript-introduction-description"></span></p>
+    </div>
+</div>
+<div id="popup-introduction-panel">
     <div class="section">
         <h2><span data-lang-key="noscript-introduction-title"></span></h2>
         <p><span data-lang-key="noscript-introduction-description"></span></p>
@@ -2274,8 +2358,8 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 <script type="text/javascript">
 const build =
 {
-    at: "Sun Jun 29 2025 13:51:32 GMT+0900 (日本標準時)",
-    tick: 1751172692858
+    at: "Mon Jun 30 2025 21:49:10 GMT+0900 (日本標準時)",
+    tick: 1751287750205
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
@@ -10105,6 +10189,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.canvas = _library_3.Library.UI.getElementById("div", "canvas");
         UI.playButton = new _library_3.Library.Control.Button({ id: "play-button", });
         UI.runBenchmarkButton = new _library_3.Library.Control.Button({ id: "run-benchmark", });
+        UI.introductionButton = new _library_3.Library.Control.Button({ id: "introduction-button", });
         UI.colorspaceSelect = new _library_3.Library.Control.Select(control_json_2.default.colorspace);
         UI.coloringSelect = new _library_3.Library.Control.Select(control_json_2.default.coloring);
         UI.patternSelect = new _library_3.Library.Control.Select(control_json_2.default.pattern, { makeLabel: function (i) { return _library_3.Library.Locale.map(i); }, });
@@ -10131,6 +10216,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
                     + _library_3.Library.Locale.toRtl(_library_3.Library.Locale.map("lang-label", i), _library_3.Library.Locale.isRtl() && _library_3.Library.Locale.isLtr(i))); },
         });
         UI.urlAnchor = _library_3.Library.UI.getElementById("a", "url");
+        UI.introductionPanel = _library_3.Library.UI.getElementById("div", "popup-introduction-panel");
         UI.fpsDisplay = _library_3.Library.UI.getElementById("div", "fps");
         UI.clockDisplay = _library_3.Library.UI.getElementById("div", "clock-panel");
         UI.date = _library_3.Library.UI.getElementById("span", "date");
@@ -11080,6 +11166,17 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                 button.dom.blur();
                 _controller_1.Controller.Benchmark.runBenchmark();
             };
+            ui_8.UI.introductionButton.data.click = function (event, button) {
+                event === null || event === void 0 ? void 0 : event.stopPropagation();
+                button.dom.blur();
+                ui_8.UI.introductionPanel.classList.toggle("force-show", true);
+            };
+            ui_8.UI.introductionPanel.addEventListener("click", function (event) {
+                event.stopPropagation();
+                ui_8.UI.introductionPanel.classList.toggle("force-show", false);
+            });
+            ui_8.UI.introductionPanel.classList.toggle("force-show", true);
+            setTimeout(function () { return ui_8.UI.introductionPanel.classList.toggle("force-show", false); }, 15000);
             ui_8.UI.colorspaceSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateColorspace);
             ui_8.UI.coloringSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateColoring);
             ui_8.UI.patternSelect.loadParameter(url_1.Url.params, applyParam).setChange(updatePattern);
