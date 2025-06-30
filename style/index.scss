@@ -246,6 +246,7 @@
 #benchmark-panel
 {
     @include fade-transition("body.immersive", "body.hide-ui");
+    @include flex(column, start, end);
     @include font();
     &
     {
@@ -285,11 +286,20 @@
                 cursor: pointer;
             }
         }
-        @media (max-width: 300px) or (max-height: 300px)
+        #run-benchmark
         {
-            visibility: hidden;
-            width: 0px;
-            height: 0px;
+            @media (max-width: 300px) or (max-height: 300px)
+            {
+                display: none;
+            }
+        }
+        #introduction-button
+        {
+            display: none;
+            @media (max-width: 1400px) or (max-height: 1024px)
+            {
+                display: flex;
+            }
         }
     }
 }
@@ -317,10 +327,10 @@
                 @include font-size(1rem);
                 white-space: pre-wrap;
             }
-        }
-        @media (max-width: 1400px) or (max-height: 1024px)
-        {
-            display: none;
+            @media (max-width: 1400px) or (max-height: 1024px)
+            {
+                display: none;
+            }
         }
     }
 }
