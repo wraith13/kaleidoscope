@@ -817,7 +817,7 @@ body.hide-ui #background-introduction-panel:not(.show)::before {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 #popup-introduction-panel {
-  position: absolute;
+  position: fixed;
   z-index: 10;
   transition: opacity 1000ms;
   opacity: 0;

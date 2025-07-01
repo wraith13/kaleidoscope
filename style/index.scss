@@ -343,7 +343,7 @@
     @include font();
     &
     {
-        position: absolute;
+        position: fixed;
         z-index: 10;
         transition: opacity 1000ms;
         opacity: 0.0;
