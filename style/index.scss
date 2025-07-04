@@ -337,6 +337,7 @@
 }
 #popup-introduction-panel
 {
+    @include fade-transition("body.immersive", "body.hide-ui");
     @include black-pop-panel-style();
     @include full-stretch-box();
     @include flex(column, center, center);

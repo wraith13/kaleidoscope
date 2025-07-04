@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Tue Jul 01 2025 20:13:46 GMT+0900 (日本標準時)
+    build at: Fri Jul 04 2025 06:45:32 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -882,6 +882,7 @@ body.hide-ui #background-introduction-panel:not(.show)::before {
 }
 
 #popup-introduction-panel {
+  transition: opacity 750ms, filter 750ms;
   backdrop-filter: blur(0.5rem);
   color: rgb(230, 237, 243);
   background-color: rgba(32, 28, 38, 0.6);
@@ -897,6 +898,44 @@ body.hide-ui #background-introduction-panel:not(.show)::before {
   font-size: 0.75rem;
   font-weight: 400;
 }
+body.immersive #popup-introduction-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.immersive #popup-introduction-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
+body.hide-ui #popup-introduction-panel:not(.show) {
+  opacity: 0;
+  cursor: none;
+  pointer-events: none;
+  filter: blur(1em);
+}
+body.hide-ui #popup-introduction-panel:not(.show)::before {
+  content: "";
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  background: inherit;
+  filter: blur(1em);
+  z-index: -1;
+  transition: filter 750ms;
+}
+
 @media (min-width: 1024px) and (max-width: 1599px) {
   #popup-introduction-panel {
     font-size: 0.9rem;
@@ -2358,8 +2397,8 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 <script type="text/javascript">
 const build =
 {
-    at: "Tue Jul 01 2025 20:13:46 GMT+0900 (日本標準時)",
-    tick: 1751368426014
+    at: "Fri Jul 04 2025 06:45:32 GMT+0900 (日本標準時)",
+    tick: 1751579132906
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
