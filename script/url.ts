@@ -1,3 +1,4 @@
+import config from "@resource/config.json";
 export namespace Url
 {
     export const parseParameter = (url: string): Record<string, string> =>
@@ -13,7 +14,7 @@ export namespace Url
     };
     export const make = (params: Record<string, string>) =>
     {
-        const url = new URL(window.location.href);
+        const url = new URL(config.canonicalUrl || window.location.href);
         for (const [ key, value ] of Object.entries(params))
         {
             url.searchParams.set(key, value);

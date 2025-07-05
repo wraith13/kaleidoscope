@@ -21,6 +21,10 @@
                     "json": "./resource/config.json",
                     "value": "repositoryUrl"
                 },
+                "__CANONICAL_URL__": {
+                    "json": "./resource/config.json",
+                    "value": "canonicalUrl"
+                },
                 "__LICENSE__": {
                     "path": "./LICENSE_1_0.txt"
                 }

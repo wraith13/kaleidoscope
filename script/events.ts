@@ -89,16 +89,7 @@ export namespace Events
     const updateBrightness = () =>
         Controller.Animation.updateOpacity();;
     const updateUrlAnchor = (params: Record<string, string>) =>
-    {
-        if (0 < Object.keys(params).length)
-        {
-            UI.urlAnchor.href = Url.make(params);
-        }
-        else
-        {
-            UI.urlAnchor.href = "?";
-        }
-    }
+        UI.urlAnchor.href = Url.make(params);
     export const initialize = () =>
     {
         const applyParam = (key: string, value: string) =>

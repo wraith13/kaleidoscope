@@ -2093,6 +2093,7 @@ define("script/library/locale", ["require", "exports", "script/tools/array", "lo
 define("resource/config", [], {
     "applicationTitle": "Kaleidoscope Web Screensaver",
     "repositoryUrl": "https://github.com/wraith13/kaleidoscope/",
+    "canonicalUrl": "https://wraith13.github.io/kaleidoscope/",
     "googleSiteVerification": "8oVkEdixbPXy2SZ14pt0gKvdFXfFlcAYyD1HxCxJvnw",
     "log": {
         "mousemove": false,
@@ -5554,10 +5555,11 @@ define("resource/images", [], {
     "play-icon": "./image/play.svg",
     "pause-icon": "./image/pause.svg"
 });
-define("script/url", ["require", "exports"], function (require, exports) {
+define("script/url", ["require", "exports", "resource/config"], function (require, exports, config_json_9) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Url = void 0;
+    config_json_9 = __importDefault(config_json_9);
     var Url;
     (function (Url) {
         Url.parseParameter = function (url) {
@@ -5568,7 +5570,7 @@ define("script/url", ["require", "exports"], function (require, exports) {
             return result;
         };
         Url.make = function (params) {
-            var url = new URL(window.location.href);
+            var url = new URL(config_json_9.default.canonicalUrl || window.location.href);
             for (var _i = 0, _a = Object.entries(params); _i < _a.length; _i++) {
                 var _b = _a[_i], key = _b[0], value = _b[1];
                 url.searchParams.set(key, value);
@@ -5717,11 +5719,11 @@ define("resource/loadstatus", [], {
         "default": ""
     }
 });
-define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "script/url", "resource/config", "resource/control", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_1, ui_8, loadstatus_1, url_1, config_json_9, control_json_3, loadstatus_json_1) {
+define("script/events", ["require", "exports", "script/library/index", "script/features/index", "script/controller/index", "script/ui", "script/loadstatus", "script/url", "resource/config", "resource/control", "resource/loadstatus"], function (require, exports, _library_9, _features_4, _controller_1, ui_8, loadstatus_1, url_1, config_json_10, control_json_3, loadstatus_json_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.Events = void 0;
-    config_json_9 = __importDefault(config_json_9);
+    config_json_10 = __importDefault(config_json_10);
     control_json_3 = __importDefault(control_json_3);
     loadstatus_json_1 = __importDefault(loadstatus_json_1);
     var Events;
@@ -5806,12 +5808,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
         };
         ;
         var updateUrlAnchor = function (params) {
-            if (0 < Object.keys(params).length) {
-                ui_8.UI.urlAnchor.href = url_1.Url.make(params);
-            }
-            else {
-                ui_8.UI.urlAnchor.href = "?";
-            }
+            return ui_8.UI.urlAnchor.href = url_1.Url.make(params);
         };
         Events.initialize = function () {
             var applyParam = function (key, value) {
@@ -5884,7 +5881,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             });
             var mouseMoveTimer = new _library_9.Library.UI.ToggleClassForWhileTimer();
             ui_8.UI.screenBody.addEventListener("mousemove", function (_event) {
-                if (config_json_9.default.log.mousemove && !mouseMoveTimer.isOn()) {
+                if (config_json_10.default.log.mousemove && !mouseMoveTimer.isOn()) {
                     console.log("🖱️ MouseMove:", event, ui_8.UI.screenBody);
                 }
                 mouseMoveTimer.start(document.body, "mousemove", 1000);
@@ -6044,10 +6041,10 @@ define("script/screenshot", ["require", "exports", "script/controller/index", "s
         };
     })(Screenshot || (exports.Screenshot = Screenshot = {}));
 });
-define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_10, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
+define("script/index", ["require", "exports", "script/tools/index", "script/library/index", "script/features/index", "script/controller/index", "resource/config", "resource/control", "resource/evil-commonjs.config", "resource/evil-timer.js.config", "resource/images", "resource/powered-by", "resource/shortcuts", "script/url", "script/ui", "script/events", "script/screenshot"], function (require, exports, _tools_5, _library_10, _features_5, _controller_3, config_json_11, control_json_4, evil_commonjs_config_json_1, evil_timer_js_config_json_1, images_json_1, powered_by_json_2, shortcuts_json_2, url_2, ui_10, events_1, screenshot_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    config_json_10 = __importDefault(config_json_10);
+    config_json_11 = __importDefault(config_json_11);
     control_json_4 = __importDefault(control_json_4);
     evil_commonjs_config_json_1 = __importDefault(evil_commonjs_config_json_1);
     evil_timer_js_config_json_1 = __importDefault(evil_timer_js_config_json_1);
@@ -6062,7 +6059,7 @@ define("script/index", ["require", "exports", "script/tools/index", "script/libr
     console.log("\uD83D\uDCE6 BUILD AT: ".concat(build.at, " ( ").concat(_tools_5.Tools.Timespan.toDisplayString(new Date().getTime() - build.tick, 1), " ").concat(_library_10.Library.Locale.map("ago"), " )"));
     var consoleInterface = globalThis;
     var Resource = {
-        config: config_json_10.default,
+        config: config_json_11.default,
         control: control_json_4.default,
         evilCommonJsConfig: evil_commonjs_config_json_1.default,
         evilTimerJsConfig: evil_timer_js_config_json_1.default,
