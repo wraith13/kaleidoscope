@@ -3,7 +3,7 @@
     __BUILD_MESSAGE__
     build options: __BUILD_OPTIONS__
     build at: __BUILD_TIMESTAMP__
-    repository: __REPOSITORY_URL_
+    repository: __REPOSITORY_URL__
 -->
 <!-- license:
 __LICENSE__-->
@@ -41,7 +41,7 @@ DUMMYSTYLE
     <a class="segment" href="https://github.com/"><span>GitHub</span></a>
     <a class="segment" href="https://github.com/wraith13"><span>wraith13</span></a>
     <a class="segment" href="https://wraith13.github.io/"><span>wraith13.github.io</span></a>
-    <a class="segment" href="__REPOSITORY_URL_"><span>__APPLICATION_TITLE__</span></a>
+    <a class="segment" href="__REPOSITORY_URL__"><span>__APPLICATION_TITLE__</span></a>
 </h1>
 <div id="noscript">
     <div class="panel">
