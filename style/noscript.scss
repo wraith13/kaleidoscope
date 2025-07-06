@@ -2,15 +2,18 @@
 @use "../locale/generated/langs.scss" as *;
 #noscript
 {
-    position: absolute;
+    position: fixed;
     z-index: 9999;
     color: white;
     background-color: black;
     top: 3rem;
+    top: calc(env(safe-area-inset-top) + 3rem);
     left: 0px;
     right: 0px;
     bottom: 0px;
     padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    overflow: auto;
     @include flex(column, start, center);
     .panel
     {

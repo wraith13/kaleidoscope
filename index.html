@@ -2,7 +2,7 @@
 <!--
     This file is genereted by build.js. このファイルは build.js によって生成されました。
     build options: ../build.json all
-    build at: Sat Jul 05 2025 13:41:34 GMT+0900 (日本標準時)
+    build at: Sun Jul 06 2025 10:13:18 GMT+0900 (日本標準時)
     repository: https://github.com/wraith13/kaleidoscope/
 -->
 <!-- license:
@@ -220,15 +220,17 @@ button {
   }
 }
 #noscript {
-  position: absolute;
+  position: fixed;
   z-index: 9999;
   color: white;
   background-color: black;
   top: 3rem;
+  top: calc(env(safe-area-inset-top) + 3rem);
   left: 0px;
   right: 0px;
   bottom: 0px;
   padding: 1rem;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -2398,8 +2400,8 @@ Ngoài ra, Kaleidoscope Web Screensaver còn có tính năng benchmark giúp đo
 <script type="text/javascript">
 const build =
 {
-    at: "Sat Jul 05 2025 13:41:34 GMT+0900 (日本標準時)",
-    tick: 1751690494960
+    at: "Sun Jul 06 2025 10:13:18 GMT+0900 (日本標準時)",
+    tick: 1751764398770
 };
 const evilCommonjsConfig = // "./resource/evil-commonjs.config.json"
 {
