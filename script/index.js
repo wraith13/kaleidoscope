@@ -2479,6 +2479,9 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
                     console.error("🦋 FIXME: Contorl.Select.InvalidDom", data, this.dom);
                 }
                 this.reloadOptions(this.data.default);
+                this.dom.addEventListener(
+                // Without this, in Chromium-based browsers, selecting from the dropdown triggers the label's click event, causing the dropdown to reopen.
+                "click", function (event) { return event.stopPropagation(); });
                 this.dom.addEventListener("change", function (event) {
                     var _a, _b, _c;
                     Control.eventLog({ control: _this, event: event, message: "👆 Select.Change:", value: _this.get() });
@@ -2544,6 +2547,62 @@ define("script/library/control", ["require", "exports", "script/tools/array", "s
             return Checkbox;
         }());
         Control.Checkbox = Checkbox;
+        var Range = /** @class */ (function () {
+            function Range(data, options) {
+                var _this = this;
+                var _a, _b, _c, _d;
+                this.data = data;
+                this.options = options;
+                this.catchUpRestore = function (params) {
+                    var _a, _b, _c;
+                    var urlParam = params === null || params === void 0 ? void 0 : params[_this.dom.id];
+                    if (undefined !== urlParam && urlParam !== "".concat(_this.get())) {
+                        Control.eventLog({ control: _this, event: "catchUpRestore", message: "👆 Range.Change:", value: _this.get() });
+                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
+                        (_c = _this.saveParameter) === null || _c === void 0 ? void 0 : _c.call(_this, _this.getId(), "".concat(_this.get()));
+                    }
+                };
+                this.getId = function () { return Control.getDomId(_this.data); };
+                this.setChange = function (change) {
+                    return _this.options = __assign(__assign({}, _this.options), { change: change });
+                };
+                this.set = function (value, preventOnChange) {
+                    var _a, _b;
+                    _this.dom.value = "".concat(value);
+                    if (undefined === preventOnChange) {
+                        (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this);
+                    }
+                };
+                this.get = function () { return parseFloat(_this.dom.value); };
+                this.fire = function () { var _a, _b; return (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, null, _this); };
+                this.loadParameter = function (params, saveParameter) {
+                    var value = params[_this.dom.id];
+                    if (undefined !== value) {
+                        _this.set(parseFloat(value));
+                    }
+                    _this.saveParameter = saveParameter;
+                    return _this;
+                };
+                this.dom = Control.getDom(data);
+                if (!(this.dom instanceof HTMLInputElement) || "range" !== this.dom.type.toLowerCase()) {
+                    console.error("🦋 FIXME: Contorl.Range.InvalidDom", data, this.dom);
+                }
+                this.dom.min = "".concat((_a = this.data.min) !== null && _a !== void 0 ? _a : 0);
+                this.dom.max = "".concat((_b = this.data.max) !== null && _b !== void 0 ? _b : 100);
+                this.dom.step = "".concat((_c = this.data.step) !== null && _c !== void 0 ? _c : 1);
+                if (undefined !== this.data.default) {
+                    this.set(this.data.default, [Control.preventOnChange][false !== ((_d = this.options) === null || _d === void 0 ? void 0 : _d.preventOnChangeWhenNew) ? 0 : 1]);
+                }
+                this.dom.addEventListener("change", function (event) {
+                    var _a, _b, _c;
+                    Control.eventLog({ control: _this, event: event, message: "👆 Range.Change:", value: _this.get() });
+                    (_b = (_a = _this.options) === null || _a === void 0 ? void 0 : _a.change) === null || _b === void 0 ? void 0 : _b.call(_a, event, _this);
+                    (_c = _this.saveParameter) === null || _c === void 0 ? void 0 : _c.call(_this, _this.getId(), "".concat(_this.get()));
+                });
+            }
+            return Range;
+        }());
+        Control.Range = Range;
     })(Control || (exports.Control = Control = {}));
 });
 define("resource/shortcuts", [], [
@@ -4420,28 +4479,9 @@ define("resource/control", [], {
     },
     "brightness": {
         "id": "brightness",
-        "enum": [
-            100,
-            95,
-            90,
-            85,
-            80,
-            75,
-            70,
-            65,
-            60,
-            55,
-            50,
-            45,
-            40,
-            35,
-            30,
-            25,
-            20,
-            15,
-            10,
-            5
-        ],
+        "min": 0,
+        "max": 100,
+        "step": 1,
         "default": 100
     },
     "language": {
@@ -4867,7 +4907,7 @@ define("script/ui", ["require", "exports", "script/tools/index", "script/library
         UI.withFullscreen = new _library_3.Library.Control.Checkbox(control_json_2.default.withFullscreen);
         UI.showFps = new _library_3.Library.Control.Checkbox(control_json_2.default.showFps);
         UI.clockSelect = new _library_3.Library.Control.Select(control_json_2.default.clock, { makeLabel: function (i) { return _library_3.Library.Locale.map(i); }, });
-        UI.brightnessSelect = new _library_3.Library.Control.Select(control_json_2.default.brightness, { makeLabel: function (i) { return "".concat(i, " %"); } });
+        UI.brightnessRange = new _library_3.Library.Control.Range(control_json_2.default.brightness);
         UI.languageSelect = new _library_3.Library.Control.Select({
             id: control_json_2.default.language.id,
             enum: _library_3.Library.Locale.getLocaleList(),
@@ -5324,7 +5364,7 @@ define("script/controller/animation", ["require", "exports", "phi-colors", "scri
         Animation.animator = new _features_2.Features.Animation.Animator(ui_5.UI.canvas, Math.random);
         Animation.cloclLocale = undefined;
         Animation.getOpacity = function () {
-            return "".concat(parseFloat(ui_5.UI.brightnessSelect.get()), "%");
+            return "".concat(ui_5.UI.brightnessRange.get(), "%");
         };
         Animation.updateOpacity = function () {
             if (Animation.isInAnimation()) {
@@ -5849,7 +5889,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
             ui_8.UI.withFullscreen.loadParameter(url_1.Url.params, applyParam).setChange(updateWithFullscreen);
             ui_8.UI.showFps.loadParameter(url_1.Url.params, applyParam).setChange(updateShowFps);
             ui_8.UI.clockSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateClock);
-            ui_8.UI.brightnessSelect.loadParameter(url_1.Url.params, applyParam).setChange(updateBrightness);
+            ui_8.UI.brightnessRange.loadParameter(url_1.Url.params, applyParam).setChange(updateBrightness);
             ui_8.UI.languageSelect.loadParameter(url_1.Url.params, applyParam).setChange(ui_8.UI.updateLanguage);
             ui_8.UI.benchmarkAbortButton.data.click = function (event, button) {
                 event === null || event === void 0 ? void 0 : event.stopPropagation();
@@ -5980,7 +6020,7 @@ define("script/events", ["require", "exports", "script/library/index", "script/f
                         ui_8.UI.withFullscreen,
                         ui_8.UI.showFps,
                         ui_8.UI.clockSelect,
-                        ui_8.UI.brightnessSelect,
+                        ui_8.UI.brightnessRange,
                         ui_8.UI.languageSelect,
                     ]
                         .forEach(function (i) { return i.catchUpRestore(url_1.Url.params); });

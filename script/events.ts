@@ -143,7 +143,7 @@ export namespace Events
         UI.withFullscreen.loadParameter(Url.params, applyParam).setChange(updateWithFullscreen);
         UI.showFps.loadParameter(Url.params, applyParam).setChange(updateShowFps);
         UI.clockSelect.loadParameter(Url.params, applyParam).setChange(updateClock);
-        UI.brightnessSelect.loadParameter(Url.params, applyParam).setChange(updateBrightness);
+        UI.brightnessRange.loadParameter(Url.params, applyParam).setChange(updateBrightness);
         UI.languageSelect.loadParameter(Url.params, applyParam).setChange(UI.updateLanguage);
         UI.benchmarkAbortButton.data.click = (event, button) =>
         {
@@ -315,7 +315,7 @@ export namespace Events
                         UI.withFullscreen,
                         UI.showFps,
                         UI.clockSelect,
-                        UI.brightnessSelect,
+                        UI.brightnessRange,
                         UI.languageSelect,
                     ]
                     .forEach(i => i.catchUpRestore(Url.params)),

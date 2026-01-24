@@ -9,7 +9,7 @@ export namespace Animation
     export const animator = new Features.Animation.Animator(UI.canvas, Math.random);
     export let cloclLocale: string | undefined = undefined;
     export const getOpacity = () =>
-        `${parseFloat(UI.brightnessSelect.get())}%`;
+        `${UI.brightnessRange.get()}%`;
     export const updateOpacity = () =>
     {
         if (isInAnimation())

@@ -3960,6 +3960,34 @@ declare module "script/library/control" {
             fire: () => unknown;
             loadParameter: (params: Record<string, string>, saveParameter: (key: string, value: string) => unknown) => this;
         }
+        interface RangeArgumentsBase {
+            min?: number;
+            max?: number;
+            step?: number;
+            default?: number;
+        }
+        interface RangeOptions {
+            change?: (event: Event | null, range: Range) => unknown;
+            preventOnChangeWhenNew?: boolean;
+        }
+        type RangeArguments = ArgumentsBase<HTMLInputElement> & RangeArgumentsBase;
+        class Range {
+            data: RangeArguments;
+            options?: RangeOptions | undefined;
+            dom: HTMLInputElement;
+            saveParameter?: (key: string, value: string) => unknown;
+            constructor(data: RangeArguments, options?: RangeOptions | undefined);
+            catchUpRestore: (params?: Record<string, string>) => void;
+            getId: () => string | undefined;
+            setChange: (change: (event: Event | null, range: Range) => unknown) => {
+                change: (event: Event | null, range: Range) => unknown;
+                preventOnChangeWhenNew?: boolean;
+            };
+            set: (value: number, preventOnChange?: "preventOnChange") => void;
+            get: () => number;
+            fire: () => unknown;
+            loadParameter: (params: Record<string, string>, saveParameter: (key: string, value: string) => unknown) => this;
+        }
     }
 }
 declare module "script/library/shortcuts" {
@@ -4452,7 +4480,7 @@ declare module "script/ui" {
         const withFullscreen: Library.Control.Checkbox;
         const showFps: Library.Control.Checkbox;
         const clockSelect: Library.Control.Select<string>;
-        const brightnessSelect: Library.Control.Select<number>;
+        const brightnessRange: Library.Control.Range;
         const languageSelect: Library.Control.Select<string>;
         const urlAnchor: HTMLAnchorElement;
         const introductionPanel: HTMLDivElement;

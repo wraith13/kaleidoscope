@@ -135,6 +135,7 @@ button {
   right: 0px;
   bottom: 0px;
   padding: 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   overflow: auto;
   display: flex;
   flex-direction: column;

@@ -131,7 +131,7 @@ DUMMYSTYLE
     </label>
     <label for="brightness">
         <span data-lang-key="brightness-label"></span>
-        <select id="brightness"></select>
+        <input id="brightness" type="range" />
         <span class="load-status" id="brightness-load-status"></span>
     </label>
     <label for="language">
